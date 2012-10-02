@@ -1,0 +1,8 @@
+
+
+// Oct 2 2012
+// option-click (or even just double-click?) to reveal file in finder
+// add snapdragon contextual menu
+// make sure reveal code is working right
+// icons for apps (and files?)
+// configurable text size
