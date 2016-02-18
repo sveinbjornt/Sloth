@@ -37,6 +37,8 @@
 #define PROGRAM_DEFAULT_LSOF_PATH			@"/usr/sbin/lsof"
 #define PROGRAM_LSOF_NAME					@"lsof"
 
+#define VALUES_KEYPATH(X) [NSString stringWithFormat:@"values.%@", (X)]
+
 #define FILEMGR     [NSFileManager defaultManager]
 #define DEFAULTS    [NSUserDefaults standardUserDefaults]
 #define WORKSPACE   [NSWorkspace sharedWorkspace]

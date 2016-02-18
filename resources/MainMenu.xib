@@ -30,7 +30,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="SlothColumns" headerView="753" id="206">
-                                    <rect key="frame" x="0.0" y="0.0" width="635" height="401"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="635" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -147,7 +147,6 @@ DQ
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <action selector="checkboxClicked:" target="212" id="617"/>
                             <binding destination="560" name="value" keyPath="values.showCharacterDevicesEnabled" id="562"/>
                         </connections>
                     </button>
@@ -159,7 +158,6 @@ DQ
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <action selector="checkboxClicked:" target="212" id="618"/>
                             <binding destination="560" name="value" keyPath="values.showUnixSocketsEnabled" id="563"/>
                         </connections>
                     </button>
@@ -171,7 +169,6 @@ DQ
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <action selector="checkboxClicked:" target="212" id="620"/>
                             <binding destination="560" name="value" keyPath="values.showDirectoriesEnabled" id="565"/>
                         </connections>
                     </button>
@@ -188,7 +185,6 @@ DQ
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <action selector="checkboxClicked:" target="212" id="619"/>
                             <binding destination="560" name="value" keyPath="values.showIPSocketsEnabled" id="564"/>
                         </connections>
                     </button>
@@ -200,7 +196,6 @@ DQ
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <action selector="checkboxClicked:" target="212" id="621"/>
                             <binding destination="560" name="value" keyPath="values.showRegularFilesEnabled" id="566"/>
                         </connections>
                     </button>
@@ -212,7 +207,6 @@ DQ
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <action selector="checkboxClicked:" target="212" id="616"/>
                             <binding destination="560" name="value" keyPath="values.showEntireFilePathEnabled" id="568"/>
                         </connections>
                     </button>
@@ -223,7 +217,7 @@ DQ
                     <textField verticalHuggingPriority="750" id="659">
                         <rect key="frame" x="179" y="19" width="343" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Showing 100 out of 200 items" id="738">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="738">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" red="0.24119475138121549" green="0.24119475138121549" blue="0.24119475138121549" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

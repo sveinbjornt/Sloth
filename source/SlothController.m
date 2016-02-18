@@ -54,7 +54,6 @@
 - (IBAction)refresh:(id)sender;
 - (IBAction)kill:(id)sender;
 - (IBAction)relaunchAsRoot:(id)sender;
-- (IBAction)checkboxClicked:(id)sender;
 
 @end
 
@@ -84,11 +83,29 @@
 																	   ascending:YES
                                                                         selector:@selector(localizedCaseInsensitiveCompare:)];
 	[tableView setSortDescriptors:@[nameSortDescriptor]];
-	
+    
+    [tableView setTarget:self];
+    [tableView setDoubleAction:@selector(rowDoubleClicked:)];
+
+    // Observe defaults
+    for (NSString *key in @[@"showCharacterDevicesEnabled",
+                            @"showDirectoriesEnabled",
+                            @"showEntireFilePathEnabled",
+                            @"showIPSocketsEnabled",
+                            @"showRegularFilesEnabled",
+                            @"showUnixSocketsEnabled"]) {
+        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
+                                                                  forKeyPath:VALUES_KEYPATH(key)
+                                                                     options:NSKeyValueObservingOptionNew
+                                                                     context:NULL];
+    }
+    
 	// dragging from tableview
-	[tableView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
-	[tableView registerForDraggedTypes:@[NSStringPboardType]];
-	
+//	[tableView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
+//	[tableView registerForDraggedTypes:@[NSStringPboardType]];
+//    [tableView setWantsLayer:YES];
+    
+    // Layer-backed window
     [[slothWindow contentView] setWantsLayer:YES];
 	[slothWindow makeKeyAndOrderFront:self];
 }
@@ -109,7 +126,88 @@
     return NO;
 }
 
-#pragma mark -
+#pragma mark - Filtering
+
+- (void)updateFiltering {
+    [self filterResults];
+    [self updateItemCountTextField];
+    [tableView reloadData];
+}
+
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+    [self updateFiltering];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    [self updateFiltering];
+}
+
+- (void)updateItemCountTextField {
+    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", (int)[activeSet count], (int)[fileArray count]];
+    [numItemsTextField setStringValue:str];
+}
+
+// creates a subset of the list of files based on our filtering criterion
+- (void)filterResults
+{
+    NSMutableArray *subset = [[NSMutableArray alloc] init];
+    
+    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
+    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
+    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
+    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
+    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
+    
+    NSString *filterString = [filterTextField stringValue];
+    BOOL hasFilterString = [filterString length];
+    NSRegularExpression *regex;
+    if (hasFilterString) {
+        regex = [NSRegularExpression regularExpressionWithPattern:filterString
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:nil];
+    }
+    
+    for (NSDictionary *item in fileArray) {
+        
+        BOOL filtered = NO;
+        
+        // let's see if it gets filtered by the checkboxes
+        NSString *type = item[@"type"];
+        if (    ([type isEqualToString:@"File"] && !showRegularFiles) ||
+            ([type isEqualToString:@"Directory"] && !showDirectories) ||
+            ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
+            ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
+            ([type isEqualToString:@"Char Device"] && !showCharDevices) ) {
+            filtered = YES;
+        }
+        
+        // see if regex in search field filters it out
+        if (filtered == NO && hasFilterString && regex)
+        {
+            if (    [item[@"pname"] isMatchedByRegex:regex] ||
+                [item[@"pid"] isMatchedByRegex:regex] ||
+                [item[@"path"] isMatchedByRegex:regex] ||
+                [item[@"type"] isMatchedByRegex:regex] ) {
+                [subset addObject:item];
+            }
+        }
+        else if (filtered == NO) {
+            [subset addObject:item];
+        }
+    }
+    
+    activeSet = subset;
+    
+    /*	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
+     ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+     
+     activeSet = [[NSMutableArray arrayWithArray:[subset sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameSortDescriptor]] ] retain];
+     */
+    
+    //activeSet = [subset sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+}
+
+#pragma mark - Update/parse results
 
 - (IBAction)refresh:(id)sender {
     
@@ -138,12 +236,6 @@
         });
         
     });
-}
-
-- (void)updateItemCountTextField {
-    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", (int)[activeSet count], (int)[fileArray count]];
-    [numItemsTextField setStringValue:str];
-    
 }
 
 - (void)updateWithLsofOutput {
@@ -242,67 +334,7 @@
     activeSet = fileArray;
 }
 
-// creates a subset of the list of files based on our filtering criterion
-- (void)filterResults
-{
-	NSMutableArray *subset = [[NSMutableArray alloc] init];
-	
-    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
-    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
-    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
-    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
-    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
-    
-    NSString *filterString = [filterTextField stringValue];
-    BOOL hasFilterString = [filterString length];
-    NSRegularExpression *regex;
-    if (hasFilterString) {
-        regex = [NSRegularExpression regularExpressionWithPattern:filterString
-                                                          options:NSRegularExpressionCaseInsensitive
-                                                            error:nil];
-    }
-    
-    for (NSDictionary *item in fileArray) {
-        
-		BOOL filtered = NO;
-		
-		// let's see if it gets filtered by the checkboxes
-        NSString *type = item[@"type"];
-		if (    ([type isEqualToString:@"File"] && !showRegularFiles) ||
-                ([type isEqualToString:@"Directory"] && !showDirectories) ||
-                ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
-                ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-                ([type isEqualToString:@"Char Device"] && !showCharDevices) ) {
-			filtered = YES;
-        }
-        
-		// see if regex in search field filters it out
-		if (filtered == NO && hasFilterString && regex)
-		{
-			if (    [item[@"pname"] isMatchedByRegex:regex] ||
-                    [item[@"pid"] isMatchedByRegex:regex] ||
-                    [item[@"path"] isMatchedByRegex:regex] ||
-                    [item[@"type"] isMatchedByRegex:regex] ) {
-                [subset addObject:item];
-            }
-		}
-        else if (filtered == NO) {
-			[subset addObject:item];
-        }
-	}
-	
-	activeSet = subset;
-	
-	/*	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-	 ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
-	 
-	 activeSet = [[NSMutableArray arrayWithArray:[subset sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameSortDescriptor]] ] retain];
-	 */
-	
-	//activeSet = [subset sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-}
-
-#pragma mark -
+#pragma mark - Interface
 
 - (IBAction)kill:(id)sender
 {
@@ -354,56 +386,22 @@
 }
 
 - (IBAction)reveal:(id)sender {
-	NSIndexSet *selectedRows = [tableView selectedRowIndexes];
-	NSMutableDictionary *filesToReveal = [NSMutableDictionary dictionaryWithCapacity:65536];
-	
-	// First, let's make sure there are selected items by checking for sane value
-    if ([tableView selectedRow] < 0 || [tableView selectedRow] > [activeSet count]) {
-		return;
-    }
-	
-	// Let's get the PIDs and names of all selected processes, using dictionaries to avoid duplicate entries
-	for (int i = 0; i < [activeSet count]; i++)
-	{
-		if ([selectedRows containsIndex:i])
-		{
-			[filesToReveal setObject:[[activeSet objectAtIndex:i] objectForKey:@"fullPath"] 
-							  forKey:[[activeSet objectAtIndex:i] objectForKey:@"fullPath"]];
-		}
-	}
-	
-	// if more than 3 items are selected, we ask the user to confirm
-	if ([filesToReveal count] > 3)
-	{
-        if ([Alerts proceedAlert:@"Are you sure you want to reveal the selected files?"
-                         subText:[NSString stringWithFormat:@"This will reveal %d files in the Finder", (int)[filesToReveal count]]
-                 withActionNamed:@"Reveal"] == NO) {
-			return;
-        }
-	}
-
-	// iterate through files and reveal them in Finder
-    for (NSString *path in filesToReveal) {
-        [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
-    }
+    NSInteger rowNumber = [tableView selectedRow];
+    [self showItem:activeSet[rowNumber]];
 }
 
-#pragma mark -
+- (void)rowDoubleClicked:(id)object {
+    NSInteger rowNumber = [tableView clickedRow];
+    [self showItem:activeSet[rowNumber]];
+}
 
-- (IBAction)relaunchAsRoot:(id)sender {
-	[WORKSPACE launchApplication:@"Terminal.app"];
-	
-	//the applescript command to run as root via sudo
-	NSString *osaCmd = [NSString stringWithFormat:@"tell application \"Terminal\"\n\tdo script \"sudo -b '%@'\"\nend tell",  [[NSBundle mainBundle] executablePath]];
-	
-	//initialize task -- we launc the AppleScript via the 'osascript' CLI program
-    NSTask *theTask = [[NSTask alloc] init];
-    [theTask setLaunchPath:@"/usr/bin/osascript"];
-	[theTask setArguments:@[@"-e", osaCmd]];
-	[theTask launch];
-	[theTask waitUntilExit];
-	
-	[[NSApplication sharedApplication] terminate:self];
+- (void)showItem:(NSDictionary *)item {
+    NSString *path = item[@"path"];
+    if (path && [FILEMGR fileExistsAtPath:path]) {
+        [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
+    } else {
+        NSBeep();
+    }
 }
 
 #pragma mark - NSTableViewDataSource/Delegate
@@ -415,7 +413,7 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
     
     NSString *colIdentifier = [aTableColumn identifier];
-    NSDictionary *item = [activeSet objectAtIndex:rowIndex];
+    NSDictionary *item = activeSet[rowIndex];
     
     switch ([colIdentifier intValue]) {
         
@@ -436,42 +434,6 @@
             break;
     }
     
-//	if ([colIdentifier isEqualToString:@"1"])
-//	{
-//		return [[activeSet objectAtIndex:rowIndex] objectForKey:@"pname"];
-//	}
-//	else if ([colIdentifier isEqualToString:@"2"])
-//	{
-//		return [[activeSet objectAtIndex:rowIndex] objectForKey:@"pid"];
-//	}
-//	else if ([colIdentifier isEqualToString:@"3"])
-//	{
-//		return [[activeSet objectAtIndex:rowIndex] objectForKey:@"type"];
-//	}
-//	else if ([colIdentifier isEqualToString:@"4"])
-//	{
-//        return [[activeSet objectAtIndex:rowIndex] objectForKey:key];
-//	}
-	/*else if ([[aTableColumn identifier] caseInsensitiveCompare:@"5"] == NSOrderedSame)
-	 {
-	 return [[rows objectAtIndex:rowIndex] objectAtIndex:4]);
-	 }
-	 else if ([[aTableColumn identifier] caseInsensitiveCompare:@"6"] == NSOrderedSame)
-	 {
-	 return [[rows objectAtIndex:rowIndex] objectAtIndex:5]);
-	 }
-	 else if ([[aTableColumn identifier] caseInsensitiveCompare:@"7"] == NSOrderedSame)
-	 {
-	 return [[rows objectAtIndex:rowIndex] objectAtIndex:6]);
-	 }
-	 else if ([[aTableColumn identifier] caseInsensitiveCompare:@"8"] == NSOrderedSame)
-	 {
-	 return [[rows objectAtIndex:rowIndex] objectAtIndex:7]);
-	 }
-	 else if ([[aTableColumn identifier] caseInsensitiveCompare:@"9"] == NSOrderedSame)
-	 {
-	 return [[rows objectAtIndex:rowIndex] objectAtIndex:8]);
-	 }*/
 	return @"";
 }
 
@@ -521,29 +483,31 @@
 //	return YES;	
 //}
 
-#pragma mark -
-
-- (void)controlTextDidChange:(NSNotification *)aNotification {
-    [self filterResults];
-    [self updateItemCountTextField];
-    [tableView reloadData];
-}
+#pragma mark - Menus
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-	//reveal in finder / kill process only enabled when something is selected
+    //reveal in finder / kill process only enabled when something is selected
     if (( [[anItem title] isEqualToString:@"Reveal in Finder"] || [[anItem title] isEqualToString:@"Kill Process"]) && [tableView selectedRow] < 0) {
-		return NO;
+        return NO;
     }
-	return YES;
+    return YES;
 }
 
-- (IBAction)checkboxClicked:(id)sender {
-	[self filterResults];
-    [self updateItemCountTextField];
-	[tableView reloadData];
+- (IBAction)relaunchAsRoot:(id)sender {
+    [WORKSPACE launchApplication:@"Terminal.app"];
+    
+    //the applescript command to run as root via sudo
+    NSString *osaCmd = [NSString stringWithFormat:@"tell application \"Terminal\"\n\tdo script \"sudo -b '%@'\"\nend tell",  [[NSBundle mainBundle] executablePath]];
+    
+    //initialize task -- we launc the AppleScript via the 'osascript' CLI program
+    NSTask *theTask = [[NSTask alloc] init];
+    [theTask setLaunchPath:@"/usr/bin/osascript"];
+    [theTask setArguments:@[@"-e", osaCmd]];
+    [theTask launch];
+    [theTask waitUntilExit];
+    
+    [[NSApplication sharedApplication] terminate:self];
 }
-
-#pragma mark -
 
 - (IBAction)supportSlothDevelopment:(id)sender {
 	[WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
