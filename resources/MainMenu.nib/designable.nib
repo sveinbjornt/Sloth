@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1070" identifier="macosx"/>
+        <deployment version="101100" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <objects>
@@ -176,7 +176,7 @@ DQ
                         </connections>
                     </button>
                     <imageView toolTip="The SLOTH!" id="238">
-                        <rect key="frame" x="20" y="488" width="54" height="54"/>
+                        <rect key="frame" x="20" y="488" width="48" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Sloth" id="731"/>
                     </imageView>
@@ -238,6 +238,7 @@ DQ
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </searchFieldCell>
                         <connections>
+                            <binding destination="560" name="value" keyPath="values.filterString" id="ydo-dA-IIK"/>
                             <outlet property="delegate" destination="212" id="552"/>
                         </connections>
                     </searchField>
@@ -458,42 +459,87 @@ DQ
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Actions" id="276">
-                    <menu key="submenu" title="Actions" id="275">
+                <menuItem title="Filter" id="Kw1-pJ-pE2" userLabel="Filter">
+                    <menu key="submenu" title="Filter" id="FX1-mz-NGH">
                         <items>
-                            <menuItem title="Refresh" keyEquivalent="r" id="283">
-                                <connections>
-                                    <action selector="refresh:" target="212" id="801"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="284">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Reveal in Finder" keyEquivalent="R" id="272">
-                                <connections>
-                                    <action selector="reveal:" target="212" id="799"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Kill Process" id="271">
-                                <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                                <connections>
-                                    <action selector="kill:" target="212" id="800"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="274">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Relaunch as root user" id="663">
+                            <menuItem title="Show Directories" id="WRk-2h-A5r">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="relaunchAsRoot:" target="212" id="802"/>
+                                    <binding destination="560" name="value" keyPath="values.showDirectoriesEnabled" id="3zW-hj-oVP"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Regular Files" id="4fa-zA-DKj">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showRegularFilesEnabled" id="dSW-Ov-XaC"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show IP Sockets" id="MtU-jZ-LfI">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showIPSocketsEnabled" id="X49-f1-OwS"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Unix Sockets" id="QRq-1p-OVp">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showUnixSocketsEnabled" id="dcO-Su-gRc"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Character Devices" id="R3O-vO-Xfh">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showCharacterDevicesEnabled" id="OD2-dz-ztW"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Entire File Path" id="Pct-eI-Cuw">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showEntireFilePathEnabled" id="x55-fm-ter"/>
                                 </connections>
                             </menuItem>
                         </items>
                         <connections>
-                            <outlet property="delegate" destination="212" id="798"/>
+                            <outlet property="delegate" destination="212" id="i6m-0l-IXZ"/>
+                        </connections>
+                    </menu>
+                </menuItem>
+                <menuItem title="Actions" id="276">
+                    <menu key="submenu" title="Actions" id="W0o-1t-cAR">
+                        <items>
+                            <menuItem title="Refresh" keyEquivalent="r" id="Avs-3w-eKt">
+                                <connections>
+                                    <action selector="refresh:" target="212" id="k98-fE-tkh"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="OxA-O1-B1k">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Reveal in Finder" keyEquivalent="R" id="yq1-RN-lAt">
+                                <connections>
+                                    <action selector="reveal:" target="212" id="t9g-MR-LYz"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Kill Process" id="umw-5C-WcM">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                <connections>
+                                    <action selector="kill:" target="212" id="RBk-17-JuZ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="5m3-Xz-JMr">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Relaunch as root user" id="xMX-c9-4rk">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="relaunchAsRoot:" target="212" id="qlq-9Y-9aF"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                        <connections>
+                            <outlet property="delegate" destination="212" id="Q8k-Bf-Cc7"/>
                         </connections>
                     </menu>
                 </menuItem>

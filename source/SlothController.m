@@ -74,6 +74,11 @@
 }
 
 - (void)awakeFromNib {
+    // put application icon in window title bar
+    [slothWindow setRepresentedURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
+    NSButton *button = [slothWindow standardWindowButton:NSWindowDocumentIconButton];
+    [button setImage:[NSApp applicationIconImage]];
+    
 	// sorting for tableview
 	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
 																	   ascending:YES
@@ -88,8 +93,20 @@
 	[slothWindow makeKeyAndOrderFront:self];
 }
 
+#pragma mark - NSApplicationDelegate
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self refresh:self];
+}
+
+- (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
+    // prevent popup menu when window icon/title is cmd-clicked
+    return NO;
+}
+
+- (BOOL)window:(NSWindow *)window shouldDragDocumentWithEvent:(NSEvent *)event from:(NSPoint)dragImageLocation withPasteboard:(NSPasteboard *)pasteboard {
+    // prevent dragging of title bar icon
+    return NO;
 }
 
 #pragma mark -
