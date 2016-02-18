@@ -36,3 +36,8 @@
 #define PROGRAM_DEFAULT_OUTPUT_FILENAME		@"Sloth-Output.txt"
 #define PROGRAM_DEFAULT_LSOF_PATH			@"/usr/sbin/lsof"
 #define PROGRAM_LSOF_NAME					@"lsof"
+
+#define FILEMGR     [NSFileManager defaultManager]
+#define DEFAULTS    [NSUserDefaults standardUserDefaults]
+#define WORKSPACE   [NSWorkspace sharedWorkspace]
+

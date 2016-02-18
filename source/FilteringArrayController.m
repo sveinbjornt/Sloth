@@ -84,7 +84,7 @@ NSSortDescriptor *pidDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"pid"
                                                     ascending:NO] autorelease];
 	NSSortDescriptor *typeDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"type" 
                                                     ascending:NO] autorelease];
-	return([NSArray arrayWithObjects:nameDescriptor,pidDescriptor, typeDescriptor,NULL]);
+	return([NSArray arrayWithObjects:nameDescriptor,pidDescriptor, typeDescriptor, nil]);
 
 }*/
 

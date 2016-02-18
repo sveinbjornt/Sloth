@@ -48,7 +48,6 @@
     
     NSMutableArray                  *fileArray;
     NSMutableArray                  *activeSet;
-    NSMutableArray                  *subset;
 }
 
 - (IBAction)reveal:(id)sender;
@@ -71,7 +70,7 @@
 + (void)initialize {
     NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"RegistrationDefaults" ofType:@"plist"];
 	NSDictionary *registrationDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:registrationDefaults];
+    [DEFAULTS registerDefaults:registrationDefaults];
 }
 
 - (void)awakeFromNib {
@@ -89,6 +88,10 @@
 	[slothWindow makeKeyAndOrderFront:self];
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [self refresh:self];
+}
+
 #pragma mark -
 
 - (IBAction)refresh:(id)sender {
@@ -102,12 +105,13 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         [self updateWithLsofOutput];
+        [self filterResults];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self filterResults];
             
+            [self updateItemCountTextField];
             // update last run time
-            [lastRunTextField setStringValue:[NSString stringWithFormat:@"Output at %@ ", [NSDate date]]];
+//            [lastRunTextField setStringValue:[NSString stringWithFormat:@"Output at %@ ", [NSDate date]]];
             
             // stop progress indicator and reload data
             [tableView reloadData];
@@ -119,29 +123,33 @@
     });
 }
 
+- (void)updateItemCountTextField {
+    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", (int)[activeSet count], (int)[fileArray count]];
+    [numItemsTextField setStringValue:str];
+    
+}
+
 - (void)updateWithLsofOutput {
     
-    NSPipe			*pipe		= [NSPipe pipe];
-    NSData			*data;
-    NSString		*pid		= @"";
-    NSString		*process	= @"";
-    NSString		*ftype		= @"";
-    NSString		*fname		= @"";
-    NSString		*output		= @"";
-    NSArray			*lines;
-
     // our command is:			lsof -F pcnt +c0
     NSTask *lsof = [[NSTask alloc] init];
     [lsof setLaunchPath:PROGRAM_DEFAULT_LSOF_PATH];
     [lsof setArguments:@[@"-F", @"pcnt", @"+c0"]];
+    
+    NSPipe *pipe = [NSPipe pipe];
     [lsof setStandardOutput:pipe];
+    
     [lsof launch];
     
-    data = [[pipe fileHandleForReading] readDataToEndOfFile];
+    NSData *data = [[pipe fileHandleForReading] readDataToEndOfFile];
     
     //get data output and format as an array of lines of text
-    output = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-    lines = [output componentsSeparatedByString:@"\n"];
+    NSString *output = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSArray *lines = [output componentsSeparatedByString:@"\n"];
+    
+    NSString		*pid		= @"";
+    NSString		*process	= @"";
+    NSString		*ftype		= @"";
     
     // parse each line
     for (NSString *line in lines) {
@@ -220,13 +228,13 @@
 // creates a subset of the list of files based on our filtering criterion
 - (void)filterResults
 {
-	subset = [[NSMutableArray alloc] init];
+	NSMutableArray *subset = [[NSMutableArray alloc] init];
 	
-    BOOL showRegularFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"showRegularFilesEnabled"];
-    BOOL showDirectories = [[NSUserDefaults standardUserDefaults] boolForKey:@"showDirectoriesEnabled"];
-    BOOL showIPSockets = [[NSUserDefaults standardUserDefaults] boolForKey:@"showIPSocketsEnabled"];
-    BOOL showUnixSockets = [[NSUserDefaults standardUserDefaults] boolForKey:@"showUnixSocketsEnabled"];
-    BOOL showCharDevices = [[NSUserDefaults standardUserDefaults] boolForKey:@"showCharacterDevicesEnabled"];
+    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
+    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
+    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
+    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
+    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
     
     NSString *filterString = [filterTextField stringValue];
     BOOL hasFilterString = [filterString length];
@@ -275,8 +283,6 @@
 	 */
 	
 	//activeSet = [subset sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-	
-	[numItemsTextField setStringValue:[NSString stringWithFormat:@"%d items", (int)[activeSet count]]];
 }
 
 #pragma mark -
@@ -314,7 +320,7 @@
     }
 	
 	// Get signal to send to process based on prefs
-    int sigValue = [[NSUserDefaults standardUserDefaults] boolForKey:@"sigKill"] ? SIGKILL :SIGTERM;
+    int sigValue = SIGKILL;
 	
 	// iterate through list of PIDs, send each of them the kill/term signal
 	for (int i = 0; i < [processesToTerminatePID count]; i++) {
@@ -331,7 +337,6 @@
 }
 
 - (IBAction)reveal:(id)sender {
-    BOOL isDir, i;
 	NSIndexSet *selectedRows = [tableView selectedRowIndexes];
 	NSMutableDictionary *filesToReveal = [NSMutableDictionary dictionaryWithCapacity:65536];
 	
@@ -341,7 +346,7 @@
     }
 	
 	// Let's get the PIDs and names of all selected processes, using dictionaries to avoid duplicate entries
-	for (i = 0; i < [activeSet count]; i++)
+	for (int i = 0; i < [activeSet count]; i++)
 	{
 		if ([selectedRows containsIndex:i])
 		{
@@ -360,25 +365,16 @@
         }
 	}
 
-	// iterate through files and reveal them using NSWorkspace
-	for (i = 0; i < [filesToReveal count]; i++)
-	{	
-		NSString *path = [[filesToReveal allKeys] objectAtIndex:i];
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) 
-		{
-            if (isDir) {
-				[[NSWorkspace sharedWorkspace] selectFile:nil inFileViewerRootedAtPath:path];
-            } else {
-				[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:path];
-            }
-		}
-	}
+	// iterate through files and reveal them in Finder
+    for (NSString *path in filesToReveal) {
+        [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
+    }
 }
 
 #pragma mark -
 
 - (IBAction)relaunchAsRoot:(id)sender {
-	[[NSWorkspace sharedWorkspace] launchApplication:@"Terminal.app"];
+	[WORKSPACE launchApplication:@"Terminal.app"];
 	
 	//the applescript command to run as root via sudo
 	NSString *osaCmd = [NSString stringWithFormat:@"tell application \"Terminal\"\n\tdo script \"sudo -b '%@'\"\nend tell",  [[NSBundle mainBundle] executablePath]];
@@ -417,7 +413,7 @@
             break;
         case 4:
         {
-            NSString *key = [[NSUserDefaults standardUserDefaults] boolForKey:@"showEntireFilePathEnabled"] ? @"path" : @"filename";
+            NSString *key = [DEFAULTS boolForKey:@"showEntireFilePathEnabled"] ? @"path" : @"filename";
             return item[key];
         }
             break;
@@ -471,7 +467,7 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
 	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeSet count]) {
 		NSDictionary *item = [activeSet objectAtIndex:[tableView selectedRow]];
-		BOOL canReveal = [[NSFileManager defaultManager] fileExistsAtPath:item[@"path"]];
+		BOOL canReveal = [FILEMGR fileExistsAtPath:item[@"path"]];
 		[revealButton setEnabled:canReveal];
 		[killButton setEnabled:YES];
 	} else {
@@ -488,7 +484,7 @@
 //		if ([rowIndexes containsIndex:i]) {
 //			NSString *filePath;
 //			
-//			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"showEntireFilePathEnabled"])
+//			if ([DEFAULTS boolForKey:@"showEntireFilePathEnabled"])
 //				filePath = [[activeSet objectAtIndex:i] objectForKey:@"path"];
 //			else
 //				filePath = [[activeSet objectAtIndex:i] objectForKey:@"filename"];
@@ -512,6 +508,7 @@
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
     [self filterResults];
+    [self updateItemCountTextField];
     [tableView reloadData];
 }
 
@@ -525,17 +522,18 @@
 
 - (IBAction)checkboxClicked:(id)sender {
 	[self filterResults];
+    [self updateItemCountTextField];
 	[tableView reloadData];
 }
 
 #pragma mark -
 
 - (IBAction)supportSlothDevelopment:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
+	[WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
 }
 
 - (IBAction)visitSlothWebsite:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
+	[WORKSPACE openURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
 }
 
 @end
