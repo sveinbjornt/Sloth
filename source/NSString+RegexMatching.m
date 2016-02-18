@@ -29,8 +29,13 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+#import "NSString+RegexMatching.h"
 
-@interface SlothController : NSObject
+@implementation NSString (RegexMatching)
+
+- (BOOL)isMatchedByRegex:(NSRegularExpression *)regex {
+    NSTextCheckingResult *res = [regex firstMatchInString:self options:nil range:NSMakeRange(0, [self length])];
+    return (res != nil);
+}
 
 @end

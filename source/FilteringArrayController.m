@@ -1,6 +1,6 @@
 /*
     Sloth - Mac OS X Graphical User Interface front-end for lsof
-    Copyright (C) 2004-2006 Sveinbjorn Thordarson <sveinbjornt@simnet.is>
+    Copyright (C) 2004-2006 Sveinbjorn Thordarson <sveinbjornt@gmail.com>
 	Parts are Copyright (C) 2004-2006 Bill Bumgarner
 
     This program is free software; you can redistribute it and/or modify
@@ -21,60 +21,57 @@
 
 #import "FilteringArrayController.h"
 
+@interface FilteringArrayController ()
+{
+    NSString *searchString;
+}
 
+- (void)performSearch:(id)sender;
+
+@end
 
 @implementation FilteringArrayController
-- (void)dealloc
-{
-	if (searchString != NULL)
-		[searchString release]; 
-	searchString = NULL;
-    [super dealloc];
-}
 
 - (NSArray *)arrangeObjects:(NSArray *)objects
 {
-    if ((searchString == NULL) || ([searchString isEqualToString:@""]))
-		return [super arrangeObjects:objects];   
+    NSString *s = [[searchString lowercaseString] mutableCopy];
+    CFStringTrimWhitespace((CFMutableStringRef)s);
+    
+    if (s == nil || [s isEqualToString:@""]) {
+		return [super arrangeObjects:objects];
+    }
 	
     NSMutableArray *matchedObjects = [NSMutableArray arrayWithCapacity:[objects count]];
-    NSString *lowerSearch = [searchString lowercaseString];
-    
 	NSEnumerator *oEnum = [objects objectEnumerator];
     id item;	
-    while (item = [oEnum nextObject]) 
-	{
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		
-        NSString *lowerName = [[item valueForKeyPath:@"name"] lowercaseString];
-        if ([lowerName rangeOfString:lowerSearch].location != NSNotFound)
-		{
-				[matchedObjects addObject:item];
-				continue;
-		}
-		
-		lowerName = [[item valueForKeyPath:@"pid"] lowercaseString];
-        if ([lowerName rangeOfString:lowerSearch].location != NSNotFound)
-		{
-				[matchedObjects addObject:item];
-				continue;
-		}
-		
-		lowerName = [[item valueForKeyPath:@"path"] lowercaseString];
-        if ([lowerName rangeOfString:lowerSearch].location != NSNotFound)
-		{
-				[matchedObjects addObject:item];
-				continue;
-		}
-		
-		lowerName = [[item valueForKeyPath:@"type"] lowercaseString];
-        if ([lowerName rangeOfString:lowerSearch].location != NSNotFound)
-		{
-				[matchedObjects addObject:item];
-				continue;
-		}
-				
-        [pool release];
+    while (item = [oEnum nextObject]) {
+        
+        @autoreleasepool {
+            
+            NSString *lowerName = [[item valueForKeyPath:@"name"] lowercaseString];
+            if ([lowerName rangeOfString:s].location != NSNotFound) {
+                    [matchedObjects addObject:item];
+                    continue;
+            }
+            
+            lowerName = [[item valueForKeyPath:@"pid"] lowercaseString];
+            if ([lowerName rangeOfString:s].location != NSNotFound) {
+                    [matchedObjects addObject:item];
+                    continue;
+            }
+            
+            lowerName = [[item valueForKeyPath:@"path"] lowercaseString];
+            if ([lowerName rangeOfString:s].location != NSNotFound) {
+                    [matchedObjects addObject:item];
+                    continue;
+            }
+            
+            lowerName = [[item valueForKeyPath:@"type"] lowercaseString];
+            if ([lowerName rangeOfString:s].location != NSNotFound) {
+                    [matchedObjects addObject:item];
+                    continue;
+            }
+        }
     }
     return [super arrangeObjects:matchedObjects];
 }
@@ -91,9 +88,9 @@ NSSortDescriptor *pidDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"pid"
 
 }*/
 
-- (void) performSearch: sender;
-{
-    [self setValue: [sender stringValue] forKey: @"searchString"];
+- (void)performSearch:(id)sender {
+    [self setValue:[sender stringValue] forKey:@"searchString"];
     [self rearrangeObjects];
 }
+
 @end

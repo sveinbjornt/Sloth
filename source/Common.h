@@ -29,8 +29,10 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
-
-@interface SlothController : NSObject
-
-@end
+#define PROGRAM_NAME						@"Sloth"
+#define PROGRAM_VERSION						@"1.5"
+#define	PROGRAM_WEBSITE						@"http://sveinbjorn.org/sloth"
+#define PROGRAM_DONATIONS					@"http://sveinbjorn.org/donations"
+#define PROGRAM_DEFAULT_OUTPUT_FILENAME		@"Sloth-Output.txt"
+#define PROGRAM_DEFAULT_LSOF_PATH			@"/usr/sbin/lsof"
+#define PROGRAM_LSOF_NAME					@"lsof"

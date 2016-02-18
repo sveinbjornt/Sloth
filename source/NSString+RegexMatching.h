@@ -29,8 +29,10 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@interface SlothController : NSObject
+@interface NSString (RegexMatching)
+
+- (BOOL)isMatchedByRegex:(NSRegularExpression *)regex;
 
 @end

@@ -1,9 +1,9 @@
 {
-    "lsofPath" = "/usr/sbin/lsof";
-    "sigKill" = NO;
+	lsofPath = "/usr/sbin/lsof";
+	sigKill = NO;
 	"showDirectoriesEnabled" = YES;
 	"showRegularFilesEnabled" = YES;
-	"showIPSocketsEnabled" = NO;
+	showIPSocketsEnabled = NO;
 	"showUnixSocketsEnabled" = NO;
 	"showCharacterDevicesEnabled" = NO;
 	"showEntireFilePathEnabled" = YES;

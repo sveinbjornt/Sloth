@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "358f39d3-f018-0410-80e3-90439a6411fa++15",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "358f39d3-f018-0410-80e3-90439a6411fa++15" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "358f39d3-f018-0410-80e3-90439a6411fa++15" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9F3B1CC8-C28B-4C65-B0EB-61AC54A3C15E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "358f39d3-f018-0410-80e3-90439a6411fa++15" : "sloth\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Sloth",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Sloth.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:sveinbjornt\/Sloth.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "358f39d3-f018-0410-80e3-90439a6411fa++15"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn+ssh:\/\/subversion.sveinbjorn.org\/svnroot\/sveinbjorn",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "358f39d3-f018-0410-80e3-90439a6411fa++15"
+    }
+  ]
+}
