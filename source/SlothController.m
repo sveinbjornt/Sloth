@@ -100,19 +100,19 @@
                                                                      context:NULL];
     }
     
-	// dragging from tableview
-//	[tableView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
-//	[tableView registerForDraggedTypes:@[NSStringPboardType]];
-//    [tableView setWantsLayer:YES];
-    
     // Layer-backed window
     [[slothWindow contentView] setWantsLayer:YES];
+
+    if ([DEFAULTS boolForKey:@"PreviouslyLaunched"] == NO) {
+        [slothWindow center];
+    }
 	[slothWindow makeKeyAndOrderFront:self];
 }
 
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
     [self refresh:self];
 }
 
@@ -173,21 +173,21 @@
         
         // let's see if it gets filtered by the checkboxes
         NSString *type = item[@"type"];
-        if (    ([type isEqualToString:@"File"] && !showRegularFiles) ||
+        if (([type isEqualToString:@"File"] && !showRegularFiles) ||
             ([type isEqualToString:@"Directory"] && !showDirectories) ||
             ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
             ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-            ([type isEqualToString:@"Char Device"] && !showCharDevices) ) {
+            ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
             filtered = YES;
         }
         
         // see if regex in search field filters it out
         if (filtered == NO && hasFilterString && regex)
         {
-            if (    [item[@"pname"] isMatchedByRegex:regex] ||
+            if ([item[@"pname"] isMatchedByRegex:regex] ||
                 [item[@"pid"] isMatchedByRegex:regex] ||
                 [item[@"path"] isMatchedByRegex:regex] ||
-                [item[@"type"] isMatchedByRegex:regex] ) {
+                [item[@"type"] isMatchedByRegex:regex]) {
                 [subset addObject:item];
             }
         }
@@ -217,21 +217,17 @@
 	[progressBar setUsesThreadedAnimation:TRUE];
 	[progressBar startAnimation:self];
 	
+    // update in background
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         [self updateWithLsofOutput];
         [self filterResults];
         
+        // update UI on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [self updateItemCountTextField];
-            // update last run time
-//            [lastRunTextField setStringValue:[NSString stringWithFormat:@"Output at %@ ", [NSDate date]]];
-            
-            // stop progress indicator and reload data
             [tableView reloadData];
             [progressBar stopAnimation:self];
-            
             [refreshButton setEnabled:YES];
         });
         
@@ -240,14 +236,13 @@
 
 - (void)updateWithLsofOutput {
     
-    // our command is:			lsof -F pcnt +c0
+    // our command is: lsof -F pcnt +c0
     NSTask *lsof = [[NSTask alloc] init];
     [lsof setLaunchPath:PROGRAM_DEFAULT_LSOF_PATH];
     [lsof setArguments:@[@"-F", @"pcnt", @"+c0"]];
     
     NSPipe *pipe = [NSPipe pipe];
     [lsof setStandardOutput:pipe];
-    
     [lsof launch];
     
     NSData *data = [[pipe fileHandleForReading] readDataToEndOfFile];
@@ -256,9 +251,9 @@
     NSString *output = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     NSArray *lines = [output componentsSeparatedByString:@"\n"];
     
-    NSString		*pid		= @"";
-    NSString		*process	= @"";
-    NSString		*ftype		= @"";
+    NSString *pid = @"";
+    NSString *process = @"";
+    NSString *ftype = @"";
     
     // parse each line
     for (NSString *line in lines) {
@@ -267,67 +262,64 @@
             continue;
         }
         
-        //read first character in line
-        if ([line characterAtIndex:0] == 'p')
-        {
-            pid = [line substringFromIndex:1];
-        }
-        else if ([line characterAtIndex:0] == 'c')
-        {
-            process = [line substringFromIndex:1];
-        }
-        else if ([line characterAtIndex:0] == 't')
-        {
-            ftype = [line substringFromIndex:1];
-        }
-        else if ([line characterAtIndex:0] == 'n')
-        {
-            //we don't report Sloth or lsof info
-            if ([process isEqualToString:PROGRAM_NAME] || [process isEqualToString:PROGRAM_LSOF_NAME]) {
-                continue;
-            }
+        switch ([line characterAtIndex:0]) {
+            case 'p':
+                pid = [line substringFromIndex:1];
+                break;
             
-            //check if we use full path
-            NSString *filePath = [line substringFromIndex:1];
-            NSString *fileName = filePath;
+            case 'c':
+                process = [line substringFromIndex:1];
+                break;
+                
+            case 't':
+                ftype = [line substringFromIndex:1];
+                break;
+            
+            case 'n':
+            {
+                //we don't report Sloth or lsof info
+                if ([process isEqualToString:PROGRAM_NAME] || [process isEqualToString:PROGRAM_LSOF_NAME]) {
+                    continue;
+                }
+                
+                //check if we use full path
+                NSString *filePath = [line substringFromIndex:1];
+                NSString *fileName = filePath;
+                
+                if ([filePath length] && [filePath characterAtIndex:0] == '/') {
+                    fileName = [filePath lastPathComponent];
+                }
+                
+                //order matters, see below
+                NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
+                fileInfo[@"pname"] = process;
+                fileInfo[@"pid"] = pid;
+                fileInfo[@"filename"] = fileName;
+                fileInfo[@"path"] = filePath;
+                
+                //insert the desired elements
+                if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
+                    fileInfo[@"type"] = @"File";
+                }
+                else if ([ftype isEqualToString:@"VDIR"] || [ftype isEqualToString:@"DIR"]) {
+                    fileInfo[@"type"] = @"Directory";
+                }
+                else if ([ftype isEqualToString:@"IPv6"] || [ftype isEqualToString:@"IPv4"]) {
+                    fileInfo[@"type"] = @"IP Socket";
+                }
+                else  if ([ftype isEqualToString:@"unix"]) {
+                    fileInfo[@"type"] = @"Unix Socket";
+                }
+                else if ([ftype isEqualToString:@"VCHR"] || [ftype isEqualToString:@"CHR"]) {
+                    fileInfo[@"type"] = @"Char Device";
+                }
+                else {
+                    continue;
+                }
+                [fileArray addObject:fileInfo];
 
-            if ([filePath length] && [filePath characterAtIndex:0] == '/') {
-                fileName = [filePath lastPathComponent];
             }
-            
-            //order matters, see below
-            NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
-            fileInfo[@"pname"] = process;
-            fileInfo[@"pid"] = pid;
-            fileInfo[@"filename"] = fileName;
-            fileInfo[@"path"] = filePath;
-            
-            //insert the desired elements
-            if ([ftype caseInsensitiveCompare:@"VREG"] == NSOrderedSame || [ftype caseInsensitiveCompare:@"REG"] == NSOrderedSame)
-            {
-                [fileInfo setObject:@"File" forKey:@"type"];
-            }
-            else if ([ftype caseInsensitiveCompare:@"VDIR"] == NSOrderedSame  || [ftype caseInsensitiveCompare:@"DIR"] == NSOrderedSame)
-            {
-                [fileInfo setObject:@"Directory" forKey:@"type"];
-            }
-            else if ([ftype caseInsensitiveCompare:@"IPv6"] == NSOrderedSame || [ftype caseInsensitiveCompare:@"IPv4"] == NSOrderedSame)
-            {
-                [fileInfo setObject:@"IP Socket" forKey:@"type"];
-            }
-            else  if ([ftype caseInsensitiveCompare:@"unix"] == NSOrderedSame)
-            {
-                [fileInfo setObject:@"Unix Socket" forKey:@"type"];
-            } 
-            else if ([ftype caseInsensitiveCompare:@"VCHR"] == NSOrderedSame || [ftype caseInsensitiveCompare:@"CHR"] == NSOrderedSame) 
-            {
-                [fileInfo setObject:@"Char Device" forKey:@"type"];
-            }
-            else
-            {
-                continue;
-            }
-            [fileArray addObject:fileInfo];
+                break;
         }
     }
     
@@ -336,8 +328,8 @@
 
 #pragma mark - Interface
 
-- (IBAction)kill:(id)sender
-{
+- (IBAction)kill:(id)sender {
+    
 	NSIndexSet *selectedRows = [tableView selectedRowIndexes];
 	NSMutableDictionary *processesToTerminateNamed = [NSMutableDictionary dictionary];
 	NSMutableDictionary *processesToTerminatePID = [NSMutableDictionary dictionary];
@@ -350,11 +342,9 @@
 	// Let's get the PIDs and names of all selected processes, using dictionaries to avoid duplicate entries
 	for (int i = 0; i < [activeSet count]; i++) {
 		if ([selectedRows containsIndex:i]) {
-			[processesToTerminateNamed setObject:[[activeSet objectAtIndex:i] objectForKey:@"name"] 
-										  forKey:[[activeSet objectAtIndex:i] objectForKey:@"name"]];
+			processesToTerminateNamed[activeSet[i][@"name"]] = activeSet[i][@"name"];
 			
-			[processesToTerminatePID setObject:[[activeSet objectAtIndex:i] objectForKey:@"pid"] 
-										forKey:[[activeSet objectAtIndex:i] objectForKey:@"name"]];
+			processesToTerminatePID[activeSet[i][@"name"]] = activeSet[i][@"pid"];
 		}
 	}
 	
@@ -373,10 +363,10 @@
 	
 	// iterate through list of PIDs, send each of them the kill/term signal
 	for (int i = 0; i < [processesToTerminatePID count]; i++) {
-		int pid = [[[processesToTerminatePID allValues] objectAtIndex:i] intValue];
+		int pid = [[processesToTerminatePID allValues][i] intValue];
 		int ret = kill(pid, sigValue);
 		if (ret) {
-			[Alerts alert:[NSString stringWithFormat:@"Failed to kill process %@", [[processesToTerminateNamed allValues] objectAtIndex:i]]
+			[Alerts alert:[NSString stringWithFormat:@"Failed to kill process %@", [processesToTerminateNamed allValues][i]]
 				  subText:@"The process may be owned by another user.  Relaunch Sloth as root to kill it."];
 			return;
 		}
@@ -445,7 +435,7 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
 	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeSet count]) {
-		NSDictionary *item = [activeSet objectAtIndex:[tableView selectedRow]];
+		NSDictionary *item = activeSet[[tableView selectedRow]];
 		BOOL canReveal = [FILEMGR fileExistsAtPath:item[@"path"]];
 		[revealButton setEnabled:canReveal];
 		[killButton setEnabled:YES];
@@ -454,34 +444,6 @@
 		[killButton setEnabled:NO];
 	}
 }
-
-//- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard {
-//	NSString *dragString = @"";
-//	
-//	// Iterate through the list of displayed rows, each one that is selected goes to the clipboard
-//	for (int i = 0; i < [activeSet count]; i++) {
-//		if ([rowIndexes containsIndex:i]) {
-//			NSString *filePath;
-//			
-//			if ([DEFAULTS boolForKey:@"showEntireFilePathEnabled"])
-//				filePath = [[activeSet objectAtIndex:i] objectForKey:@"path"];
-//			else
-//				filePath = [[activeSet objectAtIndex:i] objectForKey:@"filename"];
-//			
-//			NSString *rowString = [NSString stringWithFormat:@"%@\t%@\t%@\t%@\n",
-//								   [[activeSet objectAtIndex:i] objectForKey:@"pname"],
-//								   [[[activeSet objectAtIndex:i] objectForKey:@"pid"] stringValue],
-//								   [[activeSet objectAtIndex:i] objectForKey:@"type"],
-//								   filePath];
-//			dragString = [dragString stringByAppendingString:rowString];
-//		}
-//	}
-//	
-//	[pboard declareTypes:@[NSStringPboardType] owner:self];
-//	[pboard setString:dragString forType:NSStringPboardType];
-//    
-//	return YES;	
-//}
 
 #pragma mark - Menus
 
