@@ -330,46 +330,24 @@
 
 - (IBAction)kill:(id)sender {
     
-	NSIndexSet *selectedRows = [tableView selectedRowIndexes];
-	NSMutableDictionary *processesToTerminateNamed = [NSMutableDictionary dictionary];
-	NSMutableDictionary *processesToTerminatePID = [NSMutableDictionary dictionary];
-	
-	// First, let's make sure there are selected items by checking for sane value
-    if ([tableView selectedRow] < 0 || [tableView selectedRow] > [activeSet count]) {
-		return;
-    }
-	
-	// Let's get the PIDs and names of all selected processes, using dictionaries to avoid duplicate entries
-	for (int i = 0; i < [activeSet count]; i++) {
-		if ([selectedRows containsIndex:i]) {
-			processesToTerminateNamed[activeSet[i][@"name"]] = activeSet[i][@"name"];
-			
-			processesToTerminatePID[activeSet[i][@"name"]] = activeSet[i][@"pid"];
-		}
-	}
-	
-	// Create comma-separated list of selected processes
-	NSString *processesToKillStr = [[processesToTerminateNamed allKeys] componentsJoinedByString:@", "];
+    NSUInteger selectedRow = [tableView selectedRow];
+    NSDictionary *item = activeSet[selectedRow];
+    int pid = [item[@"pid"] intValue];
 	
 	// Ask user to confirm that he really wants to kill these
 	if ([Alerts proceedAlert:@"Are you sure you want to kill the selected processes?"
-                      subText:[NSString stringWithFormat:@"This will terminate these processes:%@", processesToKillStr]
-              withActionNamed:@"Kill"] == NO) {
+                     subText:@"This will send the process a SIGKILL signal."
+             withActionNamed:@"Kill"] == NO) {
 		return;
     }
 	
 	// Get signal to send to process based on prefs
     int sigValue = SIGKILL;
-	
-	// iterate through list of PIDs, send each of them the kill/term signal
-	for (int i = 0; i < [processesToTerminatePID count]; i++) {
-		int pid = [[processesToTerminatePID allValues][i] intValue];
-		int ret = kill(pid, sigValue);
-		if (ret) {
-			[Alerts alert:[NSString stringWithFormat:@"Failed to kill process %@", [processesToTerminateNamed allValues][i]]
-				  subText:@"The process may be owned by another user.  Relaunch Sloth as root to kill it."];
+	int ret = kill(pid, sigValue);
+    if (ret) {
+        [Alerts alert:@"Failed to kill process"
+        subTextFormat:@"Could not kill process %@ (PID: %d)", item[@"pname"], pid];
 			return;
-		}
 	}
 	
 	[self refresh:self];

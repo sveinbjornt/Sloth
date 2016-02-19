@@ -25,6 +25,8 @@ Sloth is basically just a GUI for the powerful `lsof` command line tool. The out
 
 * Migrated project to ARC, modern Objective-C and XCode 7
 * Asynchronous refresh
+* Much improved performance
+* UI improvements
 
 ###08/07/2010 - Version 1.5
 
@@ -69,7 +71,7 @@ Sloth is basically just a GUI for the powerful `lsof` command line tool. The out
 ## BSD License 
 
 ````
-Copyright (C) 2004-2006 Sveinbjorn Thordarson <sveinbjornt@gmail.com>
+Copyright (C) 2004-2016 Sveinbjorn Thordarson <sveinbjornt@gmail.com>
 Parts are Copyright (C) 2004-2006 Bill Bumgarner
 
 Redistribution and use in source and binary forms, with or without modification,

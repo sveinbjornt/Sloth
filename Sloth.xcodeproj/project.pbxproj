@@ -13,6 +13,7 @@
 		F413E66B1C7662FF00385DB3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F413E66A1C7662FF00385DB3 /* Sparkle.framework */; };
 		F413E66D1C76632900385DB3 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F413E66A1C7662FF00385DB3 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
+		F413E6711C7693F000385DB3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F413E6701C7693F000385DB3 /* QuartzCore.framework */; };
 		F438711713402C8200B51A5E /* FilteringArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710813402C8200B51A5E /* FilteringArrayController.m */; };
 		F438711813402C8200B51A5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710913402C8200B51A5E /* main.m */; };
 		F438711A13402C8200B51A5E /* SlothController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710E13402C8200B51A5E /* SlothController.m */; };
@@ -46,6 +47,7 @@
 		F40B7D301C75FAC6000A4616 /* Alerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alerts.m; sourceTree = "<group>"; };
 		F413E66A1C7662FF00385DB3 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		F413E66E1C76842A00385DB3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		F413E6701C7693F000385DB3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		F438710713402C8200B51A5E /* FilteringArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteringArrayController.h; sourceTree = "<group>"; };
 		F438710813402C8200B51A5E /* FilteringArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteringArrayController.m; sourceTree = "<group>"; };
 		F438710913402C8200B51A5E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				F413E66B1C7662FF00385DB3 /* Sparkle.framework in Frameworks */,
+				F413E6711C7693F000385DB3 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +102,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F413E6701C7693F000385DB3 /* QuartzCore.framework */,
 				F413E66A1C7662FF00385DB3 /* Sparkle.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
