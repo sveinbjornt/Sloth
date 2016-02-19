@@ -47,6 +47,11 @@
     
     NSMutableArray *itemArray;
     NSMutableArray *activeItemSet;
+    
+    
+    NSMutableDictionary *processIconDict;
+    NSImage *genericExecutableIcon;
+    int processCount;
 }
 @end
 
@@ -55,6 +60,8 @@
 - (instancetype)init {
 	if ((self = [super init])) {
 		itemArray = [[NSMutableArray alloc] init];
+        processIconDict = [[NSMutableDictionary alloc] init];
+        genericExecutableIcon = [[NSImage alloc] initByReferencingFile:GENERIC_EXEC_ICON_PATH];
     }
     return self;
 }
@@ -213,18 +220,20 @@
 	
     // update in background
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        @autoreleasepool {
         
-        [self updateWithLsofOutput];
-        [self filterResults];
-        
-        // update UI on main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateItemCountTextField];
-            [tableView reloadData];
-            [progressIndicator stopAnimation:self];
-            [refreshButton setEnabled:YES];
-        });
-        
+            [self updateWithLsofOutput];
+            [self filterResults];
+            
+            // update UI on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self updateItemCountTextField];
+                [tableView reloadData];
+                [progressIndicator stopAnimation:self];
+                [refreshButton setEnabled:YES];
+                [[tableView tableColumnWithIdentifier:@"pname"] setTitle:[NSString stringWithFormat:@"Processes (%d)", processCount]];
+            });
+        }
     });
 }
 
@@ -245,6 +254,8 @@
     NSString *output = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     NSArray *lines = [output componentsSeparatedByString:@"\n"];
     
+    NSMutableSet *uniqueProcesses = [NSMutableSet set];
+    
     NSString *pid = @"";
     NSString *process = @"";
     NSString *ftype = @"";
@@ -257,6 +268,7 @@
         }
         
         switch ([line characterAtIndex:0]) {
+                
             case 'p':
                 pid = [line substringFromIndex:1];
                 break;
@@ -291,6 +303,8 @@
                 fileInfo[@"filename"] = fileName;
                 fileInfo[@"path"] = filePath;
                 
+                [uniqueProcesses addObject:fileInfo[@"pname"]];
+                
                 //insert the desired elements
                 if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
                     fileInfo[@"type"] = @"File";
@@ -311,11 +325,12 @@
                     continue;
                 }
                 [itemArray addObject:fileInfo];
-
             }
                 break;
         }
     }
+    
+    processCount = [uniqueProcesses count];
 }
 
 #pragma mark - Interface
@@ -327,9 +342,8 @@
     int pid = [item[@"pid"] intValue];
 	
 	// Ask user to confirm that he really wants to kill these
-	if ([Alerts proceedAlert:@"Are you sure you want to kill the selected processes?"
-                     subText:@"This will send the process a SIGKILL signal."
-             withActionNamed:@"Kill"] == NO) {
+    NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\"?", item[@"pname"]];
+	if ([Alerts proceedAlert:q subText:@"This will send the process a SIGKILL signal." withActionNamed:@"Kill"] == NO) {
 		return;
     }
 	
@@ -357,11 +371,33 @@
 
 - (void)showItem:(NSDictionary *)item {
     NSString *path = item[@"path"];
-    if (path && [FILEMGR fileExistsAtPath:path]) {
+    if ([self canRevealItemAtPath:path]) {
         [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
     } else {
         NSBeep();
     }
+}
+
+- (NSImage *)iconForItem:(NSDictionary *)item {
+    
+    NSString *pid = item[@"pid"];
+//    if (processIconDict[pid]) {
+//        NSLog(@"Already")
+//        return processIconDict[pid];
+//    }ode
+    
+    ProcessSerialNumber psn;
+    GetProcessForPID([pid intValue], &psn);
+    NSDictionary *pInfoDict = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+    
+    if (pInfoDict[@"BundlePath"] && [pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
+//        NSLog(@"Fetching for PID: %@ %@", pid, pInfoDict[@"BundlePath"]);
+        processIconDict[pid] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
+    } else {
+        processIconDict[pid] = genericExecutableIcon;
+    }
+    
+    return processIconDict[pid];
 }
 
 #pragma mark - NSTableViewDataSource/Delegate
@@ -370,32 +406,124 @@
 	return [activeItemSet count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (NSView *)tableView:(NSTableView *)tv viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     
-    NSString *colIdentifier = [aTableColumn identifier];
-    NSDictionary *item = activeItemSet[rowIndex];
+    // Group our "model" object, which is a dictionary
+    NSDictionary *item = [activeItemSet objectAtIndex:row];
     
-    switch ([colIdentifier intValue]) {
+    // In IB the tableColumn has the identifier set to the same string as the keys in our dictionary
+    NSString *identifier = [tableColumn identifier];
+    
+    if ([identifier isEqualToString:@"pname"]) {
+        // We pass us as the owner so we can setup target/actions into this main controller object
+        __block NSTableCellView *cellView = [tv makeViewWithIdentifier:identifier owner:self];
         
-        case 1:
-            return item[@"pname"];
-            break;
-        case 2:
-            return item[@"pid"];
-            break;
-        case 3:
-            return item[@"type"];
-            break;
-        case 4:
-        {
-            NSString *key = [DEFAULTS boolForKey:@"showEntireFilePathEnabled"] ? @"path" : @"filename";
-            return item[key];
+        // Then setup properties on the cellView based on the column
+        cellView.textField.stringValue = item[@"pname"];
+        NSImage *icon = processIconDict[item[@"pid"]];
+        if (icon) {
+            cellView.imageView.objectValue = icon;
+        } else {
+//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                __block NSImage *icon = [self iconForItem:item];
+//                
+//                // update UI on main thread
+//                dispatch_sync(dispatch_get_main_queue(), ^{
+                    cellView.imageView.objectValue = icon;
+//                });
+                
+//            });
         }
-            break;
+//        cellView.imageView.objectValue = genericExecutableIcon;//
+        return cellView;
+    }
+    for (NSString *k in @[@"pid", @"type", @"path"]) {
+        if ([identifier isEqualToString:k]) {
+            NSTextField *textField = [tv makeViewWithIdentifier:identifier owner:self];
+            textField.objectValue = item[k];
+            return textField;
+        }
     }
     
-	return @"";
+    NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+    
+    return nil;
 }
+
+
+
+//- (NSView *)tableView:(NSTableView *)tv viewForTableColumn:(NSTableColumn *)tc row:(NSInteger)row {
+//    NSTableCellView *view = [tableView makeViewWithIdentifier:@"4" owner:self];
+//    
+//    NSDictionary *item = activeItemSet[row];
+//    NSString *pid = item[@"pid"];
+//
+//    if (processIconDict[pid] == nil) {
+//        processIconDict[pid] = [self iconForItem:item];
+//    }
+//
+//    [view.imageView setHidden:NO];
+//    [[view textField] setStringValue:@"Hey"];
+//    [[view imageView] setImage:processIconDict[pid]];
+//    
+//    return view;
+//}
+
+//- (void)tableView:(NSTableView *)view willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)col row:(int)rowIndex {
+//    if ([[col identifier] intValue] == 4) {
+//        NSDictionary *item = activeItemSet[rowIndex];
+//        NSString *pid = item[@"pid"];
+//        
+//        if (processIconDict[pid] == nil) {
+//            processIconDict[pid] = [self iconForItem:item];
+//        }
+//        
+//        [[cell imageView] setImage:processIconDict[pid]];
+//        NSLog(@"Setting cell");
+//    }
+//}
+
+//- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+//    NSBrowserCell *cell = [[NSBrowserCell alloc] init];
+//    
+//    return cell;
+//}
+
+//- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+//    
+//    NSString *colIdentifier = [aTableColumn identifier];
+//    NSDictionary *item = activeItemSet[rowIndex];
+//    
+//    switch ([colIdentifier intValue]) {
+//        
+//        case 1:
+//            return item[@"pname"];
+//            break;
+//        case 2:
+//            return item[@"pid"];
+//            break;
+//        case 3:
+//            return item[@"type"];
+//            break;
+//        case 4:
+//        {
+////            if (rowIndex == 0) {
+////                NSImageCell *iconCell;
+////                iconCell = [[NSImageCell alloc] init];
+////                [aTableColumn setDataCell:iconCell];
+////            }
+//
+//            
+////            return @"Hey";
+////            return processIconDict[item[@"pid"]];
+//            NSString *key = [DEFAULTS boolForKey:@"showEntireFilePathEnabled"] ? @"path" : @"filename";
+//            return item[key];
+//        }
+//            break;
+//    }
+//    
+//	return @"";
+//}
 
 - (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
 	NSArray *newDescriptors = [tableView sortDescriptors];
@@ -406,13 +534,16 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
 	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeItemSet count]) {
 		NSDictionary *item = activeItemSet[[tableView selectedRow]];
-		BOOL canReveal = [FILEMGR fileExistsAtPath:item[@"path"]];
-		[revealButton setEnabled:canReveal];
+        [revealButton setEnabled:[self canRevealItemAtPath:item[@"path"]]];
 		[killButton setEnabled:YES];
 	} else {
 		[revealButton setEnabled:NO];
 		[killButton setEnabled:NO];
 	}
+}
+
+- (BOOL)canRevealItemAtPath:(NSString *)path {
+    return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
 }
 
 #pragma mark - Menus

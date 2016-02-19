@@ -38,6 +38,8 @@
 #define PROGRAM_DEFAULT_LSOF_PATH			@"/usr/sbin/lsof"
 #define PROGRAM_LSOF_NAME					@"lsof"
 
+#define GENERIC_EXEC_ICON_PATH              @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
+
 #define VALUES_KEYPATH(X) [NSString stringWithFormat:@"values.%@", (X)]
 
 #define FILEMGR     [NSFileManager defaultManager]
