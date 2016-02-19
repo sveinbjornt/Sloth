@@ -36,32 +36,25 @@
 
 @interface SlothController ()
 {
-    IBOutlet NSWindow               *slothWindow;
-    IBOutlet NSProgressIndicator    *progressBar;
-    IBOutlet NSButton               *refreshButton;
-    IBOutlet NSTextField            *filterTextField;
-    IBOutlet NSTextField            *numItemsTextField;
-    IBOutlet NSTableView            *tableView;
-    IBOutlet NSButton               *revealButton;
-    IBOutlet NSButton               *killButton;
-    IBOutlet NSTextField            *lastRunTextField;
+    IBOutlet NSWindow *slothWindow;
+    IBOutlet NSProgressIndicator *progressIndicator;
+    IBOutlet NSButton *refreshButton;
+    IBOutlet NSTextField *filterTextField;
+    IBOutlet NSTextField *numItemsTextField;
+    IBOutlet NSTableView *tableView;
+    IBOutlet NSButton *revealButton;
+    IBOutlet NSButton *killButton;
     
-    NSMutableArray                  *fileArray;
-    NSMutableArray                  *activeSet;
+    NSMutableArray *itemArray;
+    NSMutableArray *activeItemSet;
 }
-
-- (IBAction)reveal:(id)sender;
-- (IBAction)refresh:(id)sender;
-- (IBAction)kill:(id)sender;
-- (IBAction)relaunchAsRoot:(id)sender;
-
 @end
 
 @implementation SlothController
 
 - (instancetype)init {
 	if ((self = [super init])) {
-		fileArray = [[NSMutableArray alloc] init];
+		itemArray = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -143,7 +136,7 @@
 }
 
 - (void)updateItemCountTextField {
-    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", (int)[activeSet count], (int)[fileArray count]];
+    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", (int)[activeItemSet count], (int)[itemArray count]];
     [numItemsTextField setStringValue:str];
 }
 
@@ -167,11 +160,11 @@
                                                             error:nil];
     }
     
-    for (NSDictionary *item in fileArray) {
+    for (NSDictionary *item in itemArray) {
         
         BOOL filtered = NO;
         
-        // let's see if it gets filtered by the checkboxes
+        // let's see if it gets filtered by type
         NSString *type = item[@"type"];
         if (([type isEqualToString:@"File"] && !showRegularFiles) ||
             ([type isEqualToString:@"Directory"] && !showDirectories) ||
@@ -181,22 +174,23 @@
             filtered = YES;
         }
         
-        // see if regex in search field filters it out
+        // see if it matches regex in search field filter
         if (filtered == NO && hasFilterString && regex)
         {
-            if ([item[@"pname"] isMatchedByRegex:regex] ||
+            if (([item[@"pname"] isMatchedByRegex:regex] ||
                 [item[@"pid"] isMatchedByRegex:regex] ||
                 [item[@"path"] isMatchedByRegex:regex] ||
-                [item[@"type"] isMatchedByRegex:regex]) {
-                [subset addObject:item];
+                [item[@"type"] isMatchedByRegex:regex]) == NO) {
+                filtered = YES;
             }
         }
-        else if (filtered == NO) {
+        
+        if (filtered == NO) {
             [subset addObject:item];
         }
     }
     
-    activeSet = subset;
+    activeItemSet = subset;
     
     /*	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
      ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
@@ -211,11 +205,11 @@
 
 - (IBAction)refresh:(id)sender {
     
-	[fileArray removeAllObjects];
+	[itemArray removeAllObjects];
     [refreshButton setEnabled:NO];
 	
-	[progressBar setUsesThreadedAnimation:TRUE];
-	[progressBar startAnimation:self];
+	[progressIndicator setUsesThreadedAnimation:TRUE];
+	[progressIndicator startAnimation:self];
 	
     // update in background
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -227,7 +221,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateItemCountTextField];
             [tableView reloadData];
-            [progressBar stopAnimation:self];
+            [progressIndicator stopAnimation:self];
             [refreshButton setEnabled:YES];
         });
         
@@ -316,14 +310,12 @@
                 else {
                     continue;
                 }
-                [fileArray addObject:fileInfo];
+                [itemArray addObject:fileInfo];
 
             }
                 break;
         }
     }
-    
-    activeSet = fileArray;
 }
 
 #pragma mark - Interface
@@ -331,7 +323,7 @@
 - (IBAction)kill:(id)sender {
     
     NSUInteger selectedRow = [tableView selectedRow];
-    NSDictionary *item = activeSet[selectedRow];
+    NSDictionary *item = activeItemSet[selectedRow];
     int pid = [item[@"pid"] intValue];
 	
 	// Ask user to confirm that he really wants to kill these
@@ -355,12 +347,12 @@
 
 - (IBAction)reveal:(id)sender {
     NSInteger rowNumber = [tableView selectedRow];
-    [self showItem:activeSet[rowNumber]];
+    [self showItem:activeItemSet[rowNumber]];
 }
 
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [tableView clickedRow];
-    [self showItem:activeSet[rowNumber]];
+    [self showItem:activeItemSet[rowNumber]];
 }
 
 - (void)showItem:(NSDictionary *)item {
@@ -375,13 +367,13 @@
 #pragma mark - NSTableViewDataSource/Delegate
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-	return [activeSet count];
+	return [activeItemSet count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
     
     NSString *colIdentifier = [aTableColumn identifier];
-    NSDictionary *item = activeSet[rowIndex];
+    NSDictionary *item = activeItemSet[rowIndex];
     
     switch ([colIdentifier intValue]) {
         
@@ -407,13 +399,13 @@
 
 - (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
 	NSArray *newDescriptors = [tableView sortDescriptors];
-	[activeSet sortUsingDescriptors:newDescriptors];
+	[activeItemSet sortUsingDescriptors:newDescriptors];
 	[tableView reloadData];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeSet count]) {
-		NSDictionary *item = activeSet[[tableView selectedRow]];
+	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeItemSet count]) {
+		NSDictionary *item = activeItemSet[[tableView selectedRow]];
 		BOOL canReveal = [FILEMGR fileExistsAtPath:item[@"path"]];
 		[revealButton setEnabled:canReveal];
 		[killButton setEnabled:YES];
@@ -455,6 +447,10 @@
 
 - (IBAction)visitSlothWebsite:(id)sender {
 	[WORKSPACE openURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
+}
+
+- (IBAction)visitSlothOnGitHubWebsite:(id)sender {
+    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_GITHUB_WEBSITE]];
 }
 
 @end

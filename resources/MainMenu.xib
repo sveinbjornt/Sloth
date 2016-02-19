@@ -277,7 +277,7 @@ DQ
                                     <action selector="visitSlothWebsite:" target="212" id="479"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Support Sloth development..." id="467">
+                            <menuItem title="Donate to Support Sloth..." id="467">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="supportSlothDevelopment:" target="212" id="477"/>
@@ -562,6 +562,37 @@ CA
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Help" id="KF4-uO-L1Y">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Help" systemMenu="help" id="Dao-GJ-P0N">
+                        <items>
+                            <menuItem title="Visit Sloth Website..." id="vVY-IN-CcM">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="visitSlothWebsite:" target="212" id="F44-OM-KnH"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Donate to support Sloth..." id="bBN-AQ-OQK">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="supportSlothDevelopment:" target="212" id="tA0-Ew-l0N"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Sloth on GitHub" id="Yx3-zx-jJ6">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="visitSlothOnGitHubWebsite:" target="212" id="eno-eS-t7V"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="P78-4y-Gfm"/>
+                            <menuItem title="Sloth Help" keyEquivalent="?" id="nz5-jg-6Vb">
+                                <connections>
+                                    <action selector="visitSlothWebsite:" target="212" id="FwY-V1-HBJ"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
             </items>
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
@@ -572,7 +603,7 @@ CA
                 <outlet property="filterTextField" destination="252" id="656"/>
                 <outlet property="killButton" destination="210" id="623"/>
                 <outlet property="numItemsTextField" destination="659" id="661"/>
-                <outlet property="progressBar" destination="335" id="336"/>
+                <outlet property="progressIndicator" destination="335" id="bNF-Cs-ZU3"/>
                 <outlet property="refreshButton" destination="208" id="483"/>
                 <outlet property="revealButton" destination="211" id="622"/>
                 <outlet property="slothWindow" destination="21" id="756"/>
