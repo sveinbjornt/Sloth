@@ -162,7 +162,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     [numItemsTextField setStringValue:str];
 }
 
-// creates a subset of the list of files based on our filtering criterion
+// creates a subset of the list based on our filtering criterion
 - (void)filterResults
 {
     NSMutableArray *subset = [[NSMutableArray alloc] init];
@@ -388,8 +388,13 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 
 #pragma mark - Interface
 
+- (BOOL)killProcess:(int)pid {
+    int sigValue = SIGKILL;
+    int ret = kill(pid, sigValue);
+    return (ret == 0);
+}
+
 - (IBAction)kill:(id)sender {
-    
     NSUInteger selectedRow = [tableView selectedRow];
     NSDictionary *item = activeItemSet[selectedRow];
     int pid = [item[@"pid"] intValue];
@@ -400,10 +405,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 		return;
     }
 	
-	// Get signal to send to process based on prefs
-    int sigValue = SIGKILL;
-	int ret = kill(pid, sigValue);
-    if (ret) {
+    if ([self killProcess:pid] == NO) {
         [Alerts alert:@"Failed to kill process"
         subTextFormat:@"Could not kill process %@ (PID: %d)", item[@"pname"], pid];
 			return;
@@ -412,23 +414,27 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 	[self refresh:self];
 }
 
-- (IBAction)reveal:(id)sender {
+- (IBAction)showButtonClicked:(id)sender {
     NSInteger rowNumber = [tableView selectedRow];
-    [self showItem:activeItemSet[rowNumber]];
+    [self revealItemInFinder:activeItemSet[rowNumber]];
 }
 
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [tableView clickedRow];
-    [self showItem:activeItemSet[rowNumber]];
+    [self revealItemInFinder:activeItemSet[rowNumber]];
 }
 
-- (void)showItem:(NSDictionary *)item {
+- (void)revealItemInFinder:(NSDictionary *)item {
     NSString *path = item[@"path"];
     if ([self canRevealItemAtPath:path]) {
         [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
     } else {
         NSBeep();
     }
+}
+
+- (BOOL)canRevealItemAtPath:(NSString *)path {
+    return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
 }
 
 - (NSImage *)iconForItem:(NSDictionary *)item {
@@ -448,6 +454,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     
     return processIconDict[pid];
 }
+
+#pragma mark - Authentication
 
 - (IBAction)lockWasClicked:(id)sender {
     if (!authenticated) {
@@ -528,20 +536,15 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 }
 
 - (NSView *)tableView:(NSTableView *)tv viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    
-    // Group our "model" object, which is a dictionary
     NSDictionary *item = [activeItemSet objectAtIndex:row];
-    
-    // In IB the tableColumn has the identifier set to the same string as the keys in our dictionary
     NSString *identifier = [tableColumn identifier];
     
     if ([identifier isEqualToString:@"pname"]) {
-        // We pass us as the owner so we can setup target/actions into this main controller object
         __block NSTableCellView *cellView = [tv makeViewWithIdentifier:identifier owner:self];
-        
-        // Then setup properties on the cellView based on the column
+
         cellView.textField.stringValue = item[@"pname"];
         NSImage *icon = processIconDict[item[@"pid"]];
+        
         if (icon) {
             cellView.imageView.objectValue = icon;
         } else {
@@ -558,6 +561,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 //        cellView.imageView.objectValue = genericExecutableIcon;//
         return cellView;
     }
+    
     for (NSString *k in @[@"pid", @"type", @"path"]) {
         if ([identifier isEqualToString:k]) {
             NSTextField *textField = [tv makeViewWithIdentifier:identifier owner:self];
@@ -570,81 +574,6 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     
     return nil;
 }
-
-
-
-//- (NSView *)tableView:(NSTableView *)tv viewForTableColumn:(NSTableColumn *)tc row:(NSInteger)row {
-//    NSTableCellView *view = [tableView makeViewWithIdentifier:@"4" owner:self];
-//    
-//    NSDictionary *item = activeItemSet[row];
-//    NSString *pid = item[@"pid"];
-//
-//    if (processIconDict[pid] == nil) {
-//        processIconDict[pid] = [self iconForItem:item];
-//    }
-//
-//    [view.imageView setHidden:NO];
-//    [[view textField] setStringValue:@"Hey"];
-//    [[view imageView] setImage:processIconDict[pid]];
-//    
-//    return view;
-//}
-
-//- (void)tableView:(NSTableView *)view willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)col row:(int)rowIndex {
-//    if ([[col identifier] intValue] == 4) {
-//        NSDictionary *item = activeItemSet[rowIndex];
-//        NSString *pid = item[@"pid"];
-//        
-//        if (processIconDict[pid] == nil) {
-//            processIconDict[pid] = [self iconForItem:item];
-//        }
-//        
-//        [[cell imageView] setImage:processIconDict[pid]];
-//        NSLog(@"Setting cell");
-//    }
-//}
-
-//- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-//    NSBrowserCell *cell = [[NSBrowserCell alloc] init];
-//    
-//    return cell;
-//}
-
-//- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-//    
-//    NSString *colIdentifier = [aTableColumn identifier];
-//    NSDictionary *item = activeItemSet[rowIndex];
-//    
-//    switch ([colIdentifier intValue]) {
-//        
-//        case 1:
-//            return item[@"pname"];
-//            break;
-//        case 2:
-//            return item[@"pid"];
-//            break;
-//        case 3:
-//            return item[@"type"];
-//            break;
-//        case 4:
-//        {
-////            if (rowIndex == 0) {
-////                NSImageCell *iconCell;
-////                iconCell = [[NSImageCell alloc] init];
-////                [aTableColumn setDataCell:iconCell];
-////            }
-//
-//            
-////            return @"Hey";
-////            return processIconDict[item[@"pid"]];
-//            NSString *key = [DEFAULTS boolForKey:@"showEntireFilePathEnabled"] ? @"path" : @"filename";
-//            return item[key];
-//        }
-//            break;
-//    }
-//    
-//	return @"";
-//}
 
 - (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
 	NSArray *newDescriptors = [tableView sortDescriptors];
@@ -661,10 +590,6 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 		[revealButton setEnabled:NO];
 		[killButton setEnabled:NO];
 	}
-}
-
-- (BOOL)canRevealItemAtPath:(NSString *)path {
-    return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
 }
 
 #pragma mark - Menus

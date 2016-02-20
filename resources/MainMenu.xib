@@ -195,7 +195,7 @@ DQ
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="reveal:" target="212" id="624"/>
+                            <action selector="showButtonClicked:" target="212" id="mSq-My-bmG"/>
                         </connections>
                     </button>
                     <button id="234">
@@ -582,7 +582,7 @@ DQ
                             </menuItem>
                             <menuItem title="Reveal in Finder" keyEquivalent="R" id="yq1-RN-lAt">
                                 <connections>
-                                    <action selector="reveal:" target="212" id="t9g-MR-LYz"/>
+                                    <action selector="showButtonClicked:" target="212" id="e5K-Jc-wXy"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Kill Process" id="umw-5C-WcM">
