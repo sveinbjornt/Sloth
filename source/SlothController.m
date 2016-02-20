@@ -34,6 +34,15 @@
 #import "Alerts.h"
 #import "NSString+RegexMatching.h"
 
+#import <Security/Authorization.h>
+#import <Security/AuthorizationTags.h>
+#import <stdio.h>
+#import <unistd.h>
+#import <dlfcn.h>
+
+// New error code denoting that AuthorizationExecuteWithPrivileges no longer exists
+OSStatus const errAuthorizationFnNoLongerExists = -70001;
+
 @interface SlothController ()
 {
     IBOutlet NSWindow *slothWindow;
@@ -48,10 +57,12 @@
     NSMutableArray *itemArray;
     NSMutableArray *activeItemSet;
     
-    
     NSMutableDictionary *processIconDict;
     NSImage *genericExecutableIcon;
     int processCount;
+    
+    AuthorizationRef authorizationRef;
+    BOOL authenticated;
 }
 @end
 
@@ -114,6 +125,10 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
     [self refresh:self];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [self deauthenticate];
 }
 
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
@@ -222,10 +237,11 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
         
-            [self updateWithLsofOutput];
+            NSString *output = [self runLsof:authenticated];
+            [self parseLsofOutput:output];
             [self filterResults];
             
-            // update UI on main thread
+            // then update UI on main thread
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self updateItemCountTextField];
                 [tableView reloadData];
@@ -237,22 +253,59 @@
     });
 }
 
-- (void)updateWithLsofOutput {
-    
+- (NSString *)runLsof:(BOOL)isAuthenticated {
     // our command is: lsof -F pcnt +c0
-    NSTask *lsof = [[NSTask alloc] init];
-    [lsof setLaunchPath:PROGRAM_DEFAULT_LSOF_PATH];
-    [lsof setArguments:@[@"-F", @"pcnt", @"+c0"]];
+    NSData *outputData;
     
-    NSPipe *pipe = [NSPipe pipe];
-    [lsof setStandardOutput:pipe];
-    [lsof launch];
+    if (isAuthenticated) {
+        
+        const char *toolPath = [PROGRAM_DEFAULT_LSOF_PATH fileSystemRepresentation];
+        NSArray *arguments = PROGRAM_LSOF_ARGS;
+        NSUInteger numberOfArguments = [arguments count];
+        char *args[numberOfArguments + 1];
+        FILE *outputFile;
+        
+        // first, construct an array of c strings from NSArray w. arguments
+        for (int i = 0; i < numberOfArguments; i++) {
+            NSString *argString = arguments[i];
+            NSUInteger stringLength = [argString length];
+            
+            args[i] = malloc((stringLength + 1) * sizeof(char));
+            snprintf(args[i], stringLength + 1, "%s", [argString fileSystemRepresentation]);
+        }
+        args[numberOfArguments] = NULL;
+        
+        //use Authorization Reference to execute script with privileges
+        OSStatus err = AuthorizationExecuteWithPrivileges(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, &outputFile);
+        
+        // free the malloc'd argument strings
+        for (int i = 0; i < numberOfArguments; i++) {
+            free(args[i]);
+        }
+
+        NSFileHandle *outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fileno(outputFile) closeOnDealloc:YES];
+        
+        outputData = [outputFileHandle readDataToEndOfFile];
+        
+    } else {
+        
+        NSTask *lsof = [[NSTask alloc] init];
+        [lsof setLaunchPath:PROGRAM_DEFAULT_LSOF_PATH];
+        [lsof setArguments:PROGRAM_LSOF_ARGS];
+        
+        NSPipe *pipe = [NSPipe pipe];
+        [lsof setStandardOutput:pipe];
+        [lsof launch];
+        
+        outputData = [[pipe fileHandleForReading] readDataToEndOfFile];
+    }
     
-    NSData *data = [[pipe fileHandleForReading] readDataToEndOfFile];
-    
-    //get data output and format as an array of lines of text
-    NSString *output = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-    NSArray *lines = [output componentsSeparatedByString:@"\n"];
+    return [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
+}
+
+- (void)parseLsofOutput:(NSString *)outputString {
+    // split into array of lines of text
+    NSArray *lines = [outputString componentsSeparatedByString:@"\n"];
     
     NSMutableSet *uniqueProcesses = [NSMutableSet set];
     
@@ -381,10 +434,6 @@
 - (NSImage *)iconForItem:(NSDictionary *)item {
     
     NSString *pid = item[@"pid"];
-//    if (processIconDict[pid]) {
-//        NSLog(@"Already")
-//        return processIconDict[pid];
-//    }ode
     
     ProcessSerialNumber psn;
     GetProcessForPID([pid intValue], &psn);
@@ -398,6 +447,78 @@
     }
     
     return processIconDict[pid];
+}
+
+- (IBAction)lockWasClicked:(id)sender {
+    if (!authenticated) {
+        OSStatus err = [self authenticate];
+        if (err == errAuthorizationSuccess) {
+            authenticated = YES;
+        } else {
+            if (err != errAuthorizationCanceled) {
+                NSBeep();
+            }
+            return;
+        }
+    } else {
+        [self deauthenticate];
+        authenticated = NO;
+    }
+    
+    NSString *imgName = authenticated ? @"UnlockedIcon.icns" : @"LockedIcon.icns";
+    [sender setImage:[NSImage imageNamed:imgName]];
+}
+
+- (OSStatus)authenticate {
+    OSStatus err = noErr;
+    const char *toolPath = [PROGRAM_DEFAULT_LSOF_PATH fileSystemRepresentation];
+    
+    AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
+    AuthorizationRights myRights = { 1, &myItems };
+    AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
+    
+    // Create function pointer to AuthorizationExecuteWithPrivileges
+    // in case it doesn't exist in this version of OS X
+    static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const char *pathToTool, AuthorizationFlags options,
+                                               char * const *arguments, FILE **communicationsPipe) = NULL;
+    
+    // Check to see if we have the correct function in our loaded libraries
+    if (!_AuthExecuteWithPrivsFn) {
+        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
+        // to still use it since there's no good alternative (without requiring
+        // code signing). We'll look up the function through dyld and fail if
+        // it is no longer accessible. If Apple removes the function entirely
+        // this will fail gracefully. If they keep the function and throw some
+        // sort of exception, this won't fail gracefully, but that's a risk
+        // we'll have to take for now.
+        // Pattern by Andy Kim from Potion Factory LLC
+        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
+        if (!_AuthExecuteWithPrivsFn) {
+            // This version of OS X has finally removed this function. Exit with an error.
+            err = errAuthorizationFnNoLongerExists;
+            return err;
+        }
+    }
+    
+    // create authorization reference
+    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
+    if (err != errAuthorizationSuccess) {
+        return err;
+    }
+    
+    // pre-authorize the privileged operation
+    err = AuthorizationCopyRights(authorizationRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
+    if (err != errAuthorizationSuccess) {
+        return err;
+    }
+
+    return noErr;
+}
+
+- (void)deauthenticate {
+    if (authorizationRef) {
+        AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
+    }
 }
 
 #pragma mark - NSTableViewDataSource/Delegate

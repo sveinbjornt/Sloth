@@ -37,6 +37,7 @@
 #define PROGRAM_DEFAULT_OUTPUT_FILENAME		@"Sloth-Output.txt"
 #define PROGRAM_DEFAULT_LSOF_PATH			@"/usr/sbin/lsof"
 #define PROGRAM_LSOF_NAME					@"lsof"
+#define PROGRAM_LSOF_ARGS                   @[@"-F", @"pcnt", @"+c0"]
 
 #define GENERIC_EXEC_ICON_PATH              @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
 
@@ -45,4 +46,10 @@
 #define FILEMGR     [NSFileManager defaultManager]
 #define DEFAULTS    [NSUserDefaults standardUserDefaults]
 #define WORKSPACE   [NSWorkspace sharedWorkspace]
+
+// Defines error value for when AuthorizationExecuteWithPrivileges no longer
+// exists anyplace. Rather than defining a new enum, we just create a global
+// constant
+extern const OSStatus errAuthorizationFnNoLongerExists;
+
 

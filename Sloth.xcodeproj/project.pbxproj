@@ -20,6 +20,9 @@
 		F438713013402CDD00B51A5E /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = F438712813402CDD00B51A5E /* Credits.html */; };
 		F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */; };
 		F438713513402CDD00B51A5E /* Sloth.icns in Resources */ = {isa = PBXBuildFile; fileRef = F438712D13402CDD00B51A5E /* Sloth.icns */; };
+		F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BE1C7895220024540F /* LockedIcon.icns */; };
+		F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BF1C7895220024540F /* UnlockedIcon.icns */; };
+		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +60,9 @@
 		F438712913402CDD00B51A5E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = RegistrationDefaults.plist; sourceTree = "<group>"; };
 		F438712D13402CDD00B51A5E /* Sloth.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Sloth.icns; sourceTree = "<group>"; };
+		F4ED53BE1C7895220024540F /* LockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = LockedIcon.icns; sourceTree = "<group>"; };
+		F4ED53BF1C7895220024540F /* UnlockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = UnlockedIcon.icns; sourceTree = "<group>"; };
+		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		F4F1D89A1C75FBF800945D3E /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		F4F1D89B1C76186200945D3E /* NSString+RegexMatching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexMatching.h"; sourceTree = "<group>"; };
 		F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexMatching.m"; sourceTree = "<group>"; };
@@ -71,6 +77,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				F413E66B1C7662FF00385DB3 /* Sparkle.framework in Frameworks */,
+				F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */,
 				F413E6711C7693F000385DB3 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -102,6 +109,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F4ED53C21C789A0A0024540F /* Security.framework */,
 				F413E6701C7693F000385DB3 /* QuartzCore.framework */,
 				F413E66A1C7662FF00385DB3 /* Sparkle.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
@@ -146,6 +154,8 @@
 				F438712913402CDD00B51A5E /* Info.plist */,
 				F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */,
 				F438712D13402CDD00B51A5E /* Sloth.icns */,
+				F4ED53BE1C7895220024540F /* LockedIcon.icns */,
+				F4ED53BF1C7895220024540F /* UnlockedIcon.icns */,
 				F40B7D2B1C75F161000A4616 /* sloth_icon.png */,
 			);
 			name = Resources;
@@ -209,10 +219,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				F438713013402CDD00B51A5E /* Credits.html in Resources */,
+				F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
 				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
 				F438713513402CDD00B51A5E /* Sloth.icns in Resources */,
+				F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
