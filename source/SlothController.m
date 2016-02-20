@@ -45,7 +45,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 
 @interface SlothController ()
 {
-    IBOutlet NSWindow *slothWindow;
+    IBOutlet NSWindow *window;
     IBOutlet NSProgressIndicator *progressIndicator;
     IBOutlet NSButton *refreshButton;
     IBOutlet NSTextField *filterTextField;
@@ -53,6 +53,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     IBOutlet NSTableView *tableView;
     IBOutlet NSButton *revealButton;
     IBOutlet NSButton *killButton;
+    
+    IBOutlet NSOutlineView *outlineView;
     
     NSMutableArray *itemArray;
     NSMutableArray *activeItemSet;
@@ -63,6 +65,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     
     AuthorizationRef authorizationRef;
     BOOL authenticated;
+    
+    NSMutableArray *list;
 }
 @end
 
@@ -73,6 +77,12 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 		itemArray = [[NSMutableArray alloc] init];
         processIconDict = [[NSMutableDictionary alloc] init];
         genericExecutableIcon = [[NSImage alloc] initByReferencingFile:GENERIC_EXEC_ICON_PATH];
+        
+        NSDictionary *firstParent = [NSDictionary dictionaryWithObjectsAndKeys:@"Foo",@"parent",[NSArray arrayWithObjects:@"Foox",@"Fooz", nil],@"children", nil];
+        NSDictionary *secondParent = [NSDictionary dictionaryWithObjectsAndKeys:@"Bar",@"parent",[NSArray arrayWithObjects:@"Barx",@"Barz", nil],@"children", nil];
+        list = [NSMutableArray arrayWithObjects:firstParent,secondParent, nil];
+        
+
     }
     return self;
 }
@@ -87,8 +97,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // put application icon in window title bar
-    [slothWindow setRepresentedURL:[NSURL URLWithString:@""]];
-    NSButton *button = [slothWindow standardWindowButton:NSWindowDocumentIconButton];
+    [window setRepresentedURL:[NSURL URLWithString:@""]];
+    NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
     [button setImage:[NSApp applicationIconImage]];
     
     // sorting for tableview
@@ -114,12 +124,12 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     }
     
     // Layer-backed window
-    [[slothWindow contentView] setWantsLayer:YES];
+    [[window contentView] setWantsLayer:YES];
     
     if ([DEFAULTS boolForKey:@"PreviouslyLaunched"] == NO) {
-        [slothWindow center];
+        [window center];
     }
-    [slothWindow makeKeyAndOrderFront:self];
+    [window makeKeyAndOrderFront:self];
 
     
     [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
@@ -146,6 +156,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     activeItemSet = [self filterItems:itemArray];
     [self updateItemCountTextField];
     [tableView reloadData];
+    [outlineView reloadData];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
@@ -252,6 +263,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self updateItemCountTextField];
                 [tableView reloadData];
+                [outlineView reloadData];
                 [progressIndicator stopAnimation:self];
                 [refreshButton setEnabled:YES];
                 [[tableView tableColumnWithIdentifier:@"pname"] setTitle:[NSString stringWithFormat:@"Processes (%d)", processCount]];
@@ -314,8 +326,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     // split into array of lines of text
     NSArray *lines = [outputString componentsSeparatedByString:@"\n"];
     
-    NSMutableSet *uniqueProcesses = [NSMutableSet set];
-    
+    NSMutableDictionary *processDict = [NSMutableDictionary dictionaryWithCapacity:1000];
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:100000];
     
     NSString *pid = @"";
@@ -365,7 +376,6 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                 fileInfo[@"filename"] = fileName;
                 fileInfo[@"path"] = filePath;
                 
-                [uniqueProcesses addObject:fileInfo[@"pname"]];
                 
                 //insert the desired elements
                 if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
@@ -386,13 +396,27 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                 else {
                     continue;
                 }
+                
+                if (processDict[process] == nil) {
+                    processDict[process] = @{    @"name": process,
+                                                 @"files": [NSMutableArray array]
+                                            };
+                }
+                
+                [processDict[process][@"files"] addObject:fileInfo[@"path"]];
+                
                 [items addObject:fileInfo];
             }
                 break;
         }
     }
     
-    processCount = [uniqueProcesses count];
+    [list removeAllObjects];
+    for (NSString *k in [processDict allKeys]) {
+        [list addObject:processDict[k]];
+    }
+    
+    NSLog([list description]);
     
     return items;
 }
@@ -548,6 +572,59 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
     }
 }
+
+#pragma mark - NSOutlineViewDataSource/Delegate
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+    if ([item isKindOfClass:[NSDictionary class]]) {
+        return YES;
+    }else {
+        return NO;
+    }
+}
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+{
+    
+    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
+        return [list count];
+    }
+    
+    if ([item isKindOfClass:[NSDictionary class]]) {
+        return [[item objectForKey:@"files"] count];
+    }
+    
+    return 0;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+{
+    
+    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
+        return [list objectAtIndex:index];
+    }
+    
+    if ([item isKindOfClass:[NSDictionary class]]) {
+        return [[item objectForKey:@"files"] objectAtIndex:index];
+    }
+    
+    return nil;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)theColumn byItem:(id)item
+{
+    
+    if ([[theColumn identifier] isEqualToString:@"children"]) {
+        if ([item isKindOfClass:[NSDictionary class]]) {
+            return [item objectForKey:@"name"];
+        }
+        return item;
+    }
+    
+    return nil;
+}
+
 
 #pragma mark - NSTableViewDataSource/Delegate
 
