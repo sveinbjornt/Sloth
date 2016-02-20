@@ -29,7 +29,7 @@
                             <rect key="frame" x="1" y="0.0" width="635" height="424"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView wantsLayer="YES" verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="SlothColumns" rowSizeStyle="automatic" headerView="753" viewBased="YES" id="206">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="SlothColumns" rowSizeStyle="automatic" headerView="753" viewBased="YES" id="206">
                                     <rect key="frame" x="0.0" y="0.0" width="635" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -173,7 +173,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
-                    <button toolTip="Refresh List" verticalHuggingPriority="750" id="208">
+                    <button toolTip="Refresh Listing" verticalHuggingPriority="750" id="208">
                         <rect key="frame" x="561" y="12" width="99" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="725">
@@ -187,7 +187,7 @@ DQ
                             <action selector="refresh:" target="212" id="217"/>
                         </connections>
                     </button>
-                    <button toolTip="Reaveal selected file in the Finder" verticalHuggingPriority="750" id="211">
+                    <button toolTip="Reaveal in Finder" verticalHuggingPriority="750" id="211">
                         <rect key="frame" x="14" y="12" width="91" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="🔎Show" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="727">
@@ -270,11 +270,11 @@ DQ
                         </connections>
                     </button>
                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="335">
-                        <rect key="frame" x="507" y="21" width="16" height="16"/>
+                        <rect key="frame" x="513" y="21" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     </progressIndicator>
                     <textField verticalHuggingPriority="750" id="659">
-                        <rect key="frame" x="179" y="19" width="318" height="20"/>
+                        <rect key="frame" x="179" y="19" width="328" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="738">
                             <font key="font" metaFont="system"/>
@@ -306,10 +306,10 @@ DQ
                             <action selector="kill:" target="212" id="710"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" id="tqa-Nm-sTb">
-                        <rect key="frame" x="529" y="13" width="32" height="32"/>
+                    <button toolTip="Authenticate to view all processes" verticalHuggingPriority="750" id="tqa-Nm-sTb">
+                        <rect key="frame" x="538" y="19" width="21" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="LockedIcon" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" inset="2" id="utO-gH-V6s">
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="LockedIcon" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

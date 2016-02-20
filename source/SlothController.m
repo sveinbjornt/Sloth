@@ -83,21 +83,23 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     [DEFAULTS registerDefaults:registrationDefaults];
 }
 
-- (void)awakeFromNib {
+#pragma mark - NSApplicationDelegate
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // put application icon in window title bar
-    [slothWindow setRepresentedURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
+    [slothWindow setRepresentedURL:[NSURL URLWithString:@""]];
     NSButton *button = [slothWindow standardWindowButton:NSWindowDocumentIconButton];
     [button setImage:[NSApp applicationIconImage]];
     
-	// sorting for tableview
-	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-																	   ascending:YES
+    // sorting for tableview
+    NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
+                                                                       ascending:YES
                                                                         selector:@selector(localizedCaseInsensitiveCompare:)];
-	[tableView setSortDescriptors:@[nameSortDescriptor]];
+    [tableView setSortDescriptors:@[nameSortDescriptor]];
     
     [tableView setTarget:self];
     [tableView setDoubleAction:@selector(rowDoubleClicked:)];
-
+    
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevicesEnabled",
                             @"showDirectoriesEnabled",
@@ -113,16 +115,13 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     
     // Layer-backed window
     [[slothWindow contentView] setWantsLayer:YES];
-
+    
     if ([DEFAULTS boolForKey:@"PreviouslyLaunched"] == NO) {
         [slothWindow center];
     }
-	[slothWindow makeKeyAndOrderFront:self];
-}
+    [slothWindow makeKeyAndOrderFront:self];
 
-#pragma mark - NSApplicationDelegate
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    
     [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
     [self refresh:self];
 }
@@ -144,7 +143,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 #pragma mark - Filtering
 
 - (void)updateFiltering {
-    [self filterResults];
+    activeItemSet = [self filterItems:itemArray];
     [self updateItemCountTextField];
     [tableView reloadData];
 }
@@ -163,10 +162,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 }
 
 // creates a subset of the list based on our filtering criterion
-- (void)filterResults
+- (NSMutableArray *)filterItems:(NSMutableArray *)items
 {
-    NSMutableArray *subset = [[NSMutableArray alloc] init];
-    
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
@@ -182,18 +179,28 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                                                             error:nil];
     }
     
-    for (NSDictionary *item in itemArray) {
+    BOOL showAllTypes = (showRegularFiles && showDirectories && showIPSockets
+                         && showUnixSockets && showCharDevices);
+    if (showAllTypes && !hasFilterString) {
+        return items;
+    }
+    
+    NSMutableArray *subset = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *item in items) {
         
         BOOL filtered = NO;
         
         // let's see if it gets filtered by type
-        NSString *type = item[@"type"];
-        if (([type isEqualToString:@"File"] && !showRegularFiles) ||
-            ([type isEqualToString:@"Directory"] && !showDirectories) ||
-            ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
-            ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-            ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
-            filtered = YES;
+        if (showAllTypes == NO) {
+            NSString *type = item[@"type"];
+            if (([type isEqualToString:@"File"] && !showRegularFiles) ||
+                ([type isEqualToString:@"Directory"] && !showDirectories) ||
+                ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
+                ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
+                ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
+                filtered = YES;
+            }
         }
         
         // see if it matches regex in search field filter
@@ -212,7 +219,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         }
     }
     
-    activeItemSet = subset;
+    return subset;
     
     /*	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
      ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
@@ -238,8 +245,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         @autoreleasepool {
         
             NSString *output = [self runLsof:authenticated];
-            [self parseLsofOutput:output];
-            [self filterResults];
+            itemArray = [self parseLsofOutput:output];
+            activeItemSet = [self filterItems:itemArray];
             
             // then update UI on main thread
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -303,11 +310,13 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     return [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
 }
 
-- (void)parseLsofOutput:(NSString *)outputString {
+- (NSMutableArray *)parseLsofOutput:(NSString *)outputString {
     // split into array of lines of text
     NSArray *lines = [outputString componentsSeparatedByString:@"\n"];
     
     NSMutableSet *uniqueProcesses = [NSMutableSet set];
+    
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:100000];
     
     NSString *pid = @"";
     NSString *process = @"";
@@ -377,13 +386,15 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                 else {
                     continue;
                 }
-                [itemArray addObject:fileInfo];
+                [items addObject:fileInfo];
             }
                 break;
         }
     }
     
     processCount = [uniqueProcesses count];
+    
+    return items;
 }
 
 #pragma mark - Interface
@@ -438,7 +449,6 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 }
 
 - (NSImage *)iconForItem:(NSDictionary *)item {
-    
     NSString *pid = item[@"pid"];
     
     ProcessSerialNumber psn;
@@ -452,6 +462,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         processIconDict[pid] = genericExecutableIcon;
     }
     
+//    [processIconDict[pid] setSize:NSMakeSize(16, 16)];
+    
     return processIconDict[pid];
 }
 
@@ -463,9 +475,17 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         if (err == errAuthorizationSuccess) {
             authenticated = YES;
         } else {
+            
+            if (err == errAuthorizationFnNoLongerExists) {
+                [Alerts alert:@"Authentication not available"
+                      subText:@"Authentication does not work in this version of OS X"];
+                return;
+            }
+            
             if (err != errAuthorizationCanceled) {
                 NSBeep();
             }
+            
             return;
         }
     } else {
