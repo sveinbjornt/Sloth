@@ -40,6 +40,10 @@
 #define PROGRAM_LSOF_ARGS                   @[@"-F", @"pcnt", @"+c0"]
 
 #define GENERIC_EXEC_ICON_PATH              @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
+#define GENERIC_DOCUMENT_ICON_PATH          @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericDocumentIcon.icns"
+#define GENERIC_FOLDER_ICON_PATH            @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericFolderIcon.icns"
+#define GENERIC_NETWORK_ICON_PATH           @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"
+
 
 #define VALUES_KEYPATH(X) [NSString stringWithFormat:@"values.%@", (X)]
 

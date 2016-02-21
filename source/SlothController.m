@@ -67,7 +67,12 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     BOOL authenticated;
     
     NSMutableArray *list;
+    
+    NSDictionary *type2icon;
 }
+
+@property (strong) IBOutlet NSMutableArray *content;
+
 @end
 
 @implementation SlothController
@@ -77,11 +82,32 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 		itemArray = [[NSMutableArray alloc] init];
         processIconDict = [[NSMutableDictionary alloc] init];
         genericExecutableIcon = [[NSImage alloc] initByReferencingFile:GENERIC_EXEC_ICON_PATH];
+        list = [NSMutableArray array];
         
-        NSDictionary *firstParent = [NSDictionary dictionaryWithObjectsAndKeys:@"Foo",@"parent",[NSArray arrayWithObjects:@"Foox",@"Fooz", nil],@"children", nil];
-        NSDictionary *secondParent = [NSDictionary dictionaryWithObjectsAndKeys:@"Bar",@"parent",[NSArray arrayWithObjects:@"Barx",@"Barz", nil],@"children", nil];
-        list = [NSMutableArray arrayWithObjects:firstParent,secondParent, nil];
+        type2icon = @{      @"File": [[NSImage alloc] initByReferencingFile:GENERIC_DOCUMENT_ICON_PATH],
+                            @"Directory": [[NSImage alloc] initByReferencingFile:GENERIC_FOLDER_ICON_PATH],
+                            @"Char Device": [NSImage imageNamed:@"socket"],
+                            @"Unix Socket": [NSImage imageNamed:@"socket"],
+                            @"IP Socket": [NSImage imageNamed:@"NSNetwork"]
+                    };
         
+        _content = [NSMutableArray new];
+        
+//        NSDictionary *demoContent = @{@"name": @"Cheeses",
+//                                      @"children": @[
+//                                                        @{@"name": @"Cheddar",
+//                                                          @"image": [NSImage imageNamed:@"socket"]},
+//                                                        
+//                                                        @{@"name": @"Swiss",
+//                                                          @"image": [NSImage imageNamed:@"socket"]}
+//                                                    ]
+//                                      };
+        
+//        NSMutableDictionary *mutableDemoContent = CFBridgingRelease(CFPropertyListCreateDeepCopy(kCFAllocatorDefault,
+//                                                                                                 (CFDictionaryRef)demoContent,
+//                                                                                                 kCFPropertyListMutableContainers));
+        
+//        [_content addObject:[demoContent mutableCopy]];
 
     }
     return self;
@@ -116,7 +142,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                             @"showEntireFilePathEnabled",
                             @"showIPSocketsEnabled",
                             @"showRegularFilesEnabled",
-                            @"showUnixSocketsEnabled"]) {
+                            @"showUnixSocketsEnabled",
+                            @"showApplicationsOnly"]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
                                                                      options:NSKeyValueObservingOptionNew
@@ -180,6 +207,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
     BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
     BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
+    BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
     
     NSString *filterString = [filterTextField stringValue];
     BOOL hasFilterString = [filterString length];
@@ -191,7 +219,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     }
     
     BOOL showAllTypes = (showRegularFiles && showDirectories && showIPSockets
-                         && showUnixSockets && showCharDevices);
+                         && showUnixSockets && showCharDevices && !showApplicationsOnly);
     if (showAllTypes && !hasFilterString) {
         return items;
     }
@@ -247,7 +275,12 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     
 	[itemArray removeAllObjects];
     [refreshButton setEnabled:NO];
-	
+    [outlineView setEnabled:YES];
+    [progressIndicator setFrameOrigin:NSMakePoint(
+                                        (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2,
+                                        (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2
+                                        )];
+
 	[progressIndicator setUsesThreadedAnimation:TRUE];
 	[progressIndicator startAnimation:self];
 	
@@ -374,8 +407,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
                 fileInfo[@"filename"] = fileName;
-                fileInfo[@"path"] = filePath;
-                
+                fileInfo[@"name"] = filePath;
                 
                 //insert the desired elements
                 if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
@@ -397,13 +429,22 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                     continue;
                 }
                 
+                fileInfo[@"image"] = type2icon[fileInfo[@"type"]];
+
+                
+                NSMutableDictionary *pdict = processDict[process];
                 if (processDict[process] == nil) {
-                    processDict[process] = @{    @"name": process,
-                                                 @"files": [NSMutableArray array]
-                                            };
+                    NSMutableDictionary *pdict = [@{    @"name": process,
+                                   @"pid": pid,
+                                   @"type": @"process",
+                                   @"children": [NSMutableArray array],
+                            } mutableCopy];
+                    pdict[@"image"] = [self iconForItem:pdict];
+                    
+                    processDict[process] = pdict;
                 }
                 
-                [processDict[process][@"files"] addObject:fileInfo[@"path"]];
+                [pdict[@"children"] addObject:fileInfo];
                 
                 [items addObject:fileInfo];
             }
@@ -411,12 +452,18 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         }
     }
     
+    int numFiles = 0;
     [list removeAllObjects];
     for (NSString *k in [processDict allKeys]) {
-        [list addObject:processDict[k]];
+        NSDictionary *process = processDict[k];
+        [list addObject:process];
+        numFiles += [process[@"children"] count];
     }
     
-    NSLog([list description]);
+    self.content = list;
+    
+    NSLog(@"List items: %d", numFiles);
+//    NSLog([list description]);
     
     return items;
 }
@@ -473,22 +520,31 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 }
 
 - (NSImage *)iconForItem:(NSDictionary *)item {
-    NSString *pid = item[@"pid"];
     
-    ProcessSerialNumber psn;
-    GetProcessForPID([pid intValue], &psn);
-    NSDictionary *pInfoDict = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-    
-    if (pInfoDict[@"BundlePath"] && [pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
-//        NSLog(@"Fetching for PID: %@ %@", pid, pInfoDict[@"BundlePath"]);
-        processIconDict[pid] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
+    NSImage *iconImage;
+    if ([item[@"type"] isEqualToString:@"process"]) {
+        
+        NSString *pid = item[@"pid"];
+        
+        ProcessSerialNumber psn;
+        GetProcessForPID([pid intValue], &psn);
+        NSDictionary *pInfoDict = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+        
+        if (pInfoDict[@"BundlePath"] && [pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
+            //        NSLog(@"Fetching for PID: %@ %@", pid, pInfoDict[@"BundlePath"]);
+            iconImage = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
+        } else {
+            iconImage = genericExecutableIcon;
+        }
+        
     } else {
-        processIconDict[pid] = genericExecutableIcon;
+        iconImage = type2icon[item[@"type"]];
+//        iconImage = [WORKSPACE iconForFile:item[@"path"]];
     }
     
-//    [processIconDict[pid] setSize:NSMakeSize(16, 16)];
+//    [iconImage setSize:NSMakeSize(16, 16)];
     
-    return processIconDict[pid];
+    return iconImage;
 }
 
 #pragma mark - Authentication
@@ -575,56 +631,66 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 
 #pragma mark - NSOutlineViewDataSource/Delegate
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
-{
-    if ([item isKindOfClass:[NSDictionary class]]) {
-        return YES;
-    }else {
-        return NO;
-    }
-}
-
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
-{
-    
-    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
-        return [list count];
-    }
-    
-    if ([item isKindOfClass:[NSDictionary class]]) {
-        return [[item objectForKey:@"files"] count];
-    }
-    
-    return 0;
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
-{
-    
-    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
-        return [list objectAtIndex:index];
-    }
-    
-    if ([item isKindOfClass:[NSDictionary class]]) {
-        return [[item objectForKey:@"files"] objectAtIndex:index];
-    }
-    
-    return nil;
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)theColumn byItem:(id)item
-{
-    
-    if ([[theColumn identifier] isEqualToString:@"children"]) {
-        if ([item isKindOfClass:[NSDictionary class]]) {
-            return [item objectForKey:@"name"];
-        }
-        return item;
-    }
-    
-    return nil;
-}
-
+//- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+//    
+//    if ([item[@"type"] isEqualToString:@"process"]) {
+//        return YES;
+//    }
+//    
+//    return NO;
+//}
+//
+//- (NSInteger)outlineView:(NSOutlineView *)ov numberOfChildrenOfItem:(id)item {
+//    
+//    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
+//        return [list count];
+//    }
+//    
+//    if ([item[@"type"] isEqualToString:@"process"]) {
+//        return [item[@"files"] count];
+//    }
+//    
+//    return 0;
+//}
+//
+//- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+//{
+//    
+//    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
+//        return [list objectAtIndex:index];
+//    }
+//    
+//    if ([item[@"type"] isEqualToString:@"process"]) {
+//        return item[@"files"][index];
+//    }
+//    
+//    return nil;
+//}
+//
+////- (id)outlineView:(NSOutlineView *)ov objectValueForTableColumn:(NSTableColumn *)col byItem:(id)item {
+////    
+////    if ([[col identifier] isEqualToString:@"children"]) {
+////        if ([item[@"type"] isEqualToString:@"process"]) {
+////            return item[@"name"];
+////        }
+////        return item[@"path"];
+////    }
+////    
+////    return nil;
+////}
+//
+//- (NSView *)outlineView:(NSOutlineView *)ov viewForTableColumn:(NSTableColumn *)col item:(id)item {
+//    NSTableCellView *cellView = [ov makeViewWithIdentifier:[col identifier] owner:self];
+//    
+//    NSString *label = [DEFAULTS boolForKey:@"showEntireFilePathEnabled"] ? item[@"path"] : item[@"filename"];
+//    if ([item[@"type"] isEqualToString:@"process"]) {
+//        label = [NSString stringWithFormat:@"%@ (%d)", item[@"name"], (int)[item[@"files"] count]];
+//    }
+//    cellView.textField.stringValue = label;
+//    cellView.imageView.objectValue = [self iconForItem:item];
+//    
+//    return cellView;
+//}
 
 #pragma mark - NSTableViewDataSource/Delegate
 
