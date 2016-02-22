@@ -68,10 +68,13 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     
     NSMutableArray *list;
     
+    IBOutlet NSTreeController *treeController;
+    
     NSDictionary *type2icon;
 }
 
 @property (strong) IBOutlet NSMutableArray *content;
+@property (strong) IBOutlet NSMutableArray *unfilteredContent;
 
 @end
 
@@ -180,14 +183,15 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 #pragma mark - Filtering
 
 - (void)updateFiltering {
-    activeItemSet = [self filterItems:itemArray];
+//    activeItemSet = [self filterItems:itemArray];
     [self updateItemCountTextField];
-    [tableView reloadData];
+//    [tableView reloadData];
     [outlineView reloadData];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
-    [self updateFiltering];
+    //[self updateFiltering];
+    [self filterContents];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -199,16 +203,14 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     [numItemsTextField setStringValue:str];
 }
 
-// creates a subset of the list based on our filtering criterion
-- (NSMutableArray *)filterItems:(NSMutableArray *)items
-{
+- (void)filterContents {
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
     BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
     BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
     BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
-    
+
     NSString *filterString = [filterTextField stringValue];
     BOOL hasFilterString = [filterString length];
     NSRegularExpression *regex;
@@ -217,63 +219,142 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                                                           options:NSRegularExpressionCaseInsensitive
                                                             error:nil];
     }
-    
+
     BOOL showAllTypes = (showRegularFiles && showDirectories && showIPSockets
                          && showUnixSockets && showCharDevices && !showApplicationsOnly);
     if (showAllTypes && !hasFilterString) {
-        return items;
+        return;
     }
-    
-    NSMutableArray *subset = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary *item in items) {
+
+    NSMutableArray *filteredContents = [self.unfilteredContent mutableCopy];
+
+    for (NSMutableDictionary *process in filteredContents) {
+
+        NSMutableArray *filteredFiles = [NSMutableArray array];
         
-        BOOL filtered = NO;
-        
-        // let's see if it gets filtered by type
-        if (showAllTypes == NO) {
-            NSString *type = item[@"type"];
-            if (([type isEqualToString:@"File"] && !showRegularFiles) ||
-                ([type isEqualToString:@"Directory"] && !showDirectories) ||
-                ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
-                ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-                ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
-                filtered = YES;
+        for (NSDictionary *file in process[@"children"]) {
+            
+            BOOL filtered = NO;
+            
+            // let's see if it gets filtered by type
+            if (showAllTypes == NO) {
+                NSString *type = file[@"type"];
+                if (([type isEqualToString:@"File"] && !showRegularFiles) ||
+                    ([type isEqualToString:@"Directory"] && !showDirectories) ||
+                    ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
+                    ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
+                    ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
+                    filtered = YES;
+                }
+            }
+            
+            // see if it matches regex in search field filter
+            if (filtered == NO && hasFilterString && regex)
+            {
+                if (([file[@"pname"] isMatchedByRegex:regex] ||
+//                     [file[@"pid"] isMatchedByRegex:regex] ||
+                     [file[@"name"] isMatchedByRegex:regex] ||
+                     [file[@"type"] isMatchedByRegex:regex]) == NO) {
+                    filtered = YES;
+                }
+            }
+            
+            if (filtered == NO) {
+                [filteredFiles addObject:file];
             }
         }
         
-        // see if it matches regex in search field filter
-        if (filtered == NO && hasFilterString && regex)
-        {
-            if (([item[@"pname"] isMatchedByRegex:regex] ||
-                [item[@"pid"] isMatchedByRegex:regex] ||
-                [item[@"path"] isMatchedByRegex:regex] ||
-                [item[@"type"] isMatchedByRegex:regex]) == NO) {
-                filtered = YES;
-            }
-        }
-        
-        if (filtered == NO) {
-            [subset addObject:item];
-        }
+        process[@"children"] = filteredFiles;
     }
     
-    return subset;
-    
-    /*	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-     ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
-     
-     activeSet = [[NSMutableArray arrayWithArray:[subset sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameSortDescriptor]] ] retain];
-     */
-    
-    //activeSet = [subset sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    self.content = filteredContents;
 }
+
+// creates a subset of the list based on our filtering criterion
+//- (NSMutableArray *)filterItems:(NSMutableArray *)items
+//{
+//    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
+//    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
+//    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
+//    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
+//    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
+//    BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
+//    
+//    NSString *filterString = [filterTextField stringValue];
+//    BOOL hasFilterString = [filterString length];
+//    NSRegularExpression *regex;
+//    if (hasFilterString) {
+//        regex = [NSRegularExpression regularExpressionWithPattern:filterString
+//                                                          options:NSRegularExpressionCaseInsensitive
+//                                                            error:nil];
+//    }
+//    
+//    BOOL showAllTypes = (showRegularFiles && showDirectories && showIPSockets
+//                         && showUnixSockets && showCharDevices && !showApplicationsOnly);
+//    if (showAllTypes && !hasFilterString) {
+//        return items;
+//    }
+//    
+//    NSMutableArray *subset = [[NSMutableArray alloc] init];
+//    
+//    for (NSDictionary *item in items) {
+//        
+//        BOOL filtered = NO;
+//        
+//        // let's see if it gets filtered by type
+//        if (showAllTypes == NO) {
+//            NSString *type = item[@"type"];
+//            if (([type isEqualToString:@"File"] && !showRegularFiles) ||
+//                ([type isEqualToString:@"Directory"] && !showDirectories) ||
+//                ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
+//                ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
+//                ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
+//                filtered = YES;
+//            }
+//        }
+//        
+//        // see if it matches regex in search field filter
+//        if (filtered == NO && hasFilterString && regex)
+//        {
+//            if (([item[@"pname"] isMatchedByRegex:regex] ||
+//                [item[@"pid"] isMatchedByRegex:regex] ||
+//                [item[@"path"] isMatchedByRegex:regex] ||
+//                [item[@"type"] isMatchedByRegex:regex]) == NO) {
+//                filtered = YES;
+//            }
+//        }
+//        
+//        if (filtered == NO) {
+//            [subset addObject:item];
+//        }
+//    }
+//    
+////    NSPredicate *aPredicate = nil;
+////    if ([filterString isEqualToString:@""]) {
+////        aPredicate = [NSPredicate predicateWithFormat: @"parent == nil"];
+////    } else {
+////        aPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", filterString];
+////    }
+////    [treeController setFetchPredicate: aPredicate];
+////    [outlineView reloadData];
+//
+//    
+//    return subset;
+//    
+//    /*	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
+//     ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+//     
+//     activeSet = [[NSMutableArray arrayWithArray:[subset sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameSortDescriptor]] ] retain];
+//     */
+//    
+//    //activeSet = [subset sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+//}
 
 #pragma mark - Update/parse results
 
 - (IBAction)refresh:(id)sender {
     
-	[itemArray removeAllObjects];
+//	[itemArray removeAllObjects];
     [refreshButton setEnabled:NO];
     [outlineView setEnabled:YES];
     [progressIndicator setFrameOrigin:NSMakePoint(
@@ -284,25 +365,25 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 	[progressIndicator setUsesThreadedAnimation:TRUE];
 	[progressIndicator startAnimation:self];
 	
-    // update in background
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        @autoreleasepool {
-        
+//    // update in background
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        @autoreleasepool {
+    
             NSString *output = [self runLsof:authenticated];
             itemArray = [self parseLsofOutput:output];
-            activeItemSet = [self filterItems:itemArray];
-            
-            // then update UI on main thread
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self updateItemCountTextField];
-                [tableView reloadData];
+//            activeItemSet = [self filterItems:itemArray];
+//            
+//            // then update UI on main thread
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self updateItemCountTextField];
+//                [tableView reloadData];
                 [outlineView reloadData];
                 [progressIndicator stopAnimation:self];
                 [refreshButton setEnabled:YES];
-                [[tableView tableColumnWithIdentifier:@"pname"] setTitle:[NSString stringWithFormat:@"Processes (%d)", processCount]];
-            });
-        }
-    });
+//                [[tableView tableColumnWithIdentifier:@"pname"] setTitle:[NSString stringWithFormat:@"Processes (%d)", processCount]];
+//            });
+//        }
+//    });
 }
 
 - (NSString *)runLsof:(BOOL)isAuthenticated {
@@ -460,7 +541,8 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         numFiles += [process[@"children"] count];
     }
     
-    self.content = list;
+    self.unfilteredContent = self.content = list;
+    
     
     NSLog(@"List items: %d", numFiles);
 //    NSLog([list description]);
@@ -694,66 +776,66 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 
 #pragma mark - NSTableViewDataSource/Delegate
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-	return [activeItemSet count];
-}
-
-- (NSView *)tableView:(NSTableView *)tv viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    NSDictionary *item = [activeItemSet objectAtIndex:row];
-    NSString *identifier = [tableColumn identifier];
-    
-    if ([identifier isEqualToString:@"pname"]) {
-        __block NSTableCellView *cellView = [tv makeViewWithIdentifier:identifier owner:self];
-
-        cellView.textField.stringValue = item[@"pname"];
-        NSImage *icon = processIconDict[item[@"pid"]];
-        
-        if (icon) {
-            cellView.imageView.objectValue = icon;
-        } else {
-//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                __block NSImage *icon = [self iconForItem:item];
+//- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+//	return [activeItemSet count];
+//}
+//
+//- (NSView *)tableView:(NSTableView *)tv viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+//    NSDictionary *item = [activeItemSet objectAtIndex:row];
+//    NSString *identifier = [tableColumn identifier];
+//    
+//    if ([identifier isEqualToString:@"pname"]) {
+//        __block NSTableCellView *cellView = [tv makeViewWithIdentifier:identifier owner:self];
+//
+//        cellView.textField.stringValue = item[@"pname"];
+//        NSImage *icon = processIconDict[item[@"pid"]];
+//        
+//        if (icon) {
+//            cellView.imageView.objectValue = icon;
+//        } else {
+////            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                __block NSImage *icon = [self iconForItem:item];
+////                
+////                // update UI on main thread
+////                dispatch_sync(dispatch_get_main_queue(), ^{
+//                    cellView.imageView.objectValue = icon;
+////                });
 //                
-//                // update UI on main thread
-//                dispatch_sync(dispatch_get_main_queue(), ^{
-                    cellView.imageView.objectValue = icon;
-//                });
-                
-//            });
-        }
-//        cellView.imageView.objectValue = genericExecutableIcon;//
-        return cellView;
-    }
-    
-    for (NSString *k in @[@"pid", @"type", @"path"]) {
-        if ([identifier isEqualToString:k]) {
-            NSTextField *textField = [tv makeViewWithIdentifier:identifier owner:self];
-            textField.objectValue = item[k];
-            return textField;
-        }
-    }
-    
-    NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
-    
-    return nil;
-}
-
-- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
-	NSArray *newDescriptors = [tableView sortDescriptors];
-	[activeItemSet sortUsingDescriptors:newDescriptors];
-	[tableView reloadData];
-}
-
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeItemSet count]) {
-		NSDictionary *item = activeItemSet[[tableView selectedRow]];
-        [revealButton setEnabled:[self canRevealItemAtPath:item[@"path"]]];
-		[killButton setEnabled:YES];
-	} else {
-		[revealButton setEnabled:NO];
-		[killButton setEnabled:NO];
-	}
-}
+////            });
+//        }
+////        cellView.imageView.objectValue = genericExecutableIcon;//
+//        return cellView;
+//    }
+//    
+//    for (NSString *k in @[@"pid", @"type", @"path"]) {
+//        if ([identifier isEqualToString:k]) {
+//            NSTextField *textField = [tv makeViewWithIdentifier:identifier owner:self];
+//            textField.objectValue = item[k];
+//            return textField;
+//        }
+//    }
+//    
+//    NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+//    
+//    return nil;
+//}
+//
+//- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
+//	NSArray *newDescriptors = [tableView sortDescriptors];
+//	[activeItemSet sortUsingDescriptors:newDescriptors];
+//	[tableView reloadData];
+//}
+//
+//- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+//	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeItemSet count]) {
+//		NSDictionary *item = activeItemSet[[tableView selectedRow]];
+//        [revealButton setEnabled:[self canRevealItemAtPath:item[@"path"]]];
+//		[killButton setEnabled:YES];
+//	} else {
+//		[revealButton setEnabled:NO];
+//		[killButton setEnabled:NO];
+//	}
+//}
 
 #pragma mark - Menus
 

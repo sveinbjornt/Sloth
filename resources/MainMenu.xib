@@ -761,12 +761,14 @@ CA
                 <outlet property="refreshButton" destination="208" id="483"/>
                 <outlet property="revealButton" destination="211" id="622"/>
                 <outlet property="tableView" destination="206" id="555"/>
+                <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
                 <outlet property="window" destination="21" id="Nkl-ra-P1k"/>
             </connections>
         </customObject>
-        <treeController automaticallyPreparesContent="YES" childrenKeyPath="children" id="smP-ER-E7y">
+        <treeController editable="NO" childrenKeyPath="children" id="smP-ER-E7y">
             <declaredKeys>
                 <string>name</string>
+                <string>image</string>
             </declaredKeys>
             <connections>
                 <binding destination="212" name="contentArray" keyPath="content" id="hSi-ku-Jqq"/>
