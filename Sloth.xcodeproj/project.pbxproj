@@ -20,7 +20,6 @@
 		F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BE1C7895220024540F /* LockedIcon.icns */; };
 		F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BF1C7895220024540F /* UnlockedIcon.icns */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
-		F4ED53CB1C78CDAD0024540F /* socket.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53CA1C78CDAD0024540F /* socket.png */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */; };
 		F4F1D90F1C7CB7E700945D3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F1D90E1C7CB7E700945D3E /* QuartzCore.framework */; };
 		F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F4F1D9121C7CB95700945D3E /* dsa_pub.pem */; };
@@ -243,7 +242,6 @@
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
 				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
-				F4ED53CB1C78CDAD0024540F /* socket.png in Resources */,
 				F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

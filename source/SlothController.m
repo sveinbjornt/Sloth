@@ -38,11 +38,40 @@
 #import <stdio.h>
 #import <unistd.h>
 #import <dlfcn.h>
+#import <sys/sysctl.h>
+#import <stdlib.h>
+#import <pwd.h>
+#import <stdio.h>
 
 // Create function pointer to AuthorizationExecuteWithPrivileges
 // in case it doesn't exist in this version of OS X
-static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const char *pathToTool, AuthorizationFlags options,
-                                           char * const *arguments, FILE **communicationsPipe) = NULL;
+static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
+                                           const char *pathToTool,
+                                           AuthorizationFlags options,
+                                           char * const *arguments,
+                                           FILE **communicationsPipe) = NULL;
+
+uid_t uid_for_pid(pid_t pid)
+{
+    uid_t uid = -1;
+    
+    struct kinfo_proc process;
+    size_t procBufferSize = sizeof(process);
+    
+    // Compose search path for sysctl. Here you can specify PID directly.
+    const u_int pathLenth = 4;
+    int path[pathLenth] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
+    
+    int sysctlResult = sysctl(path, pathLenth, &process, &procBufferSize, NULL, 0);
+    
+    // If sysctl did not fail and process with PID available - take UID.
+    if ((sysctlResult == 0) && (procBufferSize != 0))
+    {
+        uid = process.kp_eproc.e_ucred.cr_uid;
+    }
+    
+    return uid;
+}
 
 @interface SlothController ()
 {
@@ -57,7 +86,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     IBOutlet NSButton *killButton;
     IBOutlet NSButton *authenticateButton;
     IBOutlet NSButton *refreshButton;
-
+    IBOutlet NSButton *disclosureButton;
     
     IBOutlet NSOutlineView *outlineView;
     IBOutlet NSTreeController *treeController;
@@ -84,12 +113,12 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 	if ((self = [super init])) {
         genericExecutableIcon = [[NSImage alloc] initWithContentsOfFile:GENERIC_EXEC_ICON_PATH];
         
-        type2icon = @{      @"File": [[NSImage alloc] initByReferencingFile:GENERIC_DOCUMENT_ICON_PATH],
-                            @"Directory": [[NSImage alloc] initByReferencingFile:GENERIC_FOLDER_ICON_PATH],
-                            @"Character Device": [NSImage imageNamed:@"socket"],
-                            @"Unix Socket": [NSImage imageNamed:@"socket"],
+        type2icon = @{      @"File": [NSImage imageNamed:@"NSGenericDocument"],//[[NSImage alloc] initByReferencingFile:GENERIC_DOCUMENT_ICON_PATH],
+                            @"Directory": [NSImage imageNamed:@"NSFolder"],
+                            @"Character Device": [NSImage imageNamed:@"NSActionTemplate"],
+                            @"Unix Socket": [NSImage imageNamed:@"Socket"],
                             @"IP Socket": [NSImage imageNamed:@"NSNetwork"],
-                            @"Pipe": [NSImage imageNamed:@"NSNetwork"]
+                            @"Pipe": [NSImage imageNamed:@"Pipe"]
                     };
         
         _content = [[NSMutableArray alloc] init];
@@ -172,6 +201,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     }
     [window makeKeyAndOrderFront:self];
 
+
+    
     [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
 
@@ -195,7 +226,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     if (isRefreshing) {
         return;
     }
-    NSLog(@"Filtering");
+    //NSLog(@"Filtering");
     
     // filter content
     int matchingFilesCount = 0;
@@ -205,20 +236,24 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     [[outlineView tableColumnWithIdentifier:@"children"] setTitle:[NSString stringWithFormat:@"%d processes", (int)[self.content count]]];
     
     // update label
-    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", self.totalFileCount, matchingFilesCount];
+    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", matchingFilesCount, self.totalFileCount];
     [numItemsTextField setStringValue:str];
 
     // reload
     [outlineView reloadData];
-    [outlineView expandItem:nil expandChildren:YES];
     
+    if ([DEFAULTS boolForKey:@"disclosure"]) {
+        [outlineView expandItem:nil expandChildren:YES];
+    } else {
+        [outlineView collapseItem:nil collapseChildren:YES];
+    }
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
     if (filterTimer) {
         [filterTimer invalidate];
     }
-    filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(updateFiltering) userInfo:nil repeats:NO];
+    filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateFiltering) userInfo:nil repeats:NO];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -448,22 +483,11 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
                     continue;
                 }
                 
-                NSString *filePath = [line substringFromIndex:1];
-//                NSString *fileName = filePath;
-                
-                // Get basename
-//                if ([filePath length] && [filePath characterAtIndex:0] == '/') {
-//                    fileName = [filePath lastPathComponent];
-//                } else {
-//                    fileName = filePath;
-//                }
-                
                 // Create file info dictionary
                 NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
+                fileInfo[@"name"] = [line substringFromIndex:1];
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
-//                fileInfo[@"filename"] = fileName;
-                fileInfo[@"name"] = filePath;
                 
                 if (/*[ftype isEqualToString:@"VREG"] ||*/ [ftype isEqualToString:@"REG"]) {
                     fileInfo[@"type"] = @"File";
@@ -492,14 +516,15 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 
                 // Create process key in dictionary if it doesn't already exist
                 NSMutableDictionary *pdict = processes[process];
-                if (processes[process] == nil) {
-                    NSMutableDictionary *pdict = [@{
-                                   @"name": process,
-                                   @"pname": process,
-                                   @"pid": pid,
-                                   @"type": @"process",
-                                   @"children": [NSMutableArray array],
-                            } mutableCopy];
+                if (pdict == nil) {
+                    
+                    pdict = [NSMutableDictionary dictionary];
+                    pdict[@"name"] = process;
+                    pdict[@"pname"] = process;
+                    pdict[@"pid"] = pid;
+                    pdict[@"type"] = @"process";
+                    pdict[@"children"] = [NSMutableArray array];
+                    
                     processes[process] = pdict;
                 }
                 
@@ -524,7 +549,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     [processList sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         NSMutableDictionary *p1 = (NSMutableDictionary *)obj1;
         NSMutableDictionary *p2 = (NSMutableDictionary *)obj2;
-
         return [p1[@"name"] caseInsensitiveCompare:p2[@"name"]];
     }];
     
@@ -557,10 +581,16 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 
 #pragma mark - Interface
 
-- (BOOL)killProcess:(int)pid {
-    int sigValue = SIGKILL;
-    int ret = kill(pid, sigValue);
-    return (ret == 0);
+- (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
+    
+    if (!asRoot) {
+        int sigValue = SIGKILL;
+        int ret = kill(pid, sigValue);
+        return (ret == 0);
+    }
+    // kill process as root
+    
+    return YES;
 }
 
 - (IBAction)kill:(id)sender {
@@ -574,16 +604,27 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     
     int pid = [item[@"pid"] intValue];
 	
-	// Ask user to confirm that he really wants to kill these
-    NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\" (%d)?", item[@"pname"], [item[@"pid"] intValue]];
-	if ([Alerts proceedAlert:q subText:@"This will send the process a SIGKILL signal." withActionNamed:@"Kill"] == NO) {
+	// Ask user to confirm that he really wants to kill process
+    NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\" (%d)?", item[@"pname"], pid];
+	if ([Alerts proceedAlert:q
+                     subText:@"This will send the process a SIGKILL signal."
+             withActionNamed:@"Kill"] == NO) {
 		return;
     }
-	
-    if ([self killProcess:pid] == NO) {
+
+    // Find out if user owns the process
+    register struct passwd *pw;
+    uid_t uid = uid_for_pid(pid);
+    pw = getpwuid(uid);
+    
+    NSString *pidUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
+    BOOL ownsProcess = [pidUsername isEqualToString:NSUserName()];
+    
+    // Kill it
+    if ([self killProcess:pid asRoot:!ownsProcess] == NO) {
         [Alerts alert:@"Failed to kill process"
         subTextFormat:@"Could not kill process %@ (PID: %d)", item[@"pname"], pid];
-			return;
+        return;
 	}
 	
 	[self refresh:self];
@@ -613,6 +654,14 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 
 - (BOOL)canRevealItemAtPath:(NSString *)path {
     return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
+}
+
+- (IBAction)disclosureChanged:(id)sender {
+    if ([DEFAULTS boolForKey:@"disclosure"]) {
+        [outlineView expandItem:nil expandChildren:YES];
+    } else {
+        [outlineView collapseItem:nil collapseChildren:YES];
+    }
 }
 
 #pragma mark - Authentication
@@ -696,7 +745,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-    
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
 
     //reveal in finder / kill process only enabled when something is selected

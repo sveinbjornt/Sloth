@@ -1,4 +1,3 @@
 
 * configurable text size
-* icons for different file types
 * column sorting

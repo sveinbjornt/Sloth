@@ -129,17 +129,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="kNZ-Wh-Rrx"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="659">
-                        <rect key="frame" x="179" y="19" width="328" height="20"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="738">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" red="0.24119475138121549" green="0.24119475138121549" blue="0.24119475138121549" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <searchField toolTip="Search Filter" wantsLayer="YES" verticalHuggingPriority="750" id="252">
-                        <rect key="frame" x="513" y="502" width="144" height="22"/>
+                        <rect key="frame" x="506" y="502" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" bezelStyle="round" id="735">
                             <font key="font" metaFont="cellTitle"/>
@@ -185,7 +176,7 @@ DQ
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="wZB-WG-ZQ5">
-                        <rect key="frame" x="496" y="488" width="5" height="48"/>
+                        <rect key="frame" x="488" y="488" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -203,14 +194,14 @@ DQ
                         </connections>
                     </button>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="GmK-As-ZM0">
-                        <rect key="frame" x="20" y="55" width="637" height="425"/>
+                        <rect key="frame" x="20" y="57" width="637" height="423"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
-                            <rect key="frame" x="1" y="0.0" width="635" height="424"/>
+                            <rect key="frame" x="1" y="0.0" width="635" height="422"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
-                                    <rect key="frame" x="0.0" y="0.0" width="635" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="635" height="399"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -289,6 +280,27 @@ DQ
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
+                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="sd7-Q9-5I9">
+                        <rect key="frame" x="20" y="42" width="13" height="13"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ilJ-c0-CvL">
+                            <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="disclosureChanged:" target="212" id="adD-06-dyo"/>
+                            <binding destination="560" name="value" keyPath="values.disclosure" id="15D-E7-K9L"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="659">
+                        <rect key="frame" x="179" y="19" width="328" height="20"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="738">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.24119475138121549" green="0.24119475138121549" blue="0.24119475138121549" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <connections>
@@ -634,6 +646,7 @@ CA
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
                 <outlet property="authenticateButton" destination="tqa-Nm-sTb" id="51O-C4-9Yi"/>
+                <outlet property="disclosureButton" destination="sd7-Q9-5I9" id="BCS-jg-qXK"/>
                 <outlet property="filterTextField" destination="252" id="656"/>
                 <outlet property="killButton" destination="210" id="623"/>
                 <outlet property="numItemsTextField" destination="659" id="661"/>

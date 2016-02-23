@@ -7,4 +7,5 @@
 	showPipes = NO;
 	showApplicationsOnly = NO;
 	showHomeFolderOnly = NO;
+	disclosure = YES;
 }
