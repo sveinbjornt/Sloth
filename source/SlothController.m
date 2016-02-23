@@ -1,6 +1,5 @@
 /*
     Copyright (c) 2004-2016, Sveinbjorn Thordarson <sveinbjornt@gmail.com>
-    Parts are Copyright (C) 2004-2006 Bill Bumgarner
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without modification,
@@ -40,41 +39,42 @@
 #import <unistd.h>
 #import <dlfcn.h>
 
-// New error code denoting that AuthorizationExecuteWithPrivileges no longer exists
-OSStatus const errAuthorizationFnNoLongerExists = -70001;
+// Create function pointer to AuthorizationExecuteWithPrivileges
+// in case it doesn't exist in this version of OS X
+static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const char *pathToTool, AuthorizationFlags options,
+                                           char * const *arguments, FILE **communicationsPipe) = NULL;
 
 @interface SlothController ()
 {
     IBOutlet NSWindow *window;
+    
     IBOutlet NSProgressIndicator *progressIndicator;
-    IBOutlet NSButton *refreshButton;
+    
     IBOutlet NSTextField *filterTextField;
     IBOutlet NSTextField *numItemsTextField;
-    IBOutlet NSTableView *tableView;
+
     IBOutlet NSButton *revealButton;
     IBOutlet NSButton *killButton;
+    IBOutlet NSButton *authenticateButton;
+    IBOutlet NSButton *refreshButton;
+
     
     IBOutlet NSOutlineView *outlineView;
-    
-    NSMutableArray *itemArray;
-    NSMutableArray *activeItemSet;
-    
-    NSMutableDictionary *processIconDict;
+    IBOutlet NSTreeController *treeController;
+
+    NSDictionary *type2icon;
     NSImage *genericExecutableIcon;
-    int processCount;
     
     AuthorizationRef authorizationRef;
     BOOL authenticated;
+    BOOL isRefreshing;
     
-    NSMutableArray *list;
-    
-    IBOutlet NSTreeController *treeController;
-    
-    NSDictionary *type2icon;
+    NSTimer *filterTimer;
 }
 
+@property int totalFileCount;
 @property (strong) IBOutlet NSMutableArray *content;
-@property (strong) IBOutlet NSMutableArray *unfilteredContent;
+@property (strong) NSMutableArray *unfilteredContent;
 
 @end
 
@@ -82,36 +82,17 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 
 - (instancetype)init {
 	if ((self = [super init])) {
-		itemArray = [[NSMutableArray alloc] init];
-        processIconDict = [[NSMutableDictionary alloc] init];
-        genericExecutableIcon = [[NSImage alloc] initByReferencingFile:GENERIC_EXEC_ICON_PATH];
-        list = [NSMutableArray array];
+        genericExecutableIcon = [[NSImage alloc] initWithContentsOfFile:GENERIC_EXEC_ICON_PATH];
         
         type2icon = @{      @"File": [[NSImage alloc] initByReferencingFile:GENERIC_DOCUMENT_ICON_PATH],
                             @"Directory": [[NSImage alloc] initByReferencingFile:GENERIC_FOLDER_ICON_PATH],
-                            @"Char Device": [NSImage imageNamed:@"socket"],
+                            @"Character Device": [NSImage imageNamed:@"socket"],
                             @"Unix Socket": [NSImage imageNamed:@"socket"],
-                            @"IP Socket": [NSImage imageNamed:@"NSNetwork"]
+                            @"IP Socket": [NSImage imageNamed:@"NSNetwork"],
+                            @"Pipe": [NSImage imageNamed:@"NSNetwork"]
                     };
         
-        _content = [NSMutableArray new];
-        
-//        NSDictionary *demoContent = @{@"name": @"Cheeses",
-//                                      @"children": @[
-//                                                        @{@"name": @"Cheddar",
-//                                                          @"image": [NSImage imageNamed:@"socket"]},
-//                                                        
-//                                                        @{@"name": @"Swiss",
-//                                                          @"image": [NSImage imageNamed:@"socket"]}
-//                                                    ]
-//                                      };
-        
-//        NSMutableDictionary *mutableDemoContent = CFBridgingRelease(CFPropertyListCreateDeepCopy(kCFAllocatorDefault,
-//                                                                                                 (CFDictionaryRef)demoContent,
-//                                                                                                 kCFPropertyListMutableContainers));
-        
-//        [_content addObject:[demoContent mutableCopy]];
-
+        _content = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -122,6 +103,28 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     [DEFAULTS registerDefaults:registrationDefaults];
 }
 
+#pragma mark -
+
+- (BOOL)AEWPFunctionExists {
+    // Check to see if we have the correct function in our loaded libraries
+    if (!_AuthExecuteWithPrivsFn) {
+        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
+        // to still use it since there's no good alternative (without requiring
+        // code signing). We'll look up the function through dyld and fail if
+        // it is no longer accessible. If Apple removes the function entirely
+        // this will fail gracefully. If they keep the function and throw some
+        // sort of exception, this won't fail gracefully, but that's a risk
+        // we'll have to take for now.
+        // Pattern by Andy Kim from Potion Factory LLC
+        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
+        if (!_AuthExecuteWithPrivsFn) {
+            // This version of OS X has finally removed AEWP
+            return NO;
+        }
+    }
+    return YES;
+}
+
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -130,40 +133,46 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
     [button setImage:[NSApp applicationIconImage]];
     
-    // sorting for tableview
-    NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-                                                                       ascending:YES
-                                                                        selector:@selector(localizedCaseInsensitiveCompare:)];
-    [tableView setSortDescriptors:@[nameSortDescriptor]];
+    // Hide authenticate button if AuthorizationExecuteWithPrivileges
+    // is not available in this version of OS X
+    if ([self AEWPFunctionExists] == NO) {
+        [authenticateButton setHidden:YES];
+    }
     
-    [tableView setTarget:self];
-    [tableView setDoubleAction:@selector(rowDoubleClicked:)];
+    NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                 initWithKey:NULL
+                                 ascending:YES
+                                 selector:@selector(localizedCaseInsensitiveCompare:)];
+    [[outlineView tableColumnWithIdentifier:@"children"] setSortDescriptorPrototype:sorter];
     
     // Observe defaults
-    for (NSString *key in @[@"showCharacterDevicesEnabled",
-                            @"showDirectoriesEnabled",
-                            @"showEntireFilePathEnabled",
-                            @"showIPSocketsEnabled",
-                            @"showRegularFilesEnabled",
-                            @"showUnixSocketsEnabled",
-                            @"showApplicationsOnly"]) {
+    for (NSString *key in @[@"showCharacterDevices",
+                            @"showDirectories",
+                            @"showIPSockets",
+                            @"showRegularFiles",
+                            @"showUnixSockets",
+                            @"showPipes",
+                            @"showApplicationsOnly",
+                            @"showHomeFolderOnly"]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
                                                                      options:NSKeyValueObservingOptionNew
                                                                      context:NULL];
     }
     
+    [outlineView setDoubleAction:@selector(rowDoubleClicked:)];
+    
     // Layer-backed window
     [[window contentView] setWantsLayer:YES];
     
+    // If launching for the first time, center window
     if ([DEFAULTS boolForKey:@"PreviouslyLaunched"] == NO) {
         [window center];
+        [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
     }
     [window makeKeyAndOrderFront:self];
 
-    
-    [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
-    [self refresh:self];
+    [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -183,207 +192,170 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 #pragma mark - Filtering
 
 - (void)updateFiltering {
-//    activeItemSet = [self filterItems:itemArray];
-    [self updateItemCountTextField];
-//    [tableView reloadData];
+    if (isRefreshing) {
+        return;
+    }
+    NSLog(@"Filtering");
+    
+    int matchingFilesCount = 0;
+    self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
+    [self updateItemCount:self.totalFileCount withMatchingFiles:matchingFilesCount];
+    
     [outlineView reloadData];
+    [outlineView expandItem:nil expandChildren:YES];
+    
+    [[outlineView tableColumnWithIdentifier:@"children"] setTitle:[NSString stringWithFormat:@"%d processes", (int)[self.content count]]];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
-    //[self updateFiltering];
-    [self filterContents];
+    if (filterTimer) {
+        [filterTimer invalidate];
+    }
+    filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(updateFiltering) userInfo:nil repeats:NO];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     [self updateFiltering];
 }
 
-- (void)updateItemCountTextField {
-    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", (int)[activeItemSet count], (int)[itemArray count]];
+- (void)updateItemCount:(int)itemCount withMatchingFiles:(int)numFiles {
+    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", numFiles, itemCount];
     [numItemsTextField setStringValue:str];
 }
 
-- (void)filterContents {
-    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
-    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
-    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
-    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
-    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
+- (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
+    
+    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
+    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
+    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
+    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSockets"];
+    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevices"];
+    BOOL showPipes = [DEFAULTS boolForKey:@"showPipes"];
+    
     BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
-
+    BOOL showHomeFolderOnly = [DEFAULTS boolForKey:@"showHomeFolderOnly"];
+    
+    // User home dir path prefix
+    NSString *homeDirPath = [NSString stringWithFormat:@"/Users/%@", NSUserName()];
+    
+    // Regex search field filter
     NSString *filterString = [filterTextField stringValue];
     BOOL hasFilterString = [filterString length];
     NSRegularExpression *regex;
     if (hasFilterString) {
+        NSError *err;
         regex = [NSRegularExpression regularExpressionWithPattern:filterString
                                                           options:NSRegularExpressionCaseInsensitive
-                                                            error:nil];
+                                                            error:&err];
+        if (!regex) {
+            NSLog(@"Error creating regex: %@", [err localizedDescription]);
+        }
     }
 
-    BOOL showAllTypes = (showRegularFiles && showDirectories && showIPSockets
-                         && showUnixSockets && showCharDevices && !showApplicationsOnly);
-    if (showAllTypes && !hasFilterString) {
-        return;
+    BOOL showAllProcessTypes = !showApplicationsOnly;
+    BOOL showAllFiles = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
+                         && showCharDevices && showPipes && !showHomeFolderOnly);
+    
+    // If there is no filter, just return unfiltered content
+    if (showAllFiles && showAllProcessTypes && !hasFilterString) {
+        *matchingFilesCount = self.totalFileCount;
+        return unfilteredContent;
     }
 
-    NSMutableArray *filteredContents = [self.unfilteredContent mutableCopy];
+    NSMutableArray *filteredContent = [NSMutableArray array];
 
-    for (NSMutableDictionary *process in filteredContents) {
+    // Iterate over unfiltered content, filter it
+    for (NSMutableDictionary *process in self.unfilteredContent) {
 
-        NSMutableArray *filteredFiles = [NSMutableArray array];
+        NSMutableArray *matchingFiles = [NSMutableArray array];
         
         for (NSDictionary *file in process[@"children"]) {
             
-            BOOL filtered = NO;
-            
             // let's see if it gets filtered by type
-            if (showAllTypes == NO) {
+            if (showAllFiles == NO) {
+                
+                if (showHomeFolderOnly && ![file[@"name"] hasPrefix:homeDirPath]) {
+                    continue;
+                }
+                
                 NSString *type = file[@"type"];
                 if (([type isEqualToString:@"File"] && !showRegularFiles) ||
                     ([type isEqualToString:@"Directory"] && !showDirectories) ||
                     ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
                     ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-                    ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
-                    filtered = YES;
+                    ([type isEqualToString:@"Character Device"] && !showCharDevices) ||
+                    ([type isEqualToString:@"Pipe"] && !showPipes)) {
+                    continue;
                 }
             }
             
             // see if it matches regex in search field filter
-            if (filtered == NO && hasFilterString && regex)
+            if (hasFilterString && regex)
             {
-                if (([file[@"pname"] isMatchedByRegex:regex] ||
-//                     [file[@"pid"] isMatchedByRegex:regex] ||
-                     [file[@"name"] isMatchedByRegex:regex] ||
-                     [file[@"type"] isMatchedByRegex:regex]) == NO) {
-                    filtered = YES;
+                if (([file[@"name"] isMatchedByRegex:regex] || [file[@"pname"] isMatchedByRegex:regex]) == NO) {
+                    continue;
                 }
             }
             
-            if (filtered == NO) {
-                [filteredFiles addObject:file];
-            }
+            [matchingFiles addObject:file];
         }
         
-        process[@"children"] = filteredFiles;
+        if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
+            NSMutableDictionary *p = [process mutableCopy];
+            p[@"children"] = matchingFiles;
+            [self updateProcessInfo:p];
+            [filteredContent addObject:p];
+            *matchingFilesCount += [matchingFiles count];
+        }
     }
     
-    self.content = filteredContents;
+    return filteredContent;
 }
-
-// creates a subset of the list based on our filtering criterion
-//- (NSMutableArray *)filterItems:(NSMutableArray *)items
-//{
-//    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFilesEnabled"];
-//    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectoriesEnabled"];
-//    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSocketsEnabled"];
-//    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSocketsEnabled"];
-//    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevicesEnabled"];
-//    BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
-//    
-//    NSString *filterString = [filterTextField stringValue];
-//    BOOL hasFilterString = [filterString length];
-//    NSRegularExpression *regex;
-//    if (hasFilterString) {
-//        regex = [NSRegularExpression regularExpressionWithPattern:filterString
-//                                                          options:NSRegularExpressionCaseInsensitive
-//                                                            error:nil];
-//    }
-//    
-//    BOOL showAllTypes = (showRegularFiles && showDirectories && showIPSockets
-//                         && showUnixSockets && showCharDevices && !showApplicationsOnly);
-//    if (showAllTypes && !hasFilterString) {
-//        return items;
-//    }
-//    
-//    NSMutableArray *subset = [[NSMutableArray alloc] init];
-//    
-//    for (NSDictionary *item in items) {
-//        
-//        BOOL filtered = NO;
-//        
-//        // let's see if it gets filtered by type
-//        if (showAllTypes == NO) {
-//            NSString *type = item[@"type"];
-//            if (([type isEqualToString:@"File"] && !showRegularFiles) ||
-//                ([type isEqualToString:@"Directory"] && !showDirectories) ||
-//                ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
-//                ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-//                ([type isEqualToString:@"Char Device"] && !showCharDevices)) {
-//                filtered = YES;
-//            }
-//        }
-//        
-//        // see if it matches regex in search field filter
-//        if (filtered == NO && hasFilterString && regex)
-//        {
-//            if (([item[@"pname"] isMatchedByRegex:regex] ||
-//                [item[@"pid"] isMatchedByRegex:regex] ||
-//                [item[@"path"] isMatchedByRegex:regex] ||
-//                [item[@"type"] isMatchedByRegex:regex]) == NO) {
-//                filtered = YES;
-//            }
-//        }
-//        
-//        if (filtered == NO) {
-//            [subset addObject:item];
-//        }
-//    }
-//    
-////    NSPredicate *aPredicate = nil;
-////    if ([filterString isEqualToString:@""]) {
-////        aPredicate = [NSPredicate predicateWithFormat: @"parent == nil"];
-////    } else {
-////        aPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", filterString];
-////    }
-////    [treeController setFetchPredicate: aPredicate];
-////    [outlineView reloadData];
-//
-//    
-//    return subset;
-//    
-//    /*	NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-//     ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
-//     
-//     activeSet = [[NSMutableArray arrayWithArray:[subset sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameSortDescriptor]] ] retain];
-//     */
-//    
-//    //activeSet = [subset sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-//}
 
 #pragma mark - Update/parse results
 
 - (IBAction)refresh:(id)sender {
     
-//	[itemArray removeAllObjects];
+    isRefreshing = YES;
+    
+    [filterTextField setEnabled:NO];
     [refreshButton setEnabled:NO];
-    [outlineView setEnabled:YES];
+    [outlineView setEnabled:NO];
+    [outlineView setAlphaValue:0.5];
+    
+    // Center progress indicator and set it off
     [progressIndicator setFrameOrigin:NSMakePoint(
                                         (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2,
                                         (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2
                                         )];
-
+    [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
 	[progressIndicator setUsesThreadedAnimation:TRUE];
 	[progressIndicator startAnimation:self];
 	
 //    // update in background
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        @autoreleasepool {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        @autoreleasepool {
     
             NSString *output = [self runLsof:authenticated];
-            itemArray = [self parseLsofOutput:output];
-//            activeItemSet = [self filterItems:itemArray];
-//            
-//            // then update UI on main thread
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self updateItemCountTextField];
-//                [tableView reloadData];
-                [outlineView reloadData];
+            int fileCount;
+            self.unfilteredContent = [self parseLsofOutput:output numFiles:&fileCount];
+            self.totalFileCount = fileCount;
+
+            // then update UI on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
                 [progressIndicator stopAnimation:self];
+                [filterTextField setEnabled:YES];
+                [outlineView setEnabled:YES];
+                [outlineView setAlphaValue:1.0];
                 [refreshButton setEnabled:YES];
-//                [[tableView tableColumnWithIdentifier:@"pname"] setTitle:[NSString stringWithFormat:@"Processes (%d)", processCount]];
-//            });
-//        }
-//    });
+                
+                isRefreshing = NO;
+                
+                [self updateFiltering];
+            });
+        }
+    });
 }
 
 - (NSString *)runLsof:(BOOL)isAuthenticated {
@@ -409,7 +381,7 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
         args[numberOfArguments] = NULL;
         
         //use Authorization Reference to execute script with privileges
-        OSStatus err = AuthorizationExecuteWithPrivileges(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, &outputFile);
+        _AuthExecuteWithPrivsFn(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, &outputFile);
         
         // free the malloc'd argument strings
         for (int i = 0; i < numberOfArguments; i++) {
@@ -436,12 +408,11 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     return [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
 }
 
-- (NSMutableArray *)parseLsofOutput:(NSString *)outputString {
+- (NSMutableArray *)parseLsofOutput:(NSString *)outputString numFiles:(int *)numFiles {
     // split into array of lines of text
     NSArray *lines = [outputString componentsSeparatedByString:@"\n"];
     
-    NSMutableDictionary *processDict = [NSMutableDictionary dictionaryWithCapacity:1000];
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:100000];
+    NSMutableDictionary *processes = [NSMutableDictionary dictionary];
     
     NSString *pid = @"";
     NSString *process = @"";
@@ -471,30 +442,31 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
             case 'n':
             {
                 //we don't report Sloth or lsof info
-                if ([process isEqualToString:PROGRAM_NAME] || [process isEqualToString:PROGRAM_LSOF_NAME]) {
+                if (/*[process isEqualToString:PROGRAM_NAME] ||*/ [process isEqualToString:PROGRAM_LSOF_NAME]) {
                     continue;
                 }
                 
-                //check if we use full path
                 NSString *filePath = [line substringFromIndex:1];
-                NSString *fileName = filePath;
+//                NSString *fileName = filePath;
                 
-                if ([filePath length] && [filePath characterAtIndex:0] == '/') {
-                    fileName = [filePath lastPathComponent];
-                }
+                // Get basename
+//                if ([filePath length] && [filePath characterAtIndex:0] == '/') {
+//                    fileName = [filePath lastPathComponent];
+//                } else {
+//                    fileName = filePath;
+//                }
                 
-                //order matters, see below
+                // Create file info dictionary
                 NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
-                fileInfo[@"filename"] = fileName;
+//                fileInfo[@"filename"] = fileName;
                 fileInfo[@"name"] = filePath;
                 
-                //insert the desired elements
-                if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
+                if (/*[ftype isEqualToString:@"VREG"] ||*/ [ftype isEqualToString:@"REG"]) {
                     fileInfo[@"type"] = @"File";
                 }
-                else if ([ftype isEqualToString:@"VDIR"] || [ftype isEqualToString:@"DIR"]) {
+                else if (/*[ftype isEqualToString:@"VDIR"] ||*/ [ftype isEqualToString:@"DIR"]) {
                     fileInfo[@"type"] = @"Directory";
                 }
                 else if ([ftype isEqualToString:@"IPv6"] || [ftype isEqualToString:@"IPv4"]) {
@@ -503,51 +475,82 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
                 else  if ([ftype isEqualToString:@"unix"]) {
                     fileInfo[@"type"] = @"Unix Socket";
                 }
-                else if ([ftype isEqualToString:@"VCHR"] || [ftype isEqualToString:@"CHR"]) {
-                    fileInfo[@"type"] = @"Char Device";
+                else if (/*[ftype isEqualToString:@"VCHR"] ||*/ [ftype isEqualToString:@"CHR"]) {
+                    fileInfo[@"type"] = @"Character Device";
+                }
+                else if ([ftype isEqualToString:@"PIPE"]) {
+                    fileInfo[@"type"] = @"Pipe";
                 }
                 else {
+//                    NSLog(@"Unrecognized file type: %@ : %@", ftype, [fileInfo description]);
                     continue;
                 }
                 
                 fileInfo[@"image"] = type2icon[fileInfo[@"type"]];
 
-                
-                NSMutableDictionary *pdict = processDict[process];
-                if (processDict[process] == nil) {
-                    NSMutableDictionary *pdict = [@{    @"name": process,
+                // Create process key in dictionary if it doesn't already exist
+                NSMutableDictionary *pdict = processes[process];
+                if (processes[process] == nil) {
+                    NSMutableDictionary *pdict = [@{
+                                   @"name": process,
+                                   @"pname": process,
                                    @"pid": pid,
                                    @"type": @"process",
                                    @"children": [NSMutableArray array],
                             } mutableCopy];
-                    pdict[@"image"] = [self iconForItem:pdict];
-                    
-                    processDict[process] = pdict;
+                    processes[process] = pdict;
                 }
                 
+                // Add file to process's children
                 [pdict[@"children"] addObject:fileInfo];
-                
-                [items addObject:fileInfo];
             }
                 break;
         }
     }
     
-    int numFiles = 0;
-    [list removeAllObjects];
-    for (NSString *k in [processDict allKeys]) {
-        NSDictionary *process = processDict[k];
-        [list addObject:process];
-        numFiles += [process[@"children"] count];
+    // Create array of process dictionaries
+    NSMutableArray *processList = [NSMutableArray array];
+    *numFiles = 0;
+
+    for (NSString *pname in [processes allKeys]) {
+        NSMutableDictionary *p = processes[pname];
+        [self updateProcessInfo:p];
+        [processList addObject:p];
+        *numFiles += [p[@"children"] count];
     }
     
-    self.unfilteredContent = self.content = list;
+    [processList sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSMutableDictionary *p1 = (NSMutableDictionary *)obj1;
+        NSMutableDictionary *p2 = (NSMutableDictionary *)obj2;
+
+        return [p1[@"name"] caseInsensitiveCompare:p2[@"name"]];
+    }];
     
+    return processList;
+}
+
+- (void)updateProcessInfo:(NSMutableDictionary *)p {
     
-    NSLog(@"List items: %d", numFiles);
-//    NSLog([list description]);
+    // update display name to show number of open files for process
+    p[@"name"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
     
-    return items;
+    // get icon for process
+    if (!p[@"image"]) {
+        ProcessSerialNumber psn;
+        GetProcessForPID([p[@"pid"] intValue], &psn);
+        NSDictionary *pInfoDict = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+        
+        if (pInfoDict[@"BundlePath"]) {
+            p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
+            if ([pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
+                p[@"app"] = @YES;
+            }
+            p[@"bundlepath"] = pInfoDict[@"BundlePath"];
+        } else {
+            p[@"image"] = genericExecutableIcon;
+            p[@"app"] = @NO;
+        }
+    }
 }
 
 #pragma mark - Interface
@@ -559,12 +562,18 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 }
 
 - (IBAction)kill:(id)sender {
-    NSUInteger selectedRow = [tableView selectedRow];
-    NSDictionary *item = activeItemSet[selectedRow];
+    NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    
+    if (!item[@"pid"]) {
+        NSBeep();
+        return;
+    }
+    
     int pid = [item[@"pid"] intValue];
 	
 	// Ask user to confirm that he really wants to kill these
-    NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\"?", item[@"pname"]];
+    NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\" (%d)?", item[@"pname"], [item[@"pid"] intValue]];
 	if ([Alerts proceedAlert:q subText:@"This will send the process a SIGKILL signal." withActionNamed:@"Kill"] == NO) {
 		return;
     }
@@ -578,18 +587,21 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
 	[self refresh:self];
 }
 
-- (IBAction)showButtonClicked:(id)sender {
-    NSInteger rowNumber = [tableView selectedRow];
-    [self revealItemInFinder:activeItemSet[rowNumber]];
+- (IBAction)show:(id)sender {
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    [self revealItemInFinder:item];
 }
 
 - (void)rowDoubleClicked:(id)object {
-    NSInteger rowNumber = [tableView clickedRow];
-    [self revealItemInFinder:activeItemSet[rowNumber]];
+    NSInteger rowNumber = [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
+    [self revealItemInFinder:item];
 }
 
 - (void)revealItemInFinder:(NSDictionary *)item {
-    NSString *path = item[@"path"];
+    NSString *path = item[@"bundlepath"];
+    path = path ? path : item[@"name"];
     if ([self canRevealItemAtPath:path]) {
         [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
     } else {
@@ -601,49 +613,14 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
 }
 
-- (NSImage *)iconForItem:(NSDictionary *)item {
-    
-    NSImage *iconImage;
-    if ([item[@"type"] isEqualToString:@"process"]) {
-        
-        NSString *pid = item[@"pid"];
-        
-        ProcessSerialNumber psn;
-        GetProcessForPID([pid intValue], &psn);
-        NSDictionary *pInfoDict = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-        
-        if (pInfoDict[@"BundlePath"] && [pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
-            //        NSLog(@"Fetching for PID: %@ %@", pid, pInfoDict[@"BundlePath"]);
-            iconImage = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
-        } else {
-            iconImage = genericExecutableIcon;
-        }
-        
-    } else {
-        iconImage = type2icon[item[@"type"]];
-//        iconImage = [WORKSPACE iconForFile:item[@"path"]];
-    }
-    
-//    [iconImage setSize:NSMakeSize(16, 16)];
-    
-    return iconImage;
-}
-
 #pragma mark - Authentication
 
-- (IBAction)lockWasClicked:(id)sender {
+- (IBAction)toggleAuthentication:(id)sender {
     if (!authenticated) {
         OSStatus err = [self authenticate];
         if (err == errAuthorizationSuccess) {
             authenticated = YES;
         } else {
-            
-            if (err == errAuthorizationFnNoLongerExists) {
-                [Alerts alert:@"Authentication not available"
-                      subText:@"Authentication does not work in this version of OS X"];
-                return;
-            }
-            
             if (err != errAuthorizationCanceled) {
                 NSBeep();
             }
@@ -667,29 +644,6 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     AuthorizationRights myRights = { 1, &myItems };
     AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
-    // Create function pointer to AuthorizationExecuteWithPrivileges
-    // in case it doesn't exist in this version of OS X
-    static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const char *pathToTool, AuthorizationFlags options,
-                                               char * const *arguments, FILE **communicationsPipe) = NULL;
-    
-    // Check to see if we have the correct function in our loaded libraries
-    if (!_AuthExecuteWithPrivsFn) {
-        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
-        // to still use it since there's no good alternative (without requiring
-        // code signing). We'll look up the function through dyld and fail if
-        // it is no longer accessible. If Apple removes the function entirely
-        // this will fail gracefully. If they keep the function and throw some
-        // sort of exception, this won't fail gracefully, but that's a risk
-        // we'll have to take for now.
-        // Pattern by Andy Kim from Potion Factory LLC
-        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
-        if (!_AuthExecuteWithPrivsFn) {
-            // This version of OS X has finally removed this function. Exit with an error.
-            err = errAuthorizationFnNoLongerExists;
-            return err;
-        }
-    }
-    
     // create authorization reference
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
     if (err != errAuthorizationSuccess) {
@@ -711,156 +665,49 @@ OSStatus const errAuthorizationFnNoLongerExists = -70001;
     }
 }
 
-#pragma mark - NSOutlineViewDataSource/Delegate
+#pragma mark - NSOutlineViewDelegate
 
-//- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-//    
-//    if ([item[@"type"] isEqualToString:@"process"]) {
-//        return YES;
-//    }
-//    
-//    return NO;
-//}
-//
-//- (NSInteger)outlineView:(NSOutlineView *)ov numberOfChildrenOfItem:(id)item {
-//    
-//    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
-//        return [list count];
-//    }
-//    
-//    if ([item[@"type"] isEqualToString:@"process"]) {
-//        return [item[@"files"] count];
-//    }
-//    
-//    return 0;
-//}
-//
-//- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
-//{
-//    
-//    if (item == nil) { //item is nil when the outline view wants to inquire for root level items
-//        return [list objectAtIndex:index];
-//    }
-//    
-//    if ([item[@"type"] isEqualToString:@"process"]) {
-//        return item[@"files"][index];
-//    }
-//    
-//    return nil;
-//}
-//
-////- (id)outlineView:(NSOutlineView *)ov objectValueForTableColumn:(NSTableColumn *)col byItem:(id)item {
-////    
-////    if ([[col identifier] isEqualToString:@"children"]) {
-////        if ([item[@"type"] isEqualToString:@"process"]) {
-////            return item[@"name"];
-////        }
-////        return item[@"path"];
-////    }
-////    
-////    return nil;
-////}
-//
-//- (NSView *)outlineView:(NSOutlineView *)ov viewForTableColumn:(NSTableColumn *)col item:(id)item {
-//    NSTableCellView *cellView = [ov makeViewWithIdentifier:[col identifier] owner:self];
-//    
-//    NSString *label = [DEFAULTS boolForKey:@"showEntireFilePathEnabled"] ? item[@"path"] : item[@"filename"];
-//    if ([item[@"type"] isEqualToString:@"process"]) {
-//        label = [NSString stringWithFormat:@"%@ (%d)", item[@"name"], (int)[item[@"files"] count]];
-//    }
-//    cellView.textField.stringValue = label;
-//    cellView.imageView.objectValue = [self iconForItem:item];
-//    
-//    return cellView;
-//}
-
-#pragma mark - NSTableViewDataSource/Delegate
-
-//- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-//	return [activeItemSet count];
-//}
-//
-//- (NSView *)tableView:(NSTableView *)tv viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-//    NSDictionary *item = [activeItemSet objectAtIndex:row];
-//    NSString *identifier = [tableColumn identifier];
-//    
-//    if ([identifier isEqualToString:@"pname"]) {
-//        __block NSTableCellView *cellView = [tv makeViewWithIdentifier:identifier owner:self];
-//
-//        cellView.textField.stringValue = item[@"pname"];
-//        NSImage *icon = processIconDict[item[@"pid"]];
-//        
-//        if (icon) {
-//            cellView.imageView.objectValue = icon;
-//        } else {
-////            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                __block NSImage *icon = [self iconForItem:item];
-////                
-////                // update UI on main thread
-////                dispatch_sync(dispatch_get_main_queue(), ^{
-//                    cellView.imageView.objectValue = icon;
-////                });
-//                
-////            });
-//        }
-////        cellView.imageView.objectValue = genericExecutableIcon;//
-//        return cellView;
-//    }
-//    
-//    for (NSString *k in @[@"pid", @"type", @"path"]) {
-//        if ([identifier isEqualToString:k]) {
-//            NSTextField *textField = [tv makeViewWithIdentifier:identifier owner:self];
-//            textField.objectValue = item[k];
-//            return textField;
-//        }
-//    }
-//    
-//    NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
-//    
-//    return nil;
-//}
-//
-//- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
-//	NSArray *newDescriptors = [tableView sortDescriptors];
-//	[activeItemSet sortUsingDescriptors:newDescriptors];
-//	[tableView reloadData];
-//}
-//
-//- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-//	if ([tableView selectedRow] >= 0 && [tableView selectedRow] < [activeItemSet count]) {
-//		NSDictionary *item = activeItemSet[[tableView selectedRow]];
-//        [revealButton setEnabled:[self canRevealItemAtPath:item[@"path"]]];
-//		[killButton setEnabled:YES];
-//	} else {
-//		[revealButton setEnabled:NO];
-//		[killButton setEnabled:NO];
-//	}
-//}
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+    int selectedRow = [outlineView selectedRow];
+    
+	if (selectedRow >= 0) {
+        NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+        [revealButton setEnabled:([self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"bundlepath"]])];
+        [killButton setEnabled:YES];
+	} else {
+		[revealButton setEnabled:NO];
+		[killButton setEnabled:NO];
+	}
+}
 
 #pragma mark - Menus
 
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-    //reveal in finder / kill process only enabled when something is selected
-    if (( [[anItem title] isEqualToString:@"Reveal in Finder"] || [[anItem title] isEqualToString:@"Kill Process"]) && [tableView selectedRow] < 0) {
-        return NO;
-    }
-    return YES;
+- (void) copy:(id)sender {
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    // some code to put data on the pasteBoard
+    [pasteBoard clearContents];
+    
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+
+    [pasteBoard writeObjects:[NSArray arrayWithObject:item[@"name"]]];
 }
 
-- (IBAction)relaunchAsRoot:(id)sender {
-    [WORKSPACE launchApplication:@"Terminal.app"];
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     
-    //the applescript command to run as root via sudo
-    NSString *osaCmd = [NSString stringWithFormat:@"tell application \"Terminal\"\n\tdo script \"sudo -b '%@'\"\nend tell",  [[NSBundle mainBundle] executablePath]];
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+
+    //reveal in finder / kill process only enabled when something is selected
+    if (( [[anItem title] isEqualToString:@"Show in Finder"] || [[anItem title] isEqualToString:@"Kill Process"]) && selectedRow < 0) {
+        return NO;
+    }
     
-    //initialize task -- we launc the AppleScript via the 'osascript' CLI program
-    NSTask *theTask = [[NSTask alloc] init];
-    [theTask setLaunchPath:@"/usr/bin/osascript"];
-    [theTask setArguments:@[@"-e", osaCmd]];
-    [theTask launch];
-    [theTask waitUntilExit];
+    if ([[anItem title] isEqualToString:@"Show in Finder"]) {
+        NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+        return [self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"bundlepath"]];
+    }
     
-    [[NSApplication sharedApplication] terminate:self];
+    return YES;
 }
 
 - (IBAction)supportSlothDevelopment:(id)sender {

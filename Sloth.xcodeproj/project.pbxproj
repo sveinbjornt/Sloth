@@ -13,18 +13,17 @@
 		F413E66B1C7662FF00385DB3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F413E66A1C7662FF00385DB3 /* Sparkle.framework */; };
 		F413E66D1C76632900385DB3 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F413E66A1C7662FF00385DB3 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
-		F413E6711C7693F000385DB3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F413E6701C7693F000385DB3 /* QuartzCore.framework */; };
-		F438711713402C8200B51A5E /* FilteringArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710813402C8200B51A5E /* FilteringArrayController.m */; };
 		F438711813402C8200B51A5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710913402C8200B51A5E /* main.m */; };
 		F438711A13402C8200B51A5E /* SlothController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710E13402C8200B51A5E /* SlothController.m */; };
 		F438713013402CDD00B51A5E /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = F438712813402CDD00B51A5E /* Credits.html */; };
 		F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */; };
-		F438713513402CDD00B51A5E /* Sloth.icns in Resources */ = {isa = PBXBuildFile; fileRef = F438712D13402CDD00B51A5E /* Sloth.icns */; };
 		F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BE1C7895220024540F /* LockedIcon.icns */; };
 		F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BF1C7895220024540F /* UnlockedIcon.icns */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
 		F4ED53CB1C78CDAD0024540F /* socket.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53CA1C78CDAD0024540F /* socket.png */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */; };
+		F4F1D90F1C7CB7E700945D3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F1D90E1C7CB7E700945D3E /* QuartzCore.framework */; };
+		F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F4F1D9121C7CB95700945D3E /* dsa_pub.pem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,9 +50,6 @@
 		F40B7D301C75FAC6000A4616 /* Alerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alerts.m; sourceTree = "<group>"; };
 		F413E66A1C7662FF00385DB3 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		F413E66E1C76842A00385DB3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		F413E6701C7693F000385DB3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
-		F438710713402C8200B51A5E /* FilteringArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteringArrayController.h; sourceTree = "<group>"; };
-		F438710813402C8200B51A5E /* FilteringArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteringArrayController.m; sourceTree = "<group>"; };
 		F438710913402C8200B51A5E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F438710D13402C8200B51A5E /* SlothController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlothController.h; sourceTree = "<group>"; };
 		F438710E13402C8200B51A5E /* SlothController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlothController.m; sourceTree = "<group>"; };
@@ -70,6 +66,13 @@
 		F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexMatching.m"; sourceTree = "<group>"; };
 		F4F1D89F1C7623A900945D3E /* CHANGES.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGES.txt; sourceTree = "<group>"; };
 		F4F1D8A01C7623AF00945D3E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F4F1D90E1C7CB7E700945D3E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
+		F4F1D9111C7CB95700945D3E /* dsa_priv.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_priv.pem; sourceTree = "<group>"; };
+		F4F1D9121C7CB95700945D3E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		F4F1D9131C7CB95700945D3E /* generate_keys.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = generate_keys.rb; sourceTree = "<group>"; };
+		F4F1D9141C7CB95700945D3E /* sign_update.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = sign_update.rb; sourceTree = "<group>"; };
+		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
+		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,10 +80,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4F1D90F1C7CB7E700945D3E /* QuartzCore.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				F413E66B1C7662FF00385DB3 /* Sparkle.framework in Frameworks */,
 				F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */,
-				F413E6711C7693F000385DB3 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +105,7 @@
 				F4F1D89F1C7623A900945D3E /* CHANGES.txt */,
 				F438710613402C8200B51A5E /* Source */,
 				F438712713402CDD00B51A5E /* Resources */,
+				F4F1D9101C7CB95700945D3E /* Sparkle */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -112,7 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				F4ED53C21C789A0A0024540F /* Security.framework */,
-				F413E6701C7693F000385DB3 /* QuartzCore.framework */,
+				F4F1D90E1C7CB7E700945D3E /* QuartzCore.framework */,
 				F413E66A1C7662FF00385DB3 /* Sparkle.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
@@ -139,8 +143,6 @@
 				F4F1D89A1C75FBF800945D3E /* Common.h */,
 				F438710D13402C8200B51A5E /* SlothController.h */,
 				F438710E13402C8200B51A5E /* SlothController.m */,
-				F438710713402C8200B51A5E /* FilteringArrayController.h */,
-				F438710813402C8200B51A5E /* FilteringArrayController.m */,
 				F40B7D2E1C75FA94000A4616 /* Util */,
 			);
 			name = Source;
@@ -163,6 +165,20 @@
 			);
 			name = Resources;
 			path = resources;
+			sourceTree = "<group>";
+		};
+		F4F1D9101C7CB95700945D3E /* Sparkle */ = {
+			isa = PBXGroup;
+			children = (
+				F4F1D9111C7CB95700945D3E /* dsa_priv.pem */,
+				F4F1D9121C7CB95700945D3E /* dsa_pub.pem */,
+				F4F1D9131C7CB95700945D3E /* generate_keys.rb */,
+				F4F1D9141C7CB95700945D3E /* sign_update.rb */,
+				F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */,
+				F4F1D9161C7CB95700945D3E /* update_appcast.sh */,
+			);
+			name = Sparkle;
+			path = sparkle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,11 +238,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F438713013402CDD00B51A5E /* Credits.html in Resources */,
+				F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */,
 				F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
 				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
-				F438713513402CDD00B51A5E /* Sloth.icns in Resources */,
 				F4ED53CB1C78CDAD0024540F /* socket.png in Resources */,
 				F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */,
 			);
@@ -257,7 +273,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */,
-				F438711713402C8200B51A5E /* FilteringArrayController.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
 				F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */,
@@ -287,7 +302,7 @@
 				GENERATE_PKGINFO_FILE = NO;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sveinbjorn.Sloth;
 				PRODUCT_NAME = Sloth;
@@ -317,7 +332,7 @@
 				GENERATE_PKGINFO_FILE = NO;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sveinbjorn.Sloth;
 				PRODUCT_NAME = Sloth;

@@ -22,157 +22,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="677" height="544"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView hidden="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="207">
-                        <rect key="frame" x="20" y="55" width="637" height="425"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <clipView key="contentView" drawsBackground="NO" id="ZIM-kM-fAK">
-                            <rect key="frame" x="1" y="0.0" width="635" height="424"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="SlothColumns" rowSizeStyle="automatic" headerView="753" viewBased="YES" id="206">
-                                    <rect key="frame" x="0.0" y="0.0" width="635" height="0.0"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <size key="intercellSpacing" width="3" height="2"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                    <tableColumns>
-                                        <tableColumn identifier="pname" editable="NO" width="152" minWidth="100" maxWidth="500" id="205">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Process">
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
-                                            </tableHeaderCell>
-                                            <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="747">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </textFieldCell>
-                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="name"/>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <prototypeCellViews>
-                                                <tableCellView id="01k-4s-UsE">
-                                                    <rect key="frame" x="1" y="1" width="152" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <imageView id="Uh7-If-VWC">
-                                                            <rect key="frame" x="4" y="0.0" width="17" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="6ee-zq-eLr"/>
-                                                        </imageView>
-                                                        <textField verticalHuggingPriority="750" id="sHd-zP-c7H">
-                                                            <rect key="frame" x="26" y="0.0" width="125" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="a6q-sg-hze">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                        </textField>
-                                                    </subviews>
-                                                    <connections>
-                                                        <outlet property="imageView" destination="Uh7-If-VWC" id="AWT-b2-yBM"/>
-                                                        <outlet property="textField" destination="sHd-zP-c7H" id="j7g-CT-x9X"/>
-                                                    </connections>
-                                                </tableCellView>
-                                            </prototypeCellViews>
-                                        </tableColumn>
-                                        <tableColumn identifier="pid" editable="NO" width="50" minWidth="50" maxWidth="50" id="220">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="PID">
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                            </tableHeaderCell>
-                                            <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="748">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="pid"/>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <prototypeCellViews>
-                                                <textField verticalHuggingPriority="750" id="zru-FD-ncv">
-                                                    <rect key="frame" x="156" y="1" width="50" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" identifier="SizeCell" title="Label" id="I1n-XB-lWO">
-                                                        <font key="font" metaFont="system"/>
-                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
-                                            </prototypeCellViews>
-                                        </tableColumn>
-                                        <tableColumn identifier="type" editable="NO" width="110" minWidth="110" maxWidth="110" id="221">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Type">
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                            </tableHeaderCell>
-                                            <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="749">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="type"/>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <prototypeCellViews>
-                                                <textField verticalHuggingPriority="750" id="boE-DR-4j7">
-                                                    <rect key="frame" x="209" y="1" width="110" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" identifier="SizeCell" title="Label" id="HS2-j3-6XS">
-                                                        <font key="font" metaFont="system"/>
-                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
-                                            </prototypeCellViews>
-                                        </tableColumn>
-                                        <tableColumn identifier="path" editable="NO" width="311" minWidth="22.385000228881836" maxWidth="10000" id="222">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="File">
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                            </tableHeaderCell>
-                                            <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="750">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="fullPath"/>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <prototypeCellViews>
-                                                <textField verticalHuggingPriority="750" id="HJ0-fj-cox">
-                                                    <rect key="frame" x="322" y="1" width="311" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" identifier="SizeCell" title="Label" id="J0h-Z1-zco">
-                                                        <font key="font" metaFont="system"/>
-                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
-                                            </prototypeCellViews>
-                                        </tableColumn>
-                                    </tableColumns>
-                                    <connections>
-                                        <outlet property="dataSource" destination="212" id="804"/>
-                                        <outlet property="delegate" destination="212" id="803"/>
-                                    </connections>
-                                </tableView>
-                            </subviews>
-                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="752">
-                            <rect key="frame" x="1" y="409" width="620" height="15"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="751">
-                            <rect key="frame" x="621" y="23" width="15" height="386"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                        <tableHeaderView key="headerView" id="753">
-                            <rect key="frame" x="0.0" y="0.0" width="635" height="23"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </tableHeaderView>
-                    </scrollView>
                     <button toolTip="Refresh Listing" verticalHuggingPriority="750" id="208">
                         <rect key="frame" x="561" y="12" width="99" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -187,7 +36,7 @@ DQ
                             <action selector="refresh:" target="212" id="217"/>
                         </connections>
                     </button>
-                    <button toolTip="Reaveal in Finder" verticalHuggingPriority="750" id="211">
+                    <button toolTip="Reveal File In Finder" verticalHuggingPriority="750" id="211">
                         <rect key="frame" x="14" y="12" width="91" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="🔎Show" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="727">
@@ -195,73 +44,84 @@ DQ
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="showButtonClicked:" target="212" id="mSq-My-bmG"/>
+                            <action selector="show:" target="212" id="gVH-DN-Dt3"/>
                         </connections>
                     </button>
-                    <button id="234">
-                        <rect key="frame" x="344" y="512" width="163" height="21"/>
+                    <button toolTip="Show Character Devices" id="234">
+                        <rect key="frame" x="278" y="512" width="68" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Character Devices" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="728">
+                        <buttonCell key="cell" type="check" title="Devices" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="728">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="560" name="value" keyPath="values.showCharacterDevicesEnabled" id="562"/>
+                            <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="lQn-WG-DTM"/>
                         </connections>
                     </button>
-                    <button id="235">
-                        <rect key="frame" x="210" y="492" width="131" height="21"/>
+                    <button toolTip="Only Show Files in Home Folder Hierarchy" id="27r-wc-J19">
+                        <rect key="frame" x="361" y="512" width="132" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Unix Sockets" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="729">
+                        <buttonCell key="cell" type="check" title="Home Folder Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="qRb-Ks-bpM">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="560" name="value" keyPath="values.showUnixSocketsEnabled" id="563"/>
+                            <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="p1D-61-9GM"/>
                         </connections>
                     </button>
-                    <button id="236">
-                        <rect key="frame" x="80" y="512" width="132" height="21"/>
+                    <button toolTip="Show Unix IPC sockets" id="235">
+                        <rect key="frame" x="178" y="491" width="97" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Directories" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="730">
+                        <buttonCell key="cell" type="check" title="Unix Sockets" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="729">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="560" name="value" keyPath="values.showDirectoriesEnabled" id="565"/>
+                            <binding destination="560" name="value" keyPath="values.showUnixSockets" id="uxc-G7-j2P"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Show Directories" id="236">
+                        <rect key="frame" x="79" y="512" width="96" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Directories" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="730">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="560" name="value" keyPath="values.showDirectories" id="fiM-da-ZXt"/>
                         </connections>
                     </button>
                     <imageView toolTip="The SLOTH!" id="238">
                         <rect key="frame" x="20" y="488" width="48" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Sloth" id="731"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="731"/>
                     </imageView>
-                    <button id="239">
-                        <rect key="frame" x="210" y="512" width="131" height="21"/>
+                    <button toolTip="Show IP Sockets" id="239">
+                        <rect key="frame" x="178" y="512" width="97" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show IP Sockets" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="732">
+                        <buttonCell key="cell" type="check" title="IP Sockets" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="732">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="560" name="value" keyPath="values.showIPSocketsEnabled" id="564"/>
+                            <binding destination="560" name="value" keyPath="values.showIPSockets" id="jWy-2p-ad7"/>
                         </connections>
                     </button>
-                    <button id="240">
-                        <rect key="frame" x="80" y="492" width="132" height="21"/>
+                    <button toolTip="Show Regular Files" id="240">
+                        <rect key="frame" x="79" y="491" width="96" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Regular Files" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="733">
+                        <buttonCell key="cell" type="check" title="Regular Files" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="733">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="560" name="value" keyPath="values.showRegularFilesEnabled" id="566"/>
+                            <binding destination="560" name="value" keyPath="values.showRegularFiles" id="kwD-h1-DIu"/>
                         </connections>
                     </button>
-                    <button id="241">
-                        <rect key="frame" x="344" y="492" width="163" height="21"/>
+                    <button toolTip="Only Show Application Processes" id="241">
+                        <rect key="frame" x="361" y="491" width="132" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Applications Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="734">
+                        <buttonCell key="cell" type="check" title="Applications Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="734">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
@@ -291,7 +151,7 @@ DQ
                             <outlet property="delegate" destination="212" id="552"/>
                         </connections>
                     </searchField>
-                    <button toolTip="Kill selected process" verticalHuggingPriority="750" id="210">
+                    <button toolTip="Kill Selected Process" verticalHuggingPriority="750" id="210">
                         <rect key="frame" x="100" y="12" width="72" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Kill" bezelStyle="rounded" image="NSActionTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" inset="2" id="726">
@@ -302,7 +162,7 @@ DQ
                             <action selector="kill:" target="212" id="710"/>
                         </connections>
                     </button>
-                    <button toolTip="Authenticate to view all processes" verticalHuggingPriority="750" id="tqa-Nm-sTb">
+                    <button toolTip="Authenticate to View All Processes" verticalHuggingPriority="750" id="tqa-Nm-sTb">
                         <rect key="frame" x="538" y="19" width="21" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="LockedIcon" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
@@ -310,13 +170,42 @@ DQ
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="lockWasClicked:" target="212" id="8PI-MR-lhd"/>
+                            <action selector="toggleAuthentication:" target="212" id="URh-at-ZRh"/>
+                        </connections>
+                    </button>
+                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" id="335">
+                        <rect key="frame" x="498" y="13" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </progressIndicator>
+                    <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="9jY-Nj-HCo">
+                        <rect key="frame" x="351" y="488" width="5" height="48"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="wZB-WG-ZQ5">
+                        <rect key="frame" x="496" y="488" width="5" height="48"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <button toolTip="Show Pipes" id="Y0K-aj-uhW">
+                        <rect key="frame" x="278" y="491" width="68" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Pipes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="iS6-IS-QUs">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="560" name="value" keyPath="values.showPipes" id="Pke-9y-1TB"/>
                         </connections>
                     </button>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="GmK-As-ZM0">
                         <rect key="frame" x="20" y="55" width="637" height="425"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <clipView key="contentView" id="BIo-8i-OHA">
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
                             <rect key="frame" x="1" y="0.0" width="635" height="424"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
@@ -328,7 +217,7 @@ DQ
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
                                         <tableColumn identifier="children" editable="NO" width="632" minWidth="40" maxWidth="10000" id="qs5-X3-KJv">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" enabled="NO" borderStyle="border">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" enabled="NO" borderStyle="border" title="Processes">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -338,7 +227,8 @@ DQ
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="name"/>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="Qd7-oA-yOC">
                                                     <rect key="frame" x="1" y="1" width="632" height="17"/>
@@ -379,6 +269,8 @@ DQ
                                     </tableColumns>
                                     <connections>
                                         <binding destination="smP-ER-E7y" name="content" keyPath="arrangedObjects" id="bks-Mt-OkK"/>
+                                        <outlet property="delegate" destination="212" id="dvn-kA-cz3"/>
+                                        <outlet property="menu" destination="3w8-wK-AmU" id="eLD-jE-BUg"/>
                                     </connections>
                                 </outlineView>
                             </subviews>
@@ -392,22 +284,18 @@ DQ
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <tableHeaderView key="headerView" id="Hfh-Ob-0SO">
+                        <tableHeaderView key="headerView" identifier="processes" id="Hfh-Ob-0SO">
                             <rect key="frame" x="0.0" y="0.0" width="635" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
-                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" id="335">
-                        <rect key="frame" x="498" y="13" width="32" height="32"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </progressIndicator>
                 </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="212" id="lID-ft-t3U"/>
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
-            <point key="canvasLocation" x="426.5" y="432"/>
+            <point key="canvasLocation" x="1042.5" y="563"/>
         </window>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
@@ -423,17 +311,23 @@ DQ
                             <menuItem isSeparatorItem="YES" id="480">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
+                            <menuItem title="Check for Updates…" id="ZmM-Hj-ii7">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="checkForUpdates:" target="Nds-SX-rlr" id="VgP-xJ-t4s"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Preferences…" keyEquivalent="," id="129"/>
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Visit Sloth Website..." id="478">
+                            <menuItem title="Visit Sloth Website…" id="478">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="visitSlothWebsite:" target="212" id="479"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Donate to Support Sloth..." id="467">
+                            <menuItem title="Donate to Support Sloth" id="467">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="supportSlothDevelopment:" target="212" id="477"/>
@@ -585,27 +479,6 @@ DQ
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Spelling" id="184">
-                                <menu key="submenu" title="Spelling" id="185">
-                                    <items>
-                                        <menuItem title="Spelling…" keyEquivalent=":" id="187">
-                                            <connections>
-                                                <action selector="showGuessPanel:" target="-1" id="188"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Check Spelling" keyEquivalent=";" id="189">
-                                            <connections>
-                                                <action selector="checkSpelling:" target="-1" id="190"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Check Spelling as You Type" id="191">
-                                            <connections>
-                                                <action selector="toggleContinuousSpellChecking:" target="-1" id="192"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -615,43 +488,50 @@ DQ
                             <menuItem title="Show Directories" id="WRk-2h-A5r">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <binding destination="560" name="value" keyPath="values.showDirectoriesEnabled" id="3zW-hj-oVP"/>
+                                    <binding destination="560" name="value" keyPath="values.showDirectories" id="VGg-Hs-43a"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Show Regular Files" id="4fa-zA-DKj">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <binding destination="560" name="value" keyPath="values.showRegularFilesEnabled" id="dSW-Ov-XaC"/>
+                                    <binding destination="560" name="value" keyPath="values.showRegularFiles" id="c0e-67-gDZ"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Show IP Sockets" id="MtU-jZ-LfI">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <binding destination="560" name="value" keyPath="values.showIPSocketsEnabled" id="X49-f1-OwS"/>
+                                    <binding destination="560" name="value" keyPath="values.showIPSockets" id="7Fy-7t-9cC"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Show Unix Sockets" id="QRq-1p-OVp">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <binding destination="560" name="value" keyPath="values.showUnixSocketsEnabled" id="dcO-Su-gRc"/>
+                                    <binding destination="560" name="value" keyPath="values.showUnixSockets" id="LDo-O4-6qU"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Show Character Devices" id="R3O-vO-Xfh">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <binding destination="560" name="value" keyPath="values.showCharacterDevicesEnabled" id="OD2-dz-ztW"/>
+                                    <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="0zD-aI-jX1"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Show Pipes" id="RVO-Se-n5K">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showPipes" id="0sd-zW-SbB"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="VOH-86-cOx"/>
                             <menuItem title="Show Applications Only" id="w6d-0m-Pod">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="bnv-PY-4EN"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Entire File Path" id="Pct-eI-Cuw">
+                            <menuItem title="Show Home Folder Only" id="B0s-VR-sFZ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <binding destination="560" name="value" keyPath="values.showEntireFilePathEnabled" id="x55-fm-ter"/>
+                                    <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="cN8-AZ-dNv"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -671,9 +551,9 @@ DQ
                             <menuItem isSeparatorItem="YES" id="OxA-O1-B1k">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Reveal in Finder" keyEquivalent="R" id="yq1-RN-lAt">
+                            <menuItem title="Show in Finder" keyEquivalent="R" id="yq1-RN-lAt">
                                 <connections>
-                                    <action selector="showButtonClicked:" target="212" id="e5K-Jc-wXy"/>
+                                    <action selector="show:" target="212" id="6Fx-KJ-Cy1"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Kill Process" id="umw-5C-WcM">
@@ -753,6 +633,7 @@ CA
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
+                <outlet property="authenticateButton" destination="tqa-Nm-sTb" id="51O-C4-9Yi"/>
                 <outlet property="filterTextField" destination="252" id="656"/>
                 <outlet property="killButton" destination="210" id="623"/>
                 <outlet property="numItemsTextField" destination="659" id="661"/>
@@ -760,7 +641,6 @@ CA
                 <outlet property="progressIndicator" destination="335" id="bNF-Cs-ZU3"/>
                 <outlet property="refreshButton" destination="208" id="483"/>
                 <outlet property="revealButton" destination="211" id="622"/>
-                <outlet property="tableView" destination="206" id="555"/>
                 <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
                 <outlet property="window" destination="21" id="Nkl-ra-P1k"/>
             </connections>
@@ -776,12 +656,38 @@ CA
             </connections>
         </treeController>
         <userDefaultsController representsSharedInstance="YES" id="560" userLabel="Shared User Defaults Controller"/>
+        <customObject id="Nds-SX-rlr" customClass="SUUpdater"/>
+        <menu id="3w8-wK-AmU" userLabel="Contextual Menu">
+            <items>
+                <menuItem title="Copy" id="aIV-bf-ZRN" userLabel="Copy">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="copy:" target="-1" id="uXe-lX-tiz"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="Tkx-Bf-LJp"/>
+                <menuItem title="Show in Finder" id="fhv-Jo-i0c">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="show:" target="212" id="esI-cF-Zp8"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Kill Process" id="pk8-fZ-ruU">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="kill:" target="212" id="mQA-04-MNu"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="212" id="nCV-1R-drI"/>
+            </connections>
+        </menu>
     </objects>
     <resources>
         <image name="LockedIcon" width="32" height="32"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSApplicationIcon" width="128" height="128"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
-        <image name="Sloth" width="128" height="128"/>
     </resources>
 </document>
