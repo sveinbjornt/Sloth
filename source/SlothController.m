@@ -197,14 +197,21 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     }
     NSLog(@"Filtering");
     
+    // filter content
     int matchingFilesCount = 0;
     self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
-    [self updateItemCount:self.totalFileCount withMatchingFiles:matchingFilesCount];
     
+    // update header
+    [[outlineView tableColumnWithIdentifier:@"children"] setTitle:[NSString stringWithFormat:@"%d processes", (int)[self.content count]]];
+    
+    // update label
+    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", self.totalFileCount, matchingFilesCount];
+    [numItemsTextField setStringValue:str];
+
+    // reload
     [outlineView reloadData];
     [outlineView expandItem:nil expandChildren:YES];
     
-    [[outlineView tableColumnWithIdentifier:@"children"] setTitle:[NSString stringWithFormat:@"%d processes", (int)[self.content count]]];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
@@ -216,11 +223,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     [self updateFiltering];
-}
-
-- (void)updateItemCount:(int)itemCount withMatchingFiles:(int)numFiles {
-    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", numFiles, itemCount];
-    [numItemsTextField setStringValue:str];
 }
 
 - (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
