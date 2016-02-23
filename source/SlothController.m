@@ -584,11 +584,49 @@ uid_t uid_for_pid(pid_t pid)
 - (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
     
     if (!asRoot) {
-        int sigValue = SIGKILL;
-        int ret = kill(pid, sigValue);
-        return (ret == 0);
+        return (kill(pid, SIGKILL) == 0);
     }
+    
     // kill process as root
+    const char *toolPath = [@"/bin/kill" fileSystemRepresentation];
+    
+    AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
+    AuthorizationRights myRights = { 1, &myItems };
+    AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
+    
+    // create authorization reference
+    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
+    if (err != errAuthorizationSuccess) {
+        return NO;
+    }
+    
+    // pre-authorize the privileged operation
+    err = AuthorizationCopyRights(authorizationRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
+    if (err != errAuthorizationSuccess) {
+        return NO;
+    }
+    
+    // construct c strings array of arguments
+    //kill -9 1234
+    char *args[3];
+    args[0] = malloc(4);
+    sprintf(args[0], "%s", "-9");
+    args[1] = malloc(10);
+    sprintf(args[1], "%d", pid);
+    args[2] = NULL;
+    
+    //use Authorization Reference to execute /bin/kill with root privileges
+    err = _AuthExecuteWithPrivsFn(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, NULL);
+    
+    // cleanup
+    free(args[0]);
+    free(args[1]);
+    AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
+    
+    // we return err if execution failed
+    if (err != errAuthorizationSuccess) {
+        return NO;
+    }
     
     return YES;
 }
