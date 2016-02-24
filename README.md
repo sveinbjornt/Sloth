@@ -78,7 +78,6 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 
 ````
 Copyright (C) 2004-2016 Sveinbjorn Thordarson <sveinbjornt@gmail.com>
-Parts are Copyright (C) 2004-2006 Bill Bumgarner
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
