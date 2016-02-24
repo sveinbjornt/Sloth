@@ -72,6 +72,7 @@
 		F4F1D9141C7CB95700945D3E /* sign_update.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = sign_update.rb; sourceTree = "<group>"; };
 		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
 		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
+		F4F1D9181C7E08D100945D3E /* build_release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_release.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +101,7 @@
 		29B97314FDCFA39411CA2CEA /* Sloth */ = {
 			isa = PBXGroup;
 			children = (
+				F4F1D9181C7E08D100945D3E /* build_release.sh */,
 				F4F1D8A01C7623AF00945D3E /* README.md */,
 				F4F1D89F1C7623A900945D3E /* CHANGES.txt */,
 				F438710613402C8200B51A5E /* Source */,

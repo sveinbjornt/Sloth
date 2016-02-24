@@ -15,7 +15,7 @@ SRC_DIR=$PWD
 BUILD_DIR="/tmp/"
 REMOTE_DIR="root@sveinbjorn.org:/www/sveinbjorn/html/files/software/sloth/"
 REMOTE_ZIP_PATH="root@sveinbjorn.org:/www/sveinbjorn/html/files/software/sloth.zip"
-REMOTE_SRC_ZIP_PATH="root@sveinbjorn.org:/www/sveinbjorn/html/files/software/sloth.zip"
+REMOTE_SRC_ZIP_PATH="root@sveinbjorn.org:/www/sveinbjorn/html/files/software/sloth.src.zip"
 
 VERSION=`/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" resources/Info.plist`
 APP_NAME="Sloth"
