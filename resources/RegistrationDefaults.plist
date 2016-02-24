@@ -6,7 +6,8 @@
 	showCharacterDevices = NO;
 	showPipes = NO;
 	showApplicationsOnly = NO;
+	ascending = YES;
 	showHomeFolderOnly = NO;
 	disclosure = YES;
-	sortBy = Name;
+	sortBy = name;
 }

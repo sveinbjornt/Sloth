@@ -8,12 +8,21 @@
         <item>
             <title>Version 1.6</title>
             <pubDate>Wed, 30 Nov 2015 00:28:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth1.6.zip" sparkle:version="1.6" sparkle:shortVersionString="1.6" length="3640511" type="application/octet-stream" sparkle:dsaSignature="MC0CFQCxJgz5q7W4x5GuUTW9drKORIk6egIUcgQ+Au+eb6r7HwsDTUf79b8JQoI="/>
+            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth1.6.zip" sparkle:version="25" sparkle:shortVersionString="1.6" length="449664" type="application/octet-stream" sparkle:dsaSignature="MEQCIEA1HkqvE/n0+l/FQaY5cn0aNlJEFknRWSoX/CrqEFCYAiB+7ap9xBo55i8VuGIgtSCZraFH2F1qDLSWaaB1F/zWnA=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
                 <h2>Version 1.6 Changes</h2>
                 <ul>
-                
+                    <li>Asynchronous refresh</li>
+                    <li>Much improved performance</li>
+                    <li>UI improvements</li>
+                    <li>New filtering options</li>
+                    <li>Smarter regex filtering</li>
+                    <li>Load results as root without restart</li>
+                    <li>Expanded sorting options</li>
+                    <li>Migrated project to ARC, modern Objective-C and XCode 7</li>
+                    <li>Substantial rewrite</li>
+                    <li>Now requires OS X 10.8 or later</li>
                 </ul>
             ]]></description>
         </item>

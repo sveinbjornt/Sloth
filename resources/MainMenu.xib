@@ -310,7 +310,7 @@ DQ
                 <outlet property="delegate" destination="212" id="lID-ft-t3U"/>
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
-            <point key="canvasLocation" x="1042.5" y="563"/>
+            <point key="canvasLocation" x="744.5" y="576"/>
         </window>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
@@ -577,6 +577,14 @@ CA
 </string>
                                 <connections>
                                     <action selector="kill:" target="212" id="RBk-17-JuZ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="WR3-fZ-oyo">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Toggle Expand/Collapse" keyEquivalent="t" id="lsV-Kv-gyN">
+                                <connections>
+                                    <action selector="performClick:" target="sd7-Q9-5I9" id="E6d-S4-lkN"/>
                                 </connections>
                             </menuItem>
                         </items>

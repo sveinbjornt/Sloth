@@ -1,2 +1,0 @@
-
-* column sorting using name, pid, file count etc.

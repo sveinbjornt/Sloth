@@ -101,8 +101,6 @@ uid_t uid_for_pid(pid_t pid)
     BOOL isRefreshing;
     
     NSTimer *filterTimer;
-    
-    
 }
 
 @property int totalFileCount;
@@ -173,10 +171,7 @@ uid_t uid_for_pid(pid_t pid)
         [authenticateButton setHidden:YES];
     }
     
-    self.sortDescriptors = @[[[NSSortDescriptor alloc]
-                                 initWithKey:@"name"
-                                 ascending:YES
-                                 selector:@selector(localizedCaseInsensitiveCompare:)]];
+    [self updateSorting];
     
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
@@ -359,6 +354,7 @@ uid_t uid_for_pid(pid_t pid)
     
     isRefreshing = YES;
     
+    // Disable controls
     [filterTextField setEnabled:NO];
     [refreshButton setEnabled:NO];
     [outlineView setEnabled:NO];
@@ -373,7 +369,7 @@ uid_t uid_for_pid(pid_t pid)
 	[progressIndicator setUsesThreadedAnimation:TRUE];
 	[progressIndicator startAnimation:self];
 	
-//    // update in background
+    // update in background
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
     
@@ -385,6 +381,7 @@ uid_t uid_for_pid(pid_t pid)
             // then update UI on main thread
             dispatch_async(dispatch_get_main_queue(), ^{
                 
+                // Re-enable controls
                 [progressIndicator stopAnimation:self];
                 [filterTextField setEnabled:YES];
                 [outlineView setEnabled:YES];
@@ -393,6 +390,7 @@ uid_t uid_for_pid(pid_t pid)
                 
                 isRefreshing = NO;
                 
+                // Filter results
                 [self updateFiltering];
             });
         }
@@ -619,7 +617,7 @@ uid_t uid_for_pid(pid_t pid)
     sprintf(args[1], "%d", pid);
     args[2] = NULL;
     
-    //use Authorization Reference to execute /bin/kill with root privileges
+    // use Authorization Reference to execute /bin/kill with root privileges
     err = _AuthExecuteWithPrivsFn(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, NULL);
     
     // cleanup
@@ -646,7 +644,7 @@ uid_t uid_for_pid(pid_t pid)
     
     int pid = [item[@"pid"] intValue];
 	
-	// Ask user to confirm that he really wants to kill process
+	// Confirm
     NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\" (%d)?", item[@"pname"], pid];
 	if ([Alerts proceedAlert:q
                      subText:@"This will send the process a SIGKILL signal."
@@ -710,29 +708,45 @@ uid_t uid_for_pid(pid_t pid)
 
 - (IBAction)sortChanged:(id)sender {
     NSArray *words = [[sender title] componentsSeparatedByString:@" "];
-    [DEFAULTS setObject:[words lastObject] forKey:@"sortBy"];
+    NSString *sortBy = [[words lastObject] lowercaseString];
+    [DEFAULTS setObject:sortBy forKey:@"sortBy"];
+    [self updateSorting];
+}
+
+- (void)updateSorting {
+    NSString *sortBy = [DEFAULTS objectForKey:@"sortBy"];
+    NSSortDescriptor *sortDesc = [[NSSortDescriptor alloc] initWithKey:sortBy
+                                                             ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                              selector:@selector(localizedCaseInsensitiveCompare:)];
     
-    self.sortDescriptors = @[[[NSSortDescriptor alloc]
-                              initWithKey:[[words lastObject] lowercaseString]
-                              ascending:YES
-                              selector:@selector(localizedCaseInsensitiveCompare:)]];
+    if ([sortBy isEqualToString:@"count"]) {
+        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"children"
+                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                comparator:^(id first, id second){
+            int cnt1 = [first count];
+            int cnt2 = [second count];
+            
+            if (cnt1 < cnt2) {
+                return NSOrderedAscending;
+            } else if (cnt1 > cnt2) {
+                return NSOrderedDescending;
+            } else {
+                return NSOrderedSame;
+            }
+        }];
+    }
+    
+    self.sortDescriptors = @[sortDesc];
 }
 
 - (void)menuWillOpen:(NSMenu *)menu {
     if (menu == sortMenu) {
         NSArray *items = [menu itemArray];
         for (NSMenuItem *i in items) {
-            [i setState:[[i title] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]]];
+            [i setState:[[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]]];
         }
     }
 }
-
-- (void)printProcessList {
-    for (NSMutableDictionary *p in self.content) {
-        NSLog(@"%@", p[@"name"]);
-    }
-}
-
 
 #pragma mark - Authentication
 
@@ -790,8 +804,8 @@ uid_t uid_for_pid(pid_t pid)
 #pragma mark - NSOutlineViewDelegate
 
 - (void)outlineView:(NSOutlineView *)ov didClickTableColumn:(NSTableColumn *)tableColumn {
-    [treeController rearrangeObjects];
-    [ov reloadData];
+    [DEFAULTS setBool:![DEFAULTS boolForKey:@"ascending"] forKey:@"ascending"];
+    [self updateSorting];
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {

@@ -21,12 +21,18 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 
 ## Version history
 
-###12/02/2016 - Version 1.6
+###24/02/2016 - Version 1.6
 
-* Migrated project to ARC, modern Objective-C and XCode 7
 * Asynchronous refresh
 * Much improved performance
 * UI improvements
+* New filtering options
+* Smarter regex filtering
+* Load results as root without restart
+* Expanded sorting options
+* Migrated project to ARC, modern Objective-C and XCode 7
+* Substantial rewrite
+* Now requires OS X 10.8 or later
 
 ###08/07/2010 - Version 1.5
 
