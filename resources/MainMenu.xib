@@ -201,7 +201,7 @@ DQ
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
-                                    <rect key="frame" x="0.0" y="0.0" width="635" height="399"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="635" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -278,6 +278,9 @@ DQ
                         <tableHeaderView key="headerView" identifier="processes" id="Hfh-Ob-0SO">
                             <rect key="frame" x="0.0" y="0.0" width="635" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <connections>
+                                <outlet property="menu" destination="z5a-Mg-tDe" id="JYc-Wy-dAh"/>
+                            </connections>
                         </tableHeaderView>
                     </scrollView>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="sd7-Q9-5I9">
@@ -654,6 +657,7 @@ CA
                 <outlet property="progressIndicator" destination="335" id="bNF-Cs-ZU3"/>
                 <outlet property="refreshButton" destination="208" id="483"/>
                 <outlet property="revealButton" destination="211" id="622"/>
+                <outlet property="sortMenu" destination="z5a-Mg-tDe" id="Erx-7M-an9"/>
                 <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
                 <outlet property="window" destination="21" id="Nkl-ra-P1k"/>
             </connections>
@@ -665,11 +669,38 @@ CA
             </declaredKeys>
             <connections>
                 <binding destination="212" name="contentArray" keyPath="content" id="hSi-ku-Jqq"/>
+                <binding destination="212" name="sortDescriptors" keyPath="self.sortDescriptors" id="8xX-Vk-VRO"/>
                 <outlet property="content" destination="212" id="Q9b-P0-gX3"/>
             </connections>
         </treeController>
         <userDefaultsController representsSharedInstance="YES" id="560" userLabel="Shared User Defaults Controller"/>
         <customObject id="Nds-SX-rlr" customClass="SUUpdater"/>
+        <menu id="z5a-Mg-tDe" userLabel="Sort Menu">
+            <items>
+                <menuItem title="Sort using Name" id="GZd-0o-B8f">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="sortChanged:" target="212" id="16b-Uy-3RJ"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Sort using PID" id="Oqa-fu-gFh">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="sortChanged:" target="212" id="H9O-ja-jmD"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Sort using File Count" id="K08-MZ-7At">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="sortChanged:" target="212" id="IAN-Cd-mB6"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="212" id="1vQ-rE-JME"/>
+            </connections>
+            <point key="canvasLocation" x="366" y="403.5"/>
+        </menu>
         <menu id="3w8-wK-AmU" userLabel="Contextual Menu">
             <items>
                 <menuItem title="Copy" id="aIV-bf-ZRN" userLabel="Copy">

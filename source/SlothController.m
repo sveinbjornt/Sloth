@@ -77,6 +77,8 @@ uid_t uid_for_pid(pid_t pid)
 {
     IBOutlet NSWindow *window;
     
+    IBOutlet NSMenu *sortMenu;
+    
     IBOutlet NSProgressIndicator *progressIndicator;
     
     IBOutlet NSTextField *filterTextField;
@@ -99,11 +101,14 @@ uid_t uid_for_pid(pid_t pid)
     BOOL isRefreshing;
     
     NSTimer *filterTimer;
+    
+    
 }
 
 @property int totalFileCount;
 @property (strong) IBOutlet NSMutableArray *content;
 @property (strong) NSMutableArray *unfilteredContent;
+@property (retain, nonatomic) NSArray *sortDescriptors;
 
 @end
 
@@ -168,11 +173,10 @@ uid_t uid_for_pid(pid_t pid)
         [authenticateButton setHidden:YES];
     }
     
-    NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
-                                 initWithKey:NULL
+    self.sortDescriptors = @[[[NSSortDescriptor alloc]
+                                 initWithKey:@"name"
                                  ascending:YES
-                                 selector:@selector(localizedCaseInsensitiveCompare:)];
-    [[outlineView tableColumnWithIdentifier:@"children"] setSortDescriptorPrototype:sorter];
+                                 selector:@selector(localizedCaseInsensitiveCompare:)]];
     
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
@@ -546,11 +550,11 @@ uid_t uid_for_pid(pid_t pid)
         *numFiles += [p[@"children"] count];
     }
     
-    [processList sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NSMutableDictionary *p1 = (NSMutableDictionary *)obj1;
-        NSMutableDictionary *p2 = (NSMutableDictionary *)obj2;
-        return [p1[@"name"] caseInsensitiveCompare:p2[@"name"]];
-    }];
+//    [processList sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//        NSMutableDictionary *p1 = (NSMutableDictionary *)obj1;
+//        NSMutableDictionary *p2 = (NSMutableDictionary *)obj2;
+//        return [p1[@"name"] caseInsensitiveCompare:p2[@"name"]];
+//    }];
     
     return processList;
 }
@@ -607,7 +611,7 @@ uid_t uid_for_pid(pid_t pid)
     }
     
     // construct c strings array of arguments
-    //kill -9 1234
+    // /bin/kill -9 1234
     char *args[3];
     args[0] = malloc(4);
     sprintf(args[0], "%s", "-9");
@@ -702,6 +706,34 @@ uid_t uid_for_pid(pid_t pid)
     }
 }
 
+#pragma mark - Sort
+
+- (IBAction)sortChanged:(id)sender {
+    NSArray *words = [[sender title] componentsSeparatedByString:@" "];
+    [DEFAULTS setObject:[words lastObject] forKey:@"sortBy"];
+    
+    self.sortDescriptors = @[[[NSSortDescriptor alloc]
+                              initWithKey:[[words lastObject] lowercaseString]
+                              ascending:YES
+                              selector:@selector(localizedCaseInsensitiveCompare:)]];
+}
+
+- (void)menuWillOpen:(NSMenu *)menu {
+    if (menu == sortMenu) {
+        NSArray *items = [menu itemArray];
+        for (NSMenuItem *i in items) {
+            [i setState:[[i title] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]]];
+        }
+    }
+}
+
+- (void)printProcessList {
+    for (NSMutableDictionary *p in self.content) {
+        NSLog(@"%@", p[@"name"]);
+    }
+}
+
+
 #pragma mark - Authentication
 
 - (IBAction)toggleAuthentication:(id)sender {
@@ -713,7 +745,6 @@ uid_t uid_for_pid(pid_t pid)
             if (err != errAuthorizationCanceled) {
                 NSBeep();
             }
-            
             return;
         }
     } else {
@@ -723,6 +754,8 @@ uid_t uid_for_pid(pid_t pid)
     
     NSString *imgName = authenticated ? @"UnlockedIcon.icns" : @"LockedIcon.icns";
     [sender setImage:[NSImage imageNamed:imgName]];
+    
+    [self refresh:self];
 }
 
 - (OSStatus)authenticate {
@@ -755,6 +788,11 @@ uid_t uid_for_pid(pid_t pid)
 }
 
 #pragma mark - NSOutlineViewDelegate
+
+- (void)outlineView:(NSOutlineView *)ov didClickTableColumn:(NSTableColumn *)tableColumn {
+    [treeController rearrangeObjects];
+    [ov reloadData];
+}
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
     int selectedRow = [outlineView selectedRow];

@@ -1,3 +1,2 @@
 
-* configurable text size
-* column sorting
+* column sorting using name, pid, file count etc.
