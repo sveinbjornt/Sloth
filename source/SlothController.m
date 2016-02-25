@@ -232,7 +232,8 @@ uid_t uid_for_pid(pid_t pid)
     self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
     
     // update header
-    [[outlineView tableColumnWithIdentifier:@"children"] setTitle:[NSString stringWithFormat:@"%d processes", (int)[self.content count]]];
+    NSString *headerTitle = [NSString stringWithFormat:@"%d processes", (int)[self.content count]];
+    [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
     
     // update label
     NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", matchingFilesCount, self.totalFileCount];
@@ -275,18 +276,25 @@ uid_t uid_for_pid(pid_t pid)
     NSString *homeDirPath = [NSString stringWithFormat:@"/Users/%@", NSUserName()];
     
     // Regex search field filter
-    NSString *filterString = [filterTextField stringValue];
-    BOOL hasFilterString = [filterString length];
-    NSRegularExpression *regex;
-    if (hasFilterString) {
-        NSError *err;
-        regex = [NSRegularExpression regularExpressionWithPattern:filterString
-                                                          options:NSRegularExpressionCaseInsensitive
-                                                            error:&err];
-        if (!regex) {
-            NSLog(@"Error creating regex: %@", [err localizedDescription]);
+    NSMutableArray *regexes = [NSMutableArray array];
+    NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
+    for (NSString *fs in filterStrings) {
+        NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if ([s length]) {
+            NSError *err;
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
+                                                                                   options:NSRegularExpressionCaseInsensitive
+                                                                                     error:&err];
+            if (!regex) {
+                NSLog(@"Error creating regex: %@", [err localizedDescription]);
+                continue;
+            }
+            [regexes addObject:regex];
         }
     }
+    
+    BOOL hasFilterString = ([regexes count] > 0);
 
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllFiles = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
@@ -326,9 +334,15 @@ uid_t uid_for_pid(pid_t pid)
             }
             
             // see if it matches regex in search field filter
-            if (hasFilterString && regex)
+            if (hasFilterString)
             {
-                if (([file[@"name"] isMatchedByRegex:regex] || [file[@"pname"] isMatchedByRegex:regex]) == NO) {
+                int matchCount = 0;
+                for (NSRegularExpression *regex in regexes) {
+                    if ([file[@"name"] isMatchedByRegex:regex] || [file[@"pname"] isMatchedByRegex:regex]) {
+                        matchCount += 1;
+                    }
+                }
+                if (matchCount != [regexes count]) {
                     continue;
                 }
             }
@@ -517,7 +531,7 @@ uid_t uid_for_pid(pid_t pid)
                 fileInfo[@"image"] = type2icon[fileInfo[@"type"]];
 
                 // Create process key in dictionary if it doesn't already exist
-                NSMutableDictionary *pdict = processes[process];
+                NSMutableDictionary *pdict = processes[pid];
                 if (pdict == nil) {
                     
                     pdict = [NSMutableDictionary dictionary];
@@ -527,7 +541,7 @@ uid_t uid_for_pid(pid_t pid)
                     pdict[@"type"] = @"process";
                     pdict[@"children"] = [NSMutableArray array];
                     
-                    processes[process] = pdict;
+                    processes[pid] = pdict;
                 }
                 
                 // Add file to process's children
