@@ -297,11 +297,11 @@ uid_t uid_for_pid(pid_t pid)
     BOOL hasRegexFilter = ([regexes count] > 0);
 
     BOOL showAllProcessTypes = !showApplicationsOnly;
-    BOOL showAllFiles = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
+    BOOL showAllFileTypes = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
                          && showCharDevices && showPipes && !showHomeFolderOnly);
     
     // If there is no filter, just return unfiltered content
-    if (showAllFiles && showAllProcessTypes && !hasRegexFilter) {
+    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
@@ -316,7 +316,7 @@ uid_t uid_for_pid(pid_t pid)
         for (NSDictionary *file in process[@"children"]) {
             
             // let's see if it gets filtered by type
-            if (showAllFiles == NO) {
+            if (showAllFileTypes == NO) {
                 
                 if (showHomeFolderOnly && ![file[@"name"] hasPrefix:homeDirPath]) {
                     continue;
@@ -581,7 +581,7 @@ uid_t uid_for_pid(pid_t pid)
     if (!p[@"image"]) {
         ProcessSerialNumber psn;
         GetProcessForPID([p[@"pid"] intValue], &psn);
-        NSDictionary *pInfoDict = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+        NSDictionary *pInfoDict = (__bridge_transfer NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
         
         if (pInfoDict[@"BundlePath"]) {
             p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
