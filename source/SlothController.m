@@ -294,14 +294,14 @@ uid_t uid_for_pid(pid_t pid)
         }
     }
     
-    BOOL hasFilterString = ([regexes count] > 0);
+    BOOL hasRegexFilter = ([regexes count] > 0);
 
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllFiles = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
                          && showCharDevices && showPipes && !showHomeFolderOnly);
     
     // If there is no filter, just return unfiltered content
-    if (showAllFiles && showAllProcessTypes && !hasFilterString) {
+    if (showAllFiles && showAllProcessTypes && !hasRegexFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
@@ -334,13 +334,14 @@ uid_t uid_for_pid(pid_t pid)
             }
             
             // see if it matches regex in search field filter
-            if (hasFilterString)
+            if (hasRegexFilter)
             {
                 int matchCount = 0;
                 for (NSRegularExpression *regex in regexes) {
-                    if ([file[@"name"] isMatchedByRegex:regex] || [file[@"pname"] isMatchedByRegex:regex]) {
-                        matchCount += 1;
+                    if (!([file[@"name"] isMatchedByRegex:regex] || [file[@"pname"] isMatchedByRegex:regex])) {
+                        break;
                     }
+                    matchCount += 1;
                 }
                 if (matchCount != [regexes count]) {
                     continue;
