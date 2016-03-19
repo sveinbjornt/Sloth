@@ -1,0 +1,4 @@
+
+
+1.7
+    * New Info Panel for items

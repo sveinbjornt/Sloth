@@ -32,6 +32,8 @@
 #import "Common.h"
 #import "Alerts.h"
 #import "NSString+RegexMatching.h"
+#import "CustomTableHeaderCell.h"
+#import "GetInfoPanelController.h"
 
 #import <Security/Authorization.h>
 #import <Security/AuthorizationTags.h>
@@ -86,6 +88,7 @@ uid_t uid_for_pid(pid_t pid)
 
     IBOutlet NSButton *revealButton;
     IBOutlet NSButton *killButton;
+    IBOutlet NSButton *getInfoButton;
     IBOutlet NSButton *authenticateButton;
     IBOutlet NSButton *refreshButton;
     IBOutlet NSButton *disclosureButton;
@@ -93,6 +96,9 @@ uid_t uid_for_pid(pid_t pid)
     IBOutlet NSOutlineView *outlineView;
     IBOutlet NSTreeController *treeController;
 
+    IBOutlet NSImageView *cellImageView;
+    IBOutlet NSTextField *cellTextField;
+    
     NSDictionary *type2icon;
     NSImage *genericExecutableIcon;
     
@@ -101,6 +107,8 @@ uid_t uid_for_pid(pid_t pid)
     BOOL isRefreshing;
     
     NSTimer *filterTimer;
+    
+    GetInfoPanelController *infoPanelController;
 }
 
 @property int totalFileCount;
@@ -165,6 +173,13 @@ uid_t uid_for_pid(pid_t pid)
     NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
     [button setImage:[NSApp applicationIconImage]];
     
+    // Custom column header
+    NSTableColumn *col = [[outlineView tableColumns] objectAtIndex:0];
+    CustomTableHeaderCell *cell = [[CustomTableHeaderCell alloc] initTextCell:[[col headerCell] stringValue]];
+    
+    [col setHeaderCell:cell];
+
+    
     // Hide authenticate button if AuthorizationExecuteWithPrivileges
     // is not available in this version of OS X
     if ([self AEWPFunctionExists] == NO) {
@@ -172,6 +187,8 @@ uid_t uid_for_pid(pid_t pid)
     }
     
     [self updateSorting];
+    
+    [cellImageView setBounds:NSMakeRect(0, 0, 48, 48)];
     
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
@@ -539,7 +556,7 @@ uid_t uid_for_pid(pid_t pid)
                     pdict[@"name"] = process;
                     pdict[@"pname"] = process;
                     pdict[@"pid"] = pid;
-                    pdict[@"type"] = @"process";
+                    pdict[@"type"] = @"Process";
                     pdict[@"children"] = [NSMutableArray array];
                     
                     processes[pid] = pdict;
@@ -607,18 +624,19 @@ uid_t uid_for_pid(pid_t pid)
     // kill process as root
     const char *toolPath = [@"/bin/kill" fileSystemRepresentation];
     
+    AuthorizationRef authRef;
     AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
     AuthorizationRights myRights = { 1, &myItems };
     AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
     // create authorization reference
-    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
+    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authRef);
     if (err != errAuthorizationSuccess) {
         return NO;
     }
     
     // pre-authorize the privileged operation
-    err = AuthorizationCopyRights(authorizationRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
+    err = AuthorizationCopyRights(authRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
     if (err != errAuthorizationSuccess) {
         return NO;
     }
@@ -633,12 +651,12 @@ uid_t uid_for_pid(pid_t pid)
     args[2] = NULL;
     
     // use Authorization Reference to execute /bin/kill with root privileges
-    err = _AuthExecuteWithPrivsFn(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, NULL);
+    err = _AuthExecuteWithPrivsFn(authRef, toolPath, kAuthorizationFlagDefaults, args, NULL);
     
     // cleanup
     free(args[0]);
     free(args[1]);
-    AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
+    AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
     
     // we return err if execution failed
     if (err != errAuthorizationSuccess) {
@@ -694,7 +712,8 @@ uid_t uid_for_pid(pid_t pid)
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
-    [self revealItemInFinder:item];
+//    [self revealItemInFinder:item];
+    [self showGetInfoForItem:item];
 }
 
 - (void)revealItemInFinder:(NSDictionary *)item {
@@ -717,6 +736,28 @@ uid_t uid_for_pid(pid_t pid)
     } else {
         [outlineView collapseItem:nil collapseChildren:YES];
     }
+}
+
+#pragma mark - Get Info
+
+- (IBAction)getInfo:(id)sender {
+    int selectedRow = [outlineView selectedRow];
+    
+    if (selectedRow >= 0) {
+        [self showGetInfoForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
+    } else {
+        NSBeep();
+    }
+}
+
+- (void)showGetInfoForItem:(NSDictionary *)item {
+    // create info panel lazily
+    if (infoPanelController == nil) {
+        infoPanelController = [[GetInfoPanelController alloc] initWithWindowNibName:@"GetInfoPanelController"];
+    }
+    // show it
+    [infoPanelController setItem:item];
+    [infoPanelController showWindow:self];
 }
 
 #pragma mark - Sort
@@ -828,17 +869,29 @@ uid_t uid_for_pid(pid_t pid)
     
 	if (selectedRow >= 0) {
         NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-        [revealButton setEnabled:([self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"bundlepath"]])];
+        BOOL canReveal = ([self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"bundlepath"]]);
+        [revealButton setEnabled:canReveal];
+        [getInfoButton setEnabled:YES];
         [killButton setEnabled:YES];
+        [infoPanelController setItem:item];
 	} else {
 		[revealButton setEnabled:NO];
 		[killButton setEnabled:NO];
+        [getInfoButton setEnabled:NO];
+//        if (infoPanelController) {
+//            [infoPanelController setItem:nil];
+//        }
 	}
 }
 
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
+    return 20;
+}
+
+
 #pragma mark - Menus
 
-- (void) copy:(id)sender {
+- (void)copy:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     // some code to put data on the pasteBoard
     [pasteBoard clearContents];
@@ -853,7 +906,7 @@ uid_t uid_for_pid(pid_t pid)
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
 
     //reveal in finder / kill process only enabled when something is selected
-    if (( [[anItem title] isEqualToString:@"Show in Finder"] || [[anItem title] isEqualToString:@"Kill Process"]) && selectedRow < 0) {
+    if (( [[anItem title] isEqualToString:@"Show in Finder"] || [[anItem title] isEqualToString:@"Kill Process"] || [[anItem title] isEqualToString:@"Get Info"]) && selectedRow < 0) {
         return NO;
     }
     
