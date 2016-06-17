@@ -6,6 +6,21 @@
         <description>Most recent release list for Sloth, with links to signed updates.</description>
         <language>en</language>
         <item>
+            <title>Version 1.7</title>
+            <pubDate>Fri, 17 Jun 2016 14:28:00 +0000</pubDate>
+            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth1.7.zip" sparkle:version="33" sparkle:shortVersionString="1.7" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCGfp3wO6FsVyzUlk4BnBjq85qIbsDVVdJ6YQcMTs/gBAIgXeTPnx6s6wMX
+            eswXKjj+oXF7Wu/wDCmkGdET/iVaejQ="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>Version 1.7 Changes</h2>
+                <ul>
+                <li>New Info Panel for items</li>
+                <li>Minor UI changes</li>
+                </ul>
+            ]]></description>
+        </item>
+
+        <item>
             <title>Version 1.6</title>
             <pubDate>Wed, 30 Nov 2015 00:28:00 +0000</pubDate>
             <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth1.6.zip" sparkle:version="25" sparkle:shortVersionString="1.6" length="449664" type="application/octet-stream" sparkle:dsaSignature="MEQCIEA1HkqvE/n0+l/FQaY5cn0aNlJEFknRWSoX/CrqEFCYAiB+7ap9xBo55i8VuGIgtSCZraFH2F1qDLSWaaB1F/zWnA=="/>

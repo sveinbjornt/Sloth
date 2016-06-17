@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GetInfoPanelController">
@@ -155,13 +155,10 @@
                     <button verticalHuggingPriority="750" id="Xaf-Tg-hdx">
                         <rect key="frame" x="146" y="42" width="115" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Quick Look" bezelStyle="rounded" image="NSQuickLookTemplate" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Z1-Ly-yMI">
+                        <buttonCell key="cell" type="push" title="Quick Look" bezelStyle="rounded" image="NSQuickLookTemplate" imagePosition="left" alignment="center" controlSize="small" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Z1-Ly-yMI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
-                        <connections>
-                            <action selector="quickLook:" target="-2" id="Z5V-cq-3G9"/>
-                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="YUv-vf-qzB">
                         <rect key="frame" x="146" y="14" width="115" height="28"/>

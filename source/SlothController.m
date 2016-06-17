@@ -32,7 +32,6 @@
 #import "Common.h"
 #import "Alerts.h"
 #import "NSString+RegexMatching.h"
-#import "CustomTableHeaderCell.h"
 #import "GetInfoPanelController.h"
 
 #import <Security/Authorization.h>
@@ -76,9 +75,7 @@ uid_t uid_for_pid(pid_t pid)
 }
 
 @interface SlothController ()
-{
-    IBOutlet NSWindow *window;
-    
+{    
     IBOutlet NSMenu *sortMenu;
     
     IBOutlet NSProgressIndicator *progressIndicator;
@@ -92,6 +89,7 @@ uid_t uid_for_pid(pid_t pid)
     IBOutlet NSButton *authenticateButton;
     IBOutlet NSButton *refreshButton;
     IBOutlet NSButton *disclosureButton;
+    IBOutlet NSTextField *disclosureTextField;
     
     IBOutlet NSOutlineView *outlineView;
     IBOutlet NSTreeController *treeController;
@@ -109,6 +107,8 @@ uid_t uid_for_pid(pid_t pid)
     NSTimer *filterTimer;
     
     GetInfoPanelController *infoPanelController;
+    
+    NSWindow *srcWin;
 }
 
 @property int totalFileCount;
@@ -169,16 +169,9 @@ uid_t uid_for_pid(pid_t pid)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // put application icon in window title bar
-    [window setRepresentedURL:[NSURL URLWithString:@""]];
-    NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
+    [_window setRepresentedURL:[NSURL URLWithString:@""]];
+    NSButton *button = [_window standardWindowButton:NSWindowDocumentIconButton];
     [button setImage:[NSApp applicationIconImage]];
-    
-    // Custom column header
-    NSTableColumn *col = [[outlineView tableColumns] objectAtIndex:0];
-    CustomTableHeaderCell *cell = [[CustomTableHeaderCell alloc] initTextCell:[[col headerCell] stringValue]];
-    
-    [col setHeaderCell:cell];
-
     
     // Hide authenticate button if AuthorizationExecuteWithPrivileges
     // is not available in this version of OS X
@@ -187,6 +180,8 @@ uid_t uid_for_pid(pid_t pid)
     }
     
     [self updateSorting];
+    
+    [self disclosureChanged:self];
     
     [cellImageView setBounds:NSMakeRect(0, 0, 48, 48)];
     
@@ -208,16 +203,14 @@ uid_t uid_for_pid(pid_t pid)
     [outlineView setDoubleAction:@selector(rowDoubleClicked:)];
     
     // Layer-backed window
-    [[window contentView] setWantsLayer:YES];
+    [[_window contentView] setWantsLayer:YES];
     
     // If launching for the first time, center window
     if ([DEFAULTS boolForKey:@"PreviouslyLaunched"] == NO) {
-        [window center];
+        [_window center];
         [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
     }
-    [window makeKeyAndOrderFront:self];
-
-
+    [_window makeKeyAndOrderFront:self];
     
     [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
@@ -394,8 +387,8 @@ uid_t uid_for_pid(pid_t pid)
     
     // Center progress indicator and set it off
     [progressIndicator setFrameOrigin:NSMakePoint(
-                                        (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2,
-                                        (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2
+                                        (NSWidth([_window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2,
+                                        (NSHeight([_window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2
                                         )];
     [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
 	[progressIndicator setUsesThreadedAnimation:TRUE];
@@ -733,8 +726,10 @@ uid_t uid_for_pid(pid_t pid)
 - (IBAction)disclosureChanged:(id)sender {
     if ([DEFAULTS boolForKey:@"disclosure"]) {
         [outlineView expandItem:nil expandChildren:YES];
+        [disclosureTextField setStringValue:@"Collapse all"];
     } else {
         [outlineView collapseItem:nil collapseChildren:YES];
+        [disclosureTextField setStringValue:@"Expand all"];
     }
 }
 
@@ -878,16 +873,15 @@ uid_t uid_for_pid(pid_t pid)
 		[revealButton setEnabled:NO];
 		[killButton setEnabled:NO];
         [getInfoButton setEnabled:NO];
-//        if (infoPanelController) {
-//            [infoPanelController setItem:nil];
-//        }
+        if (infoPanelController) {
+            [infoPanelController setItem:nil];
+        }
 	}
 }
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
     return 20;
 }
-
 
 #pragma mark - Menus
 

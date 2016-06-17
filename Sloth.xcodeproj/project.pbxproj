@@ -19,7 +19,6 @@
 		F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */; };
 		F4D529341C90BAE10046FAE9 /* GetInfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* GetInfoPanelController.m */; };
 		F4D529351C90BAE10046FAE9 /* GetInfoPanelController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4D529331C90BAE10046FAE9 /* GetInfoPanelController.xib */; };
-		F4D529381C96F9890046FAE9 /* CustomTableHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529371C96F9890046FAE9 /* CustomTableHeaderCell.m */; };
 		F4D5293A1C9710650046FAE9 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D529391C9710650046FAE9 /* Quartz.framework */; };
 		F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BE1C7895220024540F /* LockedIcon.icns */; };
 		F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BF1C7895220024540F /* UnlockedIcon.icns */; };
@@ -60,16 +59,14 @@
 		F438712913402CDD00B51A5E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = RegistrationDefaults.plist; sourceTree = "<group>"; };
 		F438712D13402CDD00B51A5E /* Sloth.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Sloth.icns; sourceTree = "<group>"; };
+		F43D9FEB1D143ACF00DE08E5 /* sloth_screenshot1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloth_screenshot1.png; sourceTree = "<group>"; };
 		F4D529311C90BAE10046FAE9 /* GetInfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInfoPanelController.h; path = source/GetInfoPanelController.h; sourceTree = SOURCE_ROOT; };
 		F4D529321C90BAE10046FAE9 /* GetInfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInfoPanelController.m; path = source/GetInfoPanelController.m; sourceTree = SOURCE_ROOT; };
 		F4D529331C90BAE10046FAE9 /* GetInfoPanelController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GetInfoPanelController.xib; path = source/GetInfoPanelController.xib; sourceTree = SOURCE_ROOT; };
-		F4D529361C96F9890046FAE9 /* CustomTableHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableHeaderCell.h; sourceTree = "<group>"; };
-		F4D529371C96F9890046FAE9 /* CustomTableHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableHeaderCell.m; sourceTree = "<group>"; };
 		F4D529391C9710650046FAE9 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = ../../System/Library/Frameworks/Quartz.framework; sourceTree = "<group>"; };
 		F4ED53BE1C7895220024540F /* LockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = LockedIcon.icns; sourceTree = "<group>"; };
 		F4ED53BF1C7895220024540F /* UnlockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = UnlockedIcon.icns; sourceTree = "<group>"; };
 		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		F4ED53CA1C78CDAD0024540F /* socket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = socket.png; sourceTree = "<group>"; };
 		F4F1D89A1C75FBF800945D3E /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		F4F1D89B1C76186200945D3E /* NSString+RegexMatching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexMatching.h"; sourceTree = "<group>"; };
 		F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexMatching.m"; sourceTree = "<group>"; };
@@ -156,8 +153,6 @@
 				F4F1D89A1C75FBF800945D3E /* Common.h */,
 				F438710D13402C8200B51A5E /* SlothController.h */,
 				F438710E13402C8200B51A5E /* SlothController.m */,
-				F4D529361C96F9890046FAE9 /* CustomTableHeaderCell.h */,
-				F4D529371C96F9890046FAE9 /* CustomTableHeaderCell.m */,
 				F4D529311C90BAE10046FAE9 /* GetInfoPanelController.h */,
 				F4D529321C90BAE10046FAE9 /* GetInfoPanelController.m */,
 				F40B7D2E1C75FA94000A4616 /* Util */,
@@ -178,8 +173,8 @@
 				F438712D13402CDD00B51A5E /* Sloth.icns */,
 				F4ED53BE1C7895220024540F /* LockedIcon.icns */,
 				F4ED53BF1C7895220024540F /* UnlockedIcon.icns */,
-				F4ED53CA1C78CDAD0024540F /* socket.png */,
 				F40B7D2B1C75F161000A4616 /* sloth_icon.png */,
+				F43D9FEB1D143ACF00DE08E5 /* sloth_screenshot1.png */,
 			);
 			name = Resources;
 			path = resources;
@@ -228,7 +223,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Sloth" */;
@@ -292,7 +287,6 @@
 			files = (
 				F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* GetInfoPanelController.m in Sources */,
-				F4D529381C96F9890046FAE9 /* CustomTableHeaderCell.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
 				F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */,

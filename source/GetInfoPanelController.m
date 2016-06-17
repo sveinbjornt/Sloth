@@ -28,12 +28,14 @@
  POSSIBILITY OF SUCH DAMAGE.
 */
 
+//#import "CoreGraphicsServices.h"
+#import "SlothController.h"
+
 #import "GetInfoPanelController.h"
 #import "Common.h"
 #import <pwd.h>
 #import <grp.h>
 #import <sys/stat.h>
-@import Quartz; 
 
 @interface GetInfoPanelController ()
 
@@ -47,7 +49,6 @@
 @property (weak) IBOutlet NSTextField *sizeTextField;
 @property (weak) IBOutlet NSTextField *permissionsTextField;
 
-
 @property (weak) IBOutlet NSButton *killButton;
 @property (weak) IBOutlet NSButton *showInFinderButton;
 @property (weak) IBOutlet NSButton *getFinderInfoButton;
@@ -55,6 +56,8 @@
 
 @property (assign, nonatomic) NSString *path;
 @property (assign, nonatomic) NSDictionary *fileInfoDict;
+
+@property (strong) QLPreviewPanel *previewPanel;
 
 @end
 
@@ -65,13 +68,15 @@
 - (void)setItem:(NSDictionary *)itemDict {
     self.fileInfoDict = itemDict;
     
-    BOOL isProcess = [itemDict[@"type"] isEqualToString:@"Process"];
-    BOOL isFileOrFolder = [itemDict[@"type"] isEqualToString:@"File"] || [itemDict[@"type"] isEqualToString:@"Directory"];
+    NSString *type = itemDict[@"type"];
+    
+    BOOL isProcess = [type isEqualToString:@"Process"];
+    BOOL isFileOrFolder = [type isEqualToString:@"File"] || [type isEqualToString:@"Directory"];
     
     // name
     NSString *name = isFileOrFolder ? [itemDict[@"name"] lastPathComponent] : itemDict[@"name"];
-    if ([name isEqualToString:@""]) {
-        name = [NSString stringWithFormat:@"Unnamed %@", itemDict[@"type"]];
+    if (name == nil || [name isEqualToString:@""]) {
+        name = [NSString stringWithFormat:@"Unnamed %@", type];
     }
     if (isProcess) {
         name = itemDict[@"pname"];
@@ -93,13 +98,13 @@
     [self.iconView setImage:img];
     
     NSString *sizeStr = @"";
-    if ([itemDict[@"type"] isEqualToString:@"File"]) {
+    if ([type isEqualToString:@"File"]) {
         sizeStr = [self fileSizeStringForPath:path];
     }
     [self.sizeTextField setStringValue:sizeStr];
     
     // type
-    [self.itemTypeTextField setStringValue:itemDict[@"type"]];
+    [self.itemTypeTextField setStringValue:type];
     
     // owned by
     if (isProcess) {
@@ -130,7 +135,9 @@
     BOOL workablePath = isFileOrFolder || (isProcess && [FILEMGR fileExistsAtPath:path]);
     [self.showInFinderButton setEnabled:workablePath];
     [self.getFinderInfoButton setEnabled:workablePath];
-    [self.quickLookButton setEnabled:workablePath];
+    
+//    [self.quickLookButton setEnabled:workablePath];
+//    [[QLPreviewPanel sharedPreviewPanel] reloadData];
 }
 
 #pragma mark - Get file info
@@ -240,13 +247,106 @@
     [[NSApp delegate] performSelector:@selector(kill:) withObject:self];
 }
 
-- (IBAction)quickLook:(id)sender {
-    if ([QLPreviewPanel sharedPreviewPanelExists] && [[QLPreviewPanel sharedPreviewPanel] isVisible]) {
-        [[QLPreviewPanel sharedPreviewPanel] orderOut:nil];
-    } else {
-        [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront:nil];
-    }
-}
+//- (IBAction)quickLook:(id)sender {
+////    if ([QLPreviewPanel sharedPreviewPanelExists] && [[QLPreviewPanel sharedPreviewPanel] isVisible]) {
+////        [[QLPreviewPanel sharedPreviewPanel] orderOut:nil];
+////    } else {
+////        [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront:nil];
+////    }
+//    
+//    if ([QLPreviewPanel sharedPreviewPanelExists] && [[QLPreviewPanel sharedPreviewPanel] isVisible])
+//    {
+//        [[QLPreviewPanel sharedPreviewPanel] orderOut:nil];
+//    }
+//    else
+//    {
+//        [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront:nil];
+//    }
+//
+//    
+//    [[QLPreviewPanel sharedPreviewPanel] reloadData];
+//}
+
+#pragma mark - Quick Look panel support
+
+//- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
+//{
+//    return YES;
+//}
+//
+//- (void)beginPreviewPanelControl:(QLPreviewPanel *)panel
+//{
+//    // This document is now responsible of the preview panel
+//    // It is allowed to set the delegate, data source and refresh panel.
+//    //
+//    _previewPanel = panel;
+//    panel.delegate = self;
+//    panel.dataSource = self;
+//}
+//
+//- (void)endPreviewPanelControl:(QLPreviewPanel *)panel
+//{
+//    // This document loses its responsisibility on the preview panel
+//    // Until the next call to -beginPreviewPanelControl: it must not
+//    // change the panel's delegate, data source or refresh it.
+//    //
+//    _previewPanel = nil;
+//}
+
+#pragma mark - QLPreviewPanelDataSource
+
+//- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel
+//{
+//    return 1;
+//}
+//
+//- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
+//{
+//    return [NSURL URLWithString:[self.pathTextField stringValue]];
+//}
+
+#pragma mark - QLPreviewPanelDelegate
+
+//- (BOOL)previewPanel:(QLPreviewPanel *)panel handleEvent:(NSEvent *)event
+//{
+////    // redirect all key down events to the table view
+////    if ([event type] == NSKeyDown)
+////    {
+////        [self.downloadsTableView keyDown:event];
+////        return YES;
+////    }
+//    return NO;
+//}
+//
+// This delegate method provides the rect on screen from which the panel will zoom.
+//- (NSRect)previewPanel:(QLPreviewPanel *)panel sourceFrameOnScreenForPreviewItem:(id <QLPreviewItem>)item
+//{
+//    NSInteger index = [self.downloads indexOfObject:item];
+//    if (index == NSNotFound)
+//    {
+//        return NSZeroRect;
+//    }
+//    
+//    NSRect iconRect = [self.downloadsTableView frameOfCellAtColumn:0 row:index];
+//    
+//    // check that the icon rect is visible on screen
+//    NSRect visibleRect = [self.downloadsTableView visibleRect];
+//    
+//    if (!NSIntersectsRect(visibleRect, iconRect))
+//    {
+//        return NSZeroRect;
+//    }
+//    
+//    // convert icon rect to screen coordinates
+//    iconRect = [self.downloadsTableView convertRectToBacking:iconRect];
+//    NSRect test = [[self.downloadsTableView window] convertRectToScreen:iconRect];
+//    iconRect.origin = test.origin;
+//    
+//    return iconRect;
+//}
+
+
+#pragma mark -
 
 - (IBAction)getInfoInFinder:(id)sender {
     BOOL isDir;

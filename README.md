@@ -8,7 +8,7 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 
 ## Download
 
-* [Download Sloth 1.6](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
+* [Download Sloth 1.7](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
 
 ## Requirements
 
@@ -20,6 +20,11 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 <img src="resources/sloth_screenshot1.png" align="center">
 
 ## Version history
+
+###17/06/2016 - Version 1.7
+
+* New Info Panel for items
+* Minor UI changes
 
 ###24/02/2016 - Version 1.6
 
