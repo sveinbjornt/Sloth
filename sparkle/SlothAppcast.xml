@@ -8,8 +8,7 @@
         <item>
             <title>Version 1.7</title>
             <pubDate>Fri, 17 Jun 2016 14:28:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth1.7.zip" sparkle:version="33" sparkle:shortVersionString="1.7" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCGfp3wO6FsVyzUlk4BnBjq85qIbsDVVdJ6YQcMTs/gBAIgXeTPnx6s6wMX
-            eswXKjj+oXF7Wu/wDCmkGdET/iVaejQ="/>
+            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.7.zip" sparkle:version="34" sparkle:shortVersionString="1.7" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIDOn9V1I6df2P4pfX2LudUtkmoPPyug/7Me/XylwyOikAiBkztzAtYOpiqixzfZoqeQQyrpAV0N6IuLIXj1IayQvkA=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
                 <h2>Version 1.7 Changes</h2>
@@ -23,7 +22,7 @@
         <item>
             <title>Version 1.6</title>
             <pubDate>Wed, 30 Nov 2015 00:28:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth1.6.zip" sparkle:version="25" sparkle:shortVersionString="1.6" length="449664" type="application/octet-stream" sparkle:dsaSignature="MEQCIEA1HkqvE/n0+l/FQaY5cn0aNlJEFknRWSoX/CrqEFCYAiB+7ap9xBo55i8VuGIgtSCZraFH2F1qDLSWaaB1F/zWnA=="/>
+            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.6.zip" sparkle:version="25" sparkle:shortVersionString="1.6" length="449664" type="application/octet-stream" sparkle:dsaSignature="MEQCIEA1HkqvE/n0+l/FQaY5cn0aNlJEFknRWSoX/CrqEFCYAiB+7ap9xBo55i8VuGIgtSCZraFH2F1qDLSWaaB1F/zWnA=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
                 <h2>Version 1.6 Changes</h2>

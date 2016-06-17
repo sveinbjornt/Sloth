@@ -183,11 +183,11 @@
 		F4F1D9101C7CB95700945D3E /* Sparkle */ = {
 			isa = PBXGroup;
 			children = (
+				F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */,
 				F4F1D9111C7CB95700945D3E /* dsa_priv.pem */,
 				F4F1D9121C7CB95700945D3E /* dsa_pub.pem */,
 				F4F1D9131C7CB95700945D3E /* generate_keys.rb */,
 				F4F1D9141C7CB95700945D3E /* sign_update.rb */,
-				F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */,
 				F4F1D9161C7CB95700945D3E /* update_appcast.sh */,
 			);
 			name = Sparkle;
