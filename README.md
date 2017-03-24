@@ -4,7 +4,7 @@
 
 Sloth is an OS X application that displays a list of all open files and sockets in use by all running applications on your system. This makes it easy to see which apps are using which files and sockets.
 
-Sloth is basically a GUI on top of the powerful `lsof` command line tool. The output of `lsof` is parsed and shown in a searchable, filterable table view with some convenient user friendly functionality such as revealing files in the Finder, killing a file's owning process, etc. See screenshots.
+Sloth is basically a GUI on top of the powerful `lsof` command line tool. The output of `lsof` is parsed and shown in a searchable, filterable table view with some convenient user-friendly functionality such as revealing files in the Finder, killing a file's owning process, etc. See screenshots.
 
 ## Download
 
@@ -17,16 +17,18 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 
 ## Screenshots
 
+<img src="resources/sloth_screenshot2.jpg" align="center">
+
 <img src="resources/sloth_screenshot1.png" align="center">
 
 ## Version history
 
-###17/06/2016 - Version 1.7
+### 17/06/2016 - Version 1.7
 
 * New Info Panel for items
 * Minor UI changes
 
-###24/02/2016 - Version 1.6
+### 24/02/2016 - Version 1.6
 
 * Asynchronous refresh
 * Much improved performance
@@ -39,24 +41,24 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 * Substantial rewrite
 * Now requires OS X 10.8 or later
 
-###08/07/2010 - Version 1.5
+### 08/07/2010 - Version 1.5
 
 * Column sorting, column rearrangement
 * Several bug fixes
 * Copy/Drag and drop
 
-###29/05/2009 - Version 1.4
+### 29/05/2009 - Version 1.4
 
 * Regular expression search filtering
 * New "Relaunch as root" option
 * Fixed bug in Mac OS X 10.5
 * Now built for Mac OS X 10.4 or later
 
-###28/07/2006 - Version 1.3.1
+### 28/07/2006 - Version 1.3.1
 
 * Released as a Universal Binary
 
-###05/03/2004 - Version 1.3
+### 05/03/2004 - Version 1.3
 
 * Live update on search filter
 * Sorting in columns now works
@@ -64,7 +66,7 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 * The timed update feature is non-functional for the time being
 * Lots of code replaced by Cocoa bindings thanks to Bill Bumgarner
 
-###27/02/2004 - Version 1.2
+### 27/02/2004 - Version 1.2
 
 * Filter search field now counts all list fields when filtering
 * Auto-refresh timer option
@@ -72,12 +74,12 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 * New application icon
 * Added Icelandic and Japanese localizations
 
-###22/02/2004 - Version 1.1
+### 22/02/2004 - Version 1.1
 
 * There is now a search field filter for entries in list. No type-in update.
 * "Actions" menu with menu items and shortcuts for button actions
 
-###21/02/2004 - Version 1.0
+### 21/02/2004 - Version 1.0
 
 ## BSD License 
 
