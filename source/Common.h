@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2004-2016, Sveinbjorn Thordarson <sveinbjornt@gmail.com>
+    Copyright (c) 2004-2017, Sveinbjorn Thordarson <sveinbjornt@gmail.com>
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without modification,
@@ -42,7 +42,6 @@
 #define GENERIC_FOLDER_ICON_PATH            @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericFolderIcon.icns"
 #define GENERIC_NETWORK_ICON_PATH           @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"
 
-
 #define VALUES_KEYPATH(X) [NSString stringWithFormat:@"values.%@", (X)]
 
 #define FILEMGR     [NSFileManager defaultManager]
@@ -53,5 +52,4 @@
 // exists anyplace. Rather than defining a new enum, we just create a global
 // constant
 extern const OSStatus errAuthorizationFnNoLongerExists;
-
 
