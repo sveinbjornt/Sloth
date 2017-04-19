@@ -14,8 +14,6 @@
 	<string>1.7</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleGetInfoString</key>
 	<string>© 2004-2017 Sveinbjorn Thordarson.</string>
 	<key>CFBundleVersion</key>
@@ -29,7 +27,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://sveinbjorn.org/files/appcasts/SlothAppcast.xml</string>
+	<string>https://sveinbjorn.org/files/appcasts/SlothAppcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>NSAppTransportSecurity</key>

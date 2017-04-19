@@ -76,7 +76,6 @@
 		F4F1D90E1C7CB7E700945D3E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		F4F1D9111C7CB95700945D3E /* dsa_priv.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_priv.pem; sourceTree = "<group>"; };
 		F4F1D9121C7CB95700945D3E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		F4F1D9131C7CB95700945D3E /* generate_keys.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = generate_keys.rb; sourceTree = "<group>"; };
 		F4F1D9141C7CB95700945D3E /* sign_update.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = sign_update.rb; sourceTree = "<group>"; };
 		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
 		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
@@ -196,7 +195,6 @@
 				F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */,
 				F4F1D9111C7CB95700945D3E /* dsa_priv.pem */,
 				F4F1D9121C7CB95700945D3E /* dsa_pub.pem */,
-				F4F1D9131C7CB95700945D3E /* generate_keys.rb */,
 				F4F1D9141C7CB95700945D3E /* sign_update.rb */,
 				F4F1D9161C7CB95700945D3E /* update_appcast.sh */,
 			);
