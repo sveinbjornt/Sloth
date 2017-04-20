@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -129,7 +130,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="kNZ-Wh-Rrx"/>
                         </connections>
                     </button>
-                    <searchField toolTip="Search Filter" wantsLayer="YES" verticalHuggingPriority="750" id="252">
+                    <searchField toolTip="Search Filter" wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="252">
                         <rect key="frame" x="506" y="519" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" bezelStyle="round" id="735">
@@ -168,19 +169,13 @@ DQ
                         <rect key="frame" x="501" y="14" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </progressIndicator>
-                    <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="9jY-Nj-HCo">
+                    <box horizontalHuggingPriority="750" boxType="separator" id="9jY-Nj-HCo">
                         <rect key="frame" x="351" y="505" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
-                    <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="wZB-WG-ZQ5">
+                    <box horizontalHuggingPriority="750" boxType="separator" id="wZB-WG-ZQ5">
                         <rect key="frame" x="488" y="505" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
                     <button toolTip="Show Pipes" id="Y0K-aj-uhW">
                         <rect key="frame" x="278" y="508" width="68" height="21"/>
@@ -201,7 +196,7 @@ DQ
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
-                                    <rect key="frame" x="0.0" y="0.0" width="635" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="635" height="399"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -233,7 +228,7 @@ DQ
                                                                 <binding destination="Qd7-oA-yOC" name="value" keyPath="objectValue.image" id="d1o-Eh-Ltr"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="e1S-AA-cw7">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" id="e1S-AA-cw7">
                                                             <rect key="frame" x="25" y="0.0" width="607" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" id="2JS-SB-0or">
@@ -265,7 +260,6 @@ DQ
                                     </connections>
                                 </outlineView>
                             </subviews>
-                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="i50-wE-fNz">
                             <rect key="frame" x="1" y="119" width="223" height="15"/>
@@ -295,7 +289,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.disclosure" id="15D-E7-K9L"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="659">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="659">
                         <rect key="frame" x="424" y="52" width="232" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" id="738">
@@ -315,7 +309,7 @@ DQ
                             <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cw1-nC-kNe">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="cw1-nC-kNe">
                         <rect key="frame" x="36" y="52" width="119" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Collapse all" id="7A9-Ir-ydg">
@@ -327,7 +321,7 @@ DQ
                 </subviews>
             </view>
             <connections>
-                <outlet property="delegate" destination="212" id="lID-ft-t3U"/>
+                <outlet property="delegate" destination="212" id="3KT-G0-6pk"/>
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
             <point key="canvasLocation" x="701.5" y="147.5"/>

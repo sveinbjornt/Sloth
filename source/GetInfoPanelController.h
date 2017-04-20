@@ -31,7 +31,7 @@
 #import <Cocoa/Cocoa.h>
 @import Quartz;
 
-@interface GetInfoPanelController : NSWindowController //<QLPreviewPanelDataSource, QLPreviewPanelDelegate>
+@interface GetInfoPanelController : NSWindowController <NSWindowDelegate/*, QLPreviewPanelDataSource, QLPreviewPanelDelegate*/>
 
 - (void)setItem:(NSDictionary *)itemDict;
 

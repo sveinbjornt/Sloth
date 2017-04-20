@@ -201,6 +201,9 @@
                     </textField>
                 </subviews>
             </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="Lue-ZZ-y1f"/>
+            </connections>
             <point key="canvasLocation" x="193" y="118.5"/>
         </window>
     </objects>

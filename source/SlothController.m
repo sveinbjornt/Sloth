@@ -75,7 +75,8 @@ uid_t uid_for_pid(pid_t pid)
 }
 
 @interface SlothController ()
-{    
+{
+    IBOutlet NSWindow *window;
     IBOutlet NSMenu *sortMenu;
     
     IBOutlet NSProgressIndicator *progressIndicator;
@@ -107,10 +108,7 @@ uid_t uid_for_pid(pid_t pid)
     NSTimer *filterTimer;
     
     GetInfoPanelController *infoPanelController;
-    
-    NSWindow *srcWin;
 }
-
 @property int totalFileCount;
 @property (strong) IBOutlet NSMutableArray *content;
 @property (strong) NSMutableArray *unfilteredContent;
@@ -169,8 +167,8 @@ uid_t uid_for_pid(pid_t pid)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // put application icon in window title bar
-    [_window setRepresentedURL:[NSURL URLWithString:@""]];
-    NSButton *button = [_window standardWindowButton:NSWindowDocumentIconButton];
+    [window setRepresentedURL:[NSURL URLWithString:@""]];
+    NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
     [button setImage:[NSApp applicationIconImage]];
     
     // Hide authenticate button if AuthorizationExecuteWithPrivileges
@@ -203,14 +201,14 @@ uid_t uid_for_pid(pid_t pid)
     [outlineView setDoubleAction:@selector(rowDoubleClicked:)];
     
     // Layer-backed window
-    [[_window contentView] setWantsLayer:YES];
+    [[window contentView] setWantsLayer:YES];
     
     // If launching for the first time, center window
     if ([DEFAULTS boolForKey:@"PreviouslyLaunched"] == NO) {
-        [_window center];
+        [window center];
         [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
     }
-    [_window makeKeyAndOrderFront:self];
+    [window makeKeyAndOrderFront:self];
     
     [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
@@ -386,10 +384,9 @@ uid_t uid_for_pid(pid_t pid)
     [outlineView setAlphaValue:0.5];
     
     // Center progress indicator and set it off
-    [progressIndicator setFrameOrigin:NSMakePoint(
-                                        (NSWidth([_window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2,
-                                        (NSHeight([_window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2
-                                        )];
+    CGFloat x = (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2;
+    CGFloat y = (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2;
+    [progressIndicator setFrameOrigin:NSMakePoint(x, y)];
     [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
 	[progressIndicator setUsesThreadedAnimation:TRUE];
 	[progressIndicator startAnimation:self];
@@ -427,6 +424,12 @@ uid_t uid_for_pid(pid_t pid)
     NSData *outputData;
     
     if (isAuthenticated) {
+        if (!_AuthExecuteWithPrivsFn) {
+            NSBeep();
+            NSLog(@"AuthorizationExecuteWithPrivileges function undefined");
+            return nil;
+        }
+        
         
         const char *toolPath = [PROGRAM_DEFAULT_LSOF_PATH fileSystemRepresentation];
         NSArray *arguments = PROGRAM_LSOF_ARGS;
@@ -473,6 +476,13 @@ uid_t uid_for_pid(pid_t pid)
 }
 
 - (NSMutableArray *)parseLsofOutput:(NSString *)outputString numFiles:(int *)numFiles {
+    NSMutableArray *processList = [NSMutableArray array];
+    *numFiles = 0;
+    
+    if (outputString == nil) {
+        return processList;
+    }
+    
     // split into array of lines of text
     NSArray *lines = [outputString componentsSeparatedByString:@"\n"];
     
@@ -563,9 +573,6 @@ uid_t uid_for_pid(pid_t pid)
     }
     
     // Create array of process dictionaries
-    NSMutableArray *processList = [NSMutableArray array];
-    *numFiles = 0;
-
     for (NSString *pname in [processes allKeys]) {
         NSMutableDictionary *p = processes[pname];
         [self updateProcessInfo:p];
@@ -609,7 +616,6 @@ uid_t uid_for_pid(pid_t pid)
 #pragma mark - Interface
 
 - (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
-    
     if (!asRoot) {
         return (kill(pid, SIGKILL) == 0);
     }
@@ -814,7 +820,6 @@ uid_t uid_for_pid(pid_t pid)
         }
     } else {
         [self deauthenticate];
-        authenticated = NO;
     }
     
     NSString *imgName = authenticated ? @"UnlockedIcon.icns" : @"LockedIcon.icns";
@@ -850,6 +855,7 @@ uid_t uid_for_pid(pid_t pid)
     if (authorizationRef) {
         AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
     }
+    authenticated = NO;
 }
 
 #pragma mark - NSOutlineViewDelegate

@@ -30,8 +30,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SlothController : NSObject <NSApplicationDelegate>
-
-@property (strong) IBOutlet NSWindow *window;
+@interface SlothController : NSObject <NSApplicationDelegate, NSWindowDelegate>
 
 @end
