@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -40,7 +40,7 @@ DQ
                     <button toolTip="Reveal File In Finder" verticalHuggingPriority="750" id="211">
                         <rect key="frame" x="14" y="13" width="91" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="🔎Show" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="727">
+                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" inset="2" id="727">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -601,6 +601,15 @@ CA
                             <menuItem isSeparatorItem="YES" id="WR3-fZ-oyo">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
+                            <menuItem title="Authenticate" image="LockedIcon" id="vB0-5K-5xu" userLabel="Copy">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="toggleAuthentication:" target="212" id="akc-Eo-gH0"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="SmX-QE-WsD">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
                             <menuItem title="Toggle Expand/Collapse" keyEquivalent="t" id="lsV-Kv-gyN">
                                 <connections>
                                     <action selector="performClick:" target="sd7-Q9-5I9" id="E6d-S4-lkN"/>
@@ -672,10 +681,12 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
+            <point key="canvasLocation" x="644" y="-369"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
                 <outlet property="authenticateButton" destination="tqa-Nm-sTb" id="51O-C4-9Yi"/>
+                <outlet property="authenticateMenuItem" destination="vB0-5K-5xu" id="peB-OZ-yEN"/>
                 <outlet property="disclosureButton" destination="sd7-Q9-5I9" id="BCS-jg-qXK"/>
                 <outlet property="disclosureTextField" destination="cw1-nC-kNe" id="NqI-Vf-oIe"/>
                 <outlet property="filterTextField" destination="252" id="656"/>
@@ -770,5 +781,6 @@ CA
         <image name="NSApplicationIcon" width="128" height="128"/>
         <image name="NSInfo" width="32" height="32"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
+        <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
     </resources>
 </document>

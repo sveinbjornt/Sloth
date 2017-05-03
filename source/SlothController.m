@@ -88,6 +88,7 @@ uid_t uid_for_pid(pid_t pid)
     IBOutlet NSButton *killButton;
     IBOutlet NSButton *getInfoButton;
     IBOutlet NSButton *authenticateButton;
+    IBOutlet NSMenuItem *authenticateMenuItem;
     IBOutlet NSButton *refreshButton;
     IBOutlet NSButton *disclosureButton;
     IBOutlet NSTextField *disclosureTextField;
@@ -823,7 +824,12 @@ uid_t uid_for_pid(pid_t pid)
     }
     
     NSString *imgName = authenticated ? @"UnlockedIcon.icns" : @"LockedIcon.icns";
-    [sender setImage:[NSImage imageNamed:imgName]];
+    NSString *actionName = authenticated ? @"Deauthenticate" : @"Authenticate";
+    NSImage *img = [NSImage imageNamed:imgName];
+    [authenticateButton setImage:img];
+    [authenticateButton setToolTip:actionName];
+    [authenticateMenuItem setImage:img];
+    [authenticateMenuItem setTitle:actionName];
     
     [self refresh:self];
 }
