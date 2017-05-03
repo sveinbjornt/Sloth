@@ -23,6 +23,12 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 
 ## Version history
 
+### 03/05/2017 - Version 1.8
+
+* Sloth is now code-signed
+* QuickLook now works from Get Info panel
+* Minor user interface improvements
+
 ### 17/06/2016 - Version 1.7
 
 * New Info Panel for items
