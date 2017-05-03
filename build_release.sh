@@ -56,8 +56,8 @@ else
 fi
 
 # Strip executables
-echo "Stripping binary"
-strip -x "${BUILD_DIR}/${APP_BUNDLE_NAME}/Contents/MacOS/Sloth"
+#echo "Stripping binary"
+#strip -x "${BUILD_DIR}/${APP_BUNDLE_NAME}/Contents/MacOS/Sloth"
 
 # # Remove DS_Store junk
 find "${BUILD_DIR}/${APP_BUNDLE_NAME}/" -name ".DS_Store" -exec rm -f "{}" \;
