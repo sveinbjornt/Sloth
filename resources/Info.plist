@@ -6,18 +6,18 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>Sloth</string>
+	<key>CFBundleGetInfoString</key>
+	<string>© 2004-2017 Sveinbjorn Thordarson.</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.7</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleGetInfoString</key>
-	<string>© 2004-2017 Sveinbjorn Thordarson.</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.8</string>
 	<key>CFBundleVersion</key>
-	<string>1.7</string>
+	<string>1.8</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
@@ -30,10 +30,5 @@
 	<string>https://sveinbjorn.org/files/appcasts/SlothAppcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 </dict>
 </plist>

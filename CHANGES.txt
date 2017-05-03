@@ -1,8 +1,11 @@
 
 ## Change history for Sloth:
 
-Version 1.8
-    * ?
+### 03/05/3017 - Version 1.8
+
+* Minor user interface improvements
+* QuickLook now works from Get Info panel
+* Sloth is now code-signed
 
 ###17/06/2016 - Version 1.7
 
