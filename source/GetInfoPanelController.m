@@ -57,8 +57,6 @@
 @property (assign, nonatomic) NSString *path;
 @property (assign, nonatomic) NSDictionary *fileInfoDict;
 
-@property (strong) QLPreviewPanel *previewPanel;
-
 @end
 
 @implementation GetInfoPanelController
@@ -134,10 +132,8 @@
     // buttons
     BOOL workablePath = isFileOrFolder || (isProcess && [FILEMGR fileExistsAtPath:path]);
     [self.showInFinderButton setEnabled:workablePath];
-    [self.getFinderInfoButton setEnabled:workablePath];
-    
-//    [self.quickLookButton setEnabled:workablePath];
-//    [[QLPreviewPanel sharedPreviewPanel] reloadData];
+    [self.getFinderInfoButton setEnabled:workablePath];    
+    [self.quickLookButton setEnabled:workablePath];
 }
 
 #pragma mark - Get file info
@@ -247,107 +243,6 @@
     [[NSApp delegate] performSelector:@selector(kill:) withObject:self];
 }
 
-//- (IBAction)quickLook:(id)sender {
-////    if ([QLPreviewPanel sharedPreviewPanelExists] && [[QLPreviewPanel sharedPreviewPanel] isVisible]) {
-////        [[QLPreviewPanel sharedPreviewPanel] orderOut:nil];
-////    } else {
-////        [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront:nil];
-////    }
-//    
-//    if ([QLPreviewPanel sharedPreviewPanelExists] && [[QLPreviewPanel sharedPreviewPanel] isVisible])
-//    {
-//        [[QLPreviewPanel sharedPreviewPanel] orderOut:nil];
-//    }
-//    else
-//    {
-//        [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront:nil];
-//    }
-//
-//    
-//    [[QLPreviewPanel sharedPreviewPanel] reloadData];
-//}
-
-#pragma mark - Quick Look panel support
-
-//- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
-//{
-//    return YES;
-//}
-//
-//- (void)beginPreviewPanelControl:(QLPreviewPanel *)panel
-//{
-//    // This document is now responsible of the preview panel
-//    // It is allowed to set the delegate, data source and refresh panel.
-//    //
-//    _previewPanel = panel;
-//    panel.delegate = self;
-//    panel.dataSource = self;
-//}
-//
-//- (void)endPreviewPanelControl:(QLPreviewPanel *)panel
-//{
-//    // This document loses its responsisibility on the preview panel
-//    // Until the next call to -beginPreviewPanelControl: it must not
-//    // change the panel's delegate, data source or refresh it.
-//    //
-//    _previewPanel = nil;
-//}
-
-#pragma mark - QLPreviewPanelDataSource
-
-//- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel
-//{
-//    return 1;
-//}
-//
-//- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
-//{
-//    return [NSURL URLWithString:[self.pathTextField stringValue]];
-//}
-
-#pragma mark - QLPreviewPanelDelegate
-
-//- (BOOL)previewPanel:(QLPreviewPanel *)panel handleEvent:(NSEvent *)event
-//{
-////    // redirect all key down events to the table view
-////    if ([event type] == NSKeyDown)
-////    {
-////        [self.downloadsTableView keyDown:event];
-////        return YES;
-////    }
-//    return NO;
-//}
-//
-// This delegate method provides the rect on screen from which the panel will zoom.
-//- (NSRect)previewPanel:(QLPreviewPanel *)panel sourceFrameOnScreenForPreviewItem:(id <QLPreviewItem>)item
-//{
-//    NSInteger index = [self.downloads indexOfObject:item];
-//    if (index == NSNotFound)
-//    {
-//        return NSZeroRect;
-//    }
-//    
-//    NSRect iconRect = [self.downloadsTableView frameOfCellAtColumn:0 row:index];
-//    
-//    // check that the icon rect is visible on screen
-//    NSRect visibleRect = [self.downloadsTableView visibleRect];
-//    
-//    if (!NSIntersectsRect(visibleRect, iconRect))
-//    {
-//        return NSZeroRect;
-//    }
-//    
-//    // convert icon rect to screen coordinates
-//    iconRect = [self.downloadsTableView convertRectToBacking:iconRect];
-//    NSRect test = [[self.downloadsTableView window] convertRectToScreen:iconRect];
-//    iconRect.origin = test.origin;
-//    
-//    return iconRect;
-//}
-
-
-#pragma mark -
-
 - (IBAction)getInfoInFinder:(id)sender {
     BOOL isDir;
     if ([FILEMGR fileExistsAtPath:self.path isDirectory:&isDir] == NO) {
@@ -361,15 +256,37 @@
                            \topen the information window of %@ POSIX file \"%@\"\n\
                            end tell", type, [self path], nil];
     
-    NSTask	*theTask = [[NSTask alloc] init];
+    [self runAppleScript:osaScript];
+}
+
+- (IBAction)quickLook:(id)sender {
+    if ([FILEMGR fileExistsAtPath:self.path] == NO) {
+        NSBeep();
+        return;
+    }
+    NSString *source = [NSString stringWithFormat:@"tell application \"Finder\"\n\
+                        activate\n\
+                        set imageFile to item (POSIX file \"%@\")\n\
+                        select imageFile\n\
+                        tell application \"System Events\" to keystroke \"y\" using command down\n\
+                        end tell", self.path];
     
-    //initialize task -- we launch the AppleScript via the 'osascript' CLI program
-    [theTask setLaunchPath: @"/usr/bin/osascript"];
-    [theTask setArguments: [NSArray arrayWithObjects: @"-e", osaScript, nil]];
-    [theTask launch];
+    [self runAppleScript:source];
+
 }
 
 #pragma mark - Util
+
+- (BOOL)runAppleScript:(NSString *)scriptSource {
+    NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
+    if (appleScript != nil) {
+        [appleScript executeAndReturnError:nil];
+        return YES;
+    } else {
+        NSLog(@"Error running AppleScript");
+        return NO;
+    }
+}
 
 - (UInt64)fileOrFolderSize:(NSString *)path {
     // returns size 0 for directories
