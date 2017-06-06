@@ -521,6 +521,9 @@ DQ
                                     <action selector="performClick:" target="sd7-Q9-5I9" id="E6d-S4-lkN"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="cIe-g2-lkd">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
                         </items>
                         <connections>
                             <outlet property="delegate" destination="212" id="Q8k-Bf-Cc7"/>
