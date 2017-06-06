@@ -183,8 +183,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSString *interfaceSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"interfaceSize"];
     [self checkItemWithTitle:interfaceSize inSubmenu:interfaceSizeSubmenu];
     
-    
-    
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
                             @"showDirectories",
@@ -202,6 +200,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     
     [outlineView setDoubleAction:@selector(rowDoubleClicked:)];
+    [outlineView registerForDraggedTypes:@[NSFilenamesPboardType]];
+    [outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
     
     // Layer-backed window
     [[window contentView] setWantsLayer:YES];
@@ -920,12 +920,17 @@ static inline uid_t uid_for_pid(pid_t pid) {
         return NO;
     }
     
-//    int ret = [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
+    int ret = [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
 //
 //    BOOL succ = [pboard writeObjects:@[item[@"name"]]];
     
     BOOL succ = [pboard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
-    BOOL s2 = [pboard setString:item[@"name"] forType:NSStringPboardType];
+//    BOOL s2 = [pboard setString:item[@"name"] forType:NSStringPboardType];
+    
+    for (NSPasteboardItem *i in [pboard pasteboardItems]) {
+        NSLog(@"%@", [[i propertyListForType:kUTTypeFileURL] description]);
+
+    }
     
     return YES;
 }
