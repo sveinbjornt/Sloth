@@ -6,6 +6,7 @@
 DONE * Fixed collapse all bug with Get Info window open
 DONE * Cmd F should focus on filter field
 DONE * Write file to clipboard on item copy if file and exists
+DONE * Cmd-double-click now reveals in Finder
 
 * GUI size toggle, View menu
 

@@ -718,8 +718,14 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
-//    [self revealItemInFinder:item];
-    [self showGetInfoForItem:item];
+    
+    BOOL commandKeyDown = (([[NSApp currentEvent] modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask);
+    
+    if (commandKeyDown) {
+        [self revealItemInFinder:item];
+    } else {
+        [self showGetInfoForItem:item];
+    }
 }
 
 - (void)revealItemInFinder:(NSDictionary *)item {
