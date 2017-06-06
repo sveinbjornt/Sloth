@@ -910,6 +910,26 @@ static inline uid_t uid_for_pid(pid_t pid) {
     return 20.f;
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView
+         writeItems:(NSArray *)items
+       toPasteboard:(NSPasteboard *)pboard {
+        
+    NSDictionary *item = [items[0] representedObject];
+    NSString *path = item[@"bundlepath"] ? item[@"bundlepath"] : item[@"name"];
+    if (![FILEMGR fileExistsAtPath:path]) {
+        return NO;
+    }
+    
+//    int ret = [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
+//
+//    BOOL succ = [pboard writeObjects:@[item[@"name"]]];
+    
+    BOOL succ = [pboard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+    BOOL s2 = [pboard setString:item[@"name"] forType:NSStringPboardType];
+    
+    return YES;
+}
+
 #pragma mark - Menus
 
 - (void)copy:(id)sender {

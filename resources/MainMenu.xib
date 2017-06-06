@@ -255,6 +255,7 @@ DQ
                                     </tableColumns>
                                     <connections>
                                         <binding destination="smP-ER-E7y" name="content" keyPath="arrangedObjects" id="bks-Mt-OkK"/>
+                                        <outlet property="dataSource" destination="212" id="1Ff-ML-agk"/>
                                         <outlet property="delegate" destination="212" id="dvn-kA-cz3"/>
                                         <outlet property="menu" destination="3w8-wK-AmU" id="eLD-jE-BUg"/>
                                     </connections>
