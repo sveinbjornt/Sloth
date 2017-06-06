@@ -44,7 +44,7 @@
 #import <pwd.h>
 #import <stdio.h>
 
-// Create function pointer to AuthorizationExecuteWithPrivileges
+// Function pointer to AuthorizationExecuteWithPrivileges
 // in case it doesn't exist in this version of OS X
 static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                                            const char *pathToTool,
@@ -52,8 +52,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                                            char * const *arguments,
                                            FILE **communicationsPipe) = NULL;
 
-uid_t uid_for_pid(pid_t pid)
-{
+static inline uid_t uid_for_pid(pid_t pid) {
     uid_t uid = -1;
     
     struct kinfo_proc process;
@@ -184,7 +183,6 @@ uid_t uid_for_pid(pid_t pid)
     NSString *interfaceSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"interfaceSize"];
     [self checkItemWithTitle:interfaceSize inSubmenu:interfaceSizeSubmenu];
     
-    [cellImageView setFrame:NSMakeRect(0, 0, 64, 64)];
     
     
     // Observe defaults
@@ -408,7 +406,7 @@ uid_t uid_for_pid(pid_t pid)
             int fileCount;
             self.unfilteredContent = [self parseLsofOutput:output numFiles:&fileCount];
             self.totalFileCount = fileCount;
-
+            
             // then update UI on main thread
             dispatch_async(dispatch_get_main_queue(), ^{
                 
