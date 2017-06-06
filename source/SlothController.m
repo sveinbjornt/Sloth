@@ -622,24 +622,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 #pragma mark - Interface
 
-- (void)checkItemWithTitle:(NSString *)title inSubmenu:(NSMenu *)submenu {
-    NSArray *items = [submenu itemArray];
-    for (int i = 0; i < [items count]; i++) {
-        NSMenuItem *item = [items objectAtIndex:i];
-        [item setState:0];
-    }
-    [[submenu itemWithTitle:title] setState:1];
-}
-
-- (IBAction)interfaceSizeMenuItemSelected:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setObject:[sender title] forKey:@"interfaceSize"];
-    [self checkItemWithTitle:[sender title] inSubmenu:interfaceSizeSubmenu];
-}
-
-- (IBAction)find:(id)sender {
-    [window makeFirstResponder:filterTextField];
-}
-
 - (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
     if (!asRoot) {
         return (kill(pid, SIGKILL) == 0);
@@ -926,13 +908,33 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (void)copy:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
-    // some code to put data on the pasteBoard
     [pasteBoard clearContents];
     
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
 
-    [pasteBoard writeObjects:[NSArray arrayWithObject:item[@"name"]]];
+    // Write to pasteboard
+    [pasteBoard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:nil];
+    [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+    [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
+}
+
+- (void)checkItemWithTitle:(NSString *)title inSubmenu:(NSMenu *)submenu {
+    NSArray *items = [submenu itemArray];
+    for (int i = 0; i < [items count]; i++) {
+        NSMenuItem *item = [items objectAtIndex:i];
+        [item setState:0];
+    }
+    [[submenu itemWithTitle:title] setState:1];
+}
+
+- (IBAction)interfaceSizeMenuItemSelected:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setObject:[sender title] forKey:@"interfaceSize"];
+    [self checkItemWithTitle:[sender title] inSubmenu:interfaceSizeSubmenu];
+}
+
+- (IBAction)find:(id)sender {
+    [window makeFirstResponder:filterTextField];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
