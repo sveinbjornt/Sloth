@@ -15,10 +15,10 @@
 		F438711A13402C8200B51A5E /* SlothController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710E13402C8200B51A5E /* SlothController.m */; };
 		F438713013402CDD00B51A5E /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = F438712813402CDD00B51A5E /* Credits.html */; };
 		F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */; };
-		F442E0731EA7DB1000BAD80C /* GetInfoPanelController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F442E0721EA7DB1000BAD80C /* GetInfoPanelController.xib */; };
+		F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F442E0721EA7DB1000BAD80C /* InfoPanel.xib */; };
 		F442E0781EA7DD0D00BAD80C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; };
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F4D529341C90BAE10046FAE9 /* GetInfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* GetInfoPanelController.m */; };
+		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
 		F4D5293A1C9710650046FAE9 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D529391C9710650046FAE9 /* Quartz.framework */; };
 		F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BE1C7895220024540F /* LockedIcon.icns */; };
 		F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BF1C7895220024540F /* UnlockedIcon.icns */; };
@@ -59,11 +59,11 @@
 		F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = RegistrationDefaults.plist; sourceTree = "<group>"; };
 		F438712D13402CDD00B51A5E /* Sloth.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Sloth.icns; sourceTree = "<group>"; };
 		F43D9FEB1D143ACF00DE08E5 /* sloth_screenshot1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloth_screenshot1.png; sourceTree = "<group>"; };
-		F442E0721EA7DB1000BAD80C /* GetInfoPanelController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetInfoPanelController.xib; sourceTree = "<group>"; };
+		F442E0721EA7DB1000BAD80C /* InfoPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPanel.xib; sourceTree = "<group>"; };
 		F442E0771EA7DD0D00BAD80C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = sparkle/Sparkle.framework; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
-		F4D529311C90BAE10046FAE9 /* GetInfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInfoPanelController.h; path = source/GetInfoPanelController.h; sourceTree = SOURCE_ROOT; };
-		F4D529321C90BAE10046FAE9 /* GetInfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInfoPanelController.m; path = source/GetInfoPanelController.m; sourceTree = SOURCE_ROOT; };
+		F4D529311C90BAE10046FAE9 /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPanelController.h; path = source/InfoPanelController.h; sourceTree = SOURCE_ROOT; };
+		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
 		F4D529391C9710650046FAE9 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = ../../System/Library/Frameworks/Quartz.framework; sourceTree = "<group>"; };
 		F4ED53BE1C7895220024540F /* LockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = LockedIcon.icns; sourceTree = "<group>"; };
 		F4ED53BF1C7895220024540F /* UnlockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = UnlockedIcon.icns; sourceTree = "<group>"; };
@@ -153,8 +153,8 @@
 				F438710913402C8200B51A5E /* main.m */,
 				F438710D13402C8200B51A5E /* SlothController.h */,
 				F438710E13402C8200B51A5E /* SlothController.m */,
-				F4D529311C90BAE10046FAE9 /* GetInfoPanelController.h */,
-				F4D529321C90BAE10046FAE9 /* GetInfoPanelController.m */,
+				F4D529311C90BAE10046FAE9 /* InfoPanelController.h */,
+				F4D529321C90BAE10046FAE9 /* InfoPanelController.m */,
 				F40B7D2E1C75FA94000A4616 /* Util */,
 			);
 			name = Source;
@@ -166,7 +166,7 @@
 			children = (
 				F40B7D2C1C75FA05000A4616 /* Images.xcassets */,
 				F413E66E1C76842A00385DB3 /* MainMenu.xib */,
-				F442E0721EA7DB1000BAD80C /* GetInfoPanelController.xib */,
+				F442E0721EA7DB1000BAD80C /* InfoPanel.xib */,
 				F438712813402CDD00B51A5E /* Credits.html */,
 				F438712913402CDD00B51A5E /* Info.plist */,
 				F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */,
@@ -269,7 +269,7 @@
 				F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
-				F442E0731EA7DB1000BAD80C /* GetInfoPanelController.xib in Resources */,
+				F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */,
 				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
 				F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */,
 			);
@@ -300,7 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */,
-				F4D529341C90BAE10046FAE9 /* GetInfoPanelController.m in Sources */,
+				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
 				F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */,

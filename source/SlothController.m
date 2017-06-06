@@ -32,7 +32,7 @@
 #import "Common.h"
 #import "Alerts.h"
 #import "NSString+RegexMatching.h"
-#import "GetInfoPanelController.h"
+#import "InfoPanelController.h"
 
 #import <Security/Authorization.h>
 #import <Security/AuthorizationTags.h>
@@ -77,7 +77,9 @@ uid_t uid_for_pid(pid_t pid)
 @interface SlothController ()
 {
     IBOutlet NSWindow *window;
+    
     IBOutlet NSMenu *sortMenu;
+    IBOutlet NSMenu *interfaceSizeSubmenu;
     
     IBOutlet NSProgressIndicator *progressIndicator;
     
@@ -108,7 +110,7 @@ uid_t uid_for_pid(pid_t pid)
     
     NSTimer *filterTimer;
     
-    GetInfoPanelController *infoPanelController;
+    InfoPanelController *infoPanelController;
 }
 @property int totalFileCount;
 @property (strong) IBOutlet NSMutableArray *content;
@@ -178,11 +180,12 @@ uid_t uid_for_pid(pid_t pid)
         [authenticateButton setHidden:YES];
     }
     
-    [self updateSorting];
+    // Interface size settings
+    NSString *interfaceSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"interfaceSize"];
+    [self checkItemWithTitle:interfaceSize inSubmenu:interfaceSizeSubmenu];
     
-    [self disclosureChanged:self];
+    [cellImageView setFrame:NSMakeRect(0, 0, 64, 64)];
     
-    [cellImageView setBounds:NSMakeRect(0, 0, 48, 48)];
     
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
@@ -192,7 +195,8 @@ uid_t uid_for_pid(pid_t pid)
                             @"showUnixSockets",
                             @"showPipes",
                             @"showApplicationsOnly",
-                            @"showHomeFolderOnly"]) {
+                            @"showHomeFolderOnly",
+                            @"interfaceSize"]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
                                                                      options:NSKeyValueObservingOptionNew
@@ -266,7 +270,11 @@ uid_t uid_for_pid(pid_t pid)
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self updateFiltering];
+    if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
+        [outlineView reloadData];
+    } else {
+        [self updateFiltering];
+    }
 }
 
 - (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
@@ -516,7 +524,7 @@ uid_t uid_for_pid(pid_t pid)
             
             case 'n':
             {
-                //we don't report Sloth or lsof info
+                //we don't report lsof process
                 if (/*[process isEqualToString:PROGRAM_NAME] ||*/ [process isEqualToString:PROGRAM_LSOF_NAME]) {
                     continue;
                 }
@@ -615,6 +623,24 @@ uid_t uid_for_pid(pid_t pid)
 }
 
 #pragma mark - Interface
+
+- (void)checkItemWithTitle:(NSString *)title inSubmenu:(NSMenu *)submenu {
+    NSArray *items = [submenu itemArray];
+    for (int i = 0; i < [items count]; i++) {
+        NSMenuItem *item = [items objectAtIndex:i];
+        [item setState:0];
+    }
+    [[submenu itemWithTitle:title] setState:1];
+}
+
+- (IBAction)interfaceSizeMenuItemSelected:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setObject:[sender title] forKey:@"interfaceSize"];
+    [self checkItemWithTitle:[sender title] inSubmenu:interfaceSizeSubmenu];
+}
+
+- (IBAction)find:(id)sender {
+    [window makeFirstResponder:filterTextField];
+}
 
 - (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
     if (!asRoot) {
@@ -755,7 +781,7 @@ uid_t uid_for_pid(pid_t pid)
 - (void)showGetInfoForItem:(NSDictionary *)item {
     // create info panel lazily
     if (infoPanelController == nil) {
-        infoPanelController = [[GetInfoPanelController alloc] initWithWindowNibName:@"GetInfoPanelController"];
+        infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
     }
     // show it
     [infoPanelController setItem:item];
@@ -885,14 +911,17 @@ uid_t uid_for_pid(pid_t pid)
 		[revealButton setEnabled:NO];
 		[killButton setEnabled:NO];
         [getInfoButton setEnabled:NO];
-        if (infoPanelController) {
-            [infoPanelController setItem:nil];
-        }
 	}
 }
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
-    return 20;
+    NSString *size = [[NSUserDefaults standardUserDefaults] stringForKey:@"interfaceSize"];
+    if ([size isEqualToString:@"Small"]) {
+        return 16.f;
+    } else if ([size isEqualToString:@"Large"]) {
+        return 32.f;
+    }
+    return 20.f;
 }
 
 #pragma mark - Menus

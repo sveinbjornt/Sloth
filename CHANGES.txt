@@ -1,7 +1,13 @@
 
 ## Change history for Sloth:
 
-### 03/05/3017 - Version 1.8
+### 06/06/2017- Version 1.9
+
+DONE * Fixed collapse all bug with Get Info window open
+DONE * Cmd F should focus on filter field
+* GUI size toggle, View menu
+
+### 03/05/2017 - Version 1.8
 
 * Minor user interface improvements
 * QuickLook now works from Get Info panel

@@ -477,38 +477,54 @@ DQ
                             <menuItem isSeparatorItem="YES" id="174">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Find" id="168">
-                                <menu key="submenu" title="Find" id="159">
+                            <menuItem title="Find" keyEquivalent="f" id="168">
+                                <connections>
+                                    <action selector="find:" target="212" id="Izz-Tm-EFh"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="View" id="276">
+                    <menu key="submenu" title="View" id="W0o-1t-cAR">
+                        <items>
+                            <menuItem title="Interface Size" id="e3s-qQ-WDp">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Interface Size" id="edY-kE-oJg">
                                     <items>
-                                        <menuItem title="Find…" tag="1" keyEquivalent="f" id="154">
+                                        <menuItem title="Small" id="0hj-7F-BVT">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="performFindPanelAction:" target="-1" id="199"/>
+                                                <action selector="interfaceSizeMenuItemSelected:" target="212" id="Vqs-HL-3KM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Find Next" tag="2" keyEquivalent="g" id="167">
+                                        <menuItem title="Normal" state="on" id="Y83-ds-XDg">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="performFindPanelAction:" target="-1" id="200"/>
+                                                <action selector="interfaceSizeMenuItemSelected:" target="212" id="5vw-H4-LEq"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="162">
+                                        <menuItem title="Large" id="1gL-Qb-COA">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="performFindPanelAction:" target="-1" id="201"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="161">
-                                            <connections>
-                                                <action selector="performFindPanelAction:" target="-1" id="202"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Jump to Selection" keyEquivalent="j" id="155">
-                                            <connections>
-                                                <action selector="centerSelectionInVisibleArea:" target="-1" id="203"/>
+                                                <action selector="interfaceSizeMenuItemSelected:" target="212" id="iBa-6l-qwL"/>
                                             </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="OxA-O1-B1k">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Toggle Expand/Collapse" keyEquivalent="t" id="lsV-Kv-gyN">
+                                <connections>
+                                    <action selector="performClick:" target="sd7-Q9-5I9" id="E6d-S4-lkN"/>
+                                </connections>
+                            </menuItem>
                         </items>
+                        <connections>
+                            <outlet property="delegate" destination="212" id="Q8k-Bf-Cc7"/>
+                        </connections>
                     </menu>
                 </menuItem>
                 <menuItem title="Filter" id="Kw1-pJ-pE2" userLabel="Filter">
@@ -569,55 +585,47 @@ DQ
                         </connections>
                     </menu>
                 </menuItem>
-                <menuItem title="Actions" id="276">
-                    <menu key="submenu" title="Actions" id="W0o-1t-cAR">
+                <menuItem title="Actions" id="qjK-9c-w03">
+                    <menu key="submenu" title="Actions" id="qER-Jc-t35">
                         <items>
-                            <menuItem title="Refresh" keyEquivalent="r" id="Avs-3w-eKt">
+                            <menuItem title="Refresh" keyEquivalent="r" id="hQ5-ma-AFt">
                                 <connections>
-                                    <action selector="refresh:" target="212" id="k98-fE-tkh"/>
+                                    <action selector="refresh:" target="212" id="laV-tL-jZL"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="OxA-O1-B1k">
+                            <menuItem isSeparatorItem="YES" id="fXZ-dR-UuF">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Show in Finder" keyEquivalent="R" id="yq1-RN-lAt">
+                            <menuItem title="Show in Finder" keyEquivalent="R" id="CIR-bH-ns8">
                                 <connections>
-                                    <action selector="show:" target="212" id="6Fx-KJ-Cy1"/>
+                                    <action selector="show:" target="212" id="yTJ-hB-wOS"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Kill Process" id="umw-5C-WcM">
+                            <menuItem title="Kill Process" id="OT5-Ol-ZJ7">
                                 <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                                 <connections>
-                                    <action selector="kill:" target="212" id="RBk-17-JuZ"/>
+                                    <action selector="kill:" target="212" id="qPQ-C7-hH1"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Get Info" keyEquivalent="i" id="DB6-7Y-KAy" userLabel="Copy">
+                            <menuItem title="Get Info" keyEquivalent="i" id="wOS-Cl-JZk" userLabel="Copy">
                                 <connections>
-                                    <action selector="getInfo:" target="212" id="iGU-1a-Bbq"/>
+                                    <action selector="getInfo:" target="212" id="q3f-9w-eoB"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="WR3-fZ-oyo">
+                            <menuItem isSeparatorItem="YES" id="n1t-rs-ZZb">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Authenticate" image="LockedIcon" id="vB0-5K-5xu" userLabel="Copy">
+                            <menuItem title="Authenticate" image="LockedIcon" id="Vdh-H2-HF0" userLabel="Copy">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="toggleAuthentication:" target="212" id="akc-Eo-gH0"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="SmX-QE-WsD">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Toggle Expand/Collapse" keyEquivalent="t" id="lsV-Kv-gyN">
-                                <connections>
-                                    <action selector="performClick:" target="sd7-Q9-5I9" id="E6d-S4-lkN"/>
+                                    <action selector="toggleAuthentication:" target="212" id="IYt-ya-9J7"/>
                                 </connections>
                             </menuItem>
                         </items>
                         <connections>
-                            <outlet property="delegate" destination="212" id="Q8k-Bf-Cc7"/>
+                            <outlet property="delegate" destination="212" id="OQQ-ws-YsJ"/>
                         </connections>
                     </menu>
                 </menuItem>
@@ -681,16 +689,19 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
-            <point key="canvasLocation" x="644" y="-369"/>
+            <point key="canvasLocation" x="517" y="-385"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
                 <outlet property="authenticateButton" destination="tqa-Nm-sTb" id="51O-C4-9Yi"/>
-                <outlet property="authenticateMenuItem" destination="vB0-5K-5xu" id="peB-OZ-yEN"/>
+                <outlet property="authenticateMenuItem" destination="Vdh-H2-HF0" id="Ln5-l3-FsP"/>
+                <outlet property="cellImageView" destination="8Kv-S7-Bev" id="owL-XV-R7Z"/>
+                <outlet property="cellTextField" destination="e1S-AA-cw7" id="own-j6-lIp"/>
                 <outlet property="disclosureButton" destination="sd7-Q9-5I9" id="BCS-jg-qXK"/>
                 <outlet property="disclosureTextField" destination="cw1-nC-kNe" id="NqI-Vf-oIe"/>
                 <outlet property="filterTextField" destination="252" id="656"/>
                 <outlet property="getInfoButton" destination="y0R-qW-wSJ" id="kmb-65-9vX"/>
+                <outlet property="interfaceSizeSubmenu" destination="edY-kE-oJg" id="LPe-oz-MPW"/>
                 <outlet property="killButton" destination="210" id="623"/>
                 <outlet property="numItemsTextField" destination="659" id="661"/>
                 <outlet property="outlineView" destination="OT1-kV-cHW" id="yMm-po-MiO"/>

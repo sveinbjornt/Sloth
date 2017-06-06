@@ -28,16 +28,15 @@
  POSSIBILITY OF SUCH DAMAGE.
 */
 
-//#import "CoreGraphicsServices.h"
 #import "SlothController.h"
 
-#import "GetInfoPanelController.h"
+#import "InfoPanelController.h"
 #import "Common.h"
 #import <pwd.h>
 #import <grp.h>
 #import <sys/stat.h>
 
-@interface GetInfoPanelController ()
+@interface InfoPanelController ()
 
 @property (weak) IBOutlet NSImageView *iconView;
 @property (weak) IBOutlet NSTextField *nameTextField;
@@ -59,7 +58,7 @@
 
 @end
 
-@implementation GetInfoPanelController
+@implementation InfoPanelController
 
 #pragma mark - Load info
 
@@ -85,7 +84,8 @@
     // path
     NSString *path = @"--";
     if (isFileOrFolder || isProcess) {
-        path = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"bundlepath"] : itemDict[@"name"];
+        NSString *p = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"bundlepath"] : itemDict[@"name"];
+        path = p ? p : path;
     }
     self.path = path;
     [self.pathTextField setStringValue:path];
@@ -217,6 +217,8 @@
     NSFileHandle *readHandle = [outputPipe fileHandleForReading];
     NSString *outString = [[NSString alloc] initWithData:[readHandle readDataToEndOfFile]
                                                 encoding:NSUTF8StringEncoding];
+    outString = outString ? outString : @"";
+
     return outString;
 }
 

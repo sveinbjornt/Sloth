@@ -10,4 +10,5 @@
 	showHomeFolderOnly = NO;
 	disclosure = YES;
 	sortBy = name;
+	interfaceSize = Normal;
 }
