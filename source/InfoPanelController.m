@@ -107,14 +107,15 @@
     // owned by
     if (isProcess) {
         NSString *pidStr = [NSString stringWithFormat:@"PID: %@", itemDict[@"pid"]];
-        [self.usedByTextField setStringValue:pidStr];
+        [self.usedByTextField setStringValue:@"--"];
+        [self.sizeTextField setStringValue:pidStr];
     } else {
         NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"pname"], itemDict[@"pid"]];
         [self.usedByTextField setStringValue:ownedByStr];
     }
     
     // the other fields
-    if (!isFileOrFolder && !isProcess) {
+    if (!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"bundlepath"] == nil))) {
         [self.filetypeTextField setStringValue:@"--"];
         [self.finderTypeTextField setStringValue:@"--"];
         [self.permissionsTextField setStringValue:@"--"];

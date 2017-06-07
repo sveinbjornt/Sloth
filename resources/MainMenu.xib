@@ -583,8 +583,8 @@ DQ
                         </connections>
                     </menu>
                 </menuItem>
-                <menuItem title="Actions" id="qjK-9c-w03">
-                    <menu key="submenu" title="Actions" id="qER-Jc-t35">
+                <menuItem title="Action" id="qjK-9c-w03">
+                    <menu key="submenu" title="Action" id="qER-Jc-t35">
                         <items>
                             <menuItem title="Refresh" keyEquivalent="r" id="hQ5-ma-AFt">
                                 <connections>
