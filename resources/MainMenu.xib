@@ -693,8 +693,6 @@ CA
             <connections>
                 <outlet property="authenticateButton" destination="tqa-Nm-sTb" id="51O-C4-9Yi"/>
                 <outlet property="authenticateMenuItem" destination="Vdh-H2-HF0" id="Ln5-l3-FsP"/>
-                <outlet property="cellImageView" destination="8Kv-S7-Bev" id="owL-XV-R7Z"/>
-                <outlet property="cellTextField" destination="e1S-AA-cw7" id="own-j6-lIp"/>
                 <outlet property="disclosureButton" destination="sd7-Q9-5I9" id="BCS-jg-qXK"/>
                 <outlet property="disclosureTextField" destination="cw1-nC-kNe" id="NqI-Vf-oIe"/>
                 <outlet property="filterTextField" destination="252" id="656"/>

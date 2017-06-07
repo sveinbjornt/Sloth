@@ -926,17 +926,13 @@ static inline uid_t uid_for_pid(pid_t pid) {
         return NO;
     }
     
-    int ret = [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
-//
-//    BOOL succ = [pboard writeObjects:@[item[@"name"]]];
+    [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
+    [pboard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+    [pboard setString:item[@"name"] forType:NSStringPboardType];
     
-    BOOL succ = [pboard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
-//    BOOL s2 = [pboard setString:item[@"name"] forType:NSStringPboardType];
-    
-    for (NSPasteboardItem *i in [pboard pasteboardItems]) {
-        NSLog(@"%@", [[i propertyListForType:kUTTypeFileURL] description]);
-
-    }
+//    for (NSPasteboardItem *i in [pboard pasteboardItems]) {
+//        NSLog(@"%@", [[i propertyListForType:(NSString *)kUTTypeFileURL] description]);
+//    }
     
     return YES;
 }
