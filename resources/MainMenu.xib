@@ -313,7 +313,7 @@ DQ
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="cw1-nC-kNe">
                         <rect key="frame" x="36" y="52" width="119" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Collapse all" id="7A9-Ir-ydg">
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Expand all" id="7A9-Ir-ydg">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -493,7 +493,7 @@ DQ
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Interface Size" id="edY-kE-oJg">
                                     <items>
-                                        <menuItem title="Small" id="0hj-7F-BVT">
+                                        <menuItem title="Compact" id="0hj-7F-BVT">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="interfaceSizeMenuItemSelected:" target="212" id="Vqs-HL-3KM"/>
@@ -503,12 +503,6 @@ DQ
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="interfaceSizeMenuItemSelected:" target="212" id="5vw-H4-LEq"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Large" id="1gL-Qb-COA">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="interfaceSizeMenuItemSelected:" target="212" id="iBa-6l-qwL"/>
                                             </connections>
                                         </menuItem>
                                     </items>

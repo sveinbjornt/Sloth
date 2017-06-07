@@ -7,8 +7,9 @@ DONE * Fixed collapse all bug with Get Info window open
 DONE * Cmd F should focus on filter field
 DONE * Write file to clipboard on item copy if file and exists
 DONE * Cmd-double-click now reveals in Finder
+DONE * Fixed Expand/Collapse all labeling bug on launch
+DONE * File drag and drop from outline view
 
-* File drag and drop
 * GUI size toggle, View menu
 
 ### 03/05/2017 - Version 1.8

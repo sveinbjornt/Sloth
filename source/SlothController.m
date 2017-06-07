@@ -203,6 +203,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [outlineView registerForDraggedTypes:@[NSFilenamesPboardType]];
     [outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
     
+    [self updateDiscloseControl];
+    
     // Layer-backed window
     [[window contentView] setWantsLayer:YES];
     
@@ -745,10 +747,19 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (IBAction)disclosureChanged:(id)sender {
     if ([DEFAULTS boolForKey:@"disclosure"]) {
         [outlineView expandItem:nil expandChildren:YES];
-        [disclosureTextField setStringValue:@"Collapse all"];
     } else {
         [outlineView collapseItem:nil collapseChildren:YES];
+    }
+    [self updateDiscloseControl];
+}
+
+- (void)updateDiscloseControl {
+    if ([DEFAULTS boolForKey:@"disclosure"]) {
+        [disclosureTextField setStringValue:@"Collapse all"];
+        [disclosureButton setIntValue:1];
+    } else {
         [disclosureTextField setStringValue:@"Expand all"];
+        [disclosureButton setIntValue:0];
     }
 }
 
@@ -902,12 +913,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
     NSString *size = [[NSUserDefaults standardUserDefaults] stringForKey:@"interfaceSize"];
-    if ([size isEqualToString:@"Small"]) {
-        return 16.f;
-    } else if ([size isEqualToString:@"Large"]) {
-        return 32.f;
-    }
-    return 20.f;
+    return [size isEqualToString:@"Compact"] ? 16.f : 20.f;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView
