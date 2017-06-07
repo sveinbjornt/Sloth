@@ -8,7 +8,7 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 
 ## Download
 
-* [Download Sloth 1.8](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
+* [Download Sloth 1.9](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
 
 ## Requirements
 
@@ -22,6 +22,17 @@ Sloth is basically a GUI on top of the powerful `lsof` command line tool. The ou
 <img src="resources/sloth_screenshot1.png" align="center">
 
 ## Version history
+
+### 07/06/2017- Version 1.9
+
+* Files can now be dragged and dropped
+* Cmd-F now focuses on filter field
+* File representations can now be copied to the clipboard
+* Cmd-double-click now reveals file in Finder
+* Fixed various minor user interface bugs
+* Fixed collapse all bug with Get Info window open
+* New compact interface size option
+* Fixed broken permissions display for non-bundle processes in Info window
 
 ### 03/05/2017 - Version 1.8
 

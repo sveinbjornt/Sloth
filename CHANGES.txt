@@ -1,16 +1,16 @@
 
 ## Change history for Sloth:
 
-### 06/06/2017- Version 1.9
+### 07/06/2017- Version 1.9
 
-DONE * Fixed collapse all bug with Get Info window open
-DONE * Cmd F should focus on filter field
-DONE * Write file to clipboard on item copy if file and exists
-DONE * Cmd-double-click now reveals in Finder
-DONE * Fixed Expand/Collapse all labeling bug on launch
-DONE * File drag and drop from outline view
-
-* GUI size toggle, View menu
+* Files can now be dragged and dropped
+* Cmd-F now focuses on filter field
+* File representations can now be copied to the clipboard
+* Cmd-double-click now reveals file in Finder
+* Fixed various minor user interface bugs
+* Fixed collapse all bug with Get Info window open
+* New compact interface size option
+* Fixed broken permissions display for non-bundle processes in Info window
 
 ### 03/05/2017 - Version 1.8
 

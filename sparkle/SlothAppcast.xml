@@ -7,6 +7,27 @@
         <language>en</language>
         
         <item>
+            <title>Version 1.9</title>
+            <pubDate>Wed, 7 Jun 2017 11:45:00 +0000</pubDate>
+            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.9.zip" sparkle:version="56" sparkle:shortVersionString="1.9" length="429231" type="application/octet-stream" sparkle:dsaSignature="MEQCIHp2lP1wgylpswAgwUcd2YhfgUExpZilL28Bwac7ngKJAiAKfX5ckOUM90Bi
+            NFJ/FCh2/yj+GUvT5WYRSNO4S4McYg=="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>Version 1.9 Changes</h2>
+                <ul>
+                <li>Files can now be dragged and dropped</li>
+                <li>Cmd-F now focuses on filter field</li>
+                <li>File representations can now be copied to the clipboard</li>
+                <li>Cmd-double-click now reveals file in Finder</li>
+                <li>Fixed various minor user interface bugs</li>
+                <li>Fixed collapse all bug with Get Info window open</li>
+                <li>New compact interface size option</li>
+                <li>Fixed broken permissions display for non-bundle processes in Info window</li>
+                </ul>
+            ]]></description>
+        </item>
+        
+        <item>
             <title>Version 1.8</title>
             <pubDate>Wed, 3 May 2017 15:45:00 +0000</pubDate>
             <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.8.zip" sparkle:version="42" sparkle:shortVersionString="1.8" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIG2gJ4F7TFK4thYsKX0xMXDgN6O4kDHFp15GBmYiisDaAiB4wS1SSD/ZHpSKLY8YE/BcWZUzbzUoxzh7ognQcQTzlw=="/>
