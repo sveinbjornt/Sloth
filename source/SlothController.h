@@ -30,6 +30,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SlothController : NSObject <NSApplicationDelegate, NSWindowDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate>
+@interface SlothController : NSObject < NSApplicationDelegate,
+                                        NSWindowDelegate,
+                                        NSOutlineViewDataSource,
+                                        NSOutlineViewDelegate,
+                                        NSMenuDelegate >
 
 @end

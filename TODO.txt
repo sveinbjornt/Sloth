@@ -1,0 +1,7 @@
+
+TODO list for Sloth 2.0
+
+DONE * Add Volumes filter
+
+* Track files that are dragged, show red when no file exists at path, or at least when selected/Get Info
+* Menu items for Sort processes by

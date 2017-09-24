@@ -29,7 +29,7 @@
 */
 
 #define PROGRAM_NAME						@"Sloth"
-#define PROGRAM_VERSION						@"1.9"
+#define PROGRAM_VERSION						@"2.0"
 #define	PROGRAM_WEBSITE						@"http://sveinbjorn.org/sloth"
 #define	PROGRAM_GITHUB_WEBSITE              @"http://github.com/sveinbjornt/Sloth"
 #define PROGRAM_DONATIONS					@"http://sveinbjorn.org/donations"

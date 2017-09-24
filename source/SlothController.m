@@ -79,6 +79,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     IBOutlet NSMenu *sortMenu;
     IBOutlet NSMenu *interfaceSizeSubmenu;
+    IBOutlet NSMenu *volumesMenu;
+    IBOutlet NSPopUpButton *volumesPopupButton;
     
     IBOutlet NSProgressIndicator *progressIndicator;
     
@@ -168,6 +170,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    
     // put application icon in window title bar
     [window setRepresentedURL:[NSURL URLWithString:@""]];
     NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
@@ -238,7 +241,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if (isRefreshing) {
         return;
     }
-    //NSLog(@"Filtering");
+    NSLog(@"Filtering");
     
     // filter content
     int matchingFilesCount = 0;
@@ -289,6 +292,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
     BOOL showHomeFolderOnly = [DEFAULTS boolForKey:@"showHomeFolderOnly"];
     
+    NSString *volumesFilter = [[volumesPopupButton selectedItem] toolTip];
+    
     // User home dir path prefix
     NSString *homeDirPath = [NSString stringWithFormat:@"/Users/%@", NSUserName()];
     
@@ -315,7 +320,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllFileTypes = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
-                         && showCharDevices && showPipes && !showHomeFolderOnly);
+                         && showCharDevices && showPipes && !showHomeFolderOnly && ([volumesFilter isEqualToString:@""] || !volumesFilter));
     
     // If there is no filter, just return unfiltered content
     if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter) {
@@ -339,6 +344,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
                     continue;
                 }
                 
+                if (volumesFilter && ![file[@"name"] hasPrefix:volumesFilter]) {
+                    continue;
+                }
+                
                 NSString *type = file[@"type"];
                 if (([type isEqualToString:@"File"] && !showRegularFiles) ||
                     ([type isEqualToString:@"Directory"] && !showDirectories) ||
@@ -351,8 +360,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
             }
             
             // see if it matches regex in search field filter
-            if (hasRegexFilter)
-            {
+            if (hasRegexFilter) {
+                
                 int matchCount = 0;
                 for (NSRegularExpression *regex in regexes) {
                     if (!([file[@"name"] isMatchedByRegex:regex] || [file[@"pname"] isMatchedByRegex:regex])) {
@@ -385,6 +394,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (IBAction)refresh:(id)sender {
     
     isRefreshing = YES;
+    [numItemsTextField setStringValue:@""];
     
     // Disable controls
     [filterTextField setEnabled:NO];
@@ -532,6 +542,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 // Create file info dictionary
                 NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
                 fileInfo[@"name"] = [line substringFromIndex:1];
+                fileInfo[@"displayname"] = fileInfo[@"name"];
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
                 
@@ -567,6 +578,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                     pdict = [NSMutableDictionary dictionary];
                     pdict[@"name"] = process;
                     pdict[@"pname"] = process;
+                    pdict[@"displayname"] = process;
                     pdict[@"pid"] = pid;
                     pdict[@"type"] = @"Process";
                     pdict[@"children"] = [NSMutableArray array];
@@ -601,7 +613,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
     
     // update display name to show number of open files for process
-    p[@"name"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
+    p[@"displayname"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
     
     // get icon for process
     if (!p[@"image"]) {
@@ -741,7 +753,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (BOOL)canRevealItemAtPath:(NSString *)path {
-    return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
+    return path && [FILEMGR fileExistsAtPath:path];// && ![path hasPrefix:@"/dev/"];
 }
 
 - (IBAction)disclosureChanged:(id)sender {
@@ -820,15 +832,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
     self.sortDescriptors = @[sortDesc];
 }
 
-- (void)menuWillOpen:(NSMenu *)menu {
-    if (menu == sortMenu) {
-        NSArray *items = [menu itemArray];
-        for (NSMenuItem *i in items) {
-            [i setState:[[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]]];
-        }
-    }
-}
-
 #pragma mark - Authentication
 
 - (IBAction)toggleAuthentication:(id)sender {
@@ -899,11 +902,28 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
 	if (selectedRow >= 0) {
         NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-        BOOL canReveal = ([self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"bundlepath"]]);
-        [revealButton setEnabled:canReveal];
+        BOOL canReveal = [self canRevealItemAtPath:item[@"name"]];
+        BOOL hasBundlePath = [self canRevealItemAtPath:item[@"bundlepath"]];
+        [revealButton setEnabled:(canReveal || hasBundlePath)];
         [getInfoButton setEnabled:YES];
         [killButton setEnabled:YES];
         [infoPanelController setItem:item];
+        
+        NSMutableDictionary *newItem = [item mutableCopy];
+        BOOL exists = !hasBundlePath && canReveal;
+        newItem[@"exists"] = @((BOOL)exists);
+        NSLog(@"Exists: %@", [newItem description]);
+        if (exists) {
+            newItem[@"displayname"] = [[NSAttributedString alloc] initWithString:newItem[@"name"] attributes:@{NSForegroundColorAttributeName: [NSColor redColor]}];
+        }
+        
+        [[outlineView itemAtRow:selectedRow] setRepresentedObject:[newItem copy]];
+
+        NSLog(@"Rep set: %@", [newItem description]);
+
+        NSLog(@"Rep: %@", [[[outlineView itemAtRow:selectedRow] representedObject] description]);
+
+        
 	} else {
 		[revealButton setEnabled:NO];
 		[killButton setEnabled:NO];
@@ -938,6 +958,58 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 #pragma mark - Menus
+
+- (void)menuWillOpen:(NSMenu *)menu {
+    if (menu == sortMenu) {
+        NSArray *items = [menu itemArray];
+        for (NSMenuItem *i in items) {
+            [i setState:[[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]]];
+        }
+    }
+    else if (menu == volumesMenu) {
+        
+        // get current selection
+        NSMenuItem *selectedItem = [volumesPopupButton selectedItem];
+        NSString *selectedPath = [selectedItem toolTip];
+        
+        // rebuild menu
+        [volumesMenu removeAllItems];
+        
+        NSArray *props = @[NSURLVolumeNameKey, NSURLVolumeIsRemovableKey, NSURLVolumeIsEjectableKey];
+        NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props options:nil];
+        
+        // All + separator
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All"
+                                                      action:@selector(updateFiltering)
+                                               keyEquivalent:@""];
+        [item setTarget:self];
+        [item setToolTip:@""];
+        [volumesMenu addItem:item];
+        [volumesMenu addItem:[NSMenuItem separatorItem]];
+        
+        // Add all volumes as items
+        for (NSURL *url in urls) {
+            NSString *volumeName;
+            [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:nil];
+
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:volumeName
+                                                          action:@selector(updateFiltering)
+                                                   keyEquivalent:@""];
+            [item setTarget:self];
+            [item setToolTip:[url path]];
+            [volumesMenu addItem:item];
+        }
+        
+        // Restore selection, if possible
+        NSMenuItem *itemToSelect = [volumesMenu itemArray][0];
+        for (NSMenuItem *item in [volumesMenu itemArray]) {
+            if ([[item toolTip] isEqualToString:selectedPath]) {
+                itemToSelect = item;
+            }
+        }
+        [volumesPopupButton selectItem:itemToSelect];
+    }
+}
 
 - (void)copy:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
