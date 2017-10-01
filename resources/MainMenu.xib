@@ -194,6 +194,34 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Sort" id="Vjj-ZT-aZe">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" id="z5a-Mg-tDe" userLabel="Sort Menu">
+                                    <items>
+                                        <menuItem title="Sort by Name" id="GZd-0o-B8f">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="sortChanged:" target="212" id="16b-Uy-3RJ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Sort by PID" id="Oqa-fu-gFh">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="sortChanged:" target="212" id="H9O-ja-jmD"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Sort by File Count" id="K08-MZ-7At">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="sortChanged:" target="212" id="IAN-Cd-mB6"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="212" id="1vQ-rE-JME"/>
+                                    </connections>
+                                </menu>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="OxA-O1-B1k">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -373,7 +401,7 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
-            <point key="canvasLocation" x="517" y="-385"/>
+            <point key="canvasLocation" x="305" y="-442"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
@@ -411,32 +439,6 @@ CA
         </treeController>
         <userDefaultsController representsSharedInstance="YES" id="560" userLabel="Shared User Defaults Controller"/>
         <customObject id="Nds-SX-rlr" customClass="SUUpdater"/>
-        <menu id="z5a-Mg-tDe" userLabel="Sort Menu">
-            <items>
-                <menuItem title="Sort by Name" id="GZd-0o-B8f">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="sortChanged:" target="212" id="16b-Uy-3RJ"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Sort by PID" id="Oqa-fu-gFh">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="sortChanged:" target="212" id="H9O-ja-jmD"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Sort by File Count" id="K08-MZ-7At">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="sortChanged:" target="212" id="IAN-Cd-mB6"/>
-                    </connections>
-                </menuItem>
-            </items>
-            <connections>
-                <outlet property="delegate" destination="212" id="1vQ-rE-JME"/>
-            </connections>
-            <point key="canvasLocation" x="557" y="237.5"/>
-        </menu>
         <menu id="3w8-wK-AmU" userLabel="Contextual Menu">
             <items>
                 <menuItem title="Copy" id="aIV-bf-ZRN" userLabel="Copy">
@@ -650,7 +652,7 @@ DQ
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
                             <rect key="frame" x="1" y="0.0" width="762" height="422"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
                                     <rect key="frame" x="0.0" y="0.0" width="762" height="399"/>

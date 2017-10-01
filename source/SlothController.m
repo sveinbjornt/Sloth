@@ -394,6 +394,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (IBAction)refresh:(id)sender {
     
     isRefreshing = YES;
+    [self updateSorting];
     [numItemsTextField setStringValue:@""];
     
     // Disable controls
@@ -829,6 +830,23 @@ static inline uid_t uid_for_pid(pid_t pid) {
         }];
     }
     
+    if ([sortBy isEqualToString:@"pid"]) {
+        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"pid"
+                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                comparator:^(id first, id second){
+            int cnt1 = [first intValue];
+            int cnt2 = [second intValue];
+            
+            if (cnt1 < cnt2) {
+                return NSOrderedAscending;
+            } else if (cnt1 > cnt2) {
+                return NSOrderedDescending;
+            } else {
+                return NSOrderedSame;
+            }
+        }];
+    }
+    
     self.sortDescriptors = @[sortDesc];
 }
 
@@ -884,9 +902,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)deauthenticate {
-    if (authorizationRef) {
-        AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
-    }
+//    if (authorizationRef) {
+//        AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
+//    }
     authenticated = NO;
 }
 
