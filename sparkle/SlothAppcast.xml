@@ -7,6 +7,22 @@
         <language>en</language>
         
         <item>
+            <title>Version 2.0</title>
+            <pubDate>Sun, 1 Oct 2017 18:45:00 +0000</pubDate>
+            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-2.0.zip" sparkle:version="61" sparkle:shortVersionString="2.0" length="431752" type="application/octet-stream" sparkle:dsaSignature="MEQCIEQtl3kDINH2iZeMtzwsOugBr+SdByIgAEXF855lwiPeAiAuwJkJcpbkQCTO
+            r1u+/PH4i1Awu5lcxs99aTDvU0FI7g=="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>New in Version 2.0:</h2>
+                <ul>
+                    <li>Added Volumes filter</li>
+                    <li>New "Sort By" submenu under View in main menu</li>
+                    <li>Sorting by PID now correctly does numerical sort instead of alphabetic</li>
+                </ul>
+            ]]></description>
+        </item>
+        
+        <item>
             <title>Version 1.9</title>
             <pubDate>Wed, 7 Jun 2017 11:45:00 +0000</pubDate>
             <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.9.zip" sparkle:version="56" sparkle:shortVersionString="1.9" length="429231" type="application/octet-stream" sparkle:dsaSignature="MEQCIHp2lP1wgylpswAgwUcd2YhfgUExpZilL28Bwac7ngKJAiAKfX5ckOUM90Bi
@@ -15,14 +31,14 @@
             <description><![CDATA[
                 <h2>Version 1.9 Changes</h2>
                 <ul>
-                <li>Files can now be dragged and dropped</li>
-                <li>Cmd-F now focuses on filter field</li>
-                <li>File representations can now be copied to the clipboard</li>
-                <li>Cmd-double-click now reveals file in Finder</li>
-                <li>Fixed various minor user interface bugs</li>
-                <li>Fixed collapse all bug with Get Info window open</li>
-                <li>New compact interface size option</li>
-                <li>Fixed broken permissions display for non-bundle processes in Info window</li>
+                    <li>Files can now be dragged and dropped</li>
+                    <li>Cmd-F now focuses on filter field</li>
+                    <li>File representations can now be copied to the clipboard</li>
+                    <li>Cmd-double-click now reveals file in Finder</li>
+                    <li>Fixed various minor user interface bugs</li>
+                    <li>Fixed collapse all bug with Get Info window open</li>
+                    <li>New compact interface size option</li>
+                    <li>Fixed broken permissions display for non-bundle processes in Info window</li>
                 </ul>
             ]]></description>
         </item>
@@ -35,9 +51,9 @@
             <description><![CDATA[
                 <h2>Version 1.8 Changes</h2>
                 <ul>
-                <li>Sloth is now code-signed</li>
-                <li>QuickLook now works from Get Info panel</li>
-                <li>Minor user interface improvements</li>
+                    <li>Sloth is now code-signed</li>
+                    <li>QuickLook now works from Get Info panel</li>
+                    <li>Minor user interface improvements</li>
                 </ul>
             ]]></description>
         </item>
@@ -50,8 +66,8 @@
             <description><![CDATA[
                 <h2>Version 1.7 Changes</h2>
                 <ul>
-                <li>New Info Panel for items</li>
-                <li>Minor UI changes</li>
+                    <li>New Info Panel for items</li>
+                    <li>Minor UI changes</li>
                 </ul>
             ]]></description>
         </item>

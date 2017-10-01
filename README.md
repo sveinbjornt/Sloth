@@ -8,7 +8,7 @@ Sloth is a GUI built on top of the powerful `lsof` command line tool. The output
 
 ## Download
 
-* [Download Sloth 1.9](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
+* [Download Sloth 2.0](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
 
 ## Requirements
 
@@ -19,9 +19,15 @@ Sloth is a GUI built on top of the powerful `lsof` command line tool. The output
 
 <img src="resources/sloth_screenshot2.jpg" align="center">
 
-<img src="resources/sloth_screenshot1.png" align="center">
+<img src="resources/sloth_screenshot1.jpg" align="center">
 
 ## Version history
+
+### 01/10/2017 - Version 2.0
+
+* New Volumes filter
+* New "Sort By" submenu under View in main menu
+* Sorting by PID now correctly does numerical sort instead of alphabetic
 
 ### 07/06/2017- Version 1.9
 

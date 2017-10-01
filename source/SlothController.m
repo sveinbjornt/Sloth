@@ -218,6 +218,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     [window makeKeyAndOrderFront:self];
     
+    //[self updateSorting];
+    
     [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
 
@@ -292,7 +294,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
     BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
     BOOL showHomeFolderOnly = [DEFAULTS boolForKey:@"showHomeFolderOnly"];
     
-    NSString *volumesFilter = [[volumesPopupButton selectedItem] toolTip];
+    // Volumes filter
+    NSString *volumesFilter = nil;
+    BOOL hasVolumesFilter = ([[[volumesPopupButton selectedItem] title] isEqualToString:@"All"] == NO);
+    if (hasVolumesFilter) {
+        volumesFilter = [[volumesPopupButton selectedItem] toolTip];
+    }
     
     // User home dir path prefix
     NSString *homeDirPath = [NSString stringWithFormat:@"/Users/%@", NSUserName()];
@@ -320,10 +327,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllFileTypes = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
-                         && showCharDevices && showPipes && !showHomeFolderOnly && ([volumesFilter isEqualToString:@""] || !volumesFilter));
+                         && showCharDevices && showPipes && !showHomeFolderOnly);
     
     // If there is no filter, just return unfiltered content
-    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter) {
+    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter && !hasVolumesFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
@@ -394,7 +401,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (IBAction)refresh:(id)sender {
     
     isRefreshing = YES;
-    [self updateSorting];
     [numItemsTextField setStringValue:@""];
     
     // Disable controls

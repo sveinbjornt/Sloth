@@ -1,9 +1,4 @@
 
-TODO list for Sloth 2.0
-
-DONE * Add Volumes filter
-DONE * Menu items for sorting
-DONE * Sorting by PID now does numerical sorting instead of alphabetic
-
+TODO list for Sloth 2.1
 
 * Track files that are dragged, show red when no file exists at path, or at least when selected/Get Info
