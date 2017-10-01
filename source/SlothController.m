@@ -241,7 +241,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if (isRefreshing) {
         return;
     }
-    NSLog(@"Filtering");
+    //NSLog(@"Filtering");
     
     // filter content
     int matchingFilesCount = 0;
@@ -912,17 +912,16 @@ static inline uid_t uid_for_pid(pid_t pid) {
         NSMutableDictionary *newItem = [item mutableCopy];
         BOOL exists = !hasBundlePath && canReveal;
         newItem[@"exists"] = @((BOOL)exists);
-        NSLog(@"Exists: %@", [newItem description]);
+//        NSLog(@"Exists: %@", [newItem description]);
         if (exists) {
             newItem[@"displayname"] = [[NSAttributedString alloc] initWithString:newItem[@"name"] attributes:@{NSForegroundColorAttributeName: [NSColor redColor]}];
         }
         
         [[outlineView itemAtRow:selectedRow] setRepresentedObject:[newItem copy]];
 
-        NSLog(@"Rep set: %@", [newItem description]);
-
-        NSLog(@"Rep: %@", [[[outlineView itemAtRow:selectedRow] representedObject] description]);
-
+//        NSLog(@"Rep set: %@", [newItem description]);
+//
+//        NSLog(@"Rep: %@", [[[outlineView itemAtRow:selectedRow] representedObject] description]);
         
 	} else {
 		[revealButton setEnabled:NO];
@@ -936,10 +935,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     return [size isEqualToString:@"Compact"] ? 16.f : 20.f;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView
-         writeItems:(NSArray *)items
-       toPasteboard:(NSPasteboard *)pboard {
-        
+- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
     NSDictionary *item = [items[0] representedObject];
     NSString *path = item[@"bundlepath"] ? item[@"bundlepath"] : item[@"name"];
     if (![FILEMGR fileExistsAtPath:path]) {
