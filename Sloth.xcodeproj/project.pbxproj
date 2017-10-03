@@ -19,10 +19,10 @@
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F47B45401EF82AC200D79DFF /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = F47B453F1EF82AC200D79DFF /* TODO.txt */; };
+		F4CFA1471F818C5E00470945 /* LockedIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CFA1451F818C5E00470945 /* LockedIcon.png */; };
+		F4CFA1481F818C5E00470945 /* UnlockedIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CFA1461F818C5E00470945 /* UnlockedIcon.png */; };
 		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
 		F4D5293A1C9710650046FAE9 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D529391C9710650046FAE9 /* Quartz.framework */; };
-		F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BE1C7895220024540F /* LockedIcon.icns */; };
-		F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F4ED53BF1C7895220024540F /* UnlockedIcon.icns */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */; };
 		F4F1D90F1C7CB7E700945D3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F1D90E1C7CB7E700945D3E /* QuartzCore.framework */; };
@@ -64,11 +64,11 @@
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
+		F4CFA1451F818C5E00470945 /* LockedIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LockedIcon.png; sourceTree = "<group>"; };
+		F4CFA1461F818C5E00470945 /* UnlockedIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnlockedIcon.png; sourceTree = "<group>"; };
 		F4D529311C90BAE10046FAE9 /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPanelController.h; path = source/InfoPanelController.h; sourceTree = SOURCE_ROOT; };
 		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
 		F4D529391C9710650046FAE9 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = ../../System/Library/Frameworks/Quartz.framework; sourceTree = "<group>"; };
-		F4ED53BE1C7895220024540F /* LockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = LockedIcon.icns; sourceTree = "<group>"; };
-		F4ED53BF1C7895220024540F /* UnlockedIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = UnlockedIcon.icns; sourceTree = "<group>"; };
 		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		F4F1D89A1C75FBF800945D3E /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		F4F1D89B1C76186200945D3E /* NSString+RegexMatching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexMatching.h"; sourceTree = "<group>"; };
@@ -181,8 +181,8 @@
 			isa = PBXGroup;
 			children = (
 				F438712D13402CDD00B51A5E /* Sloth.icns */,
-				F4ED53BE1C7895220024540F /* LockedIcon.icns */,
-				F4ED53BF1C7895220024540F /* UnlockedIcon.icns */,
+				F4CFA1451F818C5E00470945 /* LockedIcon.png */,
+				F4CFA1461F818C5E00470945 /* UnlockedIcon.png */,
 				F40B7D2B1C75F161000A4616 /* sloth_icon.png */,
 				F43D9FEB1D143ACF00DE08E5 /* sloth_screenshot1.png */,
 				F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */,
@@ -267,13 +267,13 @@
 			files = (
 				F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */,
 				F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */,
-				F4ED53C11C7895220024540F /* UnlockedIcon.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
 				F47B45401EF82AC200D79DFF /* TODO.txt in Resources */,
 				F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */,
 				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
-				F4ED53C01C7895220024540F /* LockedIcon.icns in Resources */,
+				F4CFA1481F818C5E00470945 /* UnlockedIcon.png in Resources */,
+				F4CFA1471F818C5E00470945 /* LockedIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -873,7 +873,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [self deauthenticate];
     }
     
-    NSString *imgName = authenticated ? @"UnlockedIcon.icns" : @"LockedIcon.icns";
+    NSString *imgName = authenticated ? @"UnlockedIcon" : @"LockedIcon";
     NSString *actionName = authenticated ? @"Deauthenticate" : @"Authenticate";
     NSImage *img = [NSImage imageNamed:imgName];
     [authenticateButton setImage:img];
@@ -937,9 +937,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
         BOOL exists = !hasBundlePath && canReveal;
         newItem[@"exists"] = @((BOOL)exists);
 //        NSLog(@"Exists: %@", [newItem description]);
-        if (exists) {
-            newItem[@"displayname"] = [[NSAttributedString alloc] initWithString:newItem[@"name"] attributes:@{NSForegroundColorAttributeName: [NSColor redColor]}];
-        }
+//        if (exists) {
+//            newItem[@"displayname"] = [[NSAttributedString alloc] initWithString:newItem[@"name"] attributes:@{NSForegroundColorAttributeName: [NSColor redColor]}];
+//        }
         
         [[outlineView itemAtRow:selectedRow] setRepresentedObject:[newItem copy]];
 

@@ -9,7 +9,7 @@
         <item>
             <title>Version 2.0</title>
             <pubDate>Sun, 1 Oct 2017 18:45:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-2.0.zip" sparkle:version="61" sparkle:shortVersionString="2.0" length="431752" type="application/octet-stream" sparkle:dsaSignature="MEQCIEQtl3kDINH2iZeMtzwsOugBr+SdByIgAEXF855lwiPeAiAuwJkJcpbkQCTO
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.0.zip" sparkle:version="61" sparkle:shortVersionString="2.0" length="431752" type="application/octet-stream" sparkle:dsaSignature="MEQCIEQtl3kDINH2iZeMtzwsOugBr+SdByIgAEXF855lwiPeAiAuwJkJcpbkQCTO
             r1u+/PH4i1Awu5lcxs99aTDvU0FI7g=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
@@ -25,7 +25,7 @@
         <item>
             <title>Version 1.9</title>
             <pubDate>Wed, 7 Jun 2017 11:45:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.9.zip" sparkle:version="56" sparkle:shortVersionString="1.9" length="429231" type="application/octet-stream" sparkle:dsaSignature="MEQCIHp2lP1wgylpswAgwUcd2YhfgUExpZilL28Bwac7ngKJAiAKfX5ckOUM90Bi
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.9.zip" sparkle:version="56" sparkle:shortVersionString="1.9" length="429231" type="application/octet-stream" sparkle:dsaSignature="MEQCIHp2lP1wgylpswAgwUcd2YhfgUExpZilL28Bwac7ngKJAiAKfX5ckOUM90Bi
             NFJ/FCh2/yj+GUvT5WYRSNO4S4McYg=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
@@ -46,7 +46,7 @@
         <item>
             <title>Version 1.8</title>
             <pubDate>Wed, 3 May 2017 15:45:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.8.zip" sparkle:version="42" sparkle:shortVersionString="1.8" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIG2gJ4F7TFK4thYsKX0xMXDgN6O4kDHFp15GBmYiisDaAiB4wS1SSD/ZHpSKLY8YE/BcWZUzbzUoxzh7ognQcQTzlw=="/>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.8.zip" sparkle:version="42" sparkle:shortVersionString="1.8" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIG2gJ4F7TFK4thYsKX0xMXDgN6O4kDHFp15GBmYiisDaAiB4wS1SSD/ZHpSKLY8YE/BcWZUzbzUoxzh7ognQcQTzlw=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
                 <h2>Version 1.8 Changes</h2>
@@ -61,7 +61,7 @@
         <item>
             <title>Version 1.7</title>
             <pubDate>Fri, 17 Jun 2016 14:28:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.7.zip" sparkle:version="34" sparkle:shortVersionString="1.7" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIDOn9V1I6df2P4pfX2LudUtkmoPPyug/7Me/XylwyOikAiBkztzAtYOpiqixzfZoqeQQyrpAV0N6IuLIXj1IayQvkA=="/>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.7.zip" sparkle:version="34" sparkle:shortVersionString="1.7" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIDOn9V1I6df2P4pfX2LudUtkmoPPyug/7Me/XylwyOikAiBkztzAtYOpiqixzfZoqeQQyrpAV0N6IuLIXj1IayQvkA=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
                 <h2>Version 1.7 Changes</h2>
@@ -75,7 +75,7 @@
         <item>
             <title>Version 1.6</title>
             <pubDate>Wed, 30 Nov 2015 00:28:00 +0000</pubDate>
-            <enclosure url="http://sveinbjorn.org/files/software/sloth/sloth-1.6.zip" sparkle:version="25" sparkle:shortVersionString="1.6" length="449664" type="application/octet-stream" sparkle:dsaSignature="MEQCIEA1HkqvE/n0+l/FQaY5cn0aNlJEFknRWSoX/CrqEFCYAiB+7ap9xBo55i8VuGIgtSCZraFH2F1qDLSWaaB1F/zWnA=="/>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.6.zip" sparkle:version="25" sparkle:shortVersionString="1.6" length="449664" type="application/octet-stream" sparkle:dsaSignature="MEQCIEA1HkqvE/n0+l/FQaY5cn0aNlJEFknRWSoX/CrqEFCYAiB+7ap9xBo55i8VuGIgtSCZraFH2F1qDLSWaaB1F/zWnA=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
                 <h2>Version 1.6 Changes</h2>
