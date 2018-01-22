@@ -35,5 +35,6 @@
                                         NSOutlineViewDataSource,
                                         NSOutlineViewDelegate,
                                         NSMenuDelegate >
-
+- (void)revealItemInFinder:(NSDictionary *)item;
+- (IBAction)kill:(id)sender;
 @end

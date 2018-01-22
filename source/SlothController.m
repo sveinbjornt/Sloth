@@ -785,7 +785,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 #pragma mark - Get Info
 
 - (IBAction)getInfo:(id)sender {
-    int selectedRow = [outlineView selectedRow];
+    NSInteger selectedRow = [outlineView selectedRow];
     
     if (selectedRow >= 0) {
         [self showGetInfoForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
@@ -823,8 +823,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"children"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:^(id first, id second){
-            int cnt1 = [first count];
-            int cnt2 = [second count];
+            NSUInteger cnt1 = [first count];
+            NSUInteger cnt2 = [second count];
             
             if (cnt1 < cnt2) {
                 return NSOrderedAscending;
@@ -840,8 +840,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"pid"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:^(id first, id second){
-            int cnt1 = [first intValue];
-            int cnt2 = [second intValue];
+            NSUInteger cnt1 = [first intValue];
+            NSUInteger cnt2 = [second intValue];
             
             if (cnt1 < cnt2) {
                 return NSOrderedAscending;
@@ -922,7 +922,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-    int selectedRow = [outlineView selectedRow];
+    NSInteger selectedRow = [outlineView selectedRow];
     
 	if (selectedRow >= 0) {
         NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
@@ -996,7 +996,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [volumesMenu removeAllItems];
         
         NSArray *props = @[NSURLVolumeNameKey, NSURLVolumeIsRemovableKey, NSURLVolumeIsEjectableKey];
-        NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props options:nil];
+        NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props options:0];
         
         // All + separator
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All"
