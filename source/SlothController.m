@@ -56,17 +56,16 @@ static inline uid_t uid_for_pid(pid_t pid) {
     uid_t uid = -1;
     
     struct kinfo_proc process;
-    size_t procBufferSize = sizeof(process);
+    size_t proc_buf_size = sizeof(process);
     
     // Compose search path for sysctl. Here you can specify PID directly.
-    const u_int pathLenth = 4;
-    int path[pathLenth] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
+    const u_int path_len = 4;
+    int path[path_len] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
     
-    int sysctlResult = sysctl(path, pathLenth, &process, &procBufferSize, NULL, 0);
+    int sysctl_result = sysctl(path, path_len, &process, &proc_buf_size, NULL, 0);
     
     // If sysctl did not fail and process with PID available - take UID.
-    if ((sysctlResult == 0) && (procBufferSize != 0))
-    {
+    if ((sysctl_result == 0) && (proc_buf_size != 0)) {
         uid = process.kp_eproc.e_ucred.cr_uid;
     }
     
@@ -996,7 +995,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [volumesMenu removeAllItems];
         
         NSArray *props = @[NSURLVolumeNameKey, NSURLVolumeIsRemovableKey, NSURLVolumeIsEjectableKey];
-        NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props options:0];
+        NSArray *urls = [FILEMGR mountedVolumeURLsIncludingResourceValuesForKeys:props options:0];
         
         // All + separator
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All"
@@ -1039,7 +1038,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
 
     // Write to pasteboard
-    if ([[NSFileManager defaultManager] fileExistsAtPath:item[@"name"]]) {
+    if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
         [pasteBoard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:nil];
         [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
     }
