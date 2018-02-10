@@ -46,13 +46,8 @@
 
 #define VALUES_KEYPATH(X) [NSString stringWithFormat:@"values.%@", (X)]
 
+// let's make things a bit less verbose
 #define FILEMGR     [NSFileManager defaultManager]
 #define DEFAULTS    [NSUserDefaults standardUserDefaults]
 #define WORKSPACE   [NSWorkspace sharedWorkspace]
-
-
-// Defines error value for when AuthorizationExecuteWithPrivileges no longer
-// exists anyplace. Rather than defining a new enum, we just create a global
-// constant
-extern const OSStatus errAuthorizationFnNoLongerExists;
 

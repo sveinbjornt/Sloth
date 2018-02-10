@@ -125,7 +125,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if ((self = [super init])) {
         genericExecutableIcon = [[NSImage alloc] initWithContentsOfFile:GENERIC_EXEC_ICON_PATH];
         
-        type2icon = @{      @"File": [NSImage imageNamed:@"NSGenericDocument"],//[[NSImage alloc] initByReferencingFile:GENERIC_DOCUMENT_ICON_PATH],
+        type2icon = @{      @"File": [NSImage imageNamed:@"NSGenericDocument"],
                             @"Directory": [NSImage imageNamed:@"NSFolder"],
                             @"Character Device": [NSImage imageNamed:@"NSActionTemplate"],
                             @"Unix Socket": [NSImage imageNamed:@"Socket"],
