@@ -134,6 +134,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
                     };
         
         _content = [[NSMutableArray alloc] init];
+        
+        authorizationRef = NULL;
     }
     return self;
 }
@@ -398,7 +400,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
 #pragma mark - Update/parse results
 
 - (IBAction)refresh:(id)sender {
-    
     isRefreshing = YES;
     [numItemsTextField setStringValue:@""];
     
@@ -421,6 +422,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         @autoreleasepool {
     
             NSString *output = [self runLsof:authenticated];
+            
             int fileCount;
             self.unfilteredContent = [self parseLsofOutput:output numFiles:&fileCount];
             self.totalFileCount = fileCount;
@@ -454,7 +456,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
             NSLog(@"AuthorizationExecuteWithPrivileges function undefined");
             return nil;
         }
-        
         
         const char *toolPath = [PROGRAM_DEFAULT_LSOF_PATH fileSystemRepresentation];
         NSArray *arguments = PROGRAM_LSOF_ARGS;
@@ -606,12 +607,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [processList addObject:p];
         *numFiles += [p[@"children"] count];
     }
-    
-//    [processList sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-//        NSMutableDictionary *p1 = (NSMutableDictionary *)obj1;
-//        NSMutableDictionary *p2 = (NSMutableDictionary *)obj2;
-//        return [p1[@"name"] caseInsensitiveCompare:p2[@"name"]];
-//    }];
     
     return processList;
 }
@@ -907,9 +902,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)deauthenticate {
-//    if (authorizationRef) {
-//        AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
-//    }
+    if (authorizationRef) {
+        AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
+        authorizationRef = NULL;
+    }
     authenticated = NO;
 }
 
@@ -932,18 +928,17 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [killButton setEnabled:YES];
         [infoPanelController setItem:item];
         
-        NSMutableDictionary *newItem = [item mutableCopy];
-        BOOL exists = !hasBundlePath && canReveal;
-        newItem[@"exists"] = @((BOOL)exists);
+//        NSMutableDictionary *newItem = [item mutableCopy];
+//        BOOL exists = !hasBundlePath && canReveal;
+//        newItem[@"exists"] = @((BOOL)exists);
 //        NSLog(@"Exists: %@", [newItem description]);
 //        if (exists) {
 //            newItem[@"displayname"] = [[NSAttributedString alloc] initWithString:newItem[@"name"] attributes:@{NSForegroundColorAttributeName: [NSColor redColor]}];
 //        }
         
-        [[outlineView itemAtRow:selectedRow] setRepresentedObject:[newItem copy]];
+//        [[outlineView itemAtRow:selectedRow] setRepresentedObject:[newItem copy]];
 
 //        NSLog(@"Rep set: %@", [newItem description]);
-//
 //        NSLog(@"Rep: %@", [[[outlineView itemAtRow:selectedRow] representedObject] description]);
         
 	} else {
