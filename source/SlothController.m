@@ -613,8 +613,25 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
     
+//    NSMutableAttributedString *displStr = [[NSMutableAttributedString alloc] init];
+//
+//    NSAttributedString *pNameStr = [[NSAttributedString alloc] initWithString:p[@"name"] attributes:@{}];
+//    [displStr appendAttributedString:pNameStr];
+//
+//    NSString *countStr = [NSString stringWithFormat:@" (%d)", (int)[p[@"children"] count]];
+//    NSDictionary *attr = @{NSForegroundColorAttributeName: [NSColor grayColor]};
+//    NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countStr attributes:attr];
+//
+//    [displStr appendAttributedString:countAttrStr];
+
     // update display name to show number of open files for process
-    p[@"displayname"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
+    NSString *procString = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
+    p[@"displayname"] = procString;
+    
+//    p[@"displayname"] = [[NSAttributedString alloc] initWithString:procString
+//                                                        attributes:@{
+//                                                                     NSFontAttributeName: [NSFont boldSystemFontOfSize:14],
+//                                                                     NSForegroundColorAttributeName: [NSColor blackColor]}];
     
     // get icon for process
     if (!p[@"image"]) {
@@ -920,7 +937,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSInteger selectedRow = [outlineView selectedRow];
     
 	if (selectedRow >= 0) {
-        NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+        NSMutableDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
         BOOL canReveal = [self canRevealItemAtPath:item[@"name"]];
         BOOL hasBundlePath = [self canRevealItemAtPath:item[@"bundlepath"]];
         [revealButton setEnabled:(canReveal || hasBundlePath)];
@@ -928,18 +945,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [killButton setEnabled:YES];
         [infoPanelController setItem:item];
         
-//        NSMutableDictionary *newItem = [item mutableCopy];
-//        BOOL exists = !hasBundlePath && canReveal;
-//        newItem[@"exists"] = @((BOOL)exists);
-//        NSLog(@"Exists: %@", [newItem description]);
-//        if (exists) {
-//            newItem[@"displayname"] = [[NSAttributedString alloc] initWithString:newItem[@"name"] attributes:@{NSForegroundColorAttributeName: [NSColor redColor]}];
-//        }
-        
-//        [[outlineView itemAtRow:selectedRow] setRepresentedObject:[newItem copy]];
-
-//        NSLog(@"Rep set: %@", [newItem description]);
-//        NSLog(@"Rep: %@", [[[outlineView itemAtRow:selectedRow] representedObject] description]);
+        // we make the file path red if file has been moved or deleted
+        if ([item[@"type"] isEqualToString:@"File"]) {
+            NSColor *color = canReveal ? [NSColor blackColor] : [NSColor redColor];
+            item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
+                                                                   attributes:@{NSForegroundColorAttributeName: color}];
+        }
         
 	} else {
 		[revealButton setEnabled:NO];
