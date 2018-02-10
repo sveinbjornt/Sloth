@@ -7,9 +7,9 @@
 	<key>CFBundleExecutable</key>
 	<string>Sloth</string>
 	<key>CFBundleGetInfoString</key>
-	<string>© 2004-2017 Sveinbjorn Thordarson.</string>
+	<string>© 2004-2018 Sveinbjorn Thordarson.</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>org.sveinbjorn.Sloth</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.1</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>0</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
@@ -30,5 +30,13 @@
 	<string>https://sveinbjorn.org/files/appcasts/SlothAppcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>CFBundleName</key>
+	<string>Sloth</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2004-2018 Sveinbjorn Thordarson.</string>
+	<key>NSSupportsSuddenTermination</key>
+	<true/>
 </dict>
 </plist>

@@ -2,4 +2,4 @@
 TODO list for Sloth 2.1
 
 DONE * "Copy" on file path should also create file rep in clipboard
-* Exclamation icon if item has file path but file is no longer at path.
+DONE * Show item as red if file no longer exists at path.
