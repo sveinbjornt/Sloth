@@ -1039,8 +1039,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
 
     // Write to pasteboard
-    [pasteBoard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:nil];
-    [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:item[@"name"]]) {
+        [pasteBoard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:nil];
+        [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+    }
     [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
 }
 

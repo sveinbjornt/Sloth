@@ -1,4 +1,5 @@
 
 TODO list for Sloth 2.1
 
-* Track files that are dragged, show red when no file exists at path, or at least when selected/Get Info
+DONE * "Copy" on file path should also create file rep in clipboard
+* Exclamation icon if item has file path but file is no longer at path.
