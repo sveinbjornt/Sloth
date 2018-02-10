@@ -82,7 +82,7 @@
     [self.nameTextField setStringValue:name];
     
     // path
-    NSString *path = @"--";
+    NSString *path = @"—";
     if (isFileOrFolder || isProcess) {
         NSString *p = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"bundlepath"] : itemDict[@"name"];
         path = p ? p : path;
@@ -107,7 +107,7 @@
     // owned by
     if (isProcess) {
         NSString *pidStr = [NSString stringWithFormat:@"PID: %@", itemDict[@"pid"]];
-        [self.usedByTextField setStringValue:@"--"];
+        [self.usedByTextField setStringValue:@"—"];
         [self.sizeTextField setStringValue:pidStr];
     } else {
         NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"pname"], itemDict[@"pid"]];
@@ -115,10 +115,11 @@
     }
     
     // the other fields
-    if (!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"bundlepath"] == nil))) {
-        [self.filetypeTextField setStringValue:@"--"];
-        [self.finderTypeTextField setStringValue:@"--"];
-        [self.permissionsTextField setStringValue:@"--"];
+    if ((!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"bundlepath"] == nil))) ||
+        (isFileOrFolder && ![FILEMGR fileExistsAtPath:itemDict[@"name"]])) {
+        [self.filetypeTextField setStringValue:@"—"];
+        [self.finderTypeTextField setStringValue:@"—"];
+        [self.permissionsTextField setStringValue:@"—"];
     } else {
         NSString *fileInfoString = [self fileInfoForPath:path];
         [self.filetypeTextField setStringValue:fileInfoString];
@@ -227,7 +228,7 @@
     BOOL isDir;
     [FILEMGR fileExistsAtPath:filePath isDirectory:&isDir];
     if (isDir) {
-        return @"---";
+        return @"—";
     }
     
     UInt64 size = [self fileOrFolderSize:filePath];
