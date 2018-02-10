@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2004-2017, Sveinbjorn Thordarson <sveinbjornt@gmail.com>
+    Copyright (c) 2004-2018, Sveinbjorn Thordarson <sveinbjornt@gmail.com>
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without modification,
@@ -122,7 +122,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 @implementation SlothController
 
 - (instancetype)init {
-	if ((self = [super init])) {
+    if ((self = [super init])) {
         genericExecutableIcon = [[NSImage alloc] initWithContentsOfFile:GENERIC_EXEC_ICON_PATH];
         
         type2icon = @{      @"File": [NSImage imageNamed:@"NSGenericDocument"],//[[NSImage alloc] initByReferencingFile:GENERIC_DOCUMENT_ICON_PATH],
@@ -142,7 +142,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 + (void)initialize {
     NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"RegistrationDefaults" ofType:@"plist"];
-	NSDictionary *registrationDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    NSDictionary *registrationDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
     [DEFAULTS registerDefaults:registrationDefaults];
 }
 
@@ -414,9 +414,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
     CGFloat y = (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2;
     [progressIndicator setFrameOrigin:NSMakePoint(x, y)];
     [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
-	[progressIndicator setUsesThreadedAnimation:TRUE];
-	[progressIndicator startAnimation:self];
-	
+    [progressIndicator setUsesThreadedAnimation:TRUE];
+    [progressIndicator startAnimation:self];
+
     // update in background
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
@@ -719,13 +719,13 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     
     int pid = [item[@"pid"] intValue];
-	
-	// Confirm
+    
+    // Confirm
     NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\" (%d)?", item[@"pname"], pid];
-	if ([Alerts proceedAlert:q
+    if ([Alerts proceedAlert:q
                      subText:@"This will send the process a SIGKILL signal."
              withActionNamed:@"Kill"] == NO) {
-		return;
+        return;
     }
 
     // Find out if user owns the process
@@ -741,9 +741,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [Alerts alert:@"Failed to kill process"
         subTextFormat:@"Could not kill process %@ (PID: %d)", item[@"pname"], pid];
         return;
-	}
-	
-	[self refresh:self];
+    }
+    
+    [self refresh:self];
 }
 
 - (IBAction)show:(id)sender {
@@ -941,7 +941,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
     NSInteger selectedRow = [outlineView selectedRow];
     
-	if (selectedRow >= 0) {
+    if (selectedRow >= 0) {
         NSMutableDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
         BOOL canReveal = [self canRevealItemAtPath:item[@"name"]];
         BOOL hasBundlePath = [self canRevealItemAtPath:item[@"bundlepath"]];
@@ -957,11 +957,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
                                                                    attributes:@{NSForegroundColorAttributeName: color}];
         }
         
-	} else {
-		[revealButton setEnabled:NO];
-		[killButton setEnabled:NO];
+    } else {
+        [revealButton setEnabled:NO];
+        [killButton setEnabled:NO];
         [getInfoButton setEnabled:NO];
-	}
+    }
 }
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
@@ -1091,11 +1091,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (IBAction)supportSlothDevelopment:(id)sender {
-	[WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
+    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
 }
 
 - (IBAction)visitSlothWebsite:(id)sender {
-	[WORKSPACE openURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
+    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
 }
 
 - (IBAction)visitSlothOnGitHubWebsite:(id)sender {

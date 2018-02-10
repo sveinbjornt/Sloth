@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2003-2015, Sveinbjorn Thordarson <sveinbjornt@gmail.com>
+ Copyright (c) 2003-2018, Sveinbjorn Thordarson <sveinbjornt@gmail.com>
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
