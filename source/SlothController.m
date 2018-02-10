@@ -641,9 +641,14 @@ static inline uid_t uid_for_pid(pid_t pid) {
         
         if (pInfoDict[@"BundlePath"]) {
             p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
-            if ([pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
+//            if ([pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
+            NSString *fileType = [WORKSPACE typeOfFile:pInfoDict[@"BundlePath"] error:nil];
+            if ([WORKSPACE type:fileType conformsToType:APPLICATION_UTI]) {
                 p[@"app"] = @YES;
             }
+            
+            //com.apple.application
+            
             p[@"bundlepath"] = pInfoDict[@"BundlePath"];
         } else {
             p[@"image"] = genericExecutableIcon;

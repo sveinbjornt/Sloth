@@ -232,9 +232,15 @@
     }
     
     UInt64 size = [self fileOrFolderSize:filePath];
-    NSString *byteSizeStr = [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
     NSString *humanSize = [self sizeAsHumanReadable:size];
-    return [NSString stringWithFormat:@"%@ (%@)", humanSize, byteSizeStr];
+
+    NSString *finalString = humanSize;
+    if ([humanSize hasSuffix:@"bytes"] == NO) {
+        NSString *byteSizeStr = [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
+        finalString = [NSString stringWithFormat:@"%@ (%@)", humanSize, byteSizeStr];
+    }
+    
+    return finalString;
 }
 
 #pragma mark - Interface actions
