@@ -2,18 +2,18 @@
 
 <img align="right" src="resources/sloth_icon.png" style="float: right; margin-left: 30px;">
 
-Sloth is an OS X application that displays a list of all open files and sockets in use by all running applications on your system. This makes it easy to see which apps are using which files and sockets.
+Sloth is a Mac application that displays a list of all open files and sockets in use by all running applications on your system. This makes it easy to see which apps are using which files and sockets.
 
 Sloth is a GUI built on top of the powerful `lsof` command line tool. The output of `lsof` is parsed and shown in a searchable, filterable table view with some convenient user-friendly functionality such as revealing files in the Finder, killing a file's owning process, displaying file info, filtering by volumes, and so on. See screenshots.
 
 ## Download
 
-* [Download Sloth 2.0](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
+* [Download Sloth 2.1](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
 
 ## Requirements
 
 * Intel 64-bit Mac
-* OS X 10.8 or later
+* macOS 10.8 or later
 
 ## Screenshots
 
@@ -22,6 +22,14 @@ Sloth is a GUI built on top of the powerful `lsof` command line tool. The output
 <img src="resources/sloth_screenshot1.jpg" align="center">
 
 ## Version history
+
+### 12/02/2018 - Version 2.1
+
+* Copying a file path now creates a file representation in clipboard in addition to text
+* File paths are now red in colour if selected file does not exist at path
+* Uniform Type Identifier is now used to identify app bundles instead of .app suffix
+* Fixed issue with Info Window's handling of moved or non-existent files
+* Minor interface refinements
 
 ### 01/10/2017 - Version 2.0
 

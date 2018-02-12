@@ -7,6 +7,23 @@
         <language>en</language>
         
         <item>
+            <title>Version 2.1</title>
+            <pubDate>Mon, 12 Feb 2018 18:45:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.1.zip" sparkle:version="74" sparkle:shortVersionString="2.1" length="459206" type="application/octet-stream" sparkle:dsaSignature="MEQCIFV0hNVspQ78V9gctvjvds6U4g7sud8AHHPdF9ehIjFQAiA8KjP8kr4ZmkXcwtb+lsLeKJfYW9Zl9+HYBYOTe2bMeg=="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>New in Version 2.1:</h2>
+                <ul>
+                    <li>Copying a file path now creates a file representation in clipboard in addition to text</li>
+                    <li>File paths are now red in colour if selected file does not exist at path</li>
+                    <li>Uniform Type Identifier is now used to identify app bundles instead of .app suffix</li>
+                    <li>Fixed issue with Info Window's handling of moved or non-existent files</li>
+                    <li>Minor interface refinements</li>
+                </ul>
+            ]]></description>
+        </item>
+        
+        <item>
             <title>Version 2.0</title>
             <pubDate>Sun, 1 Oct 2017 18:45:00 +0000</pubDate>
             <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.0.zip" sparkle:version="61" sparkle:shortVersionString="2.0" length="431752" type="application/octet-stream" sparkle:dsaSignature="MEQCIEQtl3kDINH2iZeMtzwsOugBr+SdByIgAEXF855lwiPeAiAuwJkJcpbkQCTO

@@ -1,5 +1,4 @@
 
-TODO list for Sloth 2.1
+TODO list for Sloth 2.2
 
-DONE * "Copy" on file path should also create file rep in clipboard
-DONE * Show item as red if file no longer exists at path.
+* ?
