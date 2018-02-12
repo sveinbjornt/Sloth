@@ -895,11 +895,13 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     NSString *imgName = authenticated ? @"UnlockedIcon" : @"LockedIcon";
     NSString *actionName = authenticated ? @"Deauthenticate" : @"Authenticate";
+    NSString *ttip = authenticated ? @"Deauthenticate" : @"Authenticate to view all system processes";
     NSImage *img = [NSImage imageNamed:imgName];
     [authenticateButton setImage:img];
-    [authenticateButton setToolTip:actionName];
+    [authenticateButton setToolTip:ttip];
     [authenticateMenuItem setImage:img];
     [authenticateMenuItem setTitle:actionName];
+    [authenticateMenuItem setToolTip:ttip];
     
     [self refresh:self];
 }
