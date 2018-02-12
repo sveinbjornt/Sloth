@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -551,10 +551,13 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showDirectories" id="fiM-da-ZXt"/>
                         </connections>
                     </button>
-                    <imageView toolTip="The SLOTH!" id="238">
+                    <imageView toolTip="The SLOTH!" id="238" customClass="SlothImageView">
                         <rect key="frame" x="20" y="505" width="48" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="731"/>
+                        <connections>
+                            <action selector="orderFrontStandardAboutPanel:" target="-2" id="fbj-M2-YvI"/>
+                        </connections>
                     </imageView>
                     <button toolTip="Show IP Sockets" id="239">
                         <rect key="frame" x="178" y="529" width="97" height="21"/>
@@ -589,7 +592,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="kNZ-Wh-Rrx"/>
                         </connections>
                     </button>
-                    <searchField toolTip="Search Filter (supports regular expressions)" wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="252">
+                    <searchField toolTip="Search Filter (supports regular expressions)" wantsLayer="YES" verticalHuggingPriority="750" id="252">
                         <rect key="frame" x="633" y="519" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" bezelStyle="round" id="735">
@@ -687,7 +690,7 @@ DQ
                                                                 <binding destination="Qd7-oA-yOC" name="value" keyPath="objectValue.image" id="d1o-Eh-Ltr"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" id="e1S-AA-cw7">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="e1S-AA-cw7">
                                                             <rect key="frame" x="25" y="0.0" width="734" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" id="2JS-SB-0or">
@@ -745,7 +748,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.disclosure" id="15D-E7-K9L"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="659">
+                    <textField verticalHuggingPriority="750" id="659">
                         <rect key="frame" x="424" y="52" width="359" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" id="738">
@@ -765,7 +768,7 @@ DQ
                             <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="cw1-nC-kNe">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cw1-nC-kNe">
                         <rect key="frame" x="36" y="52" width="119" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Expand all" id="7A9-Ir-ydg">
@@ -778,7 +781,7 @@ DQ
                         <rect key="frame" x="614" y="505" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="beK-br-huc">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="beK-br-huc">
                         <rect key="frame" x="505" y="533" width="49" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Volumes" id="ais-Zo-YIR">

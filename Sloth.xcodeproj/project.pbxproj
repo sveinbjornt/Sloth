@@ -10,6 +10,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40B7D2C1C75FA05000A4616 /* Images.xcassets */; };
 		F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F40B7D301C75FAC6000A4616 /* Alerts.m */; };
+		F41110D12031FBF200E4D329 /* SlothImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41110D02031FBF200E4D329 /* SlothImageView.m */; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
 		F438711813402C8200B51A5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710913402C8200B51A5E /* main.m */; };
 		F438711A13402C8200B51A5E /* SlothController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710E13402C8200B51A5E /* SlothController.m */; };
@@ -49,6 +50,8 @@
 		F40B7D2C1C75FA05000A4616 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F40B7D2F1C75FAC6000A4616 /* Alerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alerts.h; sourceTree = "<group>"; };
 		F40B7D301C75FAC6000A4616 /* Alerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alerts.m; sourceTree = "<group>"; };
+		F41110CF2031FBF200E4D329 /* SlothImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlothImageView.h; sourceTree = "<group>"; };
+		F41110D02031FBF200E4D329 /* SlothImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SlothImageView.m; sourceTree = "<group>"; };
 		F413E66E1C76842A00385DB3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		F438710913402C8200B51A5E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F438710D13402C8200B51A5E /* SlothController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlothController.h; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 				F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */,
 				F40B7D2F1C75FAC6000A4616 /* Alerts.h */,
 				F40B7D301C75FAC6000A4616 /* Alerts.m */,
+				F41110CF2031FBF200E4D329 /* SlothImageView.h */,
+				F41110D02031FBF200E4D329 /* SlothImageView.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */,
+				F41110D12031FBF200E4D329 /* SlothImageView.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,

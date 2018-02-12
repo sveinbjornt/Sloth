@@ -798,6 +798,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
 }
 
+- (IBAction)showAbout:(id)sender {
+    
+}
+
 #pragma mark - Get Info
 
 - (IBAction)getInfo:(id)sender {
