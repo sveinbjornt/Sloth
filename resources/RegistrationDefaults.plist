@@ -1,14 +1,32 @@
-{
-	showDirectories = YES;
-	showRegularFiles = YES;
-	showIPSockets = NO;
-	showUnixSockets = NO;
-	showCharacterDevices = NO;
-	showPipes = NO;
-	showApplicationsOnly = NO;
-	ascending = YES;
-	showHomeFolderOnly = NO;
-	disclosure = YES;
-	sortBy = name;
-	interfaceSize = Normal;
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ascending</key>
+	<true/>
+	<key>disclosure</key>
+	<true/>
+	<key>interfaceSize</key>
+	<string>Normal</string>
+	<key>showApplicationsOnly</key>
+	<false/>
+	<key>showCharacterDevices</key>
+	<false/>
+	<key>showDirectories</key>
+	<true/>
+	<key>showHomeFolderOnly</key>
+	<false/>
+	<key>showIPSockets</key>
+	<false/>
+	<key>showPipes</key>
+	<false/>
+	<key>showRegularFiles</key>
+	<true/>
+	<key>showUnixSockets</key>
+	<false/>
+	<key>sortBy</key>
+	<string>name</string>
+	<key>useFastLsofBinary</key>
+	<true/>
+</dict>
+</plist>
