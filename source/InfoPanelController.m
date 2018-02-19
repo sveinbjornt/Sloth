@@ -259,12 +259,14 @@
         NSBeep();
         return;
     }
+    
     NSString *type = (isDir && ![WORKSPACE isFilePackageAtPath:self.path]) ? @"folder" : @"file";
     NSString *osaScript = [NSString stringWithFormat:
                            @"tell application \"Finder\"\n\
                            \tactivate\n\
                            \topen the information window of %@ POSIX file \"%@\"\n\
                            end tell", type, [self path], nil];
+    
     [self runAppleScript:osaScript];
 }
 

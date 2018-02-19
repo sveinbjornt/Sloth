@@ -635,25 +635,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
     
-//    NSMutableAttributedString *displStr = [[NSMutableAttributedString alloc] init];
-//
-//    NSAttributedString *pNameStr = [[NSAttributedString alloc] initWithString:p[@"name"] attributes:@{}];
-//    [displStr appendAttributedString:pNameStr];
-//
-//    NSString *countStr = [NSString stringWithFormat:@" (%d)", (int)[p[@"children"] count]];
-//    NSDictionary *attr = @{NSForegroundColorAttributeName: [NSColor grayColor]};
-//    NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countStr attributes:attr];
-//
-//    [displStr appendAttributedString:countAttrStr];
-
     // update display name to show number of open files for process
     NSString *procString = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
     p[@"displayname"] = procString;
-    
-//    p[@"displayname"] = [[NSAttributedString alloc] initWithString:procString
-//                                                        attributes:@{
-//                                                                     NSFontAttributeName: [NSFont boldSystemFontOfSize:14],
-//                                                                     NSForegroundColorAttributeName: [NSColor blackColor]}];
     
     // get icon for process
     if (!p[@"image"]) {
@@ -661,15 +645,14 @@ static inline uid_t uid_for_pid(pid_t pid) {
         GetProcessForPID([p[@"pid"] intValue], &psn);
         NSDictionary *pInfoDict = (__bridge_transfer NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
         
-        if (pInfoDict[@"BundlePath"]) {
+        if (pInfoDict[@"BundlePath"]) { // it's a bundle
             p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
-//            if ([pInfoDict[@"BundlePath"] hasSuffix:@".app"]) {
+            
+            // check if it's an app bundle
             NSString *fileType = [WORKSPACE typeOfFile:pInfoDict[@"BundlePath"] error:nil];
             if ([WORKSPACE type:fileType conformsToType:APPLICATION_UTI]) {
                 p[@"app"] = @YES;
             }
-            
-            //com.apple.application
             
             p[@"bundlepath"] = pInfoDict[@"BundlePath"];
         } else {
@@ -778,9 +761,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSInteger rowNumber = [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
     
-    BOOL commandKeyDown = (([[NSApp currentEvent] modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask);
+    BOOL cmdKeyDown = (([[NSApp currentEvent] modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask);
     
-    if (commandKeyDown) {
+    if (cmdKeyDown) {
         [self revealItemInFinder:item];
     } else {
         [self showGetInfoForItem:item];

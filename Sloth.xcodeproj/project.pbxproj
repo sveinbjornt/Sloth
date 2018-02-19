@@ -149,8 +149,8 @@
 		F438710613402C8200B51A5E /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				F4F1D89A1C75FBF800945D3E /* Common.h */,
 				F438710913402C8200B51A5E /* main.m */,
+				F4F1D89A1C75FBF800945D3E /* Common.h */,
 				F438710D13402C8200B51A5E /* SlothController.h */,
 				F438710E13402C8200B51A5E /* SlothController.m */,
 				F4D529311C90BAE10046FAE9 /* InfoPanelController.h */,
