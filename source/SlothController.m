@@ -83,6 +83,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     IBOutlet NSProgressIndicator *progressIndicator;
     
+    IBOutlet NSButton *showIPSocketsCheckbox;
+    IBOutlet NSButton *showUnixSocketsCheckbox;
+    IBOutlet NSButton *showPipesCheckbox;
+    
     IBOutlet NSTextField *filterTextField;
     IBOutlet NSTextField *numItemsTextField;
 
@@ -196,7 +200,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
                             @"showPipes",
                             @"showApplicationsOnly",
                             @"showHomeFolderOnly",
-                            @"interfaceSize"]) {
+                            @"interfaceSize",
+                            @"useSystemLsofBinary"]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
                                                                      options:NSKeyValueObservingOptionNew
@@ -208,6 +213,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
     
     [self updateDiscloseControl];
+    [self updateFilterOptionInterface];
+
     
     // Layer-backed window
     [[window contentView] setWantsLayer:YES];
@@ -219,7 +226,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     [window makeKeyAndOrderFront:self];
     
-    //[self updateSorting];
+    [self updateSorting];
     
     [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
@@ -278,6 +285,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
+    } else if ([VALUES_KEYPATH(@"useSystemLsofBinary") isEqualToString:keyPath]) {
+        [self updateFilterOptionInterface];
     } else {
         [self updateFiltering];
     }
@@ -303,7 +312,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     
     // User home dir path prefix
-    NSString *homeDirPath = [NSString stringWithFormat:@"/Users/%@", NSUserName()];
+    NSString *homeDirPath = NSHomeDirectory();
     
     // Regex search field filter
     NSMutableArray *regexes = [NSMutableArray array];
@@ -446,6 +455,13 @@ static inline uid_t uid_for_pid(pid_t pid) {
     });
 }
 
+- (NSString *)lsofPath {
+    if ([DEFAULTS boolForKey:@"useSystemLsofBinary"] == YES) {
+        return PROGRAM_SYSTEM_LSOF_PATH;
+    }
+    return PROGRAM_EMBEDDED_LSOF_PATH;
+}
+
 - (NSString *)runLsof:(BOOL)isAuthenticated {
     // our command is: lsof -F pcnt +c0
     NSData *outputData;
@@ -457,7 +473,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
             return nil;
         }
         
-        const char *toolPath = [PROGRAM_DEFAULT_LSOF_PATH fileSystemRepresentation];
+        const char *toolPath = [[self lsofPath] fileSystemRepresentation];
         NSArray *arguments = PROGRAM_LSOF_ARGS;
         NSUInteger numberOfArguments = [arguments count];
         char *args[numberOfArguments + 1];
@@ -488,7 +504,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     } else {
         
         NSTask *lsof = [[NSTask alloc] init];
-        [lsof setLaunchPath:PROGRAM_DEFAULT_LSOF_PATH];
+        [lsof setLaunchPath:[self lsofPath]];
         [lsof setArguments:PROGRAM_LSOF_ARGS];
         
         NSPipe *pipe = [NSPipe pipe];
@@ -549,6 +565,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 // Create file info dictionary
                 NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
                 fileInfo[@"name"] = [line substringFromIndex:1];
+                
+                // skip over unknown file types if we're using fast modified lsof binary
+                if ([fileInfo[@"name"] hasPrefix:@"unknown file type:"]) {
+                    continue;
+                }
+                
                 fileInfo[@"displayname"] = fileInfo[@"name"];
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
@@ -572,7 +594,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                     fileInfo[@"type"] = @"Pipe";
                 }
                 else {
-//                    NSLog(@"Unrecognized file type: %@ : %@", ftype, [fileInfo description]);
+                    //NSLog(@"Unrecognized file type: %@ : %@", ftype, [fileInfo description]);
                     continue;
                 }
                 
@@ -798,8 +820,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
 }
 
-- (IBAction)showAbout:(id)sender {
-    
+- (void)updateFilterOptionInterface {
+    BOOL hidden = ![DEFAULTS boolForKey:@"useSystemLsofBinary"];
+    [showIPSocketsCheckbox setHidden:hidden];
+    [showUnixSocketsCheckbox setHidden:hidden];
+    [showPipesCheckbox setHidden:hidden];
 }
 
 #pragma mark - Get Info
@@ -908,7 +933,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (OSStatus)authenticate {
     OSStatus err = noErr;
-    const char *toolPath = [PROGRAM_DEFAULT_LSOF_PATH fileSystemRepresentation];
+    const char *toolPath = [[self lsofPath] fileSystemRepresentation];
     
     AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
     AuthorizationRights myRights = { 1, &myItems };
@@ -957,7 +982,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [infoPanelController setItem:item];
         
         // we make the file path red if file has been moved or deleted
-        if ([item[@"type"] isEqualToString:@"File"]) {
+        if ([item[@"type"] isEqualToString:@"File"] || [item[@"type"] isEqualToString:@"Directory"]) {
             NSColor *color = canReveal ? [NSColor blackColor] : [NSColor redColor];
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
                                                                    attributes:@{NSForegroundColorAttributeName: color}];

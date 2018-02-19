@@ -26,7 +26,7 @@
 	<false/>
 	<key>sortBy</key>
 	<string>name</string>
-	<key>useFastLsofBinary</key>
-	<true/>
+	<key>useSystemLsofBinary</key>
+	<false/>
 </dict>
 </plist>
