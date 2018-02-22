@@ -208,14 +208,16 @@ static inline uid_t uid_for_pid(pid_t pid) {
                                                                      context:NULL];
     }
     
+    // Configure outline view
     [outlineView setDoubleAction:@selector(rowDoubleClicked:)];
-    [outlineView registerForDraggedTypes:@[NSFilenamesPboardType]];
     [outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
     
+    // Update controls
     [self updateDiscloseControl];
     [self updateFilterOptionInterface];
-
     
+    [self updateSorting];
+
     // Layer-backed window
     [[window contentView] setWantsLayer:YES];
     
@@ -226,8 +228,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     [window makeKeyAndOrderFront:self];
     
-    [self updateSorting];
-    
+    // automatically refresh when app is launched
     [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
 
@@ -285,9 +286,13 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
-    } else if ([VALUES_KEYPATH(@"useSystemLsofBinary") isEqualToString:keyPath]) {
+    }
+    // user has changed which lsof binary to use - show/hide controls accordingly
+    else if ([VALUES_KEYPATH(@"useSystemLsofBinary") isEqualToString:keyPath]) {
         [self updateFilterOptionInterface];
-    } else {
+    }
+    // the default that changed was one of the filters
+    else {
         [self updateFiltering];
     }
 }
@@ -993,10 +998,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
     [pboard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
     [pboard setString:item[@"name"] forType:NSStringPboardType];
-    
-//    for (NSPasteboardItem *i in [pboard pasteboardItems]) {
-//        NSLog(@"%@", [[i propertyListForType:(NSString *)kUTTypeFileURL] description]);
-//    }
     
     return YES;
 }
