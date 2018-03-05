@@ -823,9 +823,12 @@ DQ
             <point key="canvasLocation" x="765" y="147.5"/>
         </window>
         <window identifier="PreferencesWindow" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="PreferencesWindow" animationBehavior="default" tabbingMode="disallowed" id="1qC-U3-YV9" userLabel="Preferences">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
             <rect key="contentRect" x="412" y="355" width="303" height="247"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <value key="minSize" type="size" width="303" height="247"/>
+            <value key="maxSize" type="size" width="303" height="247"/>
             <view key="contentView" misplaced="YES" id="Bru-Ga-OSB">
                 <rect key="frame" x="0.0" y="0.0" width="303" height="247"/>
                 <autoresizingMask key="autoresizingMask"/>

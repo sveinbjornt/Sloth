@@ -283,7 +283,6 @@
                         end tell", self.path];
     
     [self runAppleScript:source];
-
 }
 
 #pragma mark - Util
