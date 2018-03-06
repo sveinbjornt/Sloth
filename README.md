@@ -1,6 +1,6 @@
 # Sloth
 
-<img align="right" src="resources/sloth_icon.png" style="float: right; margin-left: 30px;">
+<img src="resources/sloth_icon.png" align="right" style="float: right; margin-left: 30px;">
 
 Sloth is a Mac application that displays a list of all open files and sockets in use by all running applications on your system. This makes it easy to see which apps are using which files and sockets.
 
@@ -8,12 +8,7 @@ Sloth is a GUI built on top of the powerful `lsof` command line tool. The output
 
 ## Download
 
-* [Download Sloth 2.1](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit only)
-
-## Requirements
-
-* Intel 64-bit Mac
-* macOS 10.8 or later
+* [Download Sloth 2.1](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
@@ -114,8 +109,7 @@ Sloth is a GUI built on top of the powerful `lsof` command line tool. The output
 
 ## BSD License 
 
-````
-Copyright (C) 2004-2017 Sveinbjorn Thordarson <sveinbjornt@gmail.com>
+Copyright (C) 2004-2018 Sveinbjorn Thordarson <sveinbjornt@gmail.com>
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -141,4 +135,3 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
-````

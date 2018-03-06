@@ -3,7 +3,6 @@
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -34,11 +33,7 @@
                                     <action selector="checkForUpdates:" target="Nds-SX-rlr" id="VgP-xJ-t4s"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Preferences…" keyEquivalent="," id="129">
-                                <connections>
-                                    <action selector="makeKeyAndOrderFront:" target="1qC-U3-YV9" id="FtT-Ak-SNw"/>
-                                </connections>
-                            </menuItem>
+                            <menuItem title="Preferences…" keyEquivalent="," id="129"/>
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -581,7 +576,7 @@ DQ
                     <button toolTip="Only show application processes" misplaced="YES" id="241">
                         <rect key="frame" x="364" y="508" width="132" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Applications Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="734">
+                        <buttonCell key="cell" type="check" title="Applications Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="734">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
@@ -602,8 +597,8 @@ DQ
                             <outlet property="delegate" destination="212" id="552"/>
                         </connections>
                     </searchField>
-                    <button toolTip="Kill selected process" verticalHuggingPriority="750" id="210">
-                        <rect key="frame" x="100" y="13" width="72" height="32"/>
+                    <button toolTip="Kill selected process" verticalHuggingPriority="750" misplaced="YES" id="210">
+                        <rect key="frame" x="105" y="13" width="72" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Kill" bezelStyle="rounded" image="NSActionTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" inset="2" id="726">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -754,17 +749,6 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button toolTip="Show info window for item" verticalHuggingPriority="750" id="y0R-qW-wSJ">
-                        <rect key="frame" x="168" y="13" width="100" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="NSInfo" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
-                        </connections>
-                    </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cw1-nC-kNe">
                         <rect key="frame" x="36" y="52" width="119" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -814,6 +798,17 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="lQn-WG-DTM"/>
                         </connections>
                     </button>
+                    <button toolTip="Show info window for item" verticalHuggingPriority="750" misplaced="YES" id="y0R-qW-wSJ">
+                        <rect key="frame" x="177" y="13" width="100" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="NSInfo" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
@@ -821,75 +816,6 @@ DQ
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
             <point key="canvasLocation" x="765" y="147.5"/>
-        </window>
-        <window identifier="PreferencesWindow" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="PreferencesWindow" animationBehavior="default" tabbingMode="disallowed" id="1qC-U3-YV9" userLabel="Preferences">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
-            <rect key="contentRect" x="412" y="355" width="303" height="247"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <value key="minSize" type="size" width="303" height="247"/>
-            <value key="maxSize" type="size" width="303" height="247"/>
-            <view key="contentView" misplaced="YES" id="Bru-Ga-OSB">
-                <rect key="frame" x="0.0" y="0.0" width="303" height="247"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <box misplaced="YES" title="Box" titlePosition="noTitle" id="VIc-xH-snC">
-                        <rect key="frame" x="17" y="48" width="269" height="181"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="kkv-J2-Tfh">
-                            <rect key="frame" x="2" y="2" width="265" height="177"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button verticalHuggingPriority="750" misplaced="YES" id="Hnf-RB-Ixm">
-                                    <rect key="frame" x="18" y="141" width="229" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Use system lsof binary" bezelStyle="regularSquare" imagePosition="left" inset="2" id="9fk-LI-kbk">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="560" name="value" keyPath="values.useSystemLsofBinary" id="l9j-Pv-zDc"/>
-                                    </connections>
-                                </button>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" id="Exo-nT-M9K">
-                                    <rect key="frame" x="18" y="75" width="229" height="48"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" id="1rt-U8-Br1">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <string key="title">For performance reasons, Sloth defaults to using a modified lsof binary that only lists files, directories and character devices.</string>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" id="0sT-cI-mhb">
-                                    <rect key="frame" x="18" y="19" width="229" height="48"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Check here to use the system lsof binary at /usr/bin/lsof, which also lists pipes and sockets but runs much slower." id="96Z-0b-418">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                            </subviews>
-                        </view>
-                    </box>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="YdK-E1-idD">
-                        <rect key="frame" x="188" y="13" width="101" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VHQ-zd-REX">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="performClose:" target="1qC-U3-YV9" id="NcY-K2-ZYT"/>
-                        </connections>
-                    </button>
-                </subviews>
-            </view>
-            <point key="canvasLocation" x="43.5" y="501.5"/>
         </window>
     </objects>
     <resources>

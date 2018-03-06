@@ -212,10 +212,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [outlineView setDoubleAction:@selector(rowDoubleClicked:)];
     [outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
     
-    // Update controls
     [self updateDiscloseControl];
-    [self updateFilterOptionInterface];
-    
+
     [self updateSorting];
 
     // Layer-backed window
@@ -286,10 +284,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
-    }
-    // user has changed which lsof binary to use - show/hide controls accordingly
-    else if ([VALUES_KEYPATH(@"useSystemLsofBinary") isEqualToString:keyPath]) {
-        [self updateFilterOptionInterface];
     }
     // the default that changed was one of the filters
     else {
@@ -461,10 +455,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (NSString *)lsofPath {
-    if ([DEFAULTS boolForKey:@"useSystemLsofBinary"] == YES) {
-        return PROGRAM_SYSTEM_LSOF_PATH;
-    }
-    return PROGRAM_EMBEDDED_LSOF_PATH;
+    return PROGRAM_LSOF_SYSTEM_PATH;
 }
 
 - (NSString *)runLsof:(BOOL)isAuthenticated {
@@ -538,6 +529,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSString *pid = @"";
     NSString *process = @"";
     NSString *ftype = @"";
+    NSString *userid = @"";
     
     // parse each line
     for (NSString *line in lines) {
@@ -558,6 +550,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 
             case 't':
                 ftype = [line substringFromIndex:1];
+                break;
+            
+            case 'u':
+                userid = [line substringFromIndex:1];
                 break;
             
             case 'n':
@@ -613,6 +609,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                     pdict[@"name"] = process;
                     pdict[@"pname"] = process;
                     pdict[@"displayname"] = process;
+                    pdict[@"userid"] = userid;
                     pdict[@"pid"] = pid;
                     pdict[@"type"] = @"Process";
                     pdict[@"children"] = [NSMutableArray array];
@@ -786,7 +783,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (BOOL)canRevealItemAtPath:(NSString *)path {
-    return path && [FILEMGR fileExistsAtPath:path];// && ![path hasPrefix:@"/dev/"];
+    return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
 }
 
 - (IBAction)disclosureChanged:(id)sender {
@@ -806,13 +803,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [disclosureTextField setStringValue:@"Expand all"];
         [disclosureButton setIntValue:0];
     }
-}
-
-- (void)updateFilterOptionInterface {
-    BOOL hidden = ![DEFAULTS boolForKey:@"useSystemLsofBinary"];
-    [showIPSocketsCheckbox setHidden:hidden];
-    [showUnixSocketsCheckbox setHidden:hidden];
-    [showPipesCheckbox setHidden:hidden];
 }
 
 #pragma mark - Get Info

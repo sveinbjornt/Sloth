@@ -29,21 +29,27 @@
 */
 
 #define PROGRAM_NAME                @"Sloth"
-#define PROGRAM_VERSION             @"2.1"
+#define PROGRAM_VERSION             @"2.2"
 #define PROGRAM_WEBSITE             @"http://sveinbjorn.org/sloth"
 #define PROGRAM_GITHUB_WEBSITE      @"http://github.com/sveinbjornt/Sloth"
 #define PROGRAM_DONATIONS           @"http://sveinbjorn.org/donations"
-#define PROGRAM_LSOF_NAME           @"lsof"
-#define PROGRAM_SYSTEM_LSOF_PATH    @"/usr/sbin/lsof"
-#define PROGRAM_EMBEDDED_LSOF_PATH  [[NSBundle mainBundle] pathForResource:PROGRAM_LSOF_NAME ofType:nil]
-#define PROGRAM_LSOF_ARGS           @[@"-F", @"pcnt", @"+c0"]
 
-#define GENERIC_EXEC_ICON_PATH      @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
-#define GENERIC_DOCUMENT_ICON_PATH  @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericDocumentIcon.icns"
-#define GENERIC_FOLDER_ICON_PATH    @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericFolderIcon.icns"
-#define GENERIC_NETWORK_ICON_PATH   @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"
+#define PROGRAM_LSOF_NAME           @"lsof"
+#define PROGRAM_LSOF_SYSTEM_PATH    @"/usr/sbin/lsof"
+#define PROGRAM_LSOF_EMBEDDED_PATH  [[NSBundle mainBundle] pathForResource:PROGRAM_LSOF_NAME ofType:nil]
+#define PROGRAM_LSOF_ARGS           @[@"-F", @"pcntu", @"+c0", @"-n", @"-P"]
+
+#define GENERIC_EXEC_ICON_PATH \
+@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
+#define GENERIC_DOCUMENT_ICON_PATH \
+@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericDocumentIcon.icns"
+#define GENERIC_FOLDER_ICON_PATH \
+@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericFolderIcon.icns"
+#define GENERIC_NETWORK_ICON_PATH \
+@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"
 
 #define APPLICATION_UTI             @"com.apple.application"
+#define APPLICATION_SUFFIX          @".app"
 
 #define VALUES_KEYPATH(X)           [NSString stringWithFormat:@"values.%@", (X)]
 

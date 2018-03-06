@@ -1,7 +1,5 @@
 
 TODO list for Sloth 2.2
 
-DONE * Fixed issue where sorting prefs weren't respected on launch
-DONE * Now defaults to using a much faster, optimised version of lsof for listing files. System lsof binary can be used if set in Preferences
-* Disable scrolling when loading?
-* Update screenshots
+* Fixed bug where sort settings weren't respected on launch
+

@@ -18,7 +18,6 @@
 		F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F442E0721EA7DB1000BAD80C /* InfoPanel.xib */; };
 		F442E0781EA7DD0D00BAD80C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; };
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F4493F3B2039C9A60035D947 /* lsof in Resources */ = {isa = PBXBuildFile; fileRef = F4493F3A2039C9A60035D947 /* lsof */; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F47B45401EF82AC200D79DFF /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = F47B453F1EF82AC200D79DFF /* TODO.txt */; };
 		F4CFA1471F818C5E00470945 /* LockedIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CFA1451F818C5E00470945 /* LockedIcon.png */; };
@@ -62,7 +61,6 @@
 		F438712D13402CDD00B51A5E /* Sloth.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Sloth.icns; sourceTree = "<group>"; };
 		F442E0721EA7DB1000BAD80C /* InfoPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPanel.xib; sourceTree = "<group>"; };
 		F442E0771EA7DD0D00BAD80C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = sparkle/Sparkle.framework; sourceTree = "<group>"; };
-		F4493F3A2039C9A60035D947 /* lsof */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = lsof; path = "lsof-bin/lsof"; sourceTree = SOURCE_ROOT; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 		F438712713402CDD00B51A5E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F4493F3A2039C9A60035D947 /* lsof */,
 				F40B7D2C1C75FA05000A4616 /* Images.xcassets */,
 				F413E66E1C76842A00385DB3 /* MainMenu.xib */,
 				F442E0721EA7DB1000BAD80C /* InfoPanel.xib */,
@@ -271,7 +268,6 @@
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
 				F47B45401EF82AC200D79DFF /* TODO.txt in Resources */,
 				F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */,
-				F4493F3B2039C9A60035D947 /* lsof in Resources */,
 				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
 				F4CFA1481F818C5E00470945 /* UnlockedIcon.png in Resources */,
 				F4CFA1471F818C5E00470945 /* LockedIcon.png in Resources */,

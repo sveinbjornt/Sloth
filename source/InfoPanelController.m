@@ -102,7 +102,14 @@
     [self.sizeTextField setStringValue:sizeStr];
     
     // type
-    [self.itemTypeTextField setStringValue:type];
+    NSString *typeStr = type;
+    if ([type isEqualToString:@"Process"]) {
+        register struct passwd *pw;
+        pw = getpwuid([itemDict[@"userid"] intValue]);
+        NSString *ownerUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
+        typeStr = [NSString stringWithFormat:@"Process (%@)", ownerUsername];
+    }
+    [self.itemTypeTextField setStringValue:typeStr];
     
     // owned by
     if (isProcess) {
