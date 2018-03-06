@@ -3,6 +3,7 @@
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -33,7 +34,11 @@
                                     <action selector="checkForUpdates:" target="Nds-SX-rlr" id="VgP-xJ-t4s"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Preferences…" keyEquivalent="," id="129"/>
+                            <menuItem title="Preferences…" keyEquivalent="," id="129">
+                                <connections>
+                                    <action selector="makeKeyAndOrderFront:" target="OsR-k1-sul" id="r7B-wo-zXg"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -204,10 +209,16 @@
                                                 <action selector="sortChanged:" target="212" id="16b-Uy-3RJ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Sort by PID" id="Oqa-fu-gFh">
+                                        <menuItem title="Sort by Process ID" id="Oqa-fu-gFh">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="sortChanged:" target="212" id="H9O-ja-jmD"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Sort by User ID" id="yVs-J7-0pC">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="sortChanged:" target="212" id="DkQ-BK-0IL"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Sort by File Count" id="K08-MZ-7At">
@@ -401,7 +412,7 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
-            <point key="canvasLocation" x="305" y="-442"/>
+            <point key="canvasLocation" x="209" y="-499"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
@@ -816,6 +827,54 @@ DQ
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
             <point key="canvasLocation" x="765" y="147.5"/>
+        </window>
+        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
+            <rect key="contentRect" x="131" y="159" width="352" height="125"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" misplaced="YES" id="uuC-Xu-EUc">
+                <rect key="frame" x="0.0" y="0.0" width="352" height="125"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <box misplaced="YES" title="Box" titlePosition="noTitle" id="szz-CW-tz9">
+                        <rect key="frame" x="17" y="46" width="318" height="61"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="0fi-kW-b7H">
+                            <rect key="frame" x="2" y="2" width="314" height="57"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <button verticalHuggingPriority="750" misplaced="YES" id="hkL-nx-O5J">
+                                    <rect key="frame" x="18" y="21" width="276" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PZc-ff-0hd">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <binding destination="560" name="value" keyPath="values.dnsLookup" id="v4e-8V-3tv"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </view>
+                    </box>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="2hd-8B-yos">
+                        <rect key="frame" x="263" y="13" width="75" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ecZ-Pe-8S7">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performClose:" target="OsR-k1-sul" id="eos-lc-nNE"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="532" y="-331"/>
         </window>
     </objects>
     <resources>

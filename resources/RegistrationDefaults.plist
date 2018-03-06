@@ -26,5 +26,7 @@
 	<false/>
 	<key>sortBy</key>
 	<string>name</string>
+	<key>dnsLookup</key>
+	<false/>
 </dict>
 </plist>

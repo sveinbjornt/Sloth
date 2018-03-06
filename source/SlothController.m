@@ -470,7 +470,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
         }
         
         const char *toolPath = [[self lsofPath] fileSystemRepresentation];
-        NSArray *arguments = PROGRAM_LSOF_ARGS;
+        NSMutableArray *arguments = [NSMutableArray arrayWithArray:PROGRAM_LSOF_ARGS];
+        if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
+            [arguments addObjectsFromArray:@[@"-n", @"-P"]]; // disable dns and port name lookup
+        }
         NSUInteger numberOfArguments = [arguments count];
         char *args[numberOfArguments + 1];
         FILE *outputFile;
@@ -501,7 +504,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
         
         NSTask *lsof = [[NSTask alloc] init];
         [lsof setLaunchPath:[self lsofPath]];
-        [lsof setArguments:PROGRAM_LSOF_ARGS];
+        
+        NSMutableArray *arguments = [NSMutableArray arrayWithArray:PROGRAM_LSOF_ARGS];
+        if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
+            [arguments addObjectsFromArray:@[@"-n", @"-P"]]; // disable dns and port name lookup
+        }
+        [lsof setArguments:arguments];
         
         NSPipe *pipe = [NSPipe pipe];
         [lsof setStandardOutput:pipe];
@@ -830,8 +838,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
 #pragma mark - Sort
 
 - (IBAction)sortChanged:(id)sender {
-    NSArray *words = [[sender title] componentsSeparatedByString:@" "];
-    NSString *sortBy = [[words lastObject] lowercaseString];
+    NSArray *comp = [[sender title] componentsSeparatedByString:@" by "];
+    NSString *sortBy = [[comp lastObject] lowercaseString];
     [DEFAULTS setObject:sortBy forKey:@"sortBy"];
     [self updateSorting];
 }
@@ -842,7 +850,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                                                              ascending:[DEFAULTS boolForKey:@"ascending"]
                                                               selector:@selector(localizedCaseInsensitiveCompare:)];
     
-    if ([sortBy isEqualToString:@"count"]) {
+    if ([sortBy isEqualToString:@"file count"]) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"children"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:^(id first, id second){
@@ -859,7 +867,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         }];
     }
     
-    if ([sortBy isEqualToString:@"pid"]) {
+    if ([sortBy isEqualToString:@"process id"]) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"pid"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:^(id first, id second){
@@ -874,6 +882,23 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 return NSOrderedSame;
             }
         }];
+    }
+    
+    if ([sortBy isEqualToString:@"user id"]) {
+        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"userid"
+                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                comparator:^(id first, id second){
+                                                    NSUInteger cnt1 = [first intValue];
+                                                    NSUInteger cnt2 = [second intValue];
+                                                    
+                                                    if (cnt1 < cnt2) {
+                                                        return NSOrderedAscending;
+                                                    } else if (cnt1 > cnt2) {
+                                                        return NSOrderedDescending;
+                                                    } else {
+                                                        return NSOrderedSame;
+                                                    }
+                                                }];
     }
     
     self.sortDescriptors = @[sortDesc];

@@ -2,4 +2,6 @@
 TODO list for Sloth 2.2
 
 * Fixed bug where sort settings weren't respected on launch
-
+* Info Window now displays username of process owner
+* New option to sort by user id
+* DNS and port name lookup now disabled by default for faster execution (but can be enabled in Preferences)

@@ -37,7 +37,7 @@
 #define PROGRAM_LSOF_NAME           @"lsof"
 #define PROGRAM_LSOF_SYSTEM_PATH    @"/usr/sbin/lsof"
 #define PROGRAM_LSOF_EMBEDDED_PATH  [[NSBundle mainBundle] pathForResource:PROGRAM_LSOF_NAME ofType:nil]
-#define PROGRAM_LSOF_ARGS           @[@"-F", @"pcntu", @"+c0", @"-n", @"-P"]
+#define PROGRAM_LSOF_ARGS           @[@"-F", @"pcntu", @"+c0"]
 
 #define GENERIC_EXEC_ICON_PATH \
 @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
