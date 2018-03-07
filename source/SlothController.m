@@ -261,7 +261,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
     
     // update label
-    NSString *str = [NSString stringWithFormat:@"Showing %d items of %d", matchingFilesCount, self.totalFileCount];
+    NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
     [numItemsTextField setStringValue:str];
 
     // reload

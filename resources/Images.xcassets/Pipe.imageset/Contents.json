@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "pipe-64.png",
       "scale" : "1x"
     },
     {
