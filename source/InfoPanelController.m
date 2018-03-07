@@ -184,7 +184,7 @@
     // The indices of the items in the permsArray correspond to the POSIX
     // permissions. Essentially each bit of the POSIX permissions represents
     // a read, write, or execute bit.
-    NSArray *permsArray = [NSArray arrayWithObjects:@"---", @"--x", @"-w-", @"-wx", @"r--", @"r-x", @"rw-", @"rwx", nil];
+    NSArray *permsArray = @[@"---", @"--x", @"-w-", @"-wx", @"r--", @"r-x", @"rw-", @"rwx"];
     NSMutableString *result = [NSMutableString string];
     NSDictionary *attrs = [FILEMGR attributesOfItemAtPath:filePath error:nil];
     if (!attrs) {

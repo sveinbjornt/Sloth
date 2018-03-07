@@ -459,7 +459,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (NSMutableArray *)lsofArguments {
-    NSMutableArray *arguments = [NSMutableArray arrayWithArray:PROGRAM_LSOF_ARGS];
+    NSMutableArray *arguments = [PROGRAM_LSOF_ARGS mutableCopy];
     if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
         // add arguments to disable dns and port name lookup
         [arguments addObjectsFromArray:PROGRAM_LSOF_NO_DNS_ARGS];
@@ -1113,7 +1113,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
     // Write to pasteboard
     if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
-        [pasteBoard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:nil];
+        [pasteBoard declareTypes:@[NSFilenamesPboardType] owner:nil];
         [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
     }
     [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
