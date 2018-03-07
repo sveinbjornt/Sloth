@@ -458,6 +458,15 @@ static inline uid_t uid_for_pid(pid_t pid) {
     return PROGRAM_LSOF_SYSTEM_PATH;
 }
 
+- (NSMutableArray *)lsofArguments {
+    NSMutableArray *arguments = [NSMutableArray arrayWithArray:PROGRAM_LSOF_ARGS];
+    if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
+        // add arguments to disable dns and port name lookup
+        [arguments addObjectsFromArray:PROGRAM_LSOF_NO_DNS_ARGS];
+    }
+    return arguments;
+}
+
 - (NSString *)runLsof:(BOOL)isAuthenticated {
     // our command is: lsof -F pcnt +c0
     NSData *outputData;
@@ -470,10 +479,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         }
         
         const char *toolPath = [[self lsofPath] fileSystemRepresentation];
-        NSMutableArray *arguments = [NSMutableArray arrayWithArray:PROGRAM_LSOF_ARGS];
-        if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
-            [arguments addObjectsFromArray:@[@"-n", @"-P"]]; // disable dns and port name lookup
-        }
+        NSMutableArray *arguments = [self lsofArguments];
         NSUInteger numberOfArguments = [arguments count];
         char *args[numberOfArguments + 1];
         FILE *outputFile;
@@ -504,12 +510,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         
         NSTask *lsof = [[NSTask alloc] init];
         [lsof setLaunchPath:[self lsofPath]];
-        
-        NSMutableArray *arguments = [NSMutableArray arrayWithArray:PROGRAM_LSOF_ARGS];
-        if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
-            [arguments addObjectsFromArray:@[@"-n", @"-P"]]; // disable dns and port name lookup
-        }
-        [lsof setArguments:arguments];
+        [lsof setArguments:[self lsofArguments]];
         
         NSPipe *pipe = [NSPipe pipe];
         [lsof setStandardOutput:pipe];
@@ -538,6 +539,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSString *process = @"";
     NSString *ftype = @"";
     NSString *userid = @"";
+    NSString *accessmode = @"";
+    NSString *protocol = @"";
+    NSString *fd = @"";
+    BOOL skip;
     
     // parse each line
     for (NSString *line in lines) {
@@ -564,10 +569,33 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 userid = [line substringFromIndex:1];
                 break;
             
+            case 'a':
+                accessmode = [line substringFromIndex:1];
+                break;
+            
+            case 'P':
+                protocol = [line substringFromIndex:1];
+                break;
+            
+            case 'f':
+            {
+                // txt files are program code, such as the application binary itself or a shared library
+                fd = [line substringFromIndex:1];
+                if ([fd isEqualToString:@"txt"] && ![DEFAULTS boolForKey:@"showProcessBinaries"]) {
+                    skip = TRUE;
+                }
+                else if ([fd isEqualToString:@"cwd"] && ![DEFAULTS boolForKey:@"showCurrentWorkingDirectories"]) {
+                    skip = TRUE;
+                }
+                else {
+                    skip = FALSE;
+                }
+            }
+                break;
+                
             case 'n':
             {
-                //we don't report lsof process
-                if (/*[process isEqualToString:PROGRAM_NAME] ||*/ [process isEqualToString:PROGRAM_LSOF_NAME]) {
+                if (skip) {
                     continue;
                 }
                 
@@ -575,7 +603,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
                 fileInfo[@"name"] = [line substringFromIndex:1];
                 
-                // skip over unknown file types if we're using fast modified lsof binary
+                // skip over unknown file types if we're using the fast modified lsof binary
                 if ([fileInfo[@"name"] hasPrefix:@"unknown file type:"]) {
                     continue;
                 }
@@ -583,20 +611,24 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 fileInfo[@"displayname"] = fileInfo[@"name"];
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
+                fileInfo[@"accessmode"] = accessmode;
+                fileInfo[@"protocol"] = protocol;
+                fileInfo[@"fd"] = fd;
                 
-                if (/*[ftype isEqualToString:@"VREG"] ||*/ [ftype isEqualToString:@"REG"]) {
+                if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
                     fileInfo[@"type"] = @"File";
                 }
-                else if (/*[ftype isEqualToString:@"VDIR"] ||*/ [ftype isEqualToString:@"DIR"]) {
+                else if ([ftype isEqualToString:@"VDIR"] || [ftype isEqualToString:@"DIR"]) {
                     fileInfo[@"type"] = @"Directory";
                 }
                 else if ([ftype isEqualToString:@"IPv6"] || [ftype isEqualToString:@"IPv4"]) {
                     fileInfo[@"type"] = @"IP Socket";
+                    fileInfo[@"ipversion"] = ftype;
                 }
                 else  if ([ftype isEqualToString:@"unix"]) {
                     fileInfo[@"type"] = @"Unix Socket";
                 }
-                else if (/*[ftype isEqualToString:@"VCHR"] ||*/ [ftype isEqualToString:@"CHR"]) {
+                else if ([ftype isEqualToString:@"VCHR"] || [ftype isEqualToString:@"CHR"]) {
                     fileInfo[@"type"] = @"Character Device";
                 }
                 else if ([ftype isEqualToString:@"PIPE"]) {
@@ -608,7 +640,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 }
                 
                 fileInfo[@"image"] = type2icon[fileInfo[@"type"]];
-
+                
                 // Create process key in dictionary if it doesn't already exist
                 NSMutableDictionary *pdict = processes[pid];
                 if (pdict == nil) {

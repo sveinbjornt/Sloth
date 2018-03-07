@@ -831,21 +831,21 @@ DQ
         <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
-            <rect key="contentRect" x="131" y="159" width="352" height="125"/>
+            <rect key="contentRect" x="131" y="159" width="378" height="182"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" misplaced="YES" id="uuC-Xu-EUc">
-                <rect key="frame" x="0.0" y="0.0" width="352" height="125"/>
+                <rect key="frame" x="0.0" y="0.0" width="378" height="182"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box misplaced="YES" title="Box" titlePosition="noTitle" id="szz-CW-tz9">
-                        <rect key="frame" x="17" y="46" width="318" height="61"/>
+                        <rect key="frame" x="17" y="50" width="344" height="114"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="0fi-kW-b7H">
-                            <rect key="frame" x="2" y="2" width="314" height="57"/>
+                            <rect key="frame" x="2" y="2" width="340" height="110"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button verticalHuggingPriority="750" misplaced="YES" id="hkL-nx-O5J">
-                                    <rect key="frame" x="18" y="21" width="276" height="18"/>
+                                    <rect key="frame" x="18" y="74" width="276" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PZc-ff-0hd">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -855,11 +855,33 @@ DQ
                                         <binding destination="560" name="value" keyPath="values.dnsLookup" id="v4e-8V-3tv"/>
                                     </connections>
                                 </button>
+                                <button verticalHuggingPriority="750" misplaced="YES" id="5c4-0y-w2t">
+                                    <rect key="frame" x="18" y="7" width="408" height="45"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="c3A-YY-2hh">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <binding destination="560" name="value" keyPath="values.showCurrentWorkingDirectories" id="gIa-mS-dGn"/>
+                                    </connections>
+                                </button>
+                                <button verticalHuggingPriority="750" misplaced="YES" id="zAn-k8-ZDp">
+                                    <rect key="frame" x="18" y="33" width="408" height="45"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jx1-Aq-PnX">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <binding destination="560" name="value" keyPath="values.showProcessBinaries" id="9FL-Lh-4Kn"/>
+                                    </connections>
+                                </button>
                             </subviews>
                         </view>
                     </box>
                     <button verticalHuggingPriority="750" misplaced="YES" id="2hd-8B-yos">
-                        <rect key="frame" x="263" y="13" width="75" height="32"/>
+                        <rect key="frame" x="271" y="13" width="93" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ecZ-Pe-8S7">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -874,7 +896,7 @@ DQ
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="532" y="-331"/>
+            <point key="canvasLocation" x="401" y="-327"/>
         </window>
     </objects>
     <resources>

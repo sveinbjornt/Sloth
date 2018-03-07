@@ -28,5 +28,9 @@
 	<string>name</string>
 	<key>dnsLookup</key>
 	<false/>
+	<key>showProcessBinaries</key>
+	<false/>
+	<key>showCurrentWorkingDirectories</key>
+	<false/>
 </dict>
 </plist>

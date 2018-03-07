@@ -47,6 +47,7 @@
 @property (weak) IBOutlet NSTextField *itemTypeTextField;
 @property (weak) IBOutlet NSTextField *sizeTextField;
 @property (weak) IBOutlet NSTextField *permissionsTextField;
+@property (weak) IBOutlet NSTextField *accessModeTextField;
 
 @property (weak) IBOutlet NSButton *killButton;
 @property (weak) IBOutlet NSButton *showInFinderButton;
@@ -69,6 +70,7 @@
     
     BOOL isProcess = [type isEqualToString:@"Process"];
     BOOL isFileOrFolder = [type isEqualToString:@"File"] || [type isEqualToString:@"Directory"];
+    BOOL isIPSocket = [type isEqualToString:@"IP Socket"];
     
     // name
     NSString *name = isFileOrFolder ? [itemDict[@"name"] lastPathComponent] : itemDict[@"name"];
@@ -103,11 +105,14 @@
     
     // type
     NSString *typeStr = type;
-    if ([type isEqualToString:@"Process"]) {
+    if (isProcess) {
         register struct passwd *pw;
         pw = getpwuid([itemDict[@"userid"] intValue]);
         NSString *ownerUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
         typeStr = [NSString stringWithFormat:@"Process (%@)", ownerUsername];
+    }
+    if (isIPSocket) {
+        typeStr = [NSString stringWithFormat:@"%@ Socket (%@)", itemDict[@"ipversion"], itemDict[@"protocol"]];
     }
     [self.itemTypeTextField setStringValue:typeStr];
     
@@ -120,6 +125,24 @@
         NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"pname"], itemDict[@"pid"]];
         [self.usedByTextField setStringValue:ownedByStr];
     }
+    
+    // access mode
+    NSString *access = [self accessModeDescriptionForMode:itemDict[@"accessmode"]];
+    if (access == nil) {
+        if (itemDict[@"fd"] == nil) {
+            access = @"—";
+        } else {
+            // try to scan int to see if we have a file descriptor number
+            int num;
+            BOOL isInteger = [[NSScanner scannerWithString:itemDict[@"fd"]] scanInt:&num];
+            if (isInteger) {
+                access = @"—";
+            } else {
+                access = [NSString stringWithFormat:@"No file descriptor. Type: %@", itemDict[@"fd"]];
+            }
+        }
+    }
+    [self.accessModeTextField setStringValue:access];
     
     // the other fields
     if ((!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"bundlepath"] == nil))) ||
@@ -293,6 +316,19 @@
 }
 
 #pragma mark - Util
+
+- (NSString *)accessModeDescriptionForMode:(NSString *)m {
+    if ([m isEqualToString:@"r"]) {
+        return @"Read";
+    }
+    if ([m isEqualToString:@"w"]) {
+        return @"Write";
+    }
+    if ([m isEqualToString:@"u"]) {
+        return @"Read/Write";
+    }
+    return nil;
+}
 
 - (BOOL)runAppleScript:(NSString *)scriptSource {
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
