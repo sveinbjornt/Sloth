@@ -324,7 +324,6 @@
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs",
 					"$(PROJECT_DIR)/sparkle",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -361,7 +360,6 @@
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs",
 					"$(PROJECT_DIR)/sparkle",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;

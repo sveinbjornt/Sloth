@@ -530,7 +530,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
         return processList;
     }
     
-    // split into array of lines of text
     NSArray *lines = [outputString componentsSeparatedByString:@"\n"];
     
     NSMutableDictionary *processes = [NSMutableDictionary dictionary];
@@ -635,6 +634,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 }
                 else if ([ftype isEqualToString:@"PIPE"]) {
                     fileInfo[@"type"] = @"Pipe";
+                    if ([fileInfo[@"name"] isEqualToString:@""]) {
+                        fileInfo[@"displayname"] = @"Unnamed Pipe";
+                    }
                 }
                 else {
                     //NSLog(@"Unrecognized file type: %@ : %@", ftype, [fileInfo description]);
