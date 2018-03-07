@@ -64,6 +64,9 @@
 #pragma mark - Load info
 
 - (void)setItem:(NSDictionary *)itemDict {
+    if (!itemDict) {
+        return;
+    }
     self.fileInfoDict = itemDict;
     
     NSString *type = itemDict[@"type"];

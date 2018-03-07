@@ -552,31 +552,38 @@ static inline uid_t uid_for_pid(pid_t pid) {
         }
         
         switch ([line characterAtIndex:0]) {
-                
+            
+            // PID
             case 'p':
                 pid = [line substringFromIndex:1];
                 break;
             
+            // Name of owning process
             case 'c':
                 process = [line substringFromIndex:1];
                 break;
-                
+            
+            // Type
             case 't':
                 ftype = [line substringFromIndex:1];
                 break;
             
+            // UID
             case 'u':
                 userid = [line substringFromIndex:1];
                 break;
             
+            // Access mode
             case 'a':
                 accessmode = [line substringFromIndex:1];
                 break;
             
+            // Protocol (IP sockets only)
             case 'P':
                 protocol = [line substringFromIndex:1];
                 break;
             
+            // File descriptor
             case 'f':
             {
                 // txt files are program code, such as the application binary itself or a shared library
@@ -592,7 +599,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 }
             }
                 break;
-                
+            
+            // Name
             case 'n':
             {
                 if (skip) {
@@ -602,12 +610,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 // Create file info dictionary
                 NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
                 fileInfo[@"name"] = [line substringFromIndex:1];
-                
-                // skip over unknown file types if we're using the fast modified lsof binary
-                if ([fileInfo[@"name"] hasPrefix:@"unknown file type:"]) {
-                    continue;
-                }
-                
                 fileInfo[@"displayname"] = fileInfo[@"name"];
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
@@ -878,59 +880,56 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (void)updateSorting {
     NSString *sortBy = [DEFAULTS objectForKey:@"sortBy"];
+    
+    // Default to sorting alphabetically by name
     NSSortDescriptor *sortDesc = [[NSSortDescriptor alloc] initWithKey:sortBy
                                                              ascending:[DEFAULTS boolForKey:@"ascending"]
                                                               selector:@selector(localizedCaseInsensitiveCompare:)];
     
-    if ([sortBy isEqualToString:@"file count"]) {
-        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"children"
-                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
-                                                comparator:^(id first, id second){
-            NSUInteger cnt1 = [first count];
-            NSUInteger cnt2 = [second count];
-            
-            if (cnt1 < cnt2) {
-                return NSOrderedAscending;
-            } else if (cnt1 > cnt2) {
-                return NSOrderedDescending;
-            } else {
-                return NSOrderedSame;
-            }
-        }];
-    }
+    // Integer comparison for string values block
+    NSComparator integerComparisonBlock = ^(id first,id second) {
+        NSUInteger cnt1 = [first intValue];
+        NSUInteger cnt2 = [second intValue];
+        
+        if (cnt1 < cnt2) {
+            return NSOrderedAscending;
+        } else if (cnt1 > cnt2) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    };
+    
+    // Number of children (i.e. file count) comparison block
+    NSComparator numChildrenComparisonBlock = ^(id first,id second) {
+        NSUInteger cnt1 = [first count];
+        NSUInteger cnt2 = [second count];
+        
+        if (cnt1 < cnt2) {
+            return NSOrderedAscending;
+        } else if (cnt1 > cnt2) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    };
     
     if ([sortBy isEqualToString:@"process id"]) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"pid"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
-                                                comparator:^(id first, id second){
-            NSUInteger cnt1 = [first intValue];
-            NSUInteger cnt2 = [second intValue];
-            
-            if (cnt1 < cnt2) {
-                return NSOrderedAscending;
-            } else if (cnt1 > cnt2) {
-                return NSOrderedDescending;
-            } else {
-                return NSOrderedSame;
-            }
-        }];
+                                                comparator:integerComparisonBlock];
     }
     
     if ([sortBy isEqualToString:@"user id"]) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"userid"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
-                                                comparator:^(id first, id second){
-                                                    NSUInteger cnt1 = [first intValue];
-                                                    NSUInteger cnt2 = [second intValue];
-                                                    
-                                                    if (cnt1 < cnt2) {
-                                                        return NSOrderedAscending;
-                                                    } else if (cnt1 > cnt2) {
-                                                        return NSOrderedDescending;
-                                                    } else {
-                                                        return NSOrderedSame;
-                                                    }
-                                                }];
+                                                comparator:integerComparisonBlock];
+    }
+    
+    if ([sortBy isEqualToString:@"file count"]) {
+        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"children"
+                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                comparator:numChildrenComparisonBlock];
     }
     
     self.sortDescriptors = @[sortDesc];
@@ -1060,11 +1059,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     else if (menu == volumesMenu) {
         
-        // get current selection
+        // Get currently selected volume
         NSMenuItem *selectedItem = [volumesPopupButton selectedItem];
         NSString *selectedPath = [selectedItem toolTip];
         
-        // rebuild menu
+        // Rebuild menu
         [volumesMenu removeAllItems];
         
         NSArray *props = @[NSURLVolumeNameKey, NSURLVolumeIsRemovableKey, NSURLVolumeIsEjectableKey];
