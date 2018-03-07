@@ -8,7 +8,7 @@ Sloth is a GUI built on top of the powerful `lsof` command line tool. The output
 
 ## Download
 
-* [Download Sloth 2.1](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit, 10.8 or later)
+* [Download Sloth 2.2](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
@@ -17,6 +17,17 @@ Sloth is a GUI built on top of the powerful `lsof` command line tool. The output
 <img src="resources/sloth_screenshot1.jpg" align="center">
 
 ## Version history
+
+## 07/03/2018 - Version 2.2
+
+* Now defaults to excluding process binaries, shared libraries and current working directories in listing
+* DNS and port name lookup now disabled by default for faster execution (can be enabled in Preferences)
+* Info Panel now displays file access mode and process owner
+* New sort option: User ID
+* Info Panel now shows IP socket protocol and version
+* New Preferences window
+* New high-resolution pipe and socket icons
+* Fixed bug where sort settings were not respected on launch
 
 ### 12/02/2018 - Version 2.1
 

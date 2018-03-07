@@ -7,6 +7,26 @@
         <language>en</language>
         
         <item>
+            <title>Version 2.2</title>
+            <pubDate>Wed, 7 Mar 2018 14:45:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.2.zip" sparkle:version="86" sparkle:shortVersionString="2.2" length="467436" type="application/octet-stream" sparkle:dsaSignature="MEQCIGf15bP3b4DKlrwH2D8w058h5qrIwL3ZxRWLS4HAuGNsAiA6xy//8gcWkXlQ9Q2JxLNKnHsgMgr+WQ9Ede8NwC572A=="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>New in Version 2.2:</h2>
+                <ul>
+                    <li>Now defaults to excluding process binaries, shared libraries and current working directories in listing</li>
+                    <li>DNS and port name lookup now disabled by default for faster execution (can be enabled in Preferences)</li>
+                    <li>Info Panel now displays file access mode and process owner</li>
+                    <li>New sort option: User ID</li>
+                    <li>Info Panel now shows IP socket protocol and version</li>
+                    <li>New Preferences window</li>
+                    <li>New high-resolution pipe and socket icons</li>
+                    <li>Fixed bug where sort settings were not respected on launch</li>
+                </ul>
+            ]]></description>
+        </item>
+        
+        <item>
             <title>Version 2.1</title>
             <pubDate>Mon, 12 Feb 2018 18:45:00 +0000</pubDate>
             <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.1.zip" sparkle:version="74" sparkle:shortVersionString="2.1" length="459206" type="application/octet-stream" sparkle:dsaSignature="MEQCIFV0hNVspQ78V9gctvjvds6U4g7sud8AHHPdF9ehIjFQAiA8KjP8kr4ZmkXcwtb+lsLeKJfYW9Zl9+HYBYOTe2bMeg=="/>
