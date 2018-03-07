@@ -176,7 +176,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
-    // put application icon in window title bar
+    // Put application icon in window title bar
     [window setRepresentedURL:[NSURL URLWithString:@""]];
     NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
     [button setImage:[NSApp applicationIconImage]];
@@ -226,7 +226,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     [window makeKeyAndOrderFront:self];
     
-    // automatically refresh when app is launched
+    // Automatically refresh when app is launched
     [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
 }
 
@@ -235,12 +235,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
-    // prevent popup menu when window icon/title is cmd-clicked
+    // Prevent popup menu when window icon/title is cmd-clicked
     return NO;
 }
 
 - (BOOL)window:(NSWindow *)window shouldDragDocumentWithEvent:(NSEvent *)event from:(NSPoint)dragImageLocation withPasteboard:(NSPasteboard *)pasteboard {
-    // prevent dragging of title bar icon
+    // Prevent dragging of title bar icon
     return NO;
 }
 
@@ -252,19 +252,19 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     //NSLog(@"Filtering");
     
-    // filter content
+    // Filter content
     int matchingFilesCount = 0;
     self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
     
-    // update header
+    // Update header
     NSString *headerTitle = [NSString stringWithFormat:@"%d processes", (int)[self.content count]];
     [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
     
-    // update label
+    // Update label
     NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
     [numItemsTextField setStringValue:str];
 
-    // reload
+    // Reload
     [outlineView reloadData];
     
     if ([DEFAULTS boolForKey:@"disclosure"]) {
@@ -285,7 +285,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
     }
-    // the default that changed was one of the filters
+    // The default that changed was one of the filters
     else {
         [self updateFiltering];
     }
@@ -353,7 +353,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         
         for (NSDictionary *file in process[@"children"]) {
             
-            // let's see if it gets filtered by type
+            // Let's see if it gets filtered by type
             if (showAllFileTypes == NO) {
                 
                 if (showHomeFolderOnly && ![file[@"name"] hasPrefix:homeDirPath]) {
@@ -375,7 +375,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 }
             }
             
-            // see if it matches regex in search field filter
+            // See if it matches regex in search field filter
             if (hasRegexFilter) {
                 
                 int matchCount = 0;
@@ -425,7 +425,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [progressIndicator setUsesThreadedAnimation:TRUE];
     [progressIndicator startAnimation:self];
 
-    // update in background
+    // Update in background
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
     
@@ -435,7 +435,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
             self.unfilteredContent = [self parseLsofOutput:output numFiles:&fileCount];
             self.totalFileCount = fileCount;
             
-            // then update UI on main thread
+            // Then update UI on main thread
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 // Re-enable controls
@@ -461,14 +461,14 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (NSMutableArray *)lsofArguments {
     NSMutableArray *arguments = [PROGRAM_LSOF_ARGS mutableCopy];
     if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
-        // add arguments to disable dns and port name lookup
+        // Add arguments to disable dns and port name lookup
         [arguments addObjectsFromArray:PROGRAM_LSOF_NO_DNS_ARGS];
     }
     return arguments;
 }
 
 - (NSString *)runLsof:(BOOL)isAuthenticated {
-    // our command is: lsof -F pcnt +c0
+    // Our command is: lsof -F pcnt +c0
     NSData *outputData;
     
     if (isAuthenticated) {
@@ -484,7 +484,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         char *args[numberOfArguments + 1];
         FILE *outputFile;
         
-        // first, construct an array of c strings from NSArray w. arguments
+        // First, construct an array of c strings from NSArray w. arguments
         for (int i = 0; i < numberOfArguments; i++) {
             NSString *argString = arguments[i];
             NSUInteger stringLength = [argString length];
@@ -494,10 +494,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
         }
         args[numberOfArguments] = NULL;
         
-        //use Authorization Reference to execute script with privileges
+        // Use Authorization Reference to execute script with privileges
         _AuthExecuteWithPrivsFn(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, &outputFile);
         
-        // free the malloc'd argument strings
+        // Free malloc'd argument strings
         for (int i = 0; i < numberOfArguments; i++) {
             free(args[i]);
         }
@@ -543,7 +543,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSString *fd = @"";
     BOOL skip;
     
-    // parse each line
+    // Parse each line
     for (NSString *line in lines) {
         
         if ([line length] == 0) {
@@ -681,20 +681,20 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
     
-    // update display name to show number of open files for process
+    // Update display name to show number of open files for process
     NSString *procString = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
     p[@"displayname"] = procString;
     
-    // get icon for process
+    // Get icon for process
     if (!p[@"image"]) {
         ProcessSerialNumber psn;
         GetProcessForPID([p[@"pid"] intValue], &psn);
         NSDictionary *pInfoDict = (__bridge_transfer NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
         
-        if (pInfoDict[@"BundlePath"]) { // it's a bundle
+        if (pInfoDict[@"BundlePath"]) { // It's a bundle
             p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
             
-            // check if it's an app bundle
+            // Check if it's an app bundle
             NSString *fileType = [WORKSPACE typeOfFile:pInfoDict[@"BundlePath"] error:nil];
             if ([WORKSPACE type:fileType conformsToType:APPLICATION_UTI]) {
                 p[@"app"] = @YES;
@@ -715,7 +715,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         return (kill(pid, SIGKILL) == 0);
     }
     
-    // kill process as root
+    // Kill process as root
     const char *toolPath = [@"/bin/kill" fileSystemRepresentation];
     
     AuthorizationRef authRef;
@@ -723,19 +723,19 @@ static inline uid_t uid_for_pid(pid_t pid) {
     AuthorizationRights myRights = { 1, &myItems };
     AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
-    // create authorization reference
+    // Create authorization reference
     OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authRef);
     if (err != errAuthorizationSuccess) {
         return NO;
     }
     
-    // pre-authorize the privileged operation
+    // Pre-authorize the privileged operation
     err = AuthorizationCopyRights(authRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
     if (err != errAuthorizationSuccess) {
         return NO;
     }
     
-    // construct c strings array of arguments
+    // Construct c strings array of arguments
     // /bin/kill -9 1234
     char *args[3];
     args[0] = malloc(4);
@@ -744,15 +744,15 @@ static inline uid_t uid_for_pid(pid_t pid) {
     sprintf(args[1], "%d", pid);
     args[2] = NULL;
     
-    // use Authorization Reference to execute /bin/kill with root privileges
+    // Use Authorization Reference to execute /bin/kill with root privileges
     err = _AuthExecuteWithPrivsFn(authRef, toolPath, kAuthorizationFlagDefaults, args, NULL);
     
-    // cleanup
+    // Cleanup
     free(args[0]);
     free(args[1]);
     AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
     
-    // we return err if execution failed
+    // We return err if execution failed
     if (err != errAuthorizationSuccess) {
         return NO;
     }
@@ -862,11 +862,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)showGetInfoForItem:(NSDictionary *)item {
-    // create info panel lazily
+    // Create info panel lazily
     if (infoPanelController == nil) {
         infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
     }
-    // show it
     [infoPanelController setItem:item];
     [infoPanelController showWindow:self];
 }
@@ -975,13 +974,13 @@ static inline uid_t uid_for_pid(pid_t pid) {
     AuthorizationRights myRights = { 1, &myItems };
     AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
-    // create authorization reference
+    // Create authorization reference
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
     if (err != errAuthorizationSuccess) {
         return err;
     }
     
-    // pre-authorize the privileged operation
+    // Pre-authorize the privileged operation
     err = AuthorizationCopyRights(authorizationRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
     if (err != errAuthorizationSuccess) {
         return err;
@@ -1017,7 +1016,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [killButton setEnabled:YES];
         [infoPanelController setItem:item];
         
-        // we make the file path red if file has been moved or deleted
+        // We make the file path red if file has been moved or deleted
         if ([item[@"type"] isEqualToString:@"File"] || [item[@"type"] isEqualToString:@"Directory"]) {
             NSColor *color = canReveal ? [NSColor blackColor] : [NSColor redColor];
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
@@ -1140,7 +1139,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
 
-    //reveal in finder / kill process only enabled when something is selected
+    // Reveal in finder / kill process should only ebe nabled when something is selected
     if (( [[anItem title] isEqualToString:@"Show in Finder"] || [[anItem title] isEqualToString:@"Kill Process"] || [[anItem title] isEqualToString:@"Get Info"]) && selectedRow < 0) {
         return NO;
     }

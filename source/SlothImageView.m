@@ -11,7 +11,7 @@
 @implementation SlothImageView
 
 - (void)mouseDown:(NSEvent *)theEvent {
-    // see http://www.cocoabuilder.com/archive/cocoa/115981-nsimageview-subclass-and-mouseup.html
+    // See http://www.cocoabuilder.com/archive/cocoa/115981-nsimageview-subclass-and-mouseup.html
     if (theEvent.type != NSLeftMouseDown) {
         [super mouseDown:theEvent];
     }

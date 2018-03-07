@@ -75,7 +75,7 @@
     BOOL isFileOrFolder = [type isEqualToString:@"File"] || [type isEqualToString:@"Directory"];
     BOOL isIPSocket = [type isEqualToString:@"IP Socket"];
     
-    // name
+    // Name
     NSString *name = isFileOrFolder ? [itemDict[@"name"] lastPathComponent] : itemDict[@"name"];
     if (name == nil || [name isEqualToString:@""]) {
         name = [NSString stringWithFormat:@"Unnamed %@", type];
@@ -86,7 +86,7 @@
     [self.window setTitle:name];
     [self.nameTextField setStringValue:name];
     
-    // path
+    // Path
     NSString *path = @"—";
     if (isFileOrFolder || isProcess) {
         NSString *p = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"bundlepath"] : itemDict[@"name"];
@@ -95,7 +95,7 @@
     self.path = path;
     [self.pathTextField setStringValue:path];
 
-    // icon
+    // Icon
     NSImage *img = isFileOrFolder ? [WORKSPACE iconForFile:path] : [itemDict[@"image"] copy];
     [img setSize:NSMakeSize(48,48)];
     [self.iconView setImage:img];
@@ -106,7 +106,7 @@
     }
     [self.sizeTextField setStringValue:sizeStr];
     
-    // type
+    // Type
     NSString *typeStr = type;
     if (isProcess) {
         register struct passwd *pw;
@@ -119,7 +119,7 @@
     }
     [self.itemTypeTextField setStringValue:typeStr];
     
-    // owned by
+    // Owned by
     if (isProcess) {
         NSString *pidStr = [NSString stringWithFormat:@"PID: %@", itemDict[@"pid"]];
         [self.usedByTextField setStringValue:@"—"];
@@ -129,13 +129,13 @@
         [self.usedByTextField setStringValue:ownedByStr];
     }
     
-    // access mode
+    // Access mode
     NSString *access = [self accessModeDescriptionForMode:itemDict[@"accessmode"]];
     if (access == nil) {
         if (itemDict[@"fd"] == nil) {
             access = @"—";
         } else {
-            // try to scan int to see if we have a file descriptor number
+            // Try to scan int to see if we have a file descriptor number
             int num;
             BOOL isInteger = [[NSScanner scannerWithString:itemDict[@"fd"]] scanInt:&num];
             if (isInteger) {
@@ -147,7 +147,7 @@
     }
     [self.accessModeTextField setStringValue:access];
     
-    // the other fields
+    // The other fields
     if ((!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"bundlepath"] == nil))) ||
         (isFileOrFolder && ![FILEMGR fileExistsAtPath:itemDict[@"name"]])) {
         [self.filetypeTextField setStringValue:@"—"];
@@ -164,7 +164,7 @@
         [self.permissionsTextField setStringValue:permString];
     }
     
-    // buttons
+    // Buttons
     BOOL workablePath = isFileOrFolder || (isProcess && [FILEMGR fileExistsAtPath:path]);
     [self.showInFinderButton setEnabled:workablePath];
     [self.getFinderInfoButton setEnabled:workablePath];    
@@ -199,12 +199,12 @@
         [result appendString:@"-"];
     }
     
-    // loop through POSIX permissions, starting at user, then group, then other.
+    // Loop through POSIX permissions, starting at user, then group, then other.
     for (int i = 2; i >= 0; i--) {
-        // this creates an index from 0 to 7
+        // This creates an index from 0 to 7
         unsigned long thisPart = (perms >> (i * 3)) & 0x7;
         
-        // we look up this index in our permissions array and append it.
+        // We look up this index in our permissions array and append it.
         [result appendString:[permsArray objectAtIndex:thisPart]];
     }
     
@@ -240,7 +240,7 @@
     if (![FILEMGR fileExistsAtPath:filePath]) {
         return @"";
     }
-    // run file command and get output
+    // Run 'file' command and get output
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/usr/bin/file"];
     [task setArguments:@[@"-b", filePath]];
@@ -264,7 +264,7 @@
         return @"—";
     }
     
-    UInt64 size = [self fileOrFolderSize:filePath];
+    UInt64 size = [self fileSizeAtPath:filePath];
     NSString *humanSize = [self sizeAsHumanReadable:size];
 
     NSString *finalString = humanSize;
@@ -344,8 +344,8 @@
     }
 }
 
-- (UInt64)fileOrFolderSize:(NSString *)path {
-    // returns size 0 for directories
+- (UInt64)fileSizeAtPath:(NSString *)path {
+    // Return size 0 for directories
     BOOL isDir;
     if (path == nil || ![FILEMGR fileExistsAtPath:path isDirectory:&isDir] || isDir) {
         return 0;

@@ -54,7 +54,7 @@
 
 #define VALUES_KEYPATH(X)           [NSString stringWithFormat:@"values.%@", (X)]
 
-// let's make things a bit less verbose
+// Let's make things a bit less verbose
 #define FILEMGR     [NSFileManager defaultManager]
 #define DEFAULTS    [NSUserDefaults standardUserDefaults]
 #define WORKSPACE   [NSWorkspace sharedWorkspace]
