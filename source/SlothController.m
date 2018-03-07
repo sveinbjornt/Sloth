@@ -176,6 +176,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
+    if ([FILEMGR fileExistsAtPath:PROGRAM_LSOF_SYSTEM_PATH] == NO) {
+        [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No tool exists at the path %@", PROGRAM_LSOF_SYSTEM_PATH];
+        [[NSApplication sharedApplication] terminate:self];
+    }
+    
     // Put application icon in window title bar
     [window setRepresentedURL:[NSURL URLWithString:@""]];
     NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
