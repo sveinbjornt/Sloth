@@ -194,7 +194,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     // Interface size settings
     NSString *interfaceSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"interfaceSize"];
-    [self checkItemWithTitle:interfaceSize inSubmenu:interfaceSizeSubmenu];
+    [self checkItemWithTitle:interfaceSize inMenu:interfaceSizeSubmenu];
     
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
@@ -205,8 +205,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                             @"showPipes",
                             @"showApplicationsOnly",
                             @"showHomeFolderOnly",
-                            @"interfaceSize",
-                            @"useSystemLsofBinary"]) {
+                            @"interfaceSize"]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
                                                                      options:NSKeyValueObservingOptionNew
@@ -322,23 +321,26 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSMutableArray *regexes = [NSMutableArray array];
     NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
+
+    // Create regex for each whitespace-separated search filter strings
     for (NSString *fs in filterStrings) {
         NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if ([s length]) {
-            NSError *err;
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
-                                                                                   options:NSRegularExpressionCaseInsensitive
-                                                                                     error:&err];
-            if (!regex) {
-                NSLog(@"Error creating regex: %@", [err localizedDescription]);
-                continue;
-            }
-            [regexes addObject:regex];
+        if ([s length] == 0) {
+            continue;
         }
+        
+        NSError *err;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
+                                                                               options:NSRegularExpressionCaseInsensitive
+                                                                                 error:&err];
+        if (!regex) {
+            NSLog(@"Error creating regex: %@", [err localizedDescription]);
+            continue;
+        }
+        [regexes addObject:regex];
     }
     
     BOOL hasRegexFilter = ([regexes count] > 0);
-
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllFileTypes = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
                          && showCharDevices && showPipes && !showHomeFolderOnly);
@@ -531,7 +533,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSMutableArray *processList = [NSMutableArray array];
     *numFiles = 0;
     
-    if (outputString == nil) {
+    if (outputString == nil || [outputString length] == 0) {
         return processList;
     }
     
@@ -713,7 +715,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
 }
 
-#pragma mark - Interface
+#pragma mark - Interface actions
 
 - (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
     if (!asRoot) {
@@ -1060,7 +1062,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if (menu == sortMenu) {
         NSArray *items = [menu itemArray];
         for (NSMenuItem *i in items) {
-            [i setState:[[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]]];
+            BOOL on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
+            [i setState:on];
         }
     }
     else if (menu == volumesMenu) {
@@ -1123,7 +1126,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
 }
 
-- (void)checkItemWithTitle:(NSString *)title inSubmenu:(NSMenu *)submenu {
+- (void)checkItemWithTitle:(NSString *)title inMenu:(NSMenu *)submenu {
     NSArray *items = [submenu itemArray];
     for (int i = 0; i < [items count]; i++) {
         NSMenuItem *item = [items objectAtIndex:i];
@@ -1134,7 +1137,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (IBAction)interfaceSizeMenuItemSelected:(id)sender {
     [[NSUserDefaults standardUserDefaults] setObject:[sender title] forKey:@"interfaceSize"];
-    [self checkItemWithTitle:[sender title] inSubmenu:interfaceSizeSubmenu];
+    [self checkItemWithTitle:[sender title] inMenu:interfaceSizeSubmenu];
 }
 
 - (IBAction)find:(id)sender {
@@ -1144,7 +1147,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
 
-    // Reveal in finder / kill process should only ebe nabled when something is selected
+    // Reveal in finder / kill process should only be enabled when something is selected
     if (( [[anItem title] isEqualToString:@"Show in Finder"] || [[anItem title] isEqualToString:@"Kill Process"] || [[anItem title] isEqualToString:@"Get Info"]) && selectedRow < 0) {
         return NO;
     }
