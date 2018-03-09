@@ -253,7 +253,14 @@
     NSString *outString = [[NSString alloc] initWithData:[readHandle readDataToEndOfFile]
                                                 encoding:NSUTF8StringEncoding];
     outString = outString ? outString : @"";
-
+    
+    // Capitalise first letter of output
+    if ([outString length]) {
+        NSString *firstLetter = [[outString substringToIndex:1] uppercaseString];
+        outString = [outString stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                                       withString:firstLetter];
+    }
+    
     return outString;
 }
 
@@ -328,7 +335,7 @@
         return @"Write";
     }
     if ([m isEqualToString:@"u"]) {
-        return @"Read/Write";
+        return @"Read / Write";
     }
     return nil;
 }
