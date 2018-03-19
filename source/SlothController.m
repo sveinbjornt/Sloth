@@ -387,7 +387,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 
                 int matchCount = 0;
                 for (NSRegularExpression *regex in regexes) {
-                    if (!([file[@"name"] isMatchedByRegex:regex] || [file[@"pname"] isMatchedByRegex:regex])) {
+                    if (!([file[@"name"] isMatchedByRegex:regex] ||
+                          [file[@"pname"] isMatchedByRegex:regex] ||
+                          [file[@"pid"] isMatchedByRegex:regex])) {
                         break;
                     }
                     matchCount += 1;
