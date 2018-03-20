@@ -80,6 +80,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     IBOutlet NSMenu *interfaceSizeSubmenu;
     IBOutlet NSMenu *accessModeSubmenu;
     IBOutlet NSMenu *volumesMenu;
+    IBOutlet NSMenu *filterMenu;
     IBOutlet NSPopUpButton *volumesPopupButton;
     
     IBOutlet NSProgressIndicator *progressIndicator;
@@ -129,14 +130,18 @@ static inline uid_t uid_for_pid(pid_t pid) {
         // Mark these icons as templates so they're inverted on selection
         [[NSImage imageNamed:@"Socket"] setTemplate:YES];
         [[NSImage imageNamed:@"Pipe"] setTemplate:YES];
-        
+
         // Map item types to icons
         type2icon = @{      @"File": [NSImage imageNamed:@"NSGenericDocument"],
                             @"Directory": [NSImage imageNamed:@"NSFolder"],
                             @"Character Device": [NSImage imageNamed:@"NSActionTemplate"],
                             @"Unix Socket": [NSImage imageNamed:@"Socket"],
                             @"IP Socket": [NSImage imageNamed:@"NSNetwork"],
-                            @"Pipe": [NSImage imageNamed:@"Pipe"]
+                            @"Pipe": [NSImage imageNamed:@"Pipe"],
+                            
+                            // just for filter menu
+                            @"Applications": [NSImage imageNamed:@"NSDefaultApplicationIcon"],
+                            @"Home": [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kToolbarHomeIcon)]
                     };
         
         _content = [[NSMutableArray alloc] init];
@@ -199,6 +204,23 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"interfaceSize"] inMenu:interfaceSizeSubmenu];
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"accessMode"] inMenu:accessModeSubmenu];
     
+    // Set icons in filter menu
+    NSArray<NSMenuItem *> *items = [filterMenu itemArray];
+    for (NSMenuItem *i in items) {
+        NSString *type = [i toolTip];
+        if (type2icon[type]) {
+            NSImage *img = type2icon[type];
+            [img setSize:NSMakeSize(16, 16)];
+            [i setImage:img];
+        }
+    }
+    
+    // Load system lock icon and set as icon for button & menu
+    NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
+    [lockIcon setSize:NSMakeSize(16, 16)];
+    [authenticateButton setImage:lockIcon];
+    [authenticateMenuItem setImage:lockIcon];
+
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
                             @"showDirectories",
@@ -983,10 +1005,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [self deauthenticate];
     }
     
-    NSString *imgName = authenticated ? @"UnlockedIcon" : @"LockedIcon";
+    OSType iconID = authenticated ? kUnlockedIcon : kLockedIcon;
+    NSImage *img = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(iconID)];
+    [img setSize:NSMakeSize(16, 16)];
     NSString *actionName = authenticated ? @"Deauthenticate" : @"Authenticate";
     NSString *ttip = authenticated ? @"Deauthenticate" : @"Authenticate to view all system processes";
-    NSImage *img = [NSImage imageNamed:imgName];
+    
     [authenticateButton setImage:img];
     [authenticateButton setToolTip:ttip];
     [authenticateMenuItem setImage:img];

@@ -253,32 +253,32 @@
                 <menuItem title="Filter" id="Kw1-pJ-pE2" userLabel="Filter">
                     <menu key="submenu" title="Filter" id="FX1-mz-NGH">
                         <items>
-                            <menuItem title="Show Regular Files" keyEquivalent="1" id="4fa-zA-DKj">
+                            <menuItem title="Show Regular Files" keyEquivalent="1" toolTip="File" id="4fa-zA-DKj">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showRegularFiles" id="c0e-67-gDZ"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Directories" keyEquivalent="2" id="WRk-2h-A5r">
+                            <menuItem title="Show Directories" keyEquivalent="2" toolTip="Directory" id="WRk-2h-A5r">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showDirectories" id="VGg-Hs-43a"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Character Devices" keyEquivalent="3" id="R3O-vO-Xfh">
+                            <menuItem title="Show Character Devices" keyEquivalent="3" toolTip="Character Device" id="R3O-vO-Xfh">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="0zD-aI-jX1"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show IP Sockets" keyEquivalent="4" id="MtU-jZ-LfI">
+                            <menuItem title="Show IP Sockets" keyEquivalent="4" toolTip="IP Socket" id="MtU-jZ-LfI">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showIPSockets" id="7Fy-7t-9cC"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Unix Sockets" keyEquivalent="5" id="QRq-1p-OVp">
+                            <menuItem title="Show Unix Sockets" keyEquivalent="5" toolTip="Unix Socket" id="QRq-1p-OVp">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showUnixSockets" id="LDo-O4-6qU"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Pipes" keyEquivalent="6" id="RVO-Se-n5K">
+                            <menuItem title="Show Pipes" keyEquivalent="6" toolTip="Pipe" id="RVO-Se-n5K">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showPipes" id="0sd-zW-SbB"/>
                                 </connections>
@@ -317,12 +317,12 @@
                                 </menu>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="Nts-dj-jeo"/>
-                            <menuItem title="Show Applications Only" keyEquivalent="7" id="w6d-0m-Pod">
+                            <menuItem title="Show Applications Only" keyEquivalent="7" toolTip="Applications" id="w6d-0m-Pod">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="bnv-PY-4EN"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Home Folder Only" keyEquivalent="8" id="B0s-VR-sFZ">
+                            <menuItem title="Show Home Folder Only" keyEquivalent="8" toolTip="Home" id="B0s-VR-sFZ">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="cN8-AZ-dNv"/>
                                 </connections>
@@ -437,7 +437,7 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
-            <point key="canvasLocation" x="459" y="-402"/>
+            <point key="canvasLocation" x="621" y="-459"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
@@ -446,6 +446,7 @@ CA
                 <outlet property="authenticateMenuItem" destination="Vdh-H2-HF0" id="Ln5-l3-FsP"/>
                 <outlet property="disclosureButton" destination="sd7-Q9-5I9" id="BCS-jg-qXK"/>
                 <outlet property="disclosureTextField" destination="cw1-nC-kNe" id="NqI-Vf-oIe"/>
+                <outlet property="filterMenu" destination="FX1-mz-NGH" id="DhI-E2-PYc"/>
                 <outlet property="filterTextField" destination="252" id="656"/>
                 <outlet property="getInfoButton" destination="y0R-qW-wSJ" id="kmb-65-9vX"/>
                 <outlet property="interfaceSizeSubmenu" destination="edY-kE-oJg" id="LPe-oz-MPW"/>
@@ -645,7 +646,7 @@ DQ
                     <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" id="tqa-Nm-sTb">
                         <rect key="frame" x="756" y="20" width="21" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="LockedIcon" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -963,6 +964,7 @@ DQ
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSApplicationIcon" width="128" height="128"/>
         <image name="NSInfo" width="32" height="32"/>
+        <image name="NSLockLockedTemplate" width="10" height="14"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
     </resources>

@@ -21,8 +21,6 @@
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F47B45401EF82AC200D79DFF /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = F47B453F1EF82AC200D79DFF /* TODO.txt */; };
 		F4AC98362060583E0000871B /* IPServices.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPServices.m */; };
-		F4CFA1471F818C5E00470945 /* LockedIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CFA1451F818C5E00470945 /* LockedIcon.png */; };
-		F4CFA1481F818C5E00470945 /* UnlockedIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CFA1461F818C5E00470945 /* UnlockedIcon.png */; };
 		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */; };
@@ -68,8 +66,6 @@
 		F4AC98342060583E0000871B /* IPServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPServices.h; sourceTree = "<group>"; };
 		F4AC98352060583E0000871B /* IPServices.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPServices.m; sourceTree = "<group>"; };
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
-		F4CFA1451F818C5E00470945 /* LockedIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LockedIcon.png; sourceTree = "<group>"; };
-		F4CFA1461F818C5E00470945 /* UnlockedIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnlockedIcon.png; sourceTree = "<group>"; };
 		F4D529311C90BAE10046FAE9 /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPanelController.h; path = source/InfoPanelController.h; sourceTree = SOURCE_ROOT; };
 		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
 		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -183,8 +179,6 @@
 			isa = PBXGroup;
 			children = (
 				F438712D13402CDD00B51A5E /* Sloth.icns */,
-				F4CFA1451F818C5E00470945 /* LockedIcon.png */,
-				F4CFA1461F818C5E00470945 /* UnlockedIcon.png */,
 				F40B7D2B1C75F161000A4616 /* sloth_icon.png */,
 				F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */,
 				F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */,
@@ -274,8 +268,6 @@
 				F47B45401EF82AC200D79DFF /* TODO.txt in Resources */,
 				F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */,
 				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
-				F4CFA1481F818C5E00470945 /* UnlockedIcon.png in Resources */,
-				F4CFA1471F818C5E00470945 /* LockedIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
