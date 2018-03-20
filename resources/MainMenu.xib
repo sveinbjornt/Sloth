@@ -253,51 +253,76 @@
                 <menuItem title="Filter" id="Kw1-pJ-pE2" userLabel="Filter">
                     <menu key="submenu" title="Filter" id="FX1-mz-NGH">
                         <items>
-                            <menuItem title="Show Directories" id="WRk-2h-A5r">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <binding destination="560" name="value" keyPath="values.showDirectories" id="VGg-Hs-43a"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Show Regular Files" id="4fa-zA-DKj">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Show Regular Files" keyEquivalent="1" id="4fa-zA-DKj">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showRegularFiles" id="c0e-67-gDZ"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show IP Sockets" id="MtU-jZ-LfI">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Show Directories" keyEquivalent="2" id="WRk-2h-A5r">
                                 <connections>
-                                    <binding destination="560" name="value" keyPath="values.showIPSockets" id="7Fy-7t-9cC"/>
+                                    <binding destination="560" name="value" keyPath="values.showDirectories" id="VGg-Hs-43a"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Unix Sockets" id="QRq-1p-OVp">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <binding destination="560" name="value" keyPath="values.showUnixSockets" id="LDo-O4-6qU"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Show Character Devices" id="R3O-vO-Xfh">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Show Character Devices" keyEquivalent="3" id="R3O-vO-Xfh">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="0zD-aI-jX1"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Pipes" id="RVO-Se-n5K">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Show IP Sockets" keyEquivalent="4" id="MtU-jZ-LfI">
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showIPSockets" id="7Fy-7t-9cC"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Unix Sockets" keyEquivalent="5" id="QRq-1p-OVp">
+                                <connections>
+                                    <binding destination="560" name="value" keyPath="values.showUnixSockets" id="LDo-O4-6qU"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Pipes" keyEquivalent="6" id="RVO-Se-n5K">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showPipes" id="0sd-zW-SbB"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="VOH-86-cOx"/>
-                            <menuItem title="Show Applications Only" id="w6d-0m-Pod">
+                            <menuItem title="Access Mode" id="Whq-qK-sTS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Access Mode" id="R4T-iO-LKX">
+                                    <items>
+                                        <menuItem title="Any" state="on" id="CzH-AR-n7R">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="accessModeMenuItemSelected:" target="212" id="UGY-HA-AX9"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="o1U-a4-w5u"/>
+                                        <menuItem title="Read" id="cL8-9r-uvV">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="accessModeMenuItemSelected:" target="212" id="ayg-LQ-r2G"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Write" id="e86-9A-b12">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="accessModeMenuItemSelected:" target="212" id="xFj-Ve-iPI"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Read/Write" id="Roa-O6-wJs">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="accessModeMenuItemSelected:" target="212" id="AAh-sf-zL5"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Nts-dj-jeo"/>
+                            <menuItem title="Show Applications Only" keyEquivalent="7" id="w6d-0m-Pod">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="bnv-PY-4EN"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Home Folder Only" id="B0s-VR-sFZ">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Show Home Folder Only" keyEquivalent="8" id="B0s-VR-sFZ">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="cN8-AZ-dNv"/>
                                 </connections>
@@ -412,10 +437,11 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
-            <point key="canvasLocation" x="209" y="-499"/>
+            <point key="canvasLocation" x="459" y="-402"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
+                <outlet property="accessModeSubmenu" destination="R4T-iO-LKX" id="Mud-mw-4c9"/>
                 <outlet property="authenticateButton" destination="tqa-Nm-sTb" id="51O-C4-9Yi"/>
                 <outlet property="authenticateMenuItem" destination="Vdh-H2-HF0" id="Ln5-l3-FsP"/>
                 <outlet property="disclosureButton" destination="sd7-Q9-5I9" id="BCS-jg-qXK"/>

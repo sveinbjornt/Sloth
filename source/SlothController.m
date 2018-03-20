@@ -78,6 +78,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     IBOutlet NSMenu *sortMenu;
     IBOutlet NSMenu *interfaceSizeSubmenu;
+    IBOutlet NSMenu *accessModeSubmenu;
     IBOutlet NSMenu *volumesMenu;
     IBOutlet NSPopUpButton *volumesPopupButton;
     
@@ -193,9 +194,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [authenticateButton setHidden:YES];
     }
     
-    // Interface size settings
-    NSString *interfaceSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"interfaceSize"];
-    [self checkItemWithTitle:interfaceSize inMenu:interfaceSizeSubmenu];
+    // Manually check correct menu items for these submenus
+    // on launch since we (annoyingly) can't use bindings for it
+    [self checkItemWithTitle:[DEFAULTS stringForKey:@"interfaceSize"] inMenu:interfaceSizeSubmenu];
+    [self checkItemWithTitle:[DEFAULTS stringForKey:@"accessMode"] inMenu:accessModeSubmenu];
     
     // Observe defaults
     for (NSString *key in @[@"showCharacterDevices",
@@ -1059,7 +1061,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
-    NSString *size = [[NSUserDefaults standardUserDefaults] stringForKey:@"interfaceSize"];
+    NSString *size = [DEFAULTS stringForKey:@"interfaceSize"];
     return [size isEqualToString:@"Compact"] ? 16.f : 20.f;
 }
 
@@ -1157,8 +1159,13 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (IBAction)interfaceSizeMenuItemSelected:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setObject:[sender title] forKey:@"interfaceSize"];
+    [DEFAULTS setObject:[sender title] forKey:@"interfaceSize"];
     [self checkItemWithTitle:[sender title] inMenu:interfaceSizeSubmenu];
+}
+
+- (IBAction)accessModeMenuItemSelected:(id)sender {
+    [DEFAULTS setObject:[sender title] forKey:@"accessMode"];
+    [self checkItemWithTitle:[sender title] inMenu:accessModeSubmenu];
 }
 
 - (IBAction)find:(id)sender {
