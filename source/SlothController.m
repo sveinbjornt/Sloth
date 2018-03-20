@@ -125,6 +125,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if ((self = [super init])) {
         genericExecutableIcon = [[NSImage alloc] initWithContentsOfFile:GENERIC_EXEC_ICON_PATH];
         
+        // Mark these icons as templates so they're inverted on selection
+        [[NSImage imageNamed:@"Socket"] setTemplate:YES];
+        [[NSImage imageNamed:@"Pipe"] setTemplate:YES];
+        
+        // Map item types to icons
         type2icon = @{      @"File": [NSImage imageNamed:@"NSGenericDocument"],
                             @"Directory": [NSImage imageNamed:@"NSFolder"],
                             @"Character Device": [NSImage imageNamed:@"NSActionTemplate"],

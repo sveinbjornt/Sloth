@@ -429,9 +429,6 @@ CA
                 <outlet property="progressIndicator" destination="335" id="bNF-Cs-ZU3"/>
                 <outlet property="refreshButton" destination="208" id="483"/>
                 <outlet property="revealButton" destination="211" id="622"/>
-                <outlet property="showIPSocketsCheckbox" destination="239" id="mfN-d7-dt0"/>
-                <outlet property="showPipesCheckbox" destination="Y0K-aj-uhW" id="FOu-Nq-qdI"/>
-                <outlet property="showUnixSocketsCheckbox" destination="235" id="Yet-C2-aBh"/>
                 <outlet property="sortMenu" destination="z5a-Mg-tDe" id="Erx-7M-an9"/>
                 <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
                 <outlet property="volumesMenu" destination="YQj-Er-hdB" id="flW-3e-TBQ"/>
