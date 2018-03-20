@@ -327,6 +327,18 @@
                                     <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="cN8-AZ-dNv"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="c2u-8y-p0S"/>
+                            <menuItem title="Volumes" id="EkI-Yj-uM6">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Volumes" id="nkF-CC-6XX">
+                                    <items>
+                                        <menuItem title="All" state="on" id="7Wz-Ac-Tu1"/>
+                                    </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="212" id="lSZ-WT-8cK"/>
+                                    </connections>
+                                </menu>
+                            </menuItem>
                         </items>
                         <connections>
                             <outlet property="delegate" destination="212" id="i6m-0l-IXZ"/>
@@ -458,7 +470,7 @@ CA
                 <outlet property="revealButton" destination="211" id="622"/>
                 <outlet property="sortMenu" destination="z5a-Mg-tDe" id="Erx-7M-an9"/>
                 <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
-                <outlet property="volumesMenu" destination="YQj-Er-hdB" id="flW-3e-TBQ"/>
+                <outlet property="volumesMenu" destination="nkF-CC-6XX" id="sI6-rQ-oTM"/>
                 <outlet property="volumesPopupButton" destination="1p9-Jd-MZE" id="Raa-AT-fEC"/>
                 <outlet property="window" destination="21" id="Nkl-ra-P1k"/>
             </connections>
@@ -821,6 +833,9 @@ DQ
                                 </connections>
                             </menu>
                         </popUpButtonCell>
+                        <connections>
+                            <outlet property="menu" destination="nkF-CC-6XX" id="fM5-nD-iyD"/>
+                        </connections>
                     </popUpButton>
                     <button toolTip="Show character devices" misplaced="YES" id="234">
                         <rect key="frame" x="274" y="574" width="68" height="21"/>
@@ -879,6 +894,9 @@ DQ
                                 <binding destination="560" name="selectedValue" keyPath="values.accessMode" id="bLT-JE-SDn"/>
                             </connections>
                         </popUpButtonCell>
+                        <connections>
+                            <outlet property="menu" destination="R4T-iO-LKX" id="r16-Pt-iY8"/>
+                        </connections>
                     </popUpButton>
                 </subviews>
             </view>
