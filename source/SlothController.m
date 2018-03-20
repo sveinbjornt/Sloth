@@ -83,10 +83,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     IBOutlet NSProgressIndicator *progressIndicator;
     
-    IBOutlet NSButton *showIPSocketsCheckbox;
-    IBOutlet NSButton *showUnixSocketsCheckbox;
-    IBOutlet NSButton *showPipesCheckbox;
-    
     IBOutlet NSTextField *filterTextField;
     IBOutlet NSTextField *numItemsTextField;
 
@@ -205,6 +201,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                             @"showPipes",
                             @"showApplicationsOnly",
                             @"showHomeFolderOnly",
+                            @"accessMode",
                             @"interfaceSize"]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
@@ -230,8 +227,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
     [window makeKeyAndOrderFront:self];
     
-    // Automatically refresh when app is launched
-    [self performSelector:@selector(refresh:) withObject:self afterDelay:0.05];
+    // Refresh immediately when app is launched
+    [self refresh:self];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -288,11 +285,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
+        return;
     }
     // The default that changed was one of the filters
-    else {
-        [self updateFiltering];
-    }
+    [self updateFiltering];
 }
 
 - (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
@@ -306,6 +302,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
     BOOL showHomeFolderOnly = [DEFAULTS boolForKey:@"showHomeFolderOnly"];
+    
+    // Access mode filter
+    NSString *accessModeFilter = [DEFAULTS stringForKey:@"accessMode"];
+    BOOL hasAccessModeFilter = ([accessModeFilter isEqualToString:@"Any"] == NO);
     
     // Volumes filter
     NSString *volumesFilter = nil;
@@ -378,6 +378,20 @@ static inline uid_t uid_for_pid(pid_t pid) {
                     ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
                     ([type isEqualToString:@"Character Device"] && !showCharDevices) ||
                     ([type isEqualToString:@"Pipe"] && !showPipes)) {
+                    continue;
+                }
+            }
+            
+            // Filter by access mode
+            if (hasAccessModeFilter) {
+                NSString *mode = file[@"accessmode"];
+                if ([accessModeFilter isEqualToString:@"Read"] && ![mode isEqualToString:@"r"]) {
+                    continue;
+                }
+                if ([accessModeFilter isEqualToString:@"Write"] && ![mode isEqualToString:@"w"]) {
+                    continue;
+                }
+                if ([accessModeFilter isEqualToString:@"Read/Write"] && ![mode isEqualToString:@"u"]) {
                     continue;
                 }
             }
@@ -875,7 +889,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if (infoPanelController == nil) {
         infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
     }
-    [infoPanelController setItem:item];
+    [infoPanelController loadItem:item];
     [infoPanelController showWindow:self];
 }
 
@@ -1023,7 +1037,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [revealButton setEnabled:(canReveal || hasBundlePath)];
         [getInfoButton setEnabled:YES];
         [killButton setEnabled:YES];
-        [infoPanelController setItem:item];
+        [infoPanelController loadItem:item];
         
         // We make the file path red if file has been moved or deleted
         if ([item[@"type"] isEqualToString:@"File"] || [item[@"type"] isEqualToString:@"Directory"]) {

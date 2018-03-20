@@ -33,6 +33,6 @@
 
 @interface InfoPanelController : NSWindowController <NSWindowDelegate>
 
-- (void)setItem:(NSDictionary *)itemDict;
+- (void)loadItem:(NSDictionary *)itemDict;
 
 @end

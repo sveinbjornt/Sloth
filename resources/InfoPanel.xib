@@ -16,6 +16,7 @@
                 <outlet property="itemTypeTextField" destination="7pW-fE-wSI" id="GRI-7F-Foj"/>
                 <outlet property="killButton" destination="YUv-vf-qzB" id="74p-v7-FR1"/>
                 <outlet property="nameTextField" destination="Cje-LT-dIn" id="WQv-1q-0JD"/>
+                <outlet property="pathLabelTextField" destination="xdR-4I-pOJ" id="Ml8-Ld-B9v"/>
                 <outlet property="pathTextField" destination="cGa-0E-BjY" id="vgP-ss-FnM"/>
                 <outlet property="permissionsTextField" destination="l87-SK-pgJ" id="hPb-Ks-SeS"/>
                 <outlet property="quickLookButton" destination="Xaf-Tg-hdx" id="hug-CL-v9q"/>

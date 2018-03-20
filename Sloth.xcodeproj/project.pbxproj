@@ -20,6 +20,7 @@
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F47B45401EF82AC200D79DFF /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = F47B453F1EF82AC200D79DFF /* TODO.txt */; };
+		F4AC98362060583E0000871B /* IPServices.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPServices.m */; };
 		F4CFA1471F818C5E00470945 /* LockedIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CFA1451F818C5E00470945 /* LockedIcon.png */; };
 		F4CFA1481F818C5E00470945 /* UnlockedIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CFA1461F818C5E00470945 /* UnlockedIcon.png */; };
 		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
@@ -64,6 +65,8 @@
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
+		F4AC98342060583E0000871B /* IPServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPServices.h; sourceTree = "<group>"; };
+		F4AC98352060583E0000871B /* IPServices.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPServices.m; sourceTree = "<group>"; };
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
 		F4CFA1451F818C5E00470945 /* LockedIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LockedIcon.png; sourceTree = "<group>"; };
 		F4CFA1461F818C5E00470945 /* UnlockedIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnlockedIcon.png; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 		F40B7D2E1C75FA94000A4616 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				F4AC98342060583E0000871B /* IPServices.h */,
+				F4AC98352060583E0000871B /* IPServices.m */,
 				F4F1D89B1C76186200945D3E /* NSString+RegexMatching.h */,
 				F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */,
 				F40B7D2F1C75FAC6000A4616 /* Alerts.h */,
@@ -298,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4AC98362060583E0000871B /* IPServices.m in Sources */,
 				F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */,
 				F41110D12031FBF200E4D329 /* SlothImageView.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,

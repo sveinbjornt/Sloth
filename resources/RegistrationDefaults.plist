@@ -32,5 +32,7 @@
 	<false/>
 	<key>showCurrentWorkingDirectories</key>
 	<false/>
+	<key>accessMode</key>
+	<string>Any</string>
 </dict>
 </plist>

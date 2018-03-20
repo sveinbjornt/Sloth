@@ -29,9 +29,11 @@
 */
 
 #import "SlothController.h"
-
 #import "InfoPanelController.h"
 #import "Common.h"
+#import "IPServices.h"
+#import "NSString+RegexMatching.h"
+
 #import <pwd.h>
 #import <grp.h>
 #import <sys/stat.h>
@@ -41,6 +43,7 @@
 @property (weak) IBOutlet NSImageView *iconView;
 @property (weak) IBOutlet NSTextField *nameTextField;
 @property (weak) IBOutlet NSTextField *pathTextField;
+@property (weak) IBOutlet NSTextField *pathLabelTextField;
 @property (weak) IBOutlet NSTextField *filetypeTextField;
 @property (weak) IBOutlet NSTextField *finderTypeTextField;
 @property (weak) IBOutlet NSTextField *usedByTextField;
@@ -63,7 +66,7 @@
 
 #pragma mark - Load info
 
-- (void)setItem:(NSDictionary *)itemDict {
+- (void)loadItem:(NSDictionary *)itemDict {
     if (!itemDict) {
         return;
     }
@@ -94,6 +97,25 @@
     }
     self.path = path;
     [self.pathTextField setStringValue:path];
+    
+    // Resolve DNS and show details for IP sockets
+    self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";
+    if (isIPSocket) {
+        // Resolve DNS asynchronously
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            @autoreleasepool {
+                NSString *ipSockName = [self.path copy];
+                NSString *descStr = [self IPSocketDescriptionStringForName:itemDict[@"name"]];
+                // Then update UI on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Make sure loaded item hasn't changed during DNS lookup
+                    if ([self.pathTextField.stringValue isEqualToString:ipSockName]) {
+                        [self.pathTextField setStringValue:descStr];
+                    }
+                });
+            }
+        });
+    }
 
     // Icon
     NSImage *img = isFileOrFolder ? [WORKSPACE iconForFile:path] : [itemDict[@"image"] copy];
@@ -272,7 +294,7 @@
     }
     
     UInt64 size = [self fileSizeAtPath:filePath];
-    NSString *humanSize = [self sizeAsHumanReadable:size];
+    NSString *humanSize = [self fileSizeAsHumanReadableString:size];
 
     NSString *finalString = humanSize;
     if ([humanSize hasSuffix:@"bytes"] == NO) {
@@ -282,6 +304,44 @@
     
     return finalString;
 }
+
+- (NSString *)IPSocketDescriptionStringForName:(NSString *)name {
+    NSMutableString *desc = [NSMutableString string];
+
+    // Typical lsof name for IP socket has the format: 10.95.10.6:53989->31.13.90.2:443
+    NSArray *components = [name componentsSeparatedByString:@"->"];
+    for (NSString *c in components) {
+        NSArray *ipAndPort = [c componentsSeparatedByString:@":"];
+        NSString *ip = ipAndPort[0];
+        NSString *port = @"";
+        if ([ipAndPort count] > 1) {
+            port = ipAndPort[1];
+        }
+        
+        // Do DNS lookup
+        NSString *dnsName = [IPServices dnsNameForIPAddressString:ip];
+        if (dnsName) {
+            ip = dnsName;
+        }
+        
+        // Look up port name
+        NSString *portName = [IPServices portNameForPortNumString:port];
+        if (portName) {
+            port = portName;
+        }
+        
+        // If before second component
+        if ([desc length]) {
+            [desc appendString:@"\n–>\n"];
+        }
+        
+        [desc appendString:[NSString stringWithFormat:@"%@:%@", ip, port]];
+    }
+    
+    
+    return desc;
+}
+
 
 #pragma mark - Interface actions
 
@@ -361,7 +421,7 @@
     return [[FILEMGR attributesOfItemAtPath:path error:nil] fileSize];
 }
 
-- (NSString *)sizeAsHumanReadable:(UInt64)size {
+- (NSString *)fileSizeAsHumanReadableString:(UInt64)size {
     if (size < 1024ULL) {
         return [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
     } else if (size < 1048576ULL) {
