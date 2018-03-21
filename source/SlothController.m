@@ -182,7 +182,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    
+    // Make sure lsof exists on the system
     if ([FILEMGR fileExistsAtPath:PROGRAM_LSOF_SYSTEM_PATH] == NO) {
         [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No tool exists at the path %@", PROGRAM_LSOF_SYSTEM_PATH];
         [[NSApplication sharedApplication] terminate:self];
@@ -304,6 +304,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
 }
 
+// User typed in search filter
 - (void)controlTextDidChange:(NSNotification *)aNotification {
     if (filterTimer) {
         [filterTimer invalidate];
@@ -311,6 +312,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateFiltering) userInfo:nil repeats:NO];
 }
 
+// Some default changed
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
@@ -320,6 +322,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [self updateFiltering];
 }
 
+// Filter content according to active filters
 - (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
     
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
@@ -445,6 +448,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
             [matchingFiles addObject:file];
         }
         
+        // If we have matching files for the process
         if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
             NSMutableDictionary *p = [process mutableCopy];
             p[@"children"] = matchingFiles;
@@ -477,17 +481,16 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [progressIndicator setUsesThreadedAnimation:TRUE];
     [progressIndicator startAnimation:self];
 
-    // Update in background
+    // Update in asynchronously in the background, so interface doesn't lock up
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
-    
             NSString *output = [self runLsof:authenticated];
             
             int fileCount;
             self.unfilteredContent = [self parseLsofOutput:output numFiles:&fileCount];
             self.totalFileCount = fileCount;
             
-            // Then update UI on main thread
+            // Then update UI on main thread once task is done
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 // Re-enable controls
@@ -520,7 +523,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (NSString *)runLsof:(BOOL)isAuthenticated {
-    // Our command is: lsof -F pcnt +c0
     NSData *outputData;
     
     if (isAuthenticated) {
@@ -664,6 +666,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 fileInfo[@"displayname"] = fileInfo[@"name"];
                 fileInfo[@"pname"] = process;
                 fileInfo[@"pid"] = pid;
+                fileInfo[@"puserid"] = userid;
                 fileInfo[@"accessmode"] = accessmode;
                 fileInfo[@"protocol"] = protocol;
                 fileInfo[@"fd"] = fd;
@@ -732,7 +735,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
-    
     // Update display name to show number of open files for process
     NSString *procString = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
     p[@"displayname"] = procString;
@@ -816,7 +818,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     
-    if (!item[@"pid"]) {
+    if (item[@"pid"] == nil) {
         NSBeep();
         return;
     }
@@ -832,12 +834,14 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
 
     // Find out if user owns the process
-    register struct passwd *pw;
+    BOOL ownsProcess = NO;
     uid_t uid = uid_for_pid(pid);
-    pw = getpwuid(uid);
+    if (uid != -1) {
+        register struct passwd *pw = getpwuid(uid);
     
-    NSString *pidUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
-    BOOL ownsProcess = [pidUsername isEqualToString:NSUserName()];
+        NSString *pidUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
+        ownsProcess = [pidUsername isEqualToString:NSUserName()];
+    }
     
     // Kill it
     if ([self killProcess:pid asRoot:!ownsProcess] == NO) {
@@ -905,7 +909,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (IBAction)getInfo:(id)sender {
     NSInteger selectedRow = [outlineView selectedRow];
-    
     if (selectedRow >= 0) {
         [self showGetInfoForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
     } else {
@@ -935,7 +938,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSString *sortBy = [DEFAULTS objectForKey:@"sortBy"];
     
     // Default to sorting alphabetically by name
-    NSSortDescriptor *sortDesc = [[NSSortDescriptor alloc] initWithKey:sortBy
+    NSSortDescriptor *sortDesc = [[NSSortDescriptor alloc] initWithKey:@"name"
                                                              ascending:[DEFAULTS boolForKey:@"ascending"]
                                                               selector:@selector(localizedCaseInsensitiveCompare:)];
     
@@ -998,6 +1001,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         } else {
             if (err != errAuthorizationCanceled) {
                 NSBeep();
+                NSLog(@"Authentication failed: %d", err);
             }
             return;
         }

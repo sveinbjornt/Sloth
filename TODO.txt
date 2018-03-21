@@ -4,3 +4,4 @@ TODO list for Sloth 2.3
     DONE * Access mode filtering
     DONE * DNS and port name lookup for IP Sockets in Info Window
     DONE * Search filter now also filters by PID
+    DONE * Minor interface improvements

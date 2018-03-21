@@ -131,8 +131,7 @@
     // Type
     NSString *typeStr = type;
     if (isProcess) {
-        register struct passwd *pw;
-        pw = getpwuid([itemDict[@"userid"] intValue]);
+        register struct passwd *pw = getpwuid([itemDict[@"userid"] intValue]);
         NSString *ownerUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
         typeStr = [NSString stringWithFormat:@"Process (%@)", ownerUsername];
     }
