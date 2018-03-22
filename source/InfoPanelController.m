@@ -307,13 +307,14 @@
     int fd;
     BOOL hasFD = (itemDict[@"fd"] != nil) && [[NSScanner scannerWithString:itemDict[@"fd"]] scanInt:&fd];
     
+    // Map access mode abbreviation to description string
     NSString *mode = itemDict[@"accessmode"];
     NSString *access = descStrMap[mode];
     
     // See if it's one of the three standard io streams
     if (access != nil && hasFD && fd < 3 && [itemDict[@"type"] isEqualToString:@"Character Device"]) {
         NSArray *standardIOs = @[@"STDIN", @"STDOUT", @"STDERR"];
-        access = [NSString stringWithFormat:@"%@ (%@)", access, standardIOs[fd]];
+        access = [NSString stringWithFormat:@"%@ (%@?)", access, standardIOs[fd]];
     }
     
     // OK, we don't have any access mode

@@ -317,12 +317,12 @@
                                 </menu>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="Nts-dj-jeo"/>
-                            <menuItem title="Show Applications Only" keyEquivalent="7" toolTip="Applications" id="w6d-0m-Pod">
+                            <menuItem title="Applications Only" keyEquivalent="7" toolTip="Applications" id="w6d-0m-Pod">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="bnv-PY-4EN"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Home Folder Only" keyEquivalent="8" toolTip="Home" id="B0s-VR-sFZ">
+                            <menuItem title="Home Folder Only" keyEquivalent="8" toolTip="Home" id="B0s-VR-sFZ">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="cN8-AZ-dNv"/>
                                 </connections>
@@ -532,8 +532,8 @@ CA
                 <rect key="frame" x="0.0" y="0.0" width="892" height="607"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button toolTip="Refresh listing" verticalHuggingPriority="750" id="208">
-                        <rect key="frame" x="779" y="13" width="99" height="32"/>
+                    <button toolTip="Refresh listing" verticalHuggingPriority="750" misplaced="YES" id="208">
+                        <rect key="frame" x="768" y="13" width="110" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="725">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -655,8 +655,8 @@ DQ
                             <action selector="kill:" target="212" id="710"/>
                         </connections>
                     </button>
-                    <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" id="tqa-Nm-sTb">
-                        <rect key="frame" x="756" y="20" width="21" height="21"/>
+                    <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" misplaced="YES" id="tqa-Nm-sTb">
+                        <rect key="frame" x="743" y="20" width="21" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
