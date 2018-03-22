@@ -382,7 +382,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
                          && showCharDevices && showPipes && !showHomeFolderOnly);
     
     // If there is no filter, just return unfiltered content
-    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter && !hasVolumesFilter) {
+    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter && !hasVolumesFilter && !hasAccessModeFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
