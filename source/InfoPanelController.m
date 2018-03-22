@@ -38,6 +38,8 @@
 #import <grp.h>
 #import <sys/stat.h>
 
+#define EMPTY_PLACEHOLDER @"—"
+
 @interface InfoPanelController ()
 
 @property (weak) IBOutlet NSImageView *iconView;
@@ -70,6 +72,8 @@
     if (!itemDict) {
         return;
     }
+    //NSLog(@"%@", [itemDict description]);
+    
     self.fileInfoDict = itemDict;
     
     NSString *type = itemDict[@"type"];
@@ -90,13 +94,13 @@
     [self.nameTextField setStringValue:name];
     
     // Path
-    NSString *path = @"—";
+    NSString *path = EMPTY_PLACEHOLDER;
     if (isFileOrFolder || isProcess) {
         NSString *p = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"bundlepath"] : itemDict[@"name"];
         path = p ? p : path;
     }
     self.path = path;
-    if ([FILEMGR fileExistsAtPath:path] || [path isEqualToString:@"—"]) {
+    if ([FILEMGR fileExistsAtPath:path] || [path isEqualToString:EMPTY_PLACEHOLDER]) {
         [self.pathTextField setStringValue:path];
     } else {
         NSAttributedString *redPath = [[NSAttributedString alloc] initWithString:path attributes:@{ NSForegroundColorAttributeName : [NSColor redColor] }];
@@ -149,7 +153,7 @@
     // Owned by
     if (isProcess) {
         NSString *pidStr = [NSString stringWithFormat:@"PID: %@", itemDict[@"pid"]];
-        [self.usedByTextField setStringValue:@"—"];
+        [self.usedByTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.sizeTextField setStringValue:pidStr];
     } else {
         NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"pname"], itemDict[@"pid"]];
@@ -157,29 +161,15 @@
     }
     
     // Access mode
-    NSString *access = [self accessModeDescriptionForMode:itemDict[@"accessmode"]];
-    if (access == nil) {
-        if (itemDict[@"fd"] == nil) {
-            access = @"—";
-        } else {
-            // Try to scan int to see if we have a file descriptor number
-            int num;
-            BOOL isInteger = [[NSScanner scannerWithString:itemDict[@"fd"]] scanInt:&num];
-            if (isInteger) {
-                access = @"—";
-            } else {
-                access = [NSString stringWithFormat:@"No file descriptor. Type: %@", itemDict[@"fd"]];
-            }
-        }
-    }
+    NSString *access = [self accessModeDescriptionForItem:itemDict];
     [self.accessModeTextField setStringValue:access];
     
     // The other fields
     if ((!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"bundlepath"] == nil))) ||
         (isFileOrFolder && ![FILEMGR fileExistsAtPath:itemDict[@"name"]])) {
-        [self.filetypeTextField setStringValue:@"—"];
-        [self.finderTypeTextField setStringValue:@"—"];
-        [self.permissionsTextField setStringValue:@"—"];
+        [self.filetypeTextField setStringValue:EMPTY_PLACEHOLDER];
+        [self.finderTypeTextField setStringValue:EMPTY_PLACEHOLDER];
+        [self.permissionsTextField setStringValue:EMPTY_PLACEHOLDER];
     } else {
         NSString *fileInfoString = [self fileInfoForPath:path];
         [self.filetypeTextField setStringValue:fileInfoString];
@@ -295,7 +285,7 @@
     BOOL isDir;
     [FILEMGR fileExistsAtPath:filePath isDirectory:&isDir];
     if (isDir) {
-        return @"—";
+        return EMPTY_PLACEHOLDER;
     }
     
     UInt64 size = [self fileSizeAtPath:filePath];
@@ -310,9 +300,47 @@
     return finalString;
 }
 
+- (NSString *)accessModeDescriptionForItem:(NSDictionary *)itemDict {
+    NSDictionary *descStrMap = @{ @"r": @"Read", @"w": @"Write", @"u": @"Read / Write" };
+    
+    // Parse file descriptor num
+    int fd;
+    BOOL hasFD = (itemDict[@"fd"] != nil) && [[NSScanner scannerWithString:itemDict[@"fd"]] scanInt:&fd];
+    
+    NSString *mode = itemDict[@"accessmode"];
+    NSString *access = descStrMap[mode];
+    
+    // See if it's one of the three standard io streams
+    if (access != nil && hasFD && fd < 3 && [itemDict[@"type"] isEqualToString:@"Character Device"]) {
+        NSArray *standardIOs = @[@"STDIN", @"STDOUT", @"STDERR"];
+        access = [NSString stringWithFormat:@"%@ (%@)", access, standardIOs[fd]];
+    }
+    
+    // OK, we don't have any access mode
+    if (access == nil) {
+        if (itemDict[@"fd"] == nil) {
+            return EMPTY_PLACEHOLDER;
+        } else {
+            if (hasFD) {
+                access = EMPTY_PLACEHOLDER;
+            } else if ([itemDict[@"fd"] isEqualToString:@"txt"]) {
+                access = @"N/A: Program binary, asset or shared lib";
+            } else if ([itemDict[@"fd"] isEqualToString:@"cwd"]) {
+                access = @"N/A: Current working directory";
+            } else if ([itemDict[@"fd"] isEqualToString:@"twd"]) {
+                access = @"N/A: Per-thread working directory";
+            } else {
+                access = [NSString stringWithFormat:@"No file descriptor. Type: %@", itemDict[@"fd"]];
+            }
+        }
+    }
+    
+    return access;
+}
+
 - (NSString *)IPSocketDescriptionStringForName:(NSString *)name {
     NSMutableString *desc = [NSMutableString string];
-
+    
     // Typical lsof name for IP socket has the format: 10.95.10.6:53989->31.13.90.2:443
     NSArray *components = [name componentsSeparatedByString:@"->"];
     for (NSString *c in components) {
@@ -346,7 +374,6 @@
     
     return desc;
 }
-
 
 #pragma mark - Interface actions
 
@@ -391,19 +418,6 @@
 }
 
 #pragma mark - Util
-
-- (NSString *)accessModeDescriptionForMode:(NSString *)m {
-    if ([m isEqualToString:@"r"]) {
-        return @"Read";
-    }
-    if ([m isEqualToString:@"w"]) {
-        return @"Write";
-    }
-    if ([m isEqualToString:@"u"]) {
-        return @"Read / Write";
-    }
-    return nil;
-}
 
 - (BOOL)runAppleScript:(NSString *)scriptSource {
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
