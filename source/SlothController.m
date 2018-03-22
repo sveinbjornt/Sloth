@@ -648,7 +648,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
                 if ([fd isEqualToString:@"txt"] && ![DEFAULTS boolForKey:@"showProcessBinaries"]) {
                     skip = TRUE;
                 }
-                else if ([fd isEqualToString:@"cwd"] && ![DEFAULTS boolForKey:@"showCurrentWorkingDirectories"]) {
+                // cwd and twd are current working directory and thread working directory, respectively
+                else if (([fd isEqualToString:@"cwd"] || [fd isEqualToString:@"twd"]) && ![DEFAULTS boolForKey:@"showCurrentWorkingDirectories"]) {
                     skip = TRUE;
                 }
                 else {
@@ -877,8 +878,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)revealItemInFinder:(NSDictionary *)item {
-    NSString *path = item[@"bundlepath"];
-    path = path ? path : item[@"name"];
+    NSString *path = item[@"bundlepath"] ? item[@"bundlepath"] : item[@"name"];
     if ([self canRevealItemAtPath:path]) {
         [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
     } else {
@@ -1118,7 +1118,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if (menu == sortMenu) {
         NSArray *items = [menu itemArray];
         for (NSMenuItem *i in items) {
-            BOOL on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
+            NSControlStateValue on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
             [i setState:on];
         }
     }
@@ -1167,11 +1167,17 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
 }
 
+// Called when user selects Copy menu item via edit or contextual menu
 - (void)copy:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard clearContents];
     
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    if (selectedRow == -1) {
+        NSBeep();
+        return;
+    }
+    
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
 
     // Write to pasteboard
@@ -1182,13 +1188,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
 }
 
-- (void)checkItemWithTitle:(NSString *)title inMenu:(NSMenu *)submenu {
-    NSArray *items = [submenu itemArray];
-    for (int i = 0; i < [items count]; i++) {
-        NSMenuItem *item = [items objectAtIndex:i];
-        [item setState:0];
+- (void)checkItemWithTitle:(NSString *)title inMenu:(NSMenu *)menu {
+    for (NSMenuItem *item in [menu itemArray]) {
+        [item setState:NSControlStateValueOff];
     }
-    [[submenu itemWithTitle:title] setState:1];
+    [[menu itemWithTitle:title] setState:NSControlStateValueOn];
 }
 
 - (IBAction)interfaceSizeMenuItemSelected:(id)sender {
@@ -1208,7 +1212,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
 
-    // Reveal in finder / kill process should only be enabled when something is selected
+    // Actions on items should only be enabled when something is selected
     if (( [[anItem title] isEqualToString:@"Show in Finder"] || [[anItem title] isEqualToString:@"Kill Process"] || [[anItem title] isEqualToString:@"Get Info"]) && selectedRow < 0) {
         return NO;
     }
@@ -1220,6 +1224,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     return YES;
 }
+
+#pragma mark -
 
 - (IBAction)supportSlothDevelopment:(id)sender {
     [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];

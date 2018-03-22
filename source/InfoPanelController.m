@@ -96,7 +96,13 @@
         path = p ? p : path;
     }
     self.path = path;
-    [self.pathTextField setStringValue:path];
+    if ([FILEMGR fileExistsAtPath:path] || [path isEqualToString:@"—"]) {
+        [self.pathTextField setStringValue:path];
+    } else {
+        NSAttributedString *redPath = [[NSAttributedString alloc] initWithString:path attributes:@{ NSForegroundColorAttributeName : [NSColor redColor] }];
+        [self.pathTextField setAttributedStringValue:redPath];
+    }
+    
     
     // Resolve DNS and show details for IP sockets
     self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";
@@ -186,7 +192,7 @@
     }
     
     // Buttons
-    BOOL workablePath = isFileOrFolder || (isProcess && [FILEMGR fileExistsAtPath:path]);
+    BOOL workablePath = [FILEMGR fileExistsAtPath:path] && (isFileOrFolder || isProcess);
     [self.showInFinderButton setEnabled:workablePath];
     [self.getFinderInfoButton setEnabled:workablePath];    
     [self.quickLookButton setEnabled:workablePath];
