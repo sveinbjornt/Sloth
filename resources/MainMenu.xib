@@ -377,7 +377,7 @@ CA
                             <menuItem isSeparatorItem="YES" id="n1t-rs-ZZb">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Authenticate" image="LockedIcon" toolTip="Authenticate to view all system processes" id="Vdh-H2-HF0" userLabel="Copy">
+                            <menuItem title="Authenticate" toolTip="Authenticate to view all system processes" id="Vdh-H2-HF0" userLabel="Copy">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="toggleAuthentication:" target="212" id="IYt-ya-9J7"/>
@@ -694,7 +694,7 @@ DQ
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
                             <rect key="frame" x="1" y="0.0" width="850" height="468"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
                                     <rect key="frame" x="0.0" y="0.0" width="850" height="445"/>
@@ -978,7 +978,6 @@ DQ
         </window>
     </objects>
     <resources>
-        <image name="LockedIcon" width="32" height="32"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSApplicationIcon" width="128" height="128"/>
         <image name="NSInfo" width="32" height="32"/>

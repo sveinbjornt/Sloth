@@ -276,6 +276,11 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 #pragma mark - Filtering
 
+- (void)updateProcessCountHeader {
+    NSString *headerTitle = [NSString stringWithFormat:@"%d processes - sorted by %@", (int)[self.content count], [DEFAULTS stringForKey:@"sortBy"]];
+    [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
+}
+
 - (void)updateFiltering {
     if (isRefreshing) {
         return;
@@ -287,8 +292,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
     
     // Update header
-    NSString *headerTitle = [NSString stringWithFormat:@"%d processes", (int)[self.content count]];
-    [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
+    [self updateProcessCountHeader];
     
     // Update label
     NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
@@ -931,6 +935,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSArray *comp = [[sender title] componentsSeparatedByString:@" by "];
     NSString *sortBy = [[comp lastObject] lowercaseString];
     [DEFAULTS setObject:sortBy forKey:@"sortBy"];
+    [self updateProcessCountHeader];
     [self updateSorting];
 }
 
