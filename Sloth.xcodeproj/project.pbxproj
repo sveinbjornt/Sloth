@@ -62,6 +62,8 @@
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
+		F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		F4A9D5EF206A6A6E0069B2B6 /* src_loc_stats.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = src_loc_stats.sh; sourceTree = "<group>"; };
 		F4AC98342060583E0000871B /* IPServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPServices.h; sourceTree = "<group>"; };
 		F4AC98352060583E0000871B /* IPServices.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPServices.m; sourceTree = "<group>"; };
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
@@ -106,8 +108,10 @@
 			isa = PBXGroup;
 			children = (
 				F4F1D9181C7E08D100945D3E /* build_release.sh */,
-				F47B453F1EF82AC200D79DFF /* TODO.txt */,
+				F4A9D5EF206A6A6E0069B2B6 /* src_loc_stats.sh */,
 				F4F1D8A01C7623AF00945D3E /* README.md */,
+				F47B453F1EF82AC200D79DFF /* TODO.txt */,
+				F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */,
 				F438710613402C8200B51A5E /* Source */,
 				F438712713402CDD00B51A5E /* Resources */,
 				F4F1D9101C7CB95700945D3E /* Sparkle */,

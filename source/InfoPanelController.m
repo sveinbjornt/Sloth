@@ -115,7 +115,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @autoreleasepool {
                 NSString *ipSockName = [self.path copy];
-                NSString *descStr = [self IPSocketDescriptionStringForName:itemDict[@"name"]];
+                NSString *descStr = [self IPSocketDescriptionForName:itemDict[@"name"]];
                 // Then update UI on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // Make sure loaded item hasn't changed during DNS lookup
@@ -171,11 +171,11 @@
         [self.finderTypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.permissionsTextField setStringValue:EMPTY_PLACEHOLDER];
     } else {
-        NSString *fileInfoString = [self fileInfoForPath:path];
+        NSString *fileInfoString = [self fileUtilityInfoForPath:path];
         [self.filetypeTextField setStringValue:fileInfoString];
         
-        NSString *finderInfoString = [self finderInfoForPath:path];
-        [self.finderTypeTextField setStringValue:finderInfoString];
+        NSString *finderTypeString = [self launchServicesTypeForPath:path];
+        [self.finderTypeTextField setStringValue:finderTypeString];
         
         NSString *permString = [self ownerInfoForPath:path];
         [self.permissionsTextField setStringValue:permString];
@@ -240,7 +240,7 @@
     return [NSString stringWithFormat:@"%@:%@", user, group, nil];
 }
 
-- (NSString *)finderInfoForPath:(NSString *)filePath {
+- (NSString *)launchServicesTypeForPath:(NSString *)filePath {
     CFStringRef kindCFStr = nil;
     NSString *kindStr = nil;
     LSCopyKindStringForURL((__bridge CFURLRef)[NSURL fileURLWithPath:filePath], &kindCFStr);
@@ -253,7 +253,8 @@
     return kindStr;
 }
 
-- (NSString *)fileInfoForPath:(NSString *)filePath {
+// Run /usr/bin/file program on path, return output
+- (NSString *)fileUtilityInfoForPath:(NSString *)filePath {
     if (![FILEMGR fileExistsAtPath:filePath]) {
         return @"";
     }
@@ -283,21 +284,20 @@
 
 - (NSString *)fileSizeStringForPath:(NSString *)filePath {
     BOOL isDir;
-    [FILEMGR fileExistsAtPath:filePath isDirectory:&isDir];
-    if (isDir) {
+    BOOL exists = [FILEMGR fileExistsAtPath:filePath isDirectory:&isDir];
+    if (isDir || !exists) {
         return EMPTY_PLACEHOLDER;
     }
     
-    UInt64 size = [self fileSizeAtPath:filePath];
-    NSString *humanSize = [self fileSizeAsHumanReadableString:size];
+    UInt64 size = [[FILEMGR attributesOfItemAtPath:filePath error:nil] fileSize];
+    NSString *sizeString = [self fileSizeAsHumanReadableString:size];
 
-    NSString *finalString = humanSize;
-    if ([humanSize hasSuffix:@"bytes"] == NO) {
+    if ([sizeString hasSuffix:@"bytes"] == NO) {
         NSString *byteSizeStr = [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
-        finalString = [NSString stringWithFormat:@"%@ (%@)", humanSize, byteSizeStr];
+        sizeString = [NSString stringWithFormat:@"%@ (%@)", sizeString, byteSizeStr];
     }
     
-    return finalString;
+    return sizeString;
 }
 
 - (NSString *)accessModeDescriptionForItem:(NSDictionary *)itemDict {
@@ -339,7 +339,7 @@
     return access;
 }
 
-- (NSString *)IPSocketDescriptionStringForName:(NSString *)name {
+- (NSString *)IPSocketDescriptionForName:(NSString *)name {
     NSMutableString *desc = [NSMutableString string];
     
     // Typical lsof name for IP socket has the format: 10.95.10.6:53989->31.13.90.2:443
@@ -429,16 +429,6 @@
         NSLog(@"Error running AppleScript");
         return NO;
     }
-}
-
-- (UInt64)fileSizeAtPath:(NSString *)path {
-    // Return size 0 for directories
-    BOOL isDir;
-    if (path == nil || ![FILEMGR fileExistsAtPath:path isDirectory:&isDir] || isDir) {
-        return 0;
-    }
-    
-    return [[FILEMGR attributesOfItemAtPath:path error:nil] fileSize];
 }
 
 - (NSString *)fileSizeAsHumanReadableString:(UInt64)size {
