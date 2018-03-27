@@ -379,24 +379,25 @@ static inline uid_t uid_for_pid(pid_t pid) {
     BOOL hasRegexFilter = ([regexes count] > 0);
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllFileTypes = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
-                         && showCharDevices && showPipes && !showHomeFolderOnly);
+                         && showCharDevices && showPipes && !showHomeFolderOnly && !hasVolumesFilter);
     
-    // If there is no filter, just return unfiltered content
-    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter && !hasVolumesFilter && !hasAccessModeFilter) {
+    // Minor optimization: If there is no filter, just return
+    // unfiltered content instead of iterating over all items
+    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter && !hasAccessModeFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
 
     NSMutableArray *filteredContent = [NSMutableArray array];
 
-    // Iterate over unfiltered content, filter it
+    // Iterate over each process, filter children
     for (NSMutableDictionary *process in self.unfilteredContent) {
 
         NSMutableArray *matchingFiles = [NSMutableArray array];
         
         for (NSDictionary *file in process[@"children"]) {
             
-            // Let's see if it gets filtered by type
+            // Let's see if child gets filtered by type or path
             if (showAllFileTypes == NO) {
                 
                 if (showHomeFolderOnly && ![file[@"name"] hasPrefix:homeDirPath]) {
@@ -452,7 +453,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
             [matchingFiles addObject:file];
         }
         
-        // If we have matching files for the process
+        // If we have matching files for the process, and we're not filtering
         if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
             NSMutableDictionary *p = [process mutableCopy];
             p[@"children"] = matchingFiles;
@@ -745,7 +746,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     p[@"displayname"] = procString;
     
     // Get icon for process
-    if (!p[@"image"]) {
+    if (p[@"image"] == nil) {
         ProcessSerialNumber psn;
         GetProcessForPID([p[@"pid"] intValue], &psn);
         NSDictionary *pInfoDict = (__bridge_transfer NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
@@ -753,7 +754,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         if (pInfoDict[@"BundlePath"]) { // It's a bundle
             p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
             
-            // Check if it's an app bundle
+            // See if it's an app bundle
             NSString *fileType = [WORKSPACE typeOfFile:pInfoDict[@"BundlePath"] error:nil];
             if ([WORKSPACE type:fileType conformsToType:APPLICATION_UTI]) {
                 p[@"app"] = @YES;

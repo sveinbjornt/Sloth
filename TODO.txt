@@ -6,6 +6,7 @@ TODO list for Sloth 2.3
     DONE * DNS and port name lookup for IP Sockets in Info Window
     DONE * Now identifies standard I/O stream character devices
     DONE * Minor interface improvements
+    DONE * Fixed bug where Volumes filter didn't work
     * New application icon
     * New screenshots
-    * BUG: Volumes filter only works when home dir only filter enabled
+
