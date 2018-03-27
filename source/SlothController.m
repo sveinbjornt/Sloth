@@ -1210,15 +1210,18 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [window makeFirstResponder:filterTextField];
 }
 
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+- (BOOL)validateMenuItem:(NSMenuItem *)item {
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
-
+    BOOL isAction = ([[item title] isEqualToString:@"Show in Finder"] ||
+                     [[item title] isEqualToString:@"Kill Process"] ||
+                     [[item title] isEqualToString:@"Get Info"]);
+    
     // Actions on items should only be enabled when something is selected
-    if (( [[anItem title] isEqualToString:@"Show in Finder"] || [[anItem title] isEqualToString:@"Kill Process"] || [[anItem title] isEqualToString:@"Get Info"]) && selectedRow < 0) {
+    if (isAction && selectedRow < 0) {
         return NO;
     }
     
-    if ([[anItem title] isEqualToString:@"Show in Finder"]) {
+    if ([[item title] isEqualToString:@"Show in Finder"]) {
         NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
         return [self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"bundlepath"]];
     }
