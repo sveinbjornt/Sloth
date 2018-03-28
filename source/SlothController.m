@@ -1128,6 +1128,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [revealButton setEnabled:NO];
         [killButton setEnabled:NO];
         [getInfoButton setEnabled:NO];
+        if (infoPanelController) {
+            [[infoPanelController window] orderOut:self];
+        }
     }
 }
 
