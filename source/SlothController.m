@@ -231,7 +231,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
                             @"showApplicationsOnly",
                             @"showHomeFolderOnly",
                             @"accessMode",
-                            @"interfaceSize"]) {
+                            @"interfaceSize",
+                            @"searchFilterCaseSensitive",
+                            @"searchFilterRegex"]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
                                                                      options:NSKeyValueObservingOptionNew
@@ -291,10 +293,10 @@ static inline uid_t uid_for_pid(pid_t pid) {
     int matchingFilesCount = 0;
     self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
     
-    // Update header
+    // Update outline view header
     [self updateProcessCountHeader];
     
-    // Update label
+    // Update num items label
     NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
     [numItemsTextField setStringValue:str];
 
@@ -339,6 +341,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
     BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
     BOOL showHomeFolderOnly = [DEFAULTS boolForKey:@"showHomeFolderOnly"];
     
+    BOOL searchCaseSensitive = [DEFAULTS boolForKey:@"searchFilterCaseSensitive"];
+    BOOL searchUsesRegex = [DEFAULTS boolForKey:@"searchFilterRegex"];
+    
     // Access mode filter
     NSString *accessModeFilter = [DEFAULTS stringForKey:@"accessMode"];
     BOOL hasAccessModeFilter = ([accessModeFilter isEqualToString:@"Any"] == NO);
@@ -353,44 +358,55 @@ static inline uid_t uid_for_pid(pid_t pid) {
     // User home dir path prefix
     NSString *homeDirPath = NSHomeDirectory();
     
-    // Regex search field filter
-    NSMutableArray *regexes = [NSMutableArray array];
+    // Search field filter
+    NSMutableArray *searchFilters = [NSMutableArray array];
     NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
-
-    // Create regex for each whitespace-separated search filter strings
+    
     for (NSString *fs in filterStrings) {
         NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([s length] == 0) {
             continue;
         }
-        
-        NSError *err;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
-                                                                               options:NSRegularExpressionCaseInsensitive
-                                                                                 error:&err];
-        if (!regex) {
-            NSLog(@"Error creating regex: %@", [err localizedDescription]);
-            continue;
+
+        if (searchUsesRegex) {
+            NSError *err;
+            NSRegularExpressionOptions options = searchCaseSensitive ? 0 : NSRegularExpressionCaseInsensitive;
+            
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
+                                                                                   options:options
+                                                                                     error:&err];
+            if (!regex) {
+                NSLog(@"Error creating regex: %@", [err localizedDescription]);
+                continue;
+            }
+            [searchFilters addObject:regex];
+        } else {
+            [searchFilters addObject:s];
         }
-        [regexes addObject:regex];
     }
     
-    BOOL hasRegexFilter = ([regexes count] > 0);
+    BOOL hasSearchFilter = ([searchFilters count] > 0);
     BOOL showAllProcessTypes = !showApplicationsOnly;
-    BOOL showAllFileTypes = (showRegularFiles && showDirectories && showIPSockets && showUnixSockets
-                         && showCharDevices && showPipes && !showHomeFolderOnly && !hasVolumesFilter);
+    BOOL showAllFileTypes = (showRegularFiles &&
+                             showDirectories &&
+                             showIPSockets &&
+                             showUnixSockets &&
+                             showCharDevices &&
+                             showPipes &&
+                             !showHomeFolderOnly &&
+                             !hasVolumesFilter);
     
-    // Minor optimization: If there is no filter, just return
+    // Minor optimization: If there is no filtering, just return
     // unfiltered content instead of iterating over all items
-    if (showAllFileTypes && showAllProcessTypes && !hasRegexFilter && !hasAccessModeFilter) {
+    if (showAllFileTypes && showAllProcessTypes && !hasSearchFilter && !hasAccessModeFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
 
     NSMutableArray *filteredContent = [NSMutableArray array];
 
-    // Iterate over each process, filter children
+    // Iterate over each process, filter the children
     for (NSMutableDictionary *process in self.unfilteredContent) {
 
         NSMutableArray *matchingFiles = [NSMutableArray array];
@@ -434,18 +450,39 @@ static inline uid_t uid_for_pid(pid_t pid) {
             }
             
             // See if it matches regex in search field filter
-            if (hasRegexFilter) {
+            if (hasSearchFilter) {
                 
                 int matchCount = 0;
-                for (NSRegularExpression *regex in regexes) {
-                    if (!([file[@"name"] isMatchedByRegex:regex] ||
-                          [file[@"pname"] isMatchedByRegex:regex] ||
-                          [file[@"pid"] isMatchedByRegex:regex])) {
-                        break;
+                
+                if (searchUsesRegex) {
+                
+                    // Regex search
+                    for (NSRegularExpression *regex in searchFilters) {
+                        if (!([file[@"name"] isMatchedByRegex:regex] ||
+                              [file[@"pname"] isMatchedByRegex:regex] ||
+                              [file[@"pid"] isMatchedByRegex:regex])) {
+                            break;
+                        }
+                        matchCount += 1;
                     }
-                    matchCount += 1;
+                    
+                } else {
+                    
+                    // Non-regex search
+                    NSStringCompareOptions options = searchCaseSensitive ? 0 : NSCaseInsensitiveSearch;
+                    
+                    for (NSString *searchStr in searchFilters) {
+                        if ([file[@"name"] rangeOfString:searchStr options:options].location == NSNotFound &&
+                            [file[@"pname"] rangeOfString:searchStr options:options].location == NSNotFound &&
+                            [file[@"pid"] rangeOfString:searchStr options:options].location == NSNotFound) {
+                            break;
+                        }
+                        matchCount += 1;
+                    }
                 }
-                if (matchCount != [regexes count]) {
+                
+                // Skip if it doesn't match all filter strings
+                if (matchCount != [searchFilters count]) {
                     continue;
                 }
             }
@@ -453,7 +490,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
             [matchingFiles addObject:file];
         }
         
-        // If we have matching files for the process, and we're not filtering
+        // If we have matching files for the process, and it's not being excluded as a non-app
         if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
             NSMutableDictionary *p = [process mutableCopy];
             p[@"children"] = matchingFiles;
@@ -486,7 +523,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [progressIndicator setUsesThreadedAnimation:TRUE];
     [progressIndicator startAnimation:self];
 
-    // Update in asynchronously in the background, so interface doesn't lock up
+    // Update asynchronously in the background, so interface doesn't lock up
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
             NSString *output = [self runLsof:authenticated];
@@ -756,7 +793,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
             
             // See if it's an app bundle
             NSString *fileType = [WORKSPACE typeOfFile:pInfoDict[@"BundlePath"] error:nil];
-            if ([WORKSPACE type:fileType conformsToType:APPLICATION_UTI]) {
+            if ([WORKSPACE type:fileType conformsToType:APP_BUNDLE_UTI]) {
                 p[@"app"] = @YES;
             }
             
@@ -1208,6 +1245,14 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (IBAction)find:(id)sender {
     [window makeFirstResponder:filterTextField];
+}
+
+- (IBAction)searchFieldOptionChanged:(id)sender {
+    NSMenuItem *item = sender;
+    NSString *key = [sender tag] ? @"searchFilterRegex" : @"searchFilterCaseSensitive";
+    [DEFAULTS setBool:![DEFAULTS boolForKey:key] forKey:key]; // toggle
+    // We shouldn't have to do this but bindings are flaky for NSSearchField menu templates
+    [item setState:[DEFAULTS boolForKey:key]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {

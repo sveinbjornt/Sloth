@@ -2,11 +2,12 @@
 TODO list for Sloth 2.3
 
     DONE * Now supports access mode filtering (e.g. read, write, read/write)
-    DONE * Search filter now also filters by PID
-    DONE * DNS and port name lookup for IP Sockets in Info Window
-    DONE * Now identifies standard I/O stream character devices
+    DONE * Search string filter now also filters by PID
+    DONE * DNS and port name lookup for IP Sockets in Info Panel
+    DONE * Info Panel now identifies standard I/O stream character devices
+    DONE * Fixed bug where Volumes filter wouldn't work
     DONE * Minor interface improvements
-    DONE * Fixed bug where Volumes filter didn't work
+    DONE * New Search Filter menu with case sensitivity and regex options
     * New application icon
     * New screenshots
 

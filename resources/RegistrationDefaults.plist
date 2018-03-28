@@ -32,6 +32,10 @@
 	<false/>
 	<key>showCurrentWorkingDirectories</key>
 	<false/>
+	<key>searchFilterCaseSensitive</key>
+	<false/>
+	<key>searchFilterRegex</key>
+	<true/>
 	<key>accessMode</key>
 	<string>Any</string>
 </dict>

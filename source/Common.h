@@ -48,8 +48,8 @@
 #define GENERIC_NETWORK_ICON_PATH \
 @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"
 
-#define APPLICATION_UTI             @"com.apple.application"
-#define APPLICATION_SUFFIX          @".app"
+#define APP_BUNDLE_UTI             @"com.apple.application"
+#define APP_BUNDLE_SUFFIX          @".app"
 
 #define VALUES_KEYPATH(X)           [NSString stringWithFormat:@"values.%@", (X)]
 

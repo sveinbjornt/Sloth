@@ -449,7 +449,7 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
-            <point key="canvasLocation" x="621" y="-459"/>
+            <point key="canvasLocation" x="463" y="-545"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
@@ -489,7 +489,7 @@ CA
         </treeController>
         <userDefaultsController representsSharedInstance="YES" id="560" userLabel="Shared User Defaults Controller"/>
         <customObject id="Nds-SX-rlr" customClass="SUUpdater"/>
-        <menu id="3w8-wK-AmU" userLabel="Contextual Menu">
+        <menu id="3w8-wK-AmU" userLabel="Item Contextual Menu">
             <items>
                 <menuItem title="Copy" id="aIV-bf-ZRN" userLabel="Copy">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -631,10 +631,10 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="kNZ-Wh-Rrx"/>
                         </connections>
                     </button>
-                    <searchField toolTip="Search filter (with full support for regular expressions)" wantsLayer="YES" verticalHuggingPriority="750" id="252">
+                    <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" verticalHuggingPriority="750" id="252">
                         <rect key="frame" x="721" y="565" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" bezelStyle="round" id="735">
+                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" usesSingleLineMode="YES" bezelStyle="round" id="735">
                             <font key="font" metaFont="cellTitle"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -642,6 +642,7 @@ DQ
                         <connections>
                             <binding destination="560" name="value" keyPath="values.filterString" id="ydo-dA-IIK"/>
                             <outlet property="delegate" destination="212" id="552"/>
+                            <outlet property="searchMenuTemplate" destination="6L5-jB-614" id="7x1-pU-Ybs"/>
                         </connections>
                     </searchField>
                     <button toolTip="Kill selected process" verticalHuggingPriority="750" misplaced="YES" id="210">
@@ -904,7 +905,7 @@ DQ
                 <outlet property="delegate" destination="212" id="3KT-G0-6pk"/>
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
-            <point key="canvasLocation" x="809" y="170.5"/>
+            <point key="canvasLocation" x="333" y="161"/>
         </window>
         <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -976,6 +977,36 @@ DQ
             </view>
             <point key="canvasLocation" x="401" y="-327"/>
         </window>
+        <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
+            <items>
+                <menuItem title="Case Sensitive" id="ghU-WC-RvG">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="searchFieldOptionChanged:" target="212" id="oZz-yp-5XX"/>
+                        <binding destination="560" name="value" keyPath="values.searchFilterCaseSensitive" id="35l-BQ-g2d">
+                            <dictionary key="options">
+                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </menuItem>
+                <menuItem title="Regular Expressions" tag="1" id="bYP-KH-Im4">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="searchFieldOptionChanged:" target="212" id="6HU-41-l2N"/>
+                        <binding destination="560" name="value" keyPath="values.searchFilterSupportsRegex" id="qXX-FC-Qka">
+                            <dictionary key="options">
+                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="212" id="FZb-Aa-Ayc"/>
+            </connections>
+            <point key="canvasLocation" x="478" y="-270"/>
+        </menu>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
