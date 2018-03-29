@@ -120,7 +120,7 @@ Sloth is a GUI built on top of the powerful [`lsof`](https://en.wikipedia.org/wi
 
 ## BSD License 
 
-Copyright (C) 2004-2018 Sveinbjorn Thordarson <sveinbjornt@gmail.com>
+Copyright (C) 2004-2018 Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
