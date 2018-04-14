@@ -348,7 +348,7 @@
                 <menuItem title="Action" id="qjK-9c-w03">
                     <menu key="submenu" title="Action" id="qER-Jc-t35">
                         <items>
-                            <menuItem title="Refresh" keyEquivalent="r" id="hQ5-ma-AFt">
+                            <menuItem title="Refresh" image="NSRefreshTemplate" keyEquivalent="r" id="hQ5-ma-AFt">
                                 <connections>
                                     <action selector="refresh:" target="212" id="laV-tL-jZL"/>
                                 </connections>
@@ -907,7 +907,7 @@ DQ
             </connections>
             <point key="canvasLocation" x="333" y="161"/>
         </window>
-        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
+        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
             <rect key="contentRect" x="131" y="159" width="378" height="182"/>

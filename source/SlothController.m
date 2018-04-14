@@ -152,9 +152,9 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 + (void)initialize {
-    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"RegistrationDefaults" ofType:@"plist"];
-    NSDictionary *registrationDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-    [DEFAULTS registerDefaults:registrationDefaults];
+    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    [DEFAULTS registerDefaults:defaults];
 }
 
 #pragma mark -
@@ -163,7 +163,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     // Check to see if we have the correct function in our loaded libraries
     if (!_AuthExecuteWithPrivsFn) {
         // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
-        // to still use it since there's no good alternative (without requiring
+        // to continue using it since there's no good alternative (without
         // code signing). We'll look up the function through dyld and fail if
         // it is no longer accessible. If Apple removes the function entirely
         // this will fail gracefully. If they keep the function and throw some
@@ -190,21 +190,27 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     // Put application icon in window title bar
     [window setRepresentedURL:[NSURL URLWithString:@""]];
-    NSButton *button = [window standardWindowButton:NSWindowDocumentIconButton];
-    [button setImage:[NSApp applicationIconImage]];
+    [[window standardWindowButton:NSWindowDocumentIconButton] setImage:[NSApp applicationIconImage]];
     
     // Hide authenticate button if AuthorizationExecuteWithPrivileges
     // is not available in this version of OS X
     if ([self AEWPFunctionExists] == NO) {
         [authenticateButton setHidden:YES];
+        [authenticateMenuItem setAction:nil];
     }
+    
+    // Load system lock icon and set as icon for button & menu
+    NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
+    [lockIcon setSize:NSMakeSize(16, 16)];
+    [authenticateButton setImage:lockIcon];
+    [authenticateMenuItem setImage:lockIcon];
     
     // Manually check correct menu items for these submenus
     // on launch since we (annoyingly) can't use bindings for it
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"interfaceSize"] inMenu:interfaceSizeSubmenu];
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"accessMode"] inMenu:accessModeSubmenu];
     
-    // Set icons in filter menu
+    // Set icons in Filter menu
     NSArray<NSMenuItem *> *items = [filterMenu itemArray];
     for (NSMenuItem *i in items) {
         NSString *type = [i toolTip];
@@ -214,14 +220,8 @@ static inline uid_t uid_for_pid(pid_t pid) {
             [i setImage:img];
         }
     }
-    
-    // Load system lock icon and set as icon for button & menu
-    NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
-    [lockIcon setSize:NSMakeSize(16, 16)];
-    [authenticateButton setImage:lockIcon];
-    [authenticateMenuItem setImage:lockIcon];
 
-    // Observe defaults
+    // Start observing defaults
     for (NSString *key in @[@"showCharacterDevices",
                             @"showDirectories",
                             @"showIPSockets",
@@ -262,10 +262,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [self refresh:self];
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [self deauthenticate];
-}
-
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
     // Prevent popup menu when window icon/title is cmd-clicked
     return NO;
@@ -300,7 +296,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
     [numItemsTextField setStringValue:str];
 
-    // Reload
     [outlineView reloadData];
     
     if ([DEFAULTS boolForKey:@"disclosure"]) {
