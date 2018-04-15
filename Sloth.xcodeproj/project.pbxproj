@@ -22,7 +22,7 @@
 		F4AC98362060583E0000871B /* IPServices.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPServices.m */; };
 		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
-		F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */; };
+		F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */; };
 		F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F4F1D9121C7CB95700945D3E /* dsa_pub.pem */; };
 /* End PBXBuildFile section */
 
@@ -69,8 +69,8 @@
 		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
 		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		F4F1D89A1C75FBF800945D3E /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		F4F1D89B1C76186200945D3E /* NSString+RegexMatching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexMatching.h"; sourceTree = "<group>"; };
-		F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexMatching.m"; sourceTree = "<group>"; };
+		F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexConvenience.h"; sourceTree = "<group>"; };
+		F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexConvenience.m"; sourceTree = "<group>"; };
 		F4F1D8A01C7623AF00945D3E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F4F1D9111C7CB95700945D3E /* dsa_priv.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_priv.pem; sourceTree = "<group>"; };
 		F4F1D9121C7CB95700945D3E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
@@ -136,8 +136,8 @@
 			children = (
 				F4AC98342060583E0000871B /* IPServices.h */,
 				F4AC98352060583E0000871B /* IPServices.m */,
-				F4F1D89B1C76186200945D3E /* NSString+RegexMatching.h */,
-				F4F1D89C1C76186200945D3E /* NSString+RegexMatching.m */,
+				F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */,
+				F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */,
 				F40B7D2F1C75FAC6000A4616 /* Alerts.h */,
 				F40B7D301C75FAC6000A4616 /* Alerts.m */,
 			);
@@ -295,7 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4AC98362060583E0000871B /* IPServices.m in Sources */,
-				F4F1D89D1C76186200945D3E /* NSString+RegexMatching.m in Sources */,
+				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,

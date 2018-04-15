@@ -32,7 +32,7 @@
 #import "InfoPanelController.h"
 #import "Common.h"
 #import "IPServices.h"
-#import "NSString+RegexMatching.h"
+#import "NSString+RegexConvenience.h"
 
 #import <pwd.h>
 #import <grp.h>

@@ -29,7 +29,7 @@
 */
 
 #import "IPServices.h"
-#import "NSString+RegexMatching.h"
+#import "NSString+RegexConvenience.h"
 
 #import <sys/types.h>
 #import <sys/socket.h>

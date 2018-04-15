@@ -28,9 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "NSString+RegexMatching.h"
+#import "NSString+RegexConvenience.h"
 
-@implementation NSString (RegexMatching)
+@implementation NSString (RegexConvenience)
 
 - (BOOL)isMatchedByRegex:(NSRegularExpression *)regex {
     NSTextCheckingResult *res = [regex firstMatchInString:self options:0 range:NSMakeRange(0, [self length])];

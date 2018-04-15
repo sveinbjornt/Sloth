@@ -30,7 +30,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (RegexMatching)
+@interface NSString (RegexConvenience)
 
 - (BOOL)isMatchedByRegex:(NSRegularExpression *)regex;
 

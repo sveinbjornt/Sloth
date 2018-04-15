@@ -31,7 +31,7 @@
 #import "SlothController.h"
 #import "Common.h"
 #import "Alerts.h"
-#import "NSString+RegexMatching.h"
+#import "NSString+RegexConvenience.h"
 #import "InfoPanelController.h"
 
 #import <Security/Authorization.h>
