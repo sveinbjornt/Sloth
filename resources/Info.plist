@@ -36,6 +36,8 @@
 	<string>????</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2004-2018 Sveinbjorn Thordarson.</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
 </dict>

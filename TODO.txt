@@ -5,9 +5,9 @@ TODO list for Sloth 2.3
     DONE * Search string filter now also filters by PID
     DONE * DNS and port name lookup for IP Sockets in Info Panel
     DONE * Info Panel now identifies standard I/O stream character devices
-    DONE * Fixed bug where Volumes filter wouldn't work
     DONE * Minor interface improvements
     DONE * New Search Filter menu with case sensitivity and regex options
-    * New application icon
+    DONE * New application icon
+    * Fix bug where Volumes filter wouldn't work
     * New screenshots
 

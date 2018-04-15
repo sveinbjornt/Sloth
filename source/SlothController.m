@@ -617,7 +617,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSMutableArray *processList = [NSMutableArray array];
     *numFiles = 0;
     
-    if (outputString == nil || [outputString length] == 0) {
+    if (![outputString length]) {
         return processList;
     }
     
@@ -632,7 +632,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     NSString *accessmode = @"";
     NSString *protocol = @"";
     NSString *fd = @"";
-    BOOL skip;
+    BOOL skip = FALSE;
     
     // Parse each line
     for (NSString *line in lines) {

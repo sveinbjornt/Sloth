@@ -12,9 +12,10 @@
 		F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F40B7D301C75FAC6000A4616 /* Alerts.m */; };
 		F41110D12031FBF200E4D329 /* SlothImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41110D02031FBF200E4D329 /* SlothImageView.m */; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
+		F43440C620822A7F00AF60AA /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F438712D13402CDD00B51A5E /* AppIcon.icns */; };
 		F438711813402C8200B51A5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710913402C8200B51A5E /* main.m */; };
 		F438711A13402C8200B51A5E /* SlothController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710E13402C8200B51A5E /* SlothController.m */; };
-		F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */; };
+		F438713413402CDD00B51A5E /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F438712C13402CDD00B51A5E /* Defaults.plist */; };
 		F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F442E0721EA7DB1000BAD80C /* InfoPanel.xib */; };
 		F442E0781EA7DD0D00BAD80C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; };
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -55,8 +56,8 @@
 		F438710D13402C8200B51A5E /* SlothController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlothController.h; sourceTree = "<group>"; };
 		F438710E13402C8200B51A5E /* SlothController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlothController.m; sourceTree = "<group>"; };
 		F438712913402CDD00B51A5E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = RegistrationDefaults.plist; sourceTree = "<group>"; };
-		F438712D13402CDD00B51A5E /* Sloth.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Sloth.icns; sourceTree = "<group>"; };
+		F438712C13402CDD00B51A5E /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
+		F438712D13402CDD00B51A5E /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		F442E0721EA7DB1000BAD80C /* InfoPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPanel.xib; sourceTree = "<group>"; };
 		F442E0771EA7DD0D00BAD80C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = sparkle/Sparkle.framework; sourceTree = "<group>"; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -171,7 +172,7 @@
 				F442E0721EA7DB1000BAD80C /* InfoPanel.xib */,
 				F47B45351EE74F2C00D79DFF /* Credits.rtf */,
 				F438712913402CDD00B51A5E /* Info.plist */,
-				F438712C13402CDD00B51A5E /* RegistrationDefaults.plist */,
+				F438712C13402CDD00B51A5E /* Defaults.plist */,
 				F442E0741EA7DB2200BAD80C /* Images */,
 			);
 			name = Resources;
@@ -181,7 +182,7 @@
 		F442E0741EA7DB2200BAD80C /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				F438712D13402CDD00B51A5E /* Sloth.icns */,
+				F438712D13402CDD00B51A5E /* AppIcon.icns */,
 				F40B7D2B1C75F161000A4616 /* sloth_icon.png */,
 				F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */,
 				F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */,
@@ -231,7 +232,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -266,10 +267,11 @@
 			files = (
 				F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */,
 				F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */,
+				F43440C620822A7F00AF60AA /* AppIcon.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
 				F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */,
-				F438713413402CDD00B51A5E /* RegistrationDefaults.plist in Resources */,
+				F438713413402CDD00B51A5E /* Defaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +315,6 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -347,7 +348,6 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -384,11 +384,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -423,11 +425,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
