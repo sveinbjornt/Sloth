@@ -1197,6 +1197,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         for (NSMenuItem *item in [volumesMenu itemArray]) {
             if ([[item toolTip] isEqualToString:selectedPath]) {
                 itemToSelect = item;
+                break;
             }
         }
         [volumesPopupButton selectItem:itemToSelect];

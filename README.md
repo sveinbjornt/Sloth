@@ -1,10 +1,10 @@
 # Sloth
 
-<img src="resources/sloth_icon.png" align="right" style="float: right; margin-left: 30px;">
+<img src="resources/sloth_icon.png" width="128" height="128" align="right" style="float: right; margin-left: 30px;">
 
-Sloth is a Mac application that displays a list of all open files and sockets in use by all running applications on your system. This makes it easy to see which apps are using which files and sockets.
+Sloth is a Mac application that displays all open files and sockets in use by all running applications on your system. This makes it easy to inspect which apps are using which files and sockets.
 
-Sloth is a graphical user interface built on top of the powerful [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable table view with some convenient user-friendly functionality such as revealing files in the Finder, killing a file's owning process, displaying file info, filtering by volumes and access mode, and so on. Check out the screenshots.
+Sloth is a graphical user interface built on top of the powerful [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with some user-friendly functionality such as revealing files in the Finder, killing a file's owning process, displaying file info, filtering by volumes and access mode, and so on. Check out the screenshots.
 
 ## Download
 
@@ -17,10 +17,6 @@ Sloth is a graphical user interface built on top of the powerful [`lsof`](https:
 <img src="resources/sloth_screenshot1.jpg" align="center">
 
 ## Version history
-
-## XX/XX/2018 - Version 2.3
-
-*
 
 ## 07/03/2018 - Version 2.2
 
@@ -124,7 +120,7 @@ Sloth is a graphical user interface built on top of the powerful [`lsof`](https:
 
 ## BSD License 
 
-Copyright (C) 2004-2018 Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
+Copyright (C) 2004-2018 Sveinbjorn Thordarson &lt;sveinbjorn@sveinbjorn.org&gt;
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
