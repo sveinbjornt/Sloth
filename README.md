@@ -8,7 +8,7 @@ Sloth is a graphical user interface built on top of the powerful [`lsof`](https:
 
 ## Download
 
-* [Download Sloth 2.2](http://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit, 10.8 or later)
+* [Download Sloth 2.2](https://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
