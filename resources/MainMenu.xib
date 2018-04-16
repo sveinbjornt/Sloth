@@ -799,7 +799,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <box horizontalHuggingPriority="750" misplaced="YES" boxType="separator" id="9wn-lX-PcL">
-                        <rect key="frame" x="666" y="551" width="5" height="48"/>
+                        <rect key="frame" x="665" y="551" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="beK-br-huc">

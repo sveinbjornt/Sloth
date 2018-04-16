@@ -3,8 +3,28 @@
     <channel>
         <title>Sloth Version Release Appcast</title>
         <link>https://sveinbjorn.org/files/appcasts/SlothAppcast.xml</link>
-        <description>Most recent release list for Sloth, with links to signed updates.</description>
+        <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
+        
+        <item>
+            <title>Version 2.3</title>
+            <pubDate>Monday, 16 Apr 2018 20:27:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.3.zip" sparkle:version="117" sparkle:shortVersionString="2.3" length="617375" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCCYEN2xSIpA1Byc1Sxl7iZ2itBo+jSqKtZzOPyJbSM/AIgGKuXEbCrm7GcEmvb7IvJGvtStbera+IJXTrpLDqNfwo="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>New in Sloth 2.3</h2>
+                <ul>
+                    <li>Now supports access mode filtering (e.g. read, write, read/write)</li>
+                    <li>Search filter now also filters by PID</li>
+                    <li>DNS and port name lookup for IP Sockets in Info Panel</li>
+                    <li>Info Panel now identifies standard I/O stream character devices</li>
+                    <li>New Search Filter menu with case sensitivity and regex options</li>
+                    <li>New application icon</li>
+                    <li>Fixed bug where Volumes filter wouldn't work</li>
+                    <li>Minor interface improvements</li>
+                </ul>
+            ]]></description>
+        </item>
         
         <item>
             <title>Version 2.2</title>

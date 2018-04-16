@@ -42,7 +42,6 @@
 #import <sys/sysctl.h>
 #import <stdlib.h>
 #import <pwd.h>
-#import <stdio.h>
 
 // Function pointer to AuthorizationExecuteWithPrivileges
 // in case it doesn't exist in this version of OS X
@@ -132,17 +131,18 @@ static inline uid_t uid_for_pid(pid_t pid) {
         [[NSImage imageNamed:@"Pipe"] setTemplate:YES];
 
         // Map item types to icons
-        type2icon = @{      @"File": [NSImage imageNamed:@"NSGenericDocument"],
-                            @"Directory": [NSImage imageNamed:@"NSFolder"],
-                            @"Character Device": [NSImage imageNamed:@"NSActionTemplate"],
-                            @"Unix Socket": [NSImage imageNamed:@"Socket"],
-                            @"IP Socket": [NSImage imageNamed:@"NSNetwork"],
-                            @"Pipe": [NSImage imageNamed:@"Pipe"],
-                            
-                            // just for filter menu
-                            @"Applications": [NSImage imageNamed:@"NSDefaultApplicationIcon"],
-                            @"Home": [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kToolbarHomeIcon)]
-                    };
+        type2icon = @{
+            @"File": [NSImage imageNamed:@"NSGenericDocument"],
+            @"Directory": [NSImage imageNamed:@"NSFolder"],
+            @"Character Device": [NSImage imageNamed:@"NSActionTemplate"],
+            @"Unix Socket": [NSImage imageNamed:@"Socket"],
+            @"IP Socket": [NSImage imageNamed:@"NSNetwork"],
+            @"Pipe": [NSImage imageNamed:@"Pipe"],
+
+            // Just for Filter menu
+            @"Applications": [NSImage imageNamed:@"NSDefaultApplicationIcon"],
+            @"Home": [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kToolbarHomeIcon)]
+        };
         
         _content = [[NSMutableArray alloc] init];
         
@@ -157,34 +157,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [DEFAULTS registerDefaults:defaults];
 }
 
-#pragma mark -
-
-- (BOOL)AEWPFunctionExists {
-    // Check to see if we have the correct function in our loaded libraries
-    if (!_AuthExecuteWithPrivsFn) {
-        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
-        // to continue using it since there's no good alternative (without
-        // code signing). We'll look up the function through dyld and fail if
-        // it is no longer accessible. If Apple removes the function entirely
-        // this will fail gracefully. If they keep the function and throw some
-        // sort of exception, this won't fail gracefully, but that's a risk
-        // we'll have to take for now.
-        // Pattern by Andy Kim from Potion Factory LLC
-        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
-        if (!_AuthExecuteWithPrivsFn) {
-            // This version of OS X has finally removed AEWP
-            return NO;
-        }
-    }
-    return YES;
-}
-
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Make sure lsof exists on the system
     if ([FILEMGR fileExistsAtPath:PROGRAM_LSOF_SYSTEM_PATH] == NO) {
-        [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No tool exists at the path %@", PROGRAM_LSOF_SYSTEM_PATH];
+        [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No binary at path %@", PROGRAM_LSOF_SYSTEM_PATH];
         [[NSApplication sharedApplication] terminate:self];
     }
     
@@ -192,7 +170,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [window setRepresentedURL:[NSURL URLWithString:@""]];
     [[window standardWindowButton:NSWindowDocumentIconButton] setImage:[NSApp applicationIconImage]];
     
-    // Hide authenticate button if AuthorizationExecuteWithPrivileges
+    // Hide Authenticate button & menu item if AEWP
     // is not available in this version of OS X
     if ([self AEWPFunctionExists] == NO) {
         [authenticateButton setHidden:YES];
@@ -205,12 +183,12 @@ static inline uid_t uid_for_pid(pid_t pid) {
     [authenticateButton setImage:lockIcon];
     [authenticateMenuItem setImage:lockIcon];
     
-    // Manually check correct menu items for these submenus
+    // Manually check the correct menu items for these submenus
     // on launch since we (annoyingly) can't use bindings for it
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"interfaceSize"] inMenu:interfaceSizeSubmenu];
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"accessMode"] inMenu:accessModeSubmenu];
     
-    // Set icons in Filter menu
+    // Set icons for items in Filter menu
     NSArray<NSMenuItem *> *items = [filterMenu itemArray];
     for (NSMenuItem *i in items) {
         NSString *type = [i toolTip];
@@ -350,6 +328,15 @@ static inline uid_t uid_for_pid(pid_t pid) {
         volumesFilter = [[volumesPopupButton selectedItem] toolTip];
     }
     
+    // Path filters such as by volume or home folder should
+    // exclude everything that isn't a file or directory
+    if (hasVolumesFilter || showHomeFolderOnly) {
+        showIPSockets = FALSE;
+        showUnixSockets = FALSE;
+        showCharDevices = FALSE;
+        showPipes = FALSE;
+    }
+    
     // User home dir path prefix
     NSString *homeDirPath = NSHomeDirectory();
     
@@ -383,7 +370,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     BOOL hasSearchFilter = ([searchFilters count] > 0);
     BOOL showAllProcessTypes = !showApplicationsOnly;
-    BOOL showAllFileTypes = (showRegularFiles &&
+    BOOL showAllItemTypes = (showRegularFiles &&
                              showDirectories &&
                              showIPSockets &&
                              showUnixSockets &&
@@ -394,7 +381,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     // Minor optimization: If there is no filtering, just return
     // unfiltered content instead of iterating over all items
-    if (showAllFileTypes && showAllProcessTypes && !hasSearchFilter && !hasAccessModeFilter) {
+    if (showAllItemTypes && showAllProcessTypes && !hasSearchFilter && !hasAccessModeFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
@@ -409,7 +396,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
         for (NSDictionary *file in process[@"children"]) {
             
             // Let's see if child gets filtered by type or path
-            if (showAllFileTypes == NO) {
+            if (showAllItemTypes == NO) {
                 
                 if (showHomeFolderOnly && ![file[@"name"] hasPrefix:homeDirPath]) {
                     continue;
@@ -1091,6 +1078,26 @@ static inline uid_t uid_for_pid(pid_t pid) {
         authorizationRef = NULL;
     }
     authenticated = NO;
+}
+
+- (BOOL)AEWPFunctionExists {
+    // Check to see if we have the correct function in our loaded libraries
+    if (!_AuthExecuteWithPrivsFn) {
+        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
+        // to continue using it since there's no good alternative (without
+        // code signing). We'll look up the function through dyld and fail if
+        // it is no longer accessible. If Apple removes the function entirely
+        // this will fail gracefully. If they keep the function and throw some
+        // sort of exception, this won't fail gracefully, but that's a risk
+        // we'll have to take for now.
+        // Pattern by Andy Kim from Potion Factory LLC
+        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
+        if (!_AuthExecuteWithPrivsFn) {
+            // This version of OS X has finally removed AEWP
+            return NO;
+        }
+    }
+    return YES;
 }
 
 #pragma mark - NSOutlineViewDelegate

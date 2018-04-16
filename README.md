@@ -8,17 +8,28 @@ Sloth is a graphical user interface built on top of the powerful [`lsof`](https:
 
 ## Download
 
-* [Download Sloth 2.2](https://sveinbjorn.org/files/software/sloth.zip) (~0.5 MB, Intel 64-bit, 10.8 or later)
+* [Download Sloth 2.3](https://sveinbjorn.org/files/software/sloth.zip) (~0.6 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
-<img src="resources/sloth_screenshot2.jpg" align="center">
-
 <img src="resources/sloth_screenshot1.jpg" align="center">
+
+<img src="resources/sloth_screenshot2.jpg" align="center">
 
 ## Version history
 
-## 07/03/2018 - Version 2.2
+### 16/04/2018 - Version 2.3
+
+* Now supports access mode filtering (e.g. read, write, read/write)
+* Search filter now also filters by PID
+* DNS and port name lookup for IP Sockets in Info Panel
+* Info Panel now identifies standard I/O stream character devices
+* New Search Filter menu with case sensitivity and regex options
+* New application icon
+* Fixed bug where Volumes filter wouldn't work
+* Minor interface improvements
+
+### 07/03/2018 - Version 2.2
 
 * Now defaults to excluding process binaries, shared libraries and current working directories in listing
 * DNS and port name lookup now disabled by default for faster execution (can be enabled in Preferences)
@@ -120,7 +131,7 @@ Sloth is a graphical user interface built on top of the powerful [`lsof`](https:
 
 ## BSD License 
 
-Copyright (C) 2004-2018 Sveinbjorn Thordarson &lt;sveinbjorn@sveinbjorn.org&gt;
+Copyright (C) 2004-2018 <a href="mailto:sveinbjorn@sveinbjorn.org">Sveinbjorn Thordarson</a>
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -146,3 +157,5 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
+
+The Sloth icon is Copyright (C) Drífa Thoroddsen 2018.
