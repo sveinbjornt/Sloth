@@ -42,6 +42,8 @@
 #import <sys/sysctl.h>
 #import <stdlib.h>
 #import <pwd.h>
+#import <libproc.h>
+
 
 // Function pointer to AuthorizationExecuteWithPrivileges
 // in case it doesn't exist in this version of OS X
@@ -766,23 +768,33 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     // Get icon for process
     if (p[@"image"] == nil) {
+        pid_t pid = [p[@"pid"] intValue];
+        
         ProcessSerialNumber psn;
-        GetProcessForPID([p[@"pid"] intValue], &psn);
+        GetProcessForPID(pid, &psn);
         NSDictionary *pInfoDict = (__bridge_transfer NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
         
         if (pInfoDict[@"BundlePath"]) { // It's a bundle
             p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
             
-            // See if it's an app bundle
+            // See if it's an application bundle
             NSString *fileType = [WORKSPACE typeOfFile:pInfoDict[@"BundlePath"] error:nil];
             if ([WORKSPACE type:fileType conformsToType:APP_BUNDLE_UTI]) {
                 p[@"app"] = @YES;
             }
             
-            p[@"bundlepath"] = pInfoDict[@"BundlePath"];
+            p[@"path"] = pInfoDict[@"BundlePath"];
         } else {
             p[@"image"] = genericExecutableIcon;
             p[@"app"] = @NO;
+            
+            // Get path to process binary
+            char *pathbuf = calloc(PROC_PIDPATHINFO_MAXSIZE, 1);
+            int ret = proc_pidpath(pid, pathbuf, PROC_PIDPATHINFO_MAXSIZE);
+            if (ret > 0) {
+                p[@"path"] = @(pathbuf);
+            }
+            free(pathbuf);
         }
     }
 }
@@ -898,7 +910,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)revealItemInFinder:(NSDictionary *)item {
-    NSString *path = item[@"bundlepath"] ? item[@"bundlepath"] : item[@"name"];
+    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     if ([self canRevealItemAtPath:path]) {
         [WORKSPACE selectFile:path inFileViewerRootedAtPath:path];
     } else {
@@ -1113,7 +1125,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     if (selectedRow >= 0) {
         NSMutableDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
         BOOL canReveal = [self canRevealItemAtPath:item[@"name"]];
-        BOOL hasBundlePath = [self canRevealItemAtPath:item[@"bundlepath"]];
+        BOOL hasBundlePath = [self canRevealItemAtPath:item[@"path"]];
         [revealButton setEnabled:(canReveal || hasBundlePath)];
         [getInfoButton setEnabled:YES];
         [killButton setEnabled:YES];
@@ -1143,7 +1155,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
     NSDictionary *item = [items[0] representedObject];
-    NSString *path = item[@"bundlepath"] ? item[@"bundlepath"] : item[@"name"];
+    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     if (![FILEMGR fileExistsAtPath:path]) {
         return NO;
     }
@@ -1274,7 +1286,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     
     if ([[item title] isEqualToString:@"Show in Finder"]) {
         NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-        return [self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"bundlepath"]];
+        return [self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"path"]];
     }
     
     return YES;

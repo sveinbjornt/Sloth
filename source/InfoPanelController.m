@@ -72,7 +72,7 @@
     if (!itemDict) {
         return;
     }
-    //NSLog(@"%@", [itemDict description]);
+    NSLog(@"%@", [itemDict description]);
     
     self.fileInfoDict = itemDict;
     
@@ -96,7 +96,7 @@
     // Path
     NSString *path = EMPTY_PLACEHOLDER;
     if (isFileOrFolder || isProcess) {
-        NSString *p = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"bundlepath"] : itemDict[@"name"];
+        NSString *p = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"path"] : itemDict[@"name"];
         path = p ? p : path;
     }
     self.path = path;
@@ -165,7 +165,7 @@
     [self.accessModeTextField setStringValue:access];
     
     // The other fields
-    if ((!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"bundlepath"] == nil))) ||
+    if ((!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"path"] == nil))) ||
         (isFileOrFolder && ![FILEMGR fileExistsAtPath:itemDict[@"name"]])) {
         [self.filetypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.finderTypeTextField setStringValue:EMPTY_PLACEHOLDER];
