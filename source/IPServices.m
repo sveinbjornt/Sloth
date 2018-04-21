@@ -65,6 +65,14 @@
     return [[NSHost hostWithAddress:ipAddrStr] name];
 }
 
++ (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString {
+    NSHost *host = [NSHost hostWithName:dnsNameString];
+    if (host) {
+        return [host address];
+    }
+    return nil;
+}
+
 // Look up port name, e.g. "http" for "80"
 + (NSString *)portNameForPortNumString:(NSString *)portNumStr {
     if ([IPServices isPortNumberString:portNumStr] == NO) {
@@ -81,6 +89,16 @@
     }
     
     return [NSString stringWithCString:serv->s_name encoding:NSASCIIStringEncoding];
+}
+
++ (NSString *)portNumberForPortNameString:(NSString *)portNameString {
+    char *portName = [portNameString cStringUsingEncoding:NSUTF8StringEncoding];
+    struct servent *serv = getservbyname(portName, NULL);
+    if (serv != NULL) {
+        int portNum = ntohs(serv->s_port);
+        return [NSString stringWithFormat:@"%d", portNum];
+    }
+    return nil;
 }
 
 @end

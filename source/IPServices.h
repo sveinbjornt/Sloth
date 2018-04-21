@@ -35,6 +35,8 @@
 + (BOOL)isIPAddressString:(NSString *)ipStr;
 + (BOOL)isPortNumberString:(NSString *)portNumStr;
 + (NSString *)dnsNameForIPAddressString:(NSString *)ipAddrStr;
++ (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString;
 + (NSString *)portNameForPortNumString:(NSString *)portNumStr;
++ (NSString *)portNumberForPortNameString:(NSString *)portNameString;
 
 @end

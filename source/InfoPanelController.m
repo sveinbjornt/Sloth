@@ -345,23 +345,39 @@
     // Typical lsof name for IP socket has the format: 10.95.10.6:53989->31.13.90.2:443
     NSArray *components = [name componentsSeparatedByString:@"->"];
     for (NSString *c in components) {
-        NSArray *ipAndPort = [c componentsSeparatedByString:@":"];
-        NSString *ip = ipAndPort[0];
+        NSArray *addressAndPort = [c componentsSeparatedByString:@":"];
+        NSString *address = addressAndPort[0];
         NSString *port = @"";
-        if ([ipAndPort count] > 1) {
-            port = ipAndPort[1];
+        if ([addressAndPort count] > 1) {
+            port = addressAndPort[1];
         }
         
-        // Do DNS lookup
-        NSString *dnsName = [IPServices dnsNameForIPAddressString:ip];
-        if (dnsName) {
-            ip = dnsName;
-        }
-        
-        // Look up port name
-        NSString *portName = [IPServices portNameForPortNumString:port];
-        if (portName) {
-            port = portName;
+        if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
+            // It's in the format 1.2.3.4:22->4.3.2.1:22
+            // Do DNS lookup
+            NSString *dnsName = [IPServices dnsNameForIPAddressString:address];
+            if (dnsName) {
+                address = dnsName;
+            }
+            
+            // Look up port name
+            NSString *portName = [IPServices portNameForPortNumString:port];
+            if (portName) {
+                port = portName;
+            }
+        } else {
+            // It's in the format myhostname:portname->anotherhost:portname
+            // Resolve DNS name to IP address
+            NSString *ipStr = [IPServices IPAddressStringForDNSName:address];
+            if (ipStr) {
+                address = ipStr;
+            }
+            
+            // Get port number from port name
+            NSString *portNum = [IPServices portNumberForPortNameString:port];
+            if (portNum) {
+                port = portNum;
+            }
         }
         
         // If before second component
@@ -369,7 +385,7 @@
             [desc appendString:@"\n–>\n"];
         }
         
-        [desc appendString:[NSString stringWithFormat:@"%@:%@", ip, port]];
+        [desc appendString:[NSString stringWithFormat:@"%@:%@", address, port]];
     }
     
     
