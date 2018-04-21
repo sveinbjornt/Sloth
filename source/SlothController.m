@@ -804,8 +804,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         return NO;
     }
     
-    // Construct c strings array of arguments
-    // /bin/kill -9 1234
+    // Construct c string arguments array
+    // /bin/kill -9 [pid]
     char *args[3];
     args[0] = malloc(4);
     sprintf(args[0], "%s", "-9");
@@ -821,7 +821,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     free(args[1]);
     AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
     
-    // We return err if execution failed
     if (err != errAuthorizationSuccess) {
         return NO;
     }
@@ -848,10 +847,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         return;
     }
 
-    // Find out if user owns the process
-    BOOL ownsProcess = [ProcessUtils isProcessOwnedByCurrentUser:pid];
-    
     // Kill it
+    BOOL ownsProcess = [ProcessUtils isProcessOwnedByCurrentUser:pid];
     if ([self killProcess:pid asRoot:!ownsProcess] == NO) {
         [Alerts alert:@"Failed to kill process"
         subTextFormat:@"Could not kill process %@ (PID: %d)", item[@"pname"], pid];
@@ -876,7 +873,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     if (cmdKeyDown) {
         [self revealItemInFinder:item];
     } else {
-        [self showGetInfoForItem:item];
+        [self showInfoPanelForItem:item];
     }
 }
 
@@ -917,13 +914,13 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 - (IBAction)getInfo:(id)sender {
     NSInteger selectedRow = [outlineView selectedRow];
     if (selectedRow >= 0) {
-        [self showGetInfoForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
+        [self showInfoPanelForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
     } else {
         NSBeep();
     }
 }
 
-- (void)showGetInfoForItem:(NSDictionary *)item {
+- (void)showInfoPanelForItem:(NSDictionary *)item {
     // Create info panel lazily
     if (infoPanelController == nil) {
         infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
@@ -1108,7 +1105,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
                                                                    attributes:@{NSForegroundColorAttributeName: color}];
         }
-        
     } else {
         [revealButton setEnabled:NO];
         [killButton setEnabled:NO];
