@@ -33,6 +33,7 @@
 #import "Common.h"
 #import "IPServices.h"
 #import "NSString+RegexConvenience.h"
+#import "ProcessUtils.h"
 
 #import <pwd.h>
 #import <grp.h>
@@ -72,7 +73,7 @@
     if (!itemDict) {
         return;
     }
-    NSLog(@"%@", [itemDict description]);
+    // NSLog(@"%@", [itemDict description]);
     
     self.fileInfoDict = itemDict;
     
@@ -141,9 +142,8 @@
     // Type
     NSString *typeStr = type;
     if (isProcess) {
-        register struct passwd *pw = getpwuid([itemDict[@"userid"] intValue]);
-        NSString *ownerUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
-        typeStr = [NSString stringWithFormat:@"Process (%@)", ownerUsername];
+        pid_t pid = [itemDict[@"pid"] intValue];
+        typeStr = [NSString stringWithFormat:@"Process (%@)", [ProcessUtils ownerUserNameForPID:pid]];
     }
     if (isIPSocket) {
         typeStr = [NSString stringWithFormat:@"%@ Socket (%@)", itemDict[@"ipversion"], itemDict[@"protocol"]];

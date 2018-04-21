@@ -902,21 +902,21 @@ DQ
         <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
-            <rect key="contentRect" x="131" y="159" width="378" height="182"/>
+            <rect key="contentRect" x="131" y="159" width="378" height="203"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" misplaced="YES" id="uuC-Xu-EUc">
-                <rect key="frame" x="0.0" y="0.0" width="378" height="182"/>
+                <rect key="frame" x="0.0" y="0.0" width="378" height="203"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box misplaced="YES" title="Box" titlePosition="noTitle" id="szz-CW-tz9">
-                        <rect key="frame" x="17" y="50" width="344" height="114"/>
+                        <rect key="frame" x="17" y="48" width="344" height="137"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="0fi-kW-b7H">
-                            <rect key="frame" x="2" y="2" width="340" height="110"/>
+                            <rect key="frame" x="2" y="2" width="340" height="133"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button verticalHuggingPriority="750" misplaced="YES" id="hkL-nx-O5J">
-                                    <rect key="frame" x="18" y="74" width="276" height="18"/>
+                                    <rect key="frame" x="18" y="97" width="304" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PZc-ff-0hd">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -927,7 +927,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" misplaced="YES" id="5c4-0y-w2t">
-                                    <rect key="frame" x="18" y="7" width="408" height="45"/>
+                                    <rect key="frame" x="18" y="43" width="310" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="c3A-YY-2hh">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -938,7 +938,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" misplaced="YES" id="zAn-k8-ZDp">
-                                    <rect key="frame" x="18" y="33" width="408" height="45"/>
+                                    <rect key="frame" x="18" y="69" width="310" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jx1-Aq-PnX">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -946,6 +946,17 @@ DQ
                                     </buttonCell>
                                     <connections>
                                         <binding destination="560" name="value" keyPath="values.showProcessBinaries" id="9FL-Lh-4Kn"/>
+                                    </connections>
+                                </button>
+                                <button verticalHuggingPriority="750" misplaced="YES" id="BQ8-dr-IQj">
+                                    <rect key="frame" x="18" y="12" width="400" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="check" title="Display Mac-friendly process names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="deT-ps-7CI">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <binding destination="560" name="value" keyPath="values.friendlyProcessNames" id="AIM-C4-XEh"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -967,7 +978,7 @@ DQ
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="401" y="-327"/>
+            <point key="canvasLocation" x="401" y="-351.5"/>
         </window>
         <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
             <items>

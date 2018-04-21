@@ -1,3 +1,4 @@
 
 TODO list for Sloth 2.4
+    DONE * Sloth now defaults to showing Mac-friendly process names (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent"). Also, process names are no longer truncated to 32 characters.
     * Do DNS to IP resolution and port name to integer in Info Panel when DNS/port lookup enabled in Prefs

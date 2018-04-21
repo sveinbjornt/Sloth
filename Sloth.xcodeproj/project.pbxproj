@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4081F9F2088E0C9009BB15A /* ProcessUtils.m */; };
 		F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40B7D2C1C75FA05000A4616 /* Images.xcassets */; };
 		F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F40B7D301C75FAC6000A4616 /* Alerts.m */; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
@@ -44,6 +45,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Sloth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sloth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4081F9E2088E0C9009BB15A /* ProcessUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProcessUtils.h; sourceTree = "<group>"; };
+		F4081F9F2088E0C9009BB15A /* ProcessUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProcessUtils.m; sourceTree = "<group>"; };
 		F40B7D2B1C75F161000A4616 /* sloth_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloth_icon.png; sourceTree = "<group>"; };
 		F40B7D2C1C75FA05000A4616 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F40B7D2F1C75FAC6000A4616 /* Alerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alerts.h; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 		F40B7D2E1C75FA94000A4616 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				F4081F9E2088E0C9009BB15A /* ProcessUtils.h */,
+				F4081F9F2088E0C9009BB15A /* ProcessUtils.m */,
 				F4AC98342060583E0000871B /* IPServices.h */,
 				F4AC98352060583E0000871B /* IPServices.m */,
 				F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */,
@@ -295,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4AC98362060583E0000871B /* IPServices.m in Sources */,
+				F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */,
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,

@@ -36,6 +36,8 @@
 	<false/>
 	<key>searchFilterRegex</key>
 	<true/>
+	<key>friendlyProcessNames</key>
+	<true/>
 	<key>accessMode</key>
 	<string>Any</string>
 </dict>

@@ -33,16 +33,15 @@
 #import "Alerts.h"
 #import "NSString+RegexConvenience.h"
 #import "InfoPanelController.h"
+#import "ProcessUtils.h"
 
 #import <Security/Authorization.h>
 #import <Security/AuthorizationTags.h>
 #import <stdio.h>
 #import <unistd.h>
 #import <dlfcn.h>
-#import <sys/sysctl.h>
 #import <stdlib.h>
 #import <pwd.h>
-#import <libproc.h>
 
 
 // Function pointer to AuthorizationExecuteWithPrivileges
@@ -52,26 +51,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                                            AuthorizationFlags options,
                                            char * const *arguments,
                                            FILE **communicationsPipe) = NULL;
-
-static inline uid_t uid_for_pid(pid_t pid) {
-    uid_t uid = -1;
-    
-    struct kinfo_proc process;
-    size_t proc_buf_size = sizeof(process);
-    
-    // Compose search path for sysctl. Here you can specify PID directly.
-    const u_int path_len = 4;
-    int path[path_len] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
-    
-    int sysctl_result = sysctl(path, path_len, &process, &proc_buf_size, NULL, 0);
-    
-    // If sysctl did not fail and process with PID available - take UID.
-    if ((sysctl_result == 0) && (proc_buf_size != 0)) {
-        uid = process.kp_eproc.e_ucred.cr_uid;
-    }
-    
-    return uid;
-}
 
 @interface SlothController ()
 {
@@ -733,7 +712,6 @@ static inline uid_t uid_for_pid(pid_t pid) {
                     
                     pdict = [NSMutableDictionary dictionary];
                     pdict[@"name"] = process;
-                    pdict[@"pname"] = process;
                     pdict[@"displayname"] = process;
                     pdict[@"userid"] = userid;
                     pdict[@"pid"] = pid;
@@ -762,41 +740,41 @@ static inline uid_t uid_for_pid(pid_t pid) {
 }
 
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
-    // Update display name to show number of open files for process
-    NSString *procString = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
-    p[@"displayname"] = procString;
     
-    // Get icon for process
     if (p[@"image"] == nil) {
         pid_t pid = [p[@"pid"] intValue];
         
-        ProcessSerialNumber psn;
-        GetProcessForPID(pid, &psn);
-        NSDictionary *pInfoDict = (__bridge_transfer NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+        NSString *bundlePath = [ProcessUtils bundlePathForPID:pid];
         
-        if (pInfoDict[@"BundlePath"]) { // It's a bundle
-            p[@"image"] = [WORKSPACE iconForFile:pInfoDict[@"BundlePath"]];
-            
-            // See if it's an application bundle
-            NSString *fileType = [WORKSPACE typeOfFile:pInfoDict[@"BundlePath"] error:nil];
-            if ([WORKSPACE type:fileType conformsToType:APP_BUNDLE_UTI]) {
-                p[@"app"] = @YES;
-            }
-            
-            p[@"path"] = pInfoDict[@"BundlePath"];
+        if (bundlePath) {
+            p[@"image"] = [WORKSPACE iconForFile:bundlePath];
+            p[@"app"] = @([ProcessUtils isAppProcess:pid]);
+            p[@"path"] = bundlePath;
         } else {
             p[@"image"] = genericExecutableIcon;
             p[@"app"] = @NO;
-            
-            // Get path to process binary
-            char *pathbuf = calloc(PROC_PIDPATHINFO_MAXSIZE, 1);
-            int ret = proc_pidpath(pid, pathbuf, PROC_PIDPATHINFO_MAXSIZE);
-            if (ret > 0) {
-                p[@"path"] = @(pathbuf);
-            }
-            free(pathbuf);
+            p[@"path"] = [ProcessUtils executablePathForPID:pid];
+        }
+
+        // On Mac OS X, lsof truncates process names that are longer than
+        // 32 characters since it uses libproc. We can do better than that.
+        if ([DEFAULTS boolForKey:@"friendlyProcessNames"]) {
+            p[@"pname"] = [ProcessUtils macProcessNameForPID:pid];
+        }
+        if (!p[@"pname"]) {
+            p[@"pname"] = [ProcessUtils fullKernelProcessNameForPID:pid];
+        }
+        if (!p[@"pname"]) {
+            p[@"pname"] = [ProcessUtils procNameForPID:pid];
+        }
+        if (!p[@"pname"]) {
+            p[@"pname"] = p[@"name"];
         }
     }
+    
+    // Update display name to show number of open files for process
+    NSString *procString = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
+    p[@"displayname"] = procString;
 }
 
 #pragma mark - Interface actions
@@ -871,14 +849,7 @@ static inline uid_t uid_for_pid(pid_t pid) {
     }
 
     // Find out if user owns the process
-    BOOL ownsProcess = NO;
-    uid_t uid = uid_for_pid(pid);
-    if (uid != -1) {
-        register struct passwd *pw = getpwuid(uid);
-    
-        NSString *pidUsername = [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
-        ownsProcess = [pidUsername isEqualToString:NSUserName()];
-    }
+    BOOL ownsProcess = [ProcessUtils isProcessOwnedByCurrentUser:pid];
     
     // Kill it
     if ([self killProcess:pid asRoot:!ownsProcess] == NO) {
