@@ -40,9 +40,6 @@
     [alert setAlertStyle:style];
     [[alert window] setPreventsApplicationTerminationWhenModal:YES];
     [alert runModal];
-#if !__has_feature(objc_arc)
-    [alert release];
-#endif
 }
 
 + (void)alert:(NSString *)message subTextFormat:(NSString *)formatString, ... {
@@ -50,9 +47,6 @@
     va_start(args, formatString);
     NSString *formattedString = [[NSString alloc] initWithFormat:formatString arguments:args];
     va_end(args);
-#if !__has_feature(objc_arc)
-    [formattedString autorelease];
-#endif
     [self alert:message subText:formattedString];
 }
 
@@ -70,9 +64,6 @@
     va_start(args, formatString);
     NSString *formattedString = [[NSString alloc] initWithFormat:formatString arguments:args];
     va_end(args);
-#if !__has_feature(objc_arc)
-    [formattedString autorelease];
-#endif
     [self fatalAlert:message subText:formattedString];
 }
 
@@ -83,9 +74,6 @@
     va_start(args, formatString);
     NSString *formattedString = [[NSString alloc] initWithFormat:formatString arguments:args];
     va_end(args);
-#if !__has_feature(objc_arc)
-    [formattedString autorelease];
-#endif
     [self sheetAlert:message subText:formattedString forWindow:window];
 }
 
@@ -100,9 +88,6 @@
     [alert setInformativeText:subtext];
     [alert setAlertStyle:style];
     [alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:nil contextInfo:nil];
-#if !__has_feature(objc_arc)
-    [alert release];
-#endif
 }
 
 #pragma mark -
@@ -114,12 +99,7 @@
     [alert setMessageText:message];
     [alert setInformativeText:subtext];
     [alert setAlertStyle:NSWarningAlertStyle];
-    
-    BOOL ret = ([alert runModal] == NSAlertFirstButtonReturn);
-#if !__has_feature(objc_arc)
-    [alert release];
-#endif
-    return ret;
+    return ([alert runModal] == NSAlertFirstButtonReturn);
 }
 
 @end

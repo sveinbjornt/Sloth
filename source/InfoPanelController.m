@@ -145,7 +145,7 @@
         pid_t pid = [itemDict[@"pid"] intValue];
         NSString *owner = [ProcessUtils ownerUserNameForPID:pid];
         if (owner) {
-            typeStr = [NSString stringWithFormat:@"Process (%@)", [ProcessUtils ownerUserNameForPID:pid]];
+            typeStr = [NSString stringWithFormat:@"Process (%@)", owner];
         }
     }
     if (isIPSocket) {
