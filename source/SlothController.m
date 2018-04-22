@@ -137,6 +137,14 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [DEFAULTS registerDefaults:defaults];
 }
 
+- (IBAction)restoreDefaults:(id)sender {
+    [DEFAULTS setBool:NO forKey:@"dnsLookup"];
+    [DEFAULTS setBool:NO forKey:@"showProcessBinaries"];
+    [DEFAULTS setBool:NO forKey:@"showCurrentWorkingDirectories"];
+    [DEFAULTS setBool:YES forKey:@"friendlyProcessNames"];
+    [DEFAULTS synchronize];
+}
+
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

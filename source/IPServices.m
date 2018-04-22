@@ -92,7 +92,7 @@
 }
 
 + (NSString *)portNumberForPortNameString:(NSString *)portNameString {
-    char *portName = [portNameString cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *portName = [portNameString cStringUsingEncoding:NSUTF8StringEncoding];
     struct servent *serv = getservbyname(portName, NULL);
     if (serv != NULL) {
         int portNum = ntohs(serv->s_port);

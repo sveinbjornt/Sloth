@@ -976,9 +976,20 @@ DQ
                             <action selector="performClose:" target="OsR-k1-sul" id="eos-lc-nNE"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="i2e-2r-g5Q">
+                        <rect key="frame" x="14" y="13" width="141" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jON-sf-Fl4">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="restoreDefaults:" target="212" id="IQh-FQ-2zl"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="401" y="-351.5"/>
+            <point key="canvasLocation" x="76" y="-505"/>
         </window>
         <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
             <items>
