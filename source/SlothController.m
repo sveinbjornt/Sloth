@@ -43,7 +43,6 @@
 #import <stdlib.h>
 #import <pwd.h>
 
-
 // Function pointer to AuthorizationExecuteWithPrivileges
 // in case it doesn't exist in this version of OS X
 static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
