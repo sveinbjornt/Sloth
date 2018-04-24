@@ -100,6 +100,8 @@
 // Adapted from getproclline() in print.c in the 'ps'
 // codebase, which is part of Apple's adv_cmds
 // https://opensource.apple.com/tarballs/adv_cmds/
+// NOTE: This doesn't work for processes not owned by
+// the current user. /bin/ps gets around this with suid.
 
 + (NSString *)fullKernelProcessNameForPID:(pid_t)pid {
     int mib[3], argmax;
@@ -151,9 +153,8 @@
         return nil;
     }
     
-    NSString *pname = @(cp);
-    
-    return [pname lastPathComponent];
+    NSString *pname = [@(cp) stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    return ([pname length] == 0) ? nil : [pname lastPathComponent];
 }
 
 + (NSString *)bundlePathForPID:(pid_t)pid {
