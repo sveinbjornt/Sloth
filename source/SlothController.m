@@ -1010,6 +1010,11 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 #pragma mark - Authentication
 
 - (IBAction)toggleAuthentication:(id)sender {
+    if (isRefreshing) {
+        NSBeep();
+        return;
+    }
+    
     if (!authenticated) {
         OSStatus err = [self authenticate];
         if (err == errAuthorizationSuccess) {
