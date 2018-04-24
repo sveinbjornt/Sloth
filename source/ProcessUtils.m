@@ -65,10 +65,23 @@
 
 + (NSString *)macProcessNameForPID:(pid_t)pid {
     ProcessSerialNumber psn;
-    GetProcessForPID(pid, &psn);
-    CFStringRef procName = NULL;
-    if (CopyProcessName(&psn, &procName) == noErr) {
-        return [(__bridge_transfer NSString *)procName copy];
+    if (GetProcessForPID(pid, &psn) == noErr) {
+        CFStringRef procName = NULL;
+        if (CopyProcessName(&psn, &procName) == noErr) {
+            return [(__bridge_transfer NSString *)procName copy];
+        }
+    }
+    return nil;
+}
+
+// Some processes on Mac OS X have a Carbon Process Manager
+// Serial Number (PSN) in addition to a PID
++ (NSString *)carbonProcessSerialNumberForPID:(pid_t)pid {
+    ProcessSerialNumber psn;
+    if (GetProcessForPID(pid, &psn) == noErr) {
+        return [NSString stringWithFormat:@"%d_%d",
+                (unsigned int)psn.highLongOfPSN,
+                (unsigned int)psn.lowLongOfPSN];
     }
     return nil;
 }
@@ -84,6 +97,10 @@
 }
 
 // This is the method used by the Mac OS X 'ps' tool
+// Adapted from getproclline() in print.c in the 'ps'
+// codebase, which is part of Apple's adv_cmds
+// https://opensource.apple.com/tarballs/adv_cmds/
+
 + (NSString *)fullKernelProcessNameForPID:(pid_t)pid {
     int mib[3], argmax;
     size_t syssize;
@@ -148,13 +165,16 @@
 }
 
 + (NSString *)executablePathForPID:(pid_t)pid {
+    NSString *path = nil;
     char *pathbuf = calloc(PROC_PIDPATHINFO_MAXSIZE, 1);
+    
     int ret = proc_pidpath(pid, pathbuf, PROC_PIDPATHINFO_MAXSIZE);
-    if (ret <= 0) {
+    if (ret > 0) {
+        NSString *path = @(pathbuf);
+    } else {
         //NSLog(@"Unable to get executable path for pid %d", pid);
-        return nil;
     }
-    NSString *path = @(pathbuf);
+
     free(pathbuf);
     return path;
 }

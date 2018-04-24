@@ -22,6 +22,7 @@
                 <outlet property="quickLookButton" destination="Xaf-Tg-hdx" id="hug-CL-v9q"/>
                 <outlet property="showInFinderButton" destination="lYM-VK-XsQ" id="RoD-ii-g4q"/>
                 <outlet property="sizeTextField" destination="rr1-Vb-8Yo" id="yI4-hA-AZS"/>
+                <outlet property="usedByLabelTextField" destination="2mF-X4-GT6" id="EnP-yh-Gkh"/>
                 <outlet property="usedByTextField" destination="lJ2-T1-Tca" id="2yi-dm-rPV"/>
                 <outlet property="window" destination="dXY-bn-XEk" id="YeK-ZZ-fQg"/>
             </connections>

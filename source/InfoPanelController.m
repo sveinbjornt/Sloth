@@ -49,6 +49,7 @@
 @property (weak) IBOutlet NSTextField *pathLabelTextField;
 @property (weak) IBOutlet NSTextField *filetypeTextField;
 @property (weak) IBOutlet NSTextField *finderTypeTextField;
+@property (weak) IBOutlet NSTextField *usedByLabelTextField;
 @property (weak) IBOutlet NSTextField *usedByTextField;
 @property (weak) IBOutlet NSTextField *itemTypeTextField;
 @property (weak) IBOutlet NSTextField *sizeTextField;
@@ -154,10 +155,22 @@
     [self.itemTypeTextField setStringValue:typeStr];
     
     // Owned by
+    [self.usedByLabelTextField setStringValue:@"Used by"];
     if (isProcess) {
         NSString *pidStr = [NSString stringWithFormat:@"PID: %@", itemDict[@"pid"]];
-        [self.usedByTextField setStringValue:EMPTY_PLACEHOLDER];
+        if (itemDict[@"psn"]) {
+            pidStr = [pidStr stringByAppendingFormat:@"  PSN: %@", itemDict[@"psn"]];
+        }
         [self.sizeTextField setStringValue:pidStr];
+        
+        [self.usedByTextField setStringValue:EMPTY_PLACEHOLDER];
+        if (itemDict[@"bundle"]) {
+            NSString *usedByStr = [self identifierForBundleAtPath:path];
+            if (usedByStr) {
+                [self.usedByLabelTextField setStringValue:@"Identifier"];
+                 [self.usedByTextField setStringValue:usedByStr];
+            }
+        }
     } else {
         NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"pname"], itemDict[@"pid"]];
         [self.usedByTextField setStringValue:ownedByStr];
@@ -301,6 +314,14 @@
     }
     
     return sizeString;
+}
+
+- (NSString *)identifierForBundleAtPath:(NSString *)path {
+    NSBundle *bundle = [NSBundle bundleWithPath:path];
+    if (bundle) {
+        return [bundle bundleIdentifier];
+    }
+    return nil;
 }
 
 - (NSString *)accessModeDescriptionForItem:(NSDictionary *)itemDict {

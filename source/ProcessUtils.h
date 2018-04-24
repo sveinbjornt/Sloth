@@ -15,6 +15,7 @@
 + (uid_t)UIDForPID:(pid_t)pid;
 + (NSString *)ownerUserNameForPID:(pid_t)pid;
 + (NSString *)macProcessNameForPID:(pid_t)pid;
++ (NSString *)carbonProcessSerialNumberForPID:(pid_t)pid;
 + (NSString *)procNameForPID:(pid_t)pid;
 + (NSString *)fullKernelProcessNameForPID:(pid_t)pid;
 + (NSString *)bundlePathForPID:(pid_t)pid;

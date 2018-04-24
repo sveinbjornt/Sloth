@@ -755,14 +755,18 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         
         if (bundlePath) {
             p[@"image"] = [WORKSPACE iconForFile:bundlePath];
+            p[@"bundle"] = @YES;
             p[@"app"] = @([ProcessUtils isAppProcess:pid]);
             p[@"path"] = bundlePath;
         } else {
             p[@"image"] = genericExecutableIcon;
+            p[@"bundle"] = @NO;
             p[@"app"] = @NO;
             p[@"path"] = [ProcessUtils executablePathForPID:pid];
         }
 
+        p[@"psn"] = [ProcessUtils carbonProcessSerialNumberForPID:pid];
+        
         // On Mac OS X, lsof truncates process names that are longer than
         // 32 characters since it uses libproc. We can do better than that.
         if ([DEFAULTS boolForKey:@"friendlyProcessNames"]) {
