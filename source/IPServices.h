@@ -32,10 +32,10 @@
 
 @interface IPServices : NSObject
 
-+ (BOOL)isIPAddressString:(NSString *)ipStr;
++ (BOOL)isIPV4AddressString:(NSString *)ipStr;
 + (BOOL)isPortNumberString:(NSString *)portNumStr;
-+ (NSString *)dnsNameForIPAddressString:(NSString *)ipAddrStr;
-+ (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString;
++ (NSString *)dnsNameForIPV4AddressString:(NSString *)ipAddrStr;
++ (NSString *)IPV4AddressStringForDNSName:(NSString *)dnsNameString;
 + (NSString *)portNameForPortNumString:(NSString *)portNumStr;
 + (NSString *)portNumberForPortNameString:(NSString *)portNameString;
 

@@ -653,7 +653,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             {
                 // txt files are program code, such as the application binary itself or a shared library
                 fd = [line substringFromIndex:1];
-                NSLog(@"FD: %@", line);
+                
                 if ([fd isEqualToString:@"txt"] && ![DEFAULTS boolForKey:@"showProcessBinaries"]) {
                     skip = TRUE;
                 }

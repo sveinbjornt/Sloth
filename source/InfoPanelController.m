@@ -388,7 +388,7 @@
         if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
             // It's in the format 1.2.3.4:22->4.3.2.1:22
             // Do DNS lookup
-            NSString *dnsName = [IPServices dnsNameForIPAddressString:address];
+            NSString *dnsName = [IPServices dnsNameForIPV4AddressString:address];
             if (dnsName) {
                 address = dnsName;
             }
@@ -401,7 +401,7 @@
         } else {
             // It's in the format myhostname:portname->anotherhost:portname
             // Resolve DNS name to IP address
-            NSString *ipStr = [IPServices IPAddressStringForDNSName:address];
+            NSString *ipStr = [IPServices IPV4AddressStringForDNSName:address];
             if (ipStr) {
                 address = ipStr;
             }

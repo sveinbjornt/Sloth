@@ -6,5 +6,4 @@ TODO list for Sloth 2.4
     DONE * Show file descriptor integer in Info window
     * Show process icon in "Used by" in Info Panel
     * Prefer IPv4 address when resolving DNS name in Info Panel (e.g. not ::1 for localhost)
-    * Show in Finder for unix sockets on file system
     * Run "file" command on unix sockets and char devices on file system

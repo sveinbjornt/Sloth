@@ -37,7 +37,7 @@
 
 @implementation IPServices
 
-+ (BOOL)isIPAddressString:(NSString *)ipString {
++ (BOOL)isIPV4AddressString:(NSString *)ipString {
     NSRegularExpression *regex =
     [NSRegularExpression regularExpressionWithPattern:
      @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
@@ -57,15 +57,15 @@
     return match && validRange;
 }
 
-+ (NSString *)dnsNameForIPAddressString:(NSString *)ipAddrStr {
-    if ([IPServices isIPAddressString:ipAddrStr] == NO) {
++ (NSString *)dnsNameForIPV4AddressString:(NSString *)ipAddrStr {
+    if ([IPServices isIPV4AddressString:ipAddrStr] == NO) {
         return nil;
     }
     // Do DNS lookup for IP address
     return [[NSHost hostWithAddress:ipAddrStr] name];
 }
 
-+ (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString {
++ (NSString *)IPV4AddressStringForDNSName:(NSString *)dnsNameString {
     NSHost *host = [NSHost hostWithName:dnsNameString];
     if (host) {
         return [host address];
