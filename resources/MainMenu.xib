@@ -989,7 +989,7 @@ DQ
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="76" y="-505"/>
+            <point key="canvasLocation" x="76" y="-326"/>
         </window>
         <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
             <items>

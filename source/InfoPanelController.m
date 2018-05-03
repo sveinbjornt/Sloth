@@ -328,17 +328,26 @@
     NSDictionary *descStrMap = @{ @"r": @"Read", @"w": @"Write", @"u": @"Read / Write" };
     
     // Parse file descriptor num
-    int fd;
+    int fd = -1;
     BOOL hasFD = (itemDict[@"fd"] != nil) && [[NSScanner scannerWithString:itemDict[@"fd"]] scanInt:&fd];
     
     // Map access mode abbreviation to description string
+    NSString *access = EMPTY_PLACEHOLDER;
     NSString *mode = itemDict[@"accessmode"];
-    NSString *access = descStrMap[mode];
+    NSString *accessModeName = descStrMap[mode];
+    if (accessModeName) {
+        access = descStrMap[mode];
+    }
     
     // See if it's one of the three standard io streams
-    if (access != nil && hasFD && fd < 3 && [itemDict[@"type"] isEqualToString:@"Character Device"]) {
-        NSArray *standardIOs = @[@"STDIN", @"STDOUT", @"STDERR"];
-        access = [NSString stringWithFormat:@"%@ (%@?)", access, standardIOs[fd]];
+    NSString *ioDesc = @"";
+    if (accessModeName != nil && hasFD && fd < 3 && [itemDict[@"type"] isEqualToString:@"Character Device"]) {
+        NSArray *standardIOs = @[@" - STDIN?", @" - STDOUT?", @" - STDERR?"];
+        ioDesc = standardIOs[fd];
+    }
+    
+    if (fd != -1) {
+        access = [NSString stringWithFormat:@"%@   (fd%d%@)", access, fd, ioDesc];
     }
     
     // OK, we don't have any access mode

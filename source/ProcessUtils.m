@@ -171,7 +171,7 @@
     
     int ret = proc_pidpath(pid, pathbuf, PROC_PIDPATHINFO_MAXSIZE);
     if (ret > 0) {
-        NSString *path = @(pathbuf);
+        path = @(pathbuf);
     } else {
         //NSLog(@"Unable to get executable path for pid %d", pid);
     }
