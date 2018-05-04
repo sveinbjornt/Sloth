@@ -33,9 +33,17 @@
 @interface IPServices : NSObject
 
 + (BOOL)isIPV4AddressString:(NSString *)ipStr;
++ (BOOL)isIPV6AddressString:(NSString *)ipString;
 + (BOOL)isPortNumberString:(NSString *)portNumStr;
+
 + (NSString *)dnsNameForIPV4AddressString:(NSString *)ipAddrStr;
++ (NSString *)dnsNameForIPV6AddressString:(NSString *)ipAddStr;
++ (NSString *)dnsNameForIPAddressString:(NSString *)ipAddStr;
+
++ (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString;
 + (NSString *)IPV4AddressStringForDNSName:(NSString *)dnsNameString;
++ (NSString *)IPV6AddressStringForDNSName:(NSString *)dnsNameString;
+
 + (NSString *)portNameForPortNumString:(NSString *)portNumStr;
 + (NSString *)portNumberForPortNameString:(NSString *)portNameString;
 
