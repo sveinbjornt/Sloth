@@ -91,7 +91,8 @@
 + (NSString *)procNameForPID:(pid_t)pid {
     char name[1024];
     if (proc_name(pid, name, sizeof(name)) == 0) {
-        return @(name);
+        NSString *nameStr = @(name);
+        return [nameStr length] ? nameStr : nil;
     }
     return nil;
 }

@@ -197,6 +197,11 @@
         [self.permissionsTextField setStringValue:permString];
     }
     
+    // Also show 'file' info for character devices
+    if ([type isEqualToString:@"Character Device"]) {
+        [self.filetypeTextField setStringValue:[self fileUtilityInfoForPath:name]];
+    }
+    
     // Buttons
     BOOL workablePath = [FILEMGR fileExistsAtPath:path] && (isFileOrFolder || isProcess);
     [self.showInFinderButton setEnabled:workablePath];
