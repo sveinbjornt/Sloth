@@ -44,6 +44,7 @@
 @interface InfoPanelController ()
 
 @property (weak) IBOutlet NSImageView *iconView;
+@property (weak) IBOutlet NSImageView *processIconView;
 @property (weak) IBOutlet NSTextField *nameTextField;
 @property (weak) IBOutlet NSTextField *pathTextField;
 @property (weak) IBOutlet NSTextField *pathLabelTextField;
@@ -133,6 +134,11 @@
     NSImage *img = isFileOrFolder ? [WORKSPACE iconForFile:path] : [itemDict[@"image"] copy];
     [img setSize:NSMakeSize(48,48)];
     [self.iconView setImage:img];
+    if (isProcess) {
+        [self.processIconView setImage:itemDict[@"image"]];
+    } else {
+        [self.processIconView setImage:itemDict[@"pimage"]];
+    }
     
     NSString *sizeStr = @"";
     if ([type isEqualToString:@"File"]) {

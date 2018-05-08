@@ -787,6 +787,11 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         if (!p[@"pname"]) {
             p[@"pname"] = p[@"name"];
         }
+        
+        // Set process icon for all children (i.e. files)
+        for (NSMutableDictionary *item in p[@"children"]) {
+            item[@"pimage"] = p[@"image"];
+        }
     }
     
     // Update display name to show number of open files for process

@@ -19,6 +19,7 @@
                 <outlet property="pathLabelTextField" destination="xdR-4I-pOJ" id="Ml8-Ld-B9v"/>
                 <outlet property="pathTextField" destination="cGa-0E-BjY" id="vgP-ss-FnM"/>
                 <outlet property="permissionsTextField" destination="l87-SK-pgJ" id="hPb-Ks-SeS"/>
+                <outlet property="processIconView" destination="XGv-8P-DoV" id="836-QX-BuN"/>
                 <outlet property="quickLookButton" destination="Xaf-Tg-hdx" id="hug-CL-v9q"/>
                 <outlet property="showInFinderButton" destination="lYM-VK-XsQ" id="RoD-ii-g4q"/>
                 <outlet property="sizeTextField" destination="rr1-Vb-8Yo" id="yI4-hA-AZS"/>
@@ -54,7 +55,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" id="cGa-0E-BjY">
-                        <rect key="frame" x="18" y="274" width="240" height="70"/>
+                        <rect key="frame" x="18" y="272" width="240" height="70"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" lineBreakMode="charWrapping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="—" id="TRF-Bz-Uag">
                             <font key="font" metaFont="smallSystem"/>
@@ -81,7 +82,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="xdR-4I-pOJ">
-                        <rect key="frame" x="18" y="347" width="240" height="14"/>
+                        <rect key="frame" x="18" y="345" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Path" id="Ubl-Z2-GNz">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -117,7 +118,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="lJ2-T1-Tca">
-                        <rect key="frame" x="18" y="369" width="240" height="14"/>
+                        <rect key="frame" x="40" y="368" width="205" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="mwk-DE-7RU">
                             <font key="font" metaFont="smallSystem"/>
@@ -223,6 +224,11 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="XGv-8P-DoV">
+                        <rect key="frame" x="21" y="367" width="16" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="sRO-CS-rD8"/>
+                    </imageView>
                 </subviews>
             </view>
             <connections>

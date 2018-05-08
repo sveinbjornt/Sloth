@@ -6,5 +6,5 @@ TODO list for Sloth 2.4
     DONE * Info Panel now shows "file" command info for character devices
     DONE * Fix lsof output parsing issues (e.g. "TCP" protocol for all items)
     DONE * Fix IPv6 socket handling
-    * Show process icon in "Used by" in Info Panel
+    DONE * Info Panel now shows process icon under "Used by"
 
