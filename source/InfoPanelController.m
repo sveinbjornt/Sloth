@@ -74,7 +74,7 @@
     if (!itemDict) {
         return;
     }
-    // NSLog(@"%@", [itemDict description]);
+    NSLog(@"%@", [itemDict description]);
     
     self.fileInfoDict = itemDict;
     
@@ -117,7 +117,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @autoreleasepool {
                 NSString *ipSockName = [self.path copy];
-                NSString *descStr = [self IPSocketDescriptionForName:itemDict[@"name"]];
+                NSString *descStr = [self IPSocketDescriptionForItem:itemDict];
                 // Then update UI on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // Make sure loaded item hasn't changed during DNS lookup
@@ -377,57 +377,85 @@
     return access;
 }
 
-- (NSString *)IPSocketDescriptionForName:(NSString *)name {
-    NSMutableString *desc = [NSMutableString string];
+- (NSString *)IPSocketDescriptionForItem:(NSDictionary *)itemDict {
+    NSString *name = itemDict[@"name"];
+    NSString *ipVersion = itemDict[@"ipversion"];
     
-    // Typical lsof name for IP socket has the format: 10.95.10.6:53989->31.13.90.2:443
+    NSMutableString *descriptionString = [NSMutableString string];
+    
+    // Typical lsof name for IP socket has the format: 10.95.10.6:53989->31.13.90.2:443, or, if using IPv6,
+    // like this: [2a00:23c1:4a82:8700:8877:843b:bcf4:c98b]:50865->[2a00:1450:4009:80a::200e]:80
     NSArray *components = [name componentsSeparatedByString:@"->"];
+    
     for (NSString *c in components) {
-        NSArray *addressAndPort = [c componentsSeparatedByString:@":"];
-        NSString *address = addressAndPort[0];
-        NSString *port = @"";
-        if ([addressAndPort count] > 1) {
-            port = addressAndPort[1];
+        NSMutableArray *addressAndPort = [[c componentsSeparatedByString:@":"] mutableCopy];
+        if ([addressAndPort count] == 1) {
+            return name;
         }
         
-        if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
-            // It's in the format 1.2.3.4:22->4.3.2.1:22
-            // Do DNS lookup
+        NSString *port = [addressAndPort lastObject];
+        [addressAndPort removeLastObject];
+        NSString *address = [addressAndPort componentsJoinedByString:@":"];
+        
+        // Chop the surrounding square brackets that lsof adds to IPv6 addresses
+        if ([address characterAtIndex:[address length]-1] == ']') {
+            address = [address substringToIndex:[address length]-1];
+        }
+        if ([address characterAtIndex:0] == '[') {
+            address = [address substringFromIndex:1];
+        }
+        
+        NSString *addrDescStr = address;
+        NSString *portDescStr = port;
+        
+        // Is the address an IP address?
+        if ([IPServices isIPv4AddressString:address] || [IPServices isIPv6AddressString:address]) {
             NSString *dnsName = [IPServices dnsNameForIPAddressString:address];
             if (dnsName) {
-                address = dnsName;
+                addrDescStr = dnsName;
             }
             
-            // Look up port name
             NSString *portName = [IPServices portNameForPortNumString:port];
             if (portName) {
-                port = portName;
+                portDescStr = portName;
             }
-        } else {
-            // It's in the format myhostname:portname->anotherhost:portname
-            // Resolve DNS name to IP address
-            NSString *ipStr = [IPServices IPAddressStringForDNSName:address];
-            if (ipStr) {
-                address = ipStr;
+        }
+        // If not, it must be DNS name
+        else {
+            NSString *ipStr;
+            if ([ipVersion isEqualToString:@"IPv6"]) {
+                ipStr = [IPServices IPv6AddressStringForDNSName:address];
+            }
+            if (!ipStr) {
+                ipStr = [IPServices IPv4AddressStringForDNSName:address];
             }
             
-            // Get port number from port name
+            if (ipStr) {
+                if ([IPServices isIPv6AddressString:ipStr]) {
+                    // RFC 3986
+                    // A host identified by an Internet Protocol literal address,
+                    // version 6 [RFC3513] or later, is distinguished by enclosing
+                    // the IP literal within square brackets ("[" and "]").
+                    ipStr = [NSString stringWithFormat:@"[%@]", ipStr];
+                }
+                addrDescStr = ipStr;
+            }
+            
             NSString *portNum = [IPServices portNumberForPortNameString:port];
             if (portNum) {
-                port = portNum;
+                portDescStr = portNum;
             }
         }
         
         // If before second component
-        if ([desc length]) {
-            [desc appendString:@"\n–>\n"];
+        if ([descriptionString length]) {
+            [descriptionString appendString:@"\n–>\n"];
         }
         
-        [desc appendString:[NSString stringWithFormat:@"%@:%@", address, port]];
+        [descriptionString appendString:[NSString stringWithFormat:@"%@:%@", addrDescStr, portDescStr]];
     }
     
-    
-    return desc;
+    return descriptionString;
 }
 
 #pragma mark - Interface actions

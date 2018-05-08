@@ -497,7 +497,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
             NSString *output = [self runLsof:authenticated];
-            
+
             int fileCount;
             self.unfilteredContent = [self parseLsofOutput:output numFiles:&fileCount];
             self.totalFileCount = fileCount;
@@ -628,14 +628,14 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 process = [line substringFromIndex:1];
                 break;
             
-            // Type
-            case 't':
-                ftype = [line substringFromIndex:1];
-                break;
-            
             // UID
             case 'u':
                 userid = [line substringFromIndex:1];
+                break;
+            
+            // Type
+            case 't':
+                ftype = [line substringFromIndex:1];
                 break;
             
             // Access mode
@@ -651,6 +651,11 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             // File descriptor
             case 'f':
             {
+                // Beginning of listing of new file, reset vars
+                ftype = @"";
+                accessmode = @"";
+                protocol = @"";
+
                 // txt files are program code, such as the application binary itself or a shared library
                 fd = [line substringFromIndex:1];
                 
