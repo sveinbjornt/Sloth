@@ -430,7 +430,9 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                     for (NSRegularExpression *regex in searchFilters) {
                         if (!([file[@"name"] isMatchedByRegex:regex] ||
                               [file[@"pname"] isMatchedByRegex:regex] ||
-                              [file[@"pid"] isMatchedByRegex:regex])) {
+                              [file[@"pid"] isMatchedByRegex:regex] ||
+                              [file[@"protocol"] isMatchedByRegex:regex] ||
+                              [file[@"ipversion"] isMatchedByRegex:regex])) {
                             break;
                         }
                         matchCount += 1;

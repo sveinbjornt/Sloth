@@ -7,4 +7,5 @@ TODO list for Sloth 2.4
     DONE * Fix lsof output parsing issues (e.g. "TCP" protocol for all items)
     DONE * Fix IPv6 socket handling
     DONE * Info Panel now shows process icon under "Used by"
+    DONE * Search filter can now be used to filter by IP protocol (e.g. TCP or UDP) or IP version (e.g. IPv4 or IPv6)
 
