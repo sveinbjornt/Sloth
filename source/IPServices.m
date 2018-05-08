@@ -46,8 +46,7 @@
     return [ipString isMatchedByRegex:regex];
 }
 
-// This monstrous regex from https://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
-// Didn't the IPv6 spec guys think about simple, reasonable validation? This validation is much too complex for a spec.
+// Monstrous regex from https://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
 + (BOOL)isIPv6AddressString:(NSString *)ipString {
     NSRegularExpression *regex =
     [NSRegularExpression regularExpressionWithPattern:
@@ -132,7 +131,7 @@
     if ([IPServices isPortNumberString:portNumStr] == NO) {
         return nil;
     }
-    // Do port name lookup
+
     int port = [portNumStr intValue];
     struct servent *serv;
     serv = getservbyport(htons(port), NULL);
