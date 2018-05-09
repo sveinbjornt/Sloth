@@ -432,7 +432,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                               [file[@"pname"] isMatchedByRegex:regex] ||
                               [file[@"pid"] isMatchedByRegex:regex] ||
                               [file[@"protocol"] isMatchedByRegex:regex] ||
-                              [file[@"ipversion"] isMatchedByRegex:regex])) {
+                              [file[@"ipversion"] isMatchedByRegex:regex] ||
+                              [file[@"socketstate"] isMatchedByRegex:regex])) {
                             break;
                         }
                         matchCount += 1;
@@ -680,12 +681,12 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             }
                 break;
             
-            // Access mode
+            // File access mode
             case 'a':
                 currentFile[@"accessmode"] = [line substringFromIndex:1];
                 break;
                 
-            // Type
+            // File type
             case 't':
             {
                 NSString *ftype = [line substringFromIndex:1];
@@ -723,7 +724,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             }
                 break;
             
-            // Name / path
+            // File name / path
             case 'n':
             {
                 currentFile[@"name"] = [line substringFromIndex:1];
