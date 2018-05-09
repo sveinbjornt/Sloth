@@ -8,4 +8,4 @@ TODO list for Sloth 2.4
     DONE * Fix IPv6 socket handling
     DONE * Info Panel now shows process icon under "Used by"
     DONE * Search filter can now be used to filter by IP protocol (e.g. TCP or UDP) or IP version (e.g. IPv4 or IPv6)
-
+    DONE * Sloth now shows TCP socket state (e.g. LISTEN, ESTABLISHED)

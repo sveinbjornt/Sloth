@@ -143,6 +143,8 @@
     NSString *sizeStr = @"";
     if ([type isEqualToString:@"File"]) {
         sizeStr = [self fileSizeStringForPath:path];
+    } else if (isIPSocket && itemDict[@"socketstate"]) {
+        sizeStr = [NSString stringWithFormat:@"State: %@", itemDict[@"socketstate"]];
     }
     [self.sizeTextField setStringValue:sizeStr];
     
