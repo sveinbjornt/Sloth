@@ -609,6 +609,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     NSString *accessmode = @"";
     NSString *protocol = @"";
     NSString *fd = @"";
+    NSString *tcpSocketState = @"";
+    
     BOOL skip = FALSE;
     
     // Parse each line
@@ -650,17 +652,32 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 protocol = [line substringFromIndex:1];
                 break;
             
+            // TCP socket info (IP sockets only)
+            case 'T':
+            {
+                NSString *socketInfo = [line substringFromIndex:1];
+                if ([socketInfo hasPrefix:@"ST="]) {
+                    tcpSocketState = [socketInfo substringFromIndex:3];
+                    NSLog(@"Socket state: %@", tcpSocketState);
+                }
+            }
+                break;
+                
             // File descriptor
             case 'f':
             {
+                
                 // Beginning of listing of new file, reset vars
                 ftype = @"";
                 accessmode = @"";
                 protocol = @"";
+                tcpSocketState = @"";
 
-                // txt files are program code, such as the application binary itself or a shared library
                 fd = [line substringFromIndex:1];
                 
+                NSLog(@"New file: %d", fd);
+                
+                // txt files are program code, such as the application binary itself or a shared library
                 if ([fd isEqualToString:@"txt"] && ![DEFAULTS boolForKey:@"showProcessBinaries"]) {
                     skip = TRUE;
                 }
@@ -690,6 +707,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 fileInfo[@"puserid"] = userid;
                 fileInfo[@"accessmode"] = accessmode;
                 fileInfo[@"protocol"] = protocol;
+                fileInfo[@"socketstate"] = tcpSocketState;
                 fileInfo[@"fd"] = fd;
                 
                 if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
