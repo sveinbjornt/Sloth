@@ -598,84 +598,58 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         return processList;
     }
     
-    NSArray *lines = [outputString componentsSeparatedByString:@"\n"];
-    
-    NSMutableDictionary *processes = [NSMutableDictionary dictionary];
-    
-    NSString *pid = @"";
-    NSString *process = @"";
-    NSString *ftype = @"";
-    NSString *userid = @"";
-    NSString *accessmode = @"";
-    NSString *protocol = @"";
-    NSString *fd = @"";
-    NSString *tcpSocketState = @"";
-    
+    NSMutableDictionary *currentProcess;
+    NSMutableDictionary *currentFile;
     BOOL skip = FALSE;
-    
+
     // Parse each line
-    for (NSString *line in lines) {
-        
+    for (NSString *line in [outputString componentsSeparatedByString:@"\n"]) {
         if ([line length] == 0) {
             continue;
         }
         
         switch ([line characterAtIndex:0]) {
             
-            // PID
+            // PID - First line of output for new process
             case 'p':
-                pid = [line substringFromIndex:1];
-                break;
-            
-            // Name of owning process
-            case 'c':
-                process = [line substringFromIndex:1];
-                break;
-            
-            // UID
-            case 'u':
-                userid = [line substringFromIndex:1];
-                break;
-            
-            // Type
-            case 't':
-                ftype = [line substringFromIndex:1];
-                break;
-            
-            // Access mode
-            case 'a':
-                accessmode = [line substringFromIndex:1];
-                break;
-            
-            // Protocol (IP sockets only)
-            case 'P':
-                protocol = [line substringFromIndex:1];
-                break;
-            
-            // TCP socket info (IP sockets only)
-            case 'T':
             {
-                NSString *socketInfo = [line substringFromIndex:1];
-                if ([socketInfo hasPrefix:@"ST="]) {
-                    tcpSocketState = [socketInfo substringFromIndex:3];
-                    NSLog(@"Socket state: %@", tcpSocketState);
+                if (currentProcess && [currentProcess[@"children"] count]) {
+                    [processList addObject:currentProcess];
                 }
+                
+                // Set up new process dict
+                currentProcess = [NSMutableDictionary dictionary];
+                currentProcess[@"pid"] = [line substringFromIndex:1];
+                currentProcess[@"type"] = @"Process";
+                currentProcess[@"children"] = [NSMutableArray array];
             }
                 break;
                 
-            // File descriptor
+            // Process name
+            case 'c':
+                currentProcess[@"name"] = [line substringFromIndex:1];
+                currentProcess[@"displayname"] = currentProcess[@"name"];
+                break;
+                
+            // Process UID
+            case 'u':
+                currentProcess[@"userid"] = [line substringFromIndex:1];
+                break;
+            
+            // File descriptor - First line of output for a file
             case 'f':
             {
+                if (currentFile && !skip) {
+                    [currentProcess[@"children"] addObject:currentFile];
+                }
                 
-                // Beginning of listing of new file, reset vars
-                ftype = @"";
-                accessmode = @"";
-                protocol = @"";
-                tcpSocketState = @"";
-
-                fd = [line substringFromIndex:1];
-                
-                NSLog(@"New file: %d", fd);
+                // New file info starting, create new file dict
+                currentFile = [NSMutableDictionary dictionary];
+                NSString *fd = [line substringFromIndex:1];
+                currentFile[@"fd"] = fd;
+                currentFile[@"pname"] = currentProcess[@"name"];
+                currentFile[@"pid"] = currentProcess[@"pid"];
+                currentFile[@"puserid"] = currentProcess[@"userid"];
                 
                 // txt files are program code, such as the application binary itself or a shared library
                 if ([fd isEqualToString:@"txt"] && ![DEFAULTS boolForKey:@"showProcessBinaries"]) {
@@ -691,87 +665,86 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             }
                 break;
             
-            // Name
-            case 'n':
-            {
-                if (skip) {
-                    continue;
-                }
+            // Access mode
+            case 'a':
+                currentFile[@"accessmode"] = [line substringFromIndex:1];
+                break;
                 
-                // Create file info dictionary
-                NSMutableDictionary *fileInfo = [NSMutableDictionary dictionary];
-                fileInfo[@"name"] = [line substringFromIndex:1];
-                fileInfo[@"displayname"] = fileInfo[@"name"];
-                fileInfo[@"pname"] = process;
-                fileInfo[@"pid"] = pid;
-                fileInfo[@"puserid"] = userid;
-                fileInfo[@"accessmode"] = accessmode;
-                fileInfo[@"protocol"] = protocol;
-                fileInfo[@"socketstate"] = tcpSocketState;
-                fileInfo[@"fd"] = fd;
+            // Type
+            case 't':
+            {
+                NSString *ftype = [line substringFromIndex:1];
                 
                 if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
-                    fileInfo[@"type"] = @"File";
+                    currentFile[@"type"] = @"File";
                 }
                 else if ([ftype isEqualToString:@"VDIR"] || [ftype isEqualToString:@"DIR"]) {
-                    fileInfo[@"type"] = @"Directory";
+                    currentFile[@"type"] = @"Directory";
                 }
                 else if ([ftype isEqualToString:@"IPv6"] || [ftype isEqualToString:@"IPv4"]) {
-                    fileInfo[@"type"] = @"IP Socket";
-                    fileInfo[@"ipversion"] = ftype;
+                    currentFile[@"type"] = @"IP Socket";
+                    currentFile[@"ipversion"] = ftype;
                 }
                 else  if ([ftype isEqualToString:@"unix"]) {
-                    fileInfo[@"type"] = @"Unix Socket";
+                    currentFile[@"type"] = @"Unix Socket";
                 }
                 else if ([ftype isEqualToString:@"VCHR"] || [ftype isEqualToString:@"CHR"]) {
-                    fileInfo[@"type"] = @"Character Device";
+                    currentFile[@"type"] = @"Character Device";
                 }
                 else if ([ftype isEqualToString:@"PIPE"]) {
-                    fileInfo[@"type"] = @"Pipe";
-                    if ([fileInfo[@"name"] isEqualToString:@""]) {
-                        fileInfo[@"displayname"] = @"Unnamed Pipe";
+                    currentFile[@"type"] = @"Pipe";
+                    if ([currentFile[@"name"] isEqualToString:@""]) {
+                        currentFile[@"displayname"] = @"Unnamed Pipe";
                     }
                 }
                 else {
                     //NSLog(@"Unrecognized file type: %@ : %@", ftype, [fileInfo description]);
-                    continue;
+                    skip = TRUE;
                 }
                 
-                fileInfo[@"image"] = type2icon[fileInfo[@"type"]];
-                
-                // Create process key in dictionary if it doesn't already exist
-                NSMutableDictionary *pdict = processes[pid];
-                if (pdict == nil) {
-                    
-                    pdict = [NSMutableDictionary dictionary];
-                    pdict[@"name"] = process;
-                    pdict[@"displayname"] = process;
-                    pdict[@"userid"] = userid;
-                    pdict[@"pid"] = pid;
-                    pdict[@"type"] = @"Process";
-                    pdict[@"children"] = [NSMutableArray array];
-                    
-                    processes[pid] = pdict;
+                if (currentFile[@"type"]) {
+                    currentFile[@"image"] = type2icon[currentFile[@"type"]];
                 }
+            }
+                break;
+            
+            // Name / path
+            case 'n':
+            {
+                currentFile[@"name"] = [line substringFromIndex:1];
+                currentFile[@"displayname"] = currentFile[@"name"];
+            }
+                break;
+            
+            // Protocol (IP sockets only)
+            case 'P':
+                currentFile[@"protocol"] = [line substringFromIndex:1];
+                break;
                 
-                // Add file to process's children
-                [pdict[@"children"] addObject:fileInfo];
+            // TCP socket info (IP sockets only)
+            case 'T':
+            {
+                NSString *socketInfo = [line substringFromIndex:1];
+                if ([socketInfo hasPrefix:@"ST="]) {
+                    currentFile[@"socketstate"] = [socketInfo substringFromIndex:3];
+                }
+                currentFile[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)", currentFile[@"name"], currentFile[@"socketstate"]];
             }
                 break;
         }
     }
     
-    // Create array of process dictionaries
-    for (NSString *pname in [processes allKeys]) {
-        NSMutableDictionary *p = processes[pname];
-        [self updateProcessInfo:p];
-        [processList addObject:p];
-        *numFiles += [p[@"children"] count];
+    // Get additional info about the processes
+    for (NSMutableDictionary *process in processList) {
+        [self updateProcessInfo:process];
+        *numFiles += [process[@"children"] count];
     }
     
     return processList;
 }
 
+// Get all sorts of additional info about process, then
+// add it to the process info dictionary
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
     
     if (p[@"image"] == nil) {
@@ -815,8 +788,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     }
     
     // Update display name to show number of open files for process
-    NSString *procString = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
-    p[@"displayname"] = procString;
+    p[@"displayname"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
 }
 
 #pragma mark - Interface actions
