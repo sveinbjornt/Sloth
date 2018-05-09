@@ -591,6 +591,21 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 }
 
 - (NSMutableArray *)parseLsofOutput:(NSString *)outputString numFiles:(int *)numFiles {
+    // Lsof output has the following format:
+    //
+    //    p113                              // PROCESS INFO STARTS (pid)
+    //    cloginwindow                          // name
+    //    u501                                  // uid
+    //    fcwd                              // FILE INFO STARTS (file descriptor)
+    //    a                                     // access mode
+    //    tDIR                                  // type
+    //    n/path/to/directory                   // name / path
+    //    f0                                // FILE INFO STARTS (file descriptor)
+    //    au                                    // access mode
+    //    tCHR                                  // type
+    //    n/dev/null                            // name / path
+    //    ...
+    
     NSMutableArray *processList = [NSMutableArray array];
     *numFiles = 0;
     
