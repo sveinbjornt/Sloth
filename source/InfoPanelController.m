@@ -75,7 +75,7 @@
     if (!itemDict) {
         return;
     }
-    NSLog(@"%@", [itemDict description]);
+    //NSLog(@"%@", [itemDict description]);
     
     self.fileInfoDict = itemDict;
     
@@ -189,8 +189,7 @@
     [self.accessModeTextField setStringValue:access];
     
     // The other fields
-    if ((!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"path"] == nil))) ||
-        (isFileOrFolder && ![FILEMGR fileExistsAtPath:itemDict[@"name"]])) {
+    if (!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"path"] == nil))) {
         [self.filetypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.finderTypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.permissionsTextField setStringValue:EMPTY_PLACEHOLDER];

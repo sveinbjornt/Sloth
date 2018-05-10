@@ -10,7 +10,7 @@ Sloth is free, open source software. If you find this program useful, please [ma
 
 ## Download
 
-* [Download Sloth 2.3](https://sveinbjorn.org/files/software/sloth.zip) (~0.6 MB, Intel 64-bit, 10.8 or later)
+* [Download Sloth 2.4](https://sveinbjorn.org/files/software/sloth.zip) (~0.6 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
@@ -19,6 +19,19 @@ Sloth is free, open source software. If you find this program useful, please [ma
 <img src="resources/sloth_screenshot2.jpg" align="center">
 
 ## Version history
+
+### 10/05/2018 - Version 2.4
+
+* Now defaults to showing Mac-friendly process names (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent"). 
+* Unix process names no longer truncated to 32 characters.
+* Search filter can now be used to filter by IP protocol (e.g. TCP or UDP) or IP version (e.g. IPv4 or IPv6)
+* Now shows TCP socket state (e.g. LISTEN, ESTABLISHED) in list and Info Panel
+* Info Panel now shows file descriptor integer
+* Info Panel now shows additional info for character devices
+* Info Panel now shows Carbon Process Serial Number (PSN) for processes, if available
+* Much improved IPv6 socket handling
+* DNS to IP and port name resolution in Info Panel when DNS/port lookup enabled in Prefs
+* Minor user interface enhancements
 
 ### 16/04/2018 - Version 2.3
 

@@ -7,6 +7,28 @@
         <language>en</language>
         
         <item>
+            <title>Version 2.4</title>
+            <pubDate>Thursday, 10 May 2018 13:27:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.4.zip" sparkle:version="142" sparkle:shortVersionString="2.4" length="622212" type="application/octet-stream" sparkle:dsaSignature="MEQCIC+lfCk/Jo2lNiSR0toJLVUybInI2IZuJVuFp+byhVUsAiAljGANOLCp7/9/lhIcgySyovcUPqA/wU9Hk1SLaUdwYw=="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>New in Sloth 2.4</h2>
+                <ul>
+                    <li>Now defaults to showing Mac-friendly process names (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent")</li>
+                    <li>Unix process names no longer truncated to 32 characters.</li>
+                    <li>Search filter can now be used to filter by IP protocol (e.g. TCP or UDP) or IP version (e.g. IPv4 or IPv6)</li>
+                    <li>Now shows TCP socket state (e.g. LISTEN, ESTABLISHED) in list and Info Panel</li>
+                    <li>Info Panel now shows file descriptor integer</li>
+                    <li>Info Panel now shows additional info for character devices</li>
+                    <li>Info Panel now shows Carbon Process Serial Number (PSN), if available</li>
+                    <li>Much improved IPv6 socket handling</li>
+                    <li>DNS to IP and port name resolution in Info Panel when DNS/port lookup enabled in Prefs</li>
+                    <li>Minor user interface enhancements</li>
+                </ul>
+            ]]></description>
+        </item>
+        
+        <item>
             <title>Version 2.3</title>
             <pubDate>Monday, 16 Apr 2018 20:27:00 +0000</pubDate>
             <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.3.zip" sparkle:version="117" sparkle:shortVersionString="2.3" length="617375" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCCYEN2xSIpA1Byc1Sxl7iZ2itBo+jSqKtZzOPyJbSM/AIgGKuXEbCrm7GcEmvb7IvJGvtStbera+IJXTrpLDqNfwo="/>

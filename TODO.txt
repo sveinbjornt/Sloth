@@ -1,11 +1,3 @@
 
-TODO list for Sloth 2.4
-    DONE * Sloth now defaults to showing Mac-friendly process names (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent"). Also, process names are no longer truncated to 32 characters.
-    DONE * DNS to IP and port name resolution in Info Panel when DNS/port lookup enabled in Prefs
-    DONE * Info Panel now shows file descriptor integer
-    DONE * Info Panel now shows "file" command info for character devices
-    DONE * Fix lsof output parsing issues (e.g. "TCP" protocol for all items)
-    DONE * Fix IPv6 socket handling
-    DONE * Info Panel now shows process icon under "Used by"
-    DONE * Search filter can now be used to filter by IP protocol (e.g. TCP or UDP) or IP version (e.g. IPv4 or IPv6)
-    DONE * Sloth now shows TCP socket state (e.g. LISTEN, ESTABLISHED)
+TODO list for Sloth 2.5
+
