@@ -142,6 +142,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [DEFAULTS setBool:NO forKey:@"showProcessBinaries"];
     [DEFAULTS setBool:NO forKey:@"showCurrentWorkingDirectories"];
     [DEFAULTS setBool:YES forKey:@"friendlyProcessNames"];
+    [DEFAULTS setBool:NO forKey:@"authenticateOnLaunch"];
     [DEFAULTS synchronize];
 }
 
