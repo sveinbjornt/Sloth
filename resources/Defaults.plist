@@ -38,6 +38,8 @@
 	<true/>
 	<key>friendlyProcessNames</key>
 	<true/>
+	<key>authenticateOnLaunch</key>
+	<false/>
 	<key>accessMode</key>
 	<string>Any</string>
 </dict>

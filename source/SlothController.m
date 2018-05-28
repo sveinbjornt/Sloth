@@ -224,6 +224,10 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     }
     [window makeKeyAndOrderFront:self];
     
+    if ([DEFAULTS boolForKey:@"authenticateOnLaunch"]) {
+        [self toggleAuthentication:self];
+    }
+    
     // Refresh immediately when app is launched
     [self refresh:self];
 }
@@ -496,7 +500,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [progressIndicator setUsesThreadedAnimation:TRUE];
     [progressIndicator startAnimation:self];
 
-    // Update asynchronously in the background, so interface doesn't lock up
+    // Run lsof asynchronously in the background, so interface doesn't lock up
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         @autoreleasepool {
             NSString *output = [self runLsof:authenticated];
@@ -737,7 +741,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 
                 // Some files when running in root mode have no type listed
                 // and are only reported with the name "(revoked)". Skip those.
-                if ([currentFile[@"name"] isEqualToString:@"(revoked)"]) {
+                if (!currentFile[@"type"] && [currentFile[@"name"] isEqualToString:@"(revoked)"]) {
                     skip = TRUE;
                 }
             }
@@ -996,7 +1000,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     NSString *sortBy = [DEFAULTS objectForKey:@"sortBy"];
     
     // Default to sorting alphabetically by name
-    NSSortDescriptor *sortDesc = [[NSSortDescriptor alloc] initWithKey:@"name"
+    NSSortDescriptor *sortDesc = [[NSSortDescriptor alloc] initWithKey:@"pname"
                                                              ascending:[DEFAULTS boolForKey:@"ascending"]
                                                               selector:@selector(localizedCaseInsensitiveCompare:)];
     
