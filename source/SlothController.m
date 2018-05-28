@@ -497,7 +497,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [progressIndicator startAnimation:self];
 
     // Update asynchronously in the background, so interface doesn't lock up
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         @autoreleasepool {
             NSString *output = [self runLsof:authenticated];
 
@@ -583,6 +583,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         
         NSPipe *pipe = [NSPipe pipe];
         [lsof setStandardOutput:pipe];
+        [lsof setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+        [lsof setStandardInput:[NSFileHandle fileHandleWithNullDevice]];
         [lsof launch];
         
         outputData = [[pipe fileHandleForReading] readDataToEndOfFile];
@@ -629,8 +631,9 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             // PID - First line of output for new process
             case 'p':
             {
-                if (currentProcess && [currentProcess[@"children"] count]) {
-                    [processList addObject:currentProcess];
+                if (currentProcess && currentFile && !skip) {
+                    [currentProcess[@"children"] addObject:currentFile];
+                    currentFile = nil;
                 }
                 
                 // Set up new process dict
@@ -638,6 +641,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 currentProcess[@"pid"] = [line substringFromIndex:1];
                 currentProcess[@"type"] = @"Process";
                 currentProcess[@"children"] = [NSMutableArray array];
+                [processList addObject:currentProcess];
             }
                 break;
                 
@@ -657,6 +661,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             {
                 if (currentFile && !skip) {
                     [currentProcess[@"children"] addObject:currentFile];
+                    currentFile = nil;
                 }
                 
                 // New file info starting, create new file dict
@@ -729,6 +734,12 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             {
                 currentFile[@"name"] = [line substringFromIndex:1];
                 currentFile[@"displayname"] = currentFile[@"name"];
+                
+                // Some files when running in root mode have no type listed
+                // and are only reported with the name "(revoked)". Skip those.
+                if ([currentFile[@"name"] isEqualToString:@"(revoked)"]) {
+                    skip = TRUE;
+                }
             }
                 break;
             
@@ -750,12 +761,18 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         }
     }
     
+    // Add the one remaining output item
+    if (currentProcess && currentFile && !skip) {
+        [currentProcess[@"children"] addObject:currentFile];
+        currentFile = nil;
+    }
+    
     // Get additional info about the processes
     for (NSMutableDictionary *process in processList) {
         [self updateProcessInfo:process];
         *numFiles += [process[@"children"] count];
     }
-    
+        
     return processList;
 }
 
