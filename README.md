@@ -146,7 +146,7 @@ Sloth is free, open source software. If you find this program useful, please [ma
 
 ## BSD License 
 
-Copyright (C) 2004-2018 <a href="mailto:sveinbjorn@sveinbjorn.org">Sveinbjorn Thordarson</a>
+Copyright (C) 2004-2018 Sveinbjorn Thordarson &lt;<a href="mailto:">sveinbjorn@sveinbjorn.org</a>&gt;
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:

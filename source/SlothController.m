@@ -870,11 +870,13 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     int pid = [item[@"pid"] intValue];
     
     // Confirm
-    NSString *q = [NSString stringWithFormat:@"Are you sure you want to kill \"%@\" (%d)?", item[@"pname"], pid];
-    if ([Alerts proceedAlert:q
-                     subText:@"This will send the process a SIGKILL signal."
-             withActionNamed:@"Kill"] == NO) {
-        return;
+    BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
+    if (optionKeyDown == NO) {
+        if ([Alerts proceedAlert:[NSString stringWithFormat:@"Are you sure you want to kill “%@” (%d)?", item[@"pname"], pid]
+                         subText:@"This will send the process a SIGKILL signal. Hold the option key (⌥) to avoid this prompt."
+                 withActionNamed:@"Kill"] == NO) {
+            return;
+        }
     }
 
     // Kill it
