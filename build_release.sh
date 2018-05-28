@@ -13,9 +13,6 @@ fi
 
 SRC_DIR=$PWD
 BUILD_DIR="/tmp/"
-REMOTE_DIR="root@sveinbjorn.org:/www/sveinbjorn/html/files/software/sloth/"
-REMOTE_ZIP_PATH="root@sveinbjorn.org:/www/sveinbjorn/html/files/software/sloth.zip"
-REMOTE_SRC_ZIP_PATH="root@sveinbjorn.org:/www/sveinbjorn/html/files/software/sloth.src.zip"
 
 VERSION=`/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" resources/Info.plist`
 APP_NAME=`/usr/libexec/PlistBuddy -c "Print :CFBundleName" resources/Info.plist`
@@ -55,11 +52,6 @@ else
     exit
 fi
 
-# Strip executables
-# Disabled now that we're doing code signing
-#echo "Stripping binary"
-#strip -x "${BUILD_DIR}/${APP_BUNDLE_NAME}/Contents/MacOS/Sloth"
-
 # Remove any .DS_Store junk
 find "${BUILD_DIR}/${APP_BUNDLE_NAME}/" -name ".DS_Store" -exec rm -f "{}" \;
 
@@ -71,17 +63,8 @@ echo "Creating application archive ${APP_ZIP_NAME}..."
 cd "${BUILD_DIR}"
 zip -q --symlinks "${APP_ZIP_NAME}" -r "${APP_BUNDLE_NAME}"
 
-# Upload
-if [ $1 ]
-then
-    echo "Uploading application archive ..."
-    scp "${APP_ZIP_NAME}" "${REMOTE_DIR}"
-    scp "${APP_ZIP_NAME}" "${REMOTE_ZIP_PATH}"
-fi
-
 # Move to desktop
 FINAL_APP_ARCHIVE_PATH=~/Desktop/${APP_ZIP_NAME}
-
 echo "Moving application archive to Desktop"
 mv "${APP_ZIP_NAME}" ${FINAL_APP_ARCHIVE_PATH}
 
@@ -92,14 +75,6 @@ mv "${APP_ZIP_NAME}" ${FINAL_APP_ARCHIVE_PATH}
 echo "Creating source archive ${APP_SRC_ZIP_NAME}..."
 cd "${SRC_DIR}"
 zip -q --symlinks -r "${APP_SRC_ZIP_NAME}" "." -x *.git* -x *.zip* -x *.tgz* -x *.gz* -x *.DS_Store* -x *dsa_priv.pem* -x *Sparkle/dsa_priv.pem* -x \*build/\* -x \*Releases\*
-
-# Upload
-if [ $1 ]
-then
-    echo "Uploading source archive ..."
-    scp "${APP_SRC_ZIP_NAME}" "${REMOTE_DIR}"
-    scp "${APP_SRC_ZIP_NAME}" "${REMOTE_SRC_ZIP_PATH}"
-fi
 
 # Move to desktop
 FINAL_SRC_ARCHIVE_PATH=~/Desktop/${APP_SRC_ZIP_NAME}
