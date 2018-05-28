@@ -532,7 +532,7 @@ CA
                 <rect key="frame" x="0.0" y="0.0" width="892" height="607"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button toolTip="Refresh listing" verticalHuggingPriority="750" misplaced="YES" id="208">
+                    <button toolTip="Refresh listing" verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="208">
                         <rect key="frame" x="768" y="13" width="110" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="725">
@@ -546,10 +546,10 @@ DQ
                             <action selector="refresh:" target="212" id="217"/>
                         </connections>
                     </button>
-                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" id="211">
-                        <rect key="frame" x="14" y="13" width="91" height="32"/>
+                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" misplaced="YES" id="211">
+                        <rect key="frame" x="86" y="12" width="86" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" inset="2" id="727">
+                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="Show" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -638,10 +638,10 @@ DQ
                         </connections>
                     </searchField>
                     <button toolTip="Kill selected process" verticalHuggingPriority="750" misplaced="YES" id="210">
-                        <rect key="frame" x="105" y="13" width="72" height="32"/>
+                        <rect key="frame" x="14" y="12" width="72" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Kill" bezelStyle="rounded" image="NSActionTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" inset="2" id="726">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <buttonCell key="cell" type="push" title="Kill" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="726">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
@@ -841,17 +841,6 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="lQn-WG-DTM"/>
                         </connections>
                     </button>
-                    <button toolTip="Show info window for item" verticalHuggingPriority="750" misplaced="YES" id="y0R-qW-wSJ">
-                        <rect key="frame" x="177" y="13" width="100" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="NSInfo" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
-                        </connections>
-                    </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="TjP-ET-kct">
                         <rect key="frame" x="301" y="578" width="75" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -891,6 +880,17 @@ DQ
                             <outlet property="menu" destination="R4T-iO-LKX" id="r16-Pt-iY8"/>
                         </connections>
                     </popUpButton>
+                    <button toolTip="Show info window for item" verticalHuggingPriority="750" misplaced="YES" id="y0R-qW-wSJ">
+                        <rect key="frame" x="172" y="12" width="103" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="Info" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
@@ -1023,10 +1023,10 @@ DQ
         </menu>
     </objects>
     <resources>
-        <image name="NSActionTemplate" width="14" height="14"/>
-        <image name="NSInfo" width="32" height="32"/>
+        <image name="Info" width="14" height="14"/>
+        <image name="Kill" width="14" height="14"/>
         <image name="NSLockLockedTemplate" width="10" height="14"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
-        <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
+        <image name="Show" width="14" height="14"/>
     </resources>
 </document>

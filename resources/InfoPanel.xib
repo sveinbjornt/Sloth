@@ -138,7 +138,7 @@
                     <button verticalHuggingPriority="750" id="lYM-VK-XsQ">
                         <rect key="frame" x="15" y="14" width="124" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BMb-zG-MYS">
+                        <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" image="Show" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BMb-zG-MYS">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
@@ -149,7 +149,7 @@
                     <button verticalHuggingPriority="750" id="MXD-uv-J2k">
                         <rect key="frame" x="15" y="42" width="124" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Get Finder Info" bezelStyle="rounded" image="NSInfo" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Ek-WN-Zgf">
+                        <buttonCell key="cell" type="push" title="Get Finder Info" bezelStyle="rounded" image="Info" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Ek-WN-Zgf">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
@@ -171,7 +171,7 @@
                     <button verticalHuggingPriority="750" id="YUv-vf-qzB">
                         <rect key="frame" x="146" y="14" width="115" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Kill Process" bezelStyle="rounded" image="NSActionTemplate" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Myi-W6-vbn">
+                        <buttonCell key="cell" type="push" title="Kill Process" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Myi-W6-vbn">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
@@ -238,10 +238,10 @@
         </window>
     </objects>
     <resources>
-        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="Info" width="14" height="14"/>
+        <image name="Kill" width="14" height="14"/>
         <image name="NSApplicationIcon" width="128" height="128"/>
-        <image name="NSInfo" width="32" height="32"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
-        <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
+        <image name="Show" width="14" height="14"/>
     </resources>
 </document>

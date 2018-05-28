@@ -1,18 +1,14 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
+      "idiom" : "mac",
       "filename" : "pipe-64.png",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
+      "idiom" : "mac",
       "filename" : "pipe.png",
       "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
     }
   ],
   "info" : {

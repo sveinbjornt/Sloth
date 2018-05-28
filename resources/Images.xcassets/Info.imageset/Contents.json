@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "socket-64.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "socket.png",
+      "filename" : "info@2x.png",
       "scale" : "2x"
     }
   ],
@@ -16,6 +15,6 @@
     "author" : "xcode"
   },
   "properties" : {
-    "template-rendering-intent" : "template"
+    "template-rendering-intent" : "original"
   }
 }

@@ -1,3 +1,5 @@
 
 TODO list for Sloth 2.5
 
+DONE * Minor interface refinements
+* Fix lsof output parsing bug!
