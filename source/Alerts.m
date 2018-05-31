@@ -69,29 +69,6 @@
 
 #pragma mark -
 
-+ (void)sheetAlert:(NSString *)message forWindow:(NSWindow *)window subTextFormat:(NSString *)formatString, ... {
-    va_list args;
-    va_start(args, formatString);
-    NSString *formattedString = [[NSString alloc] initWithFormat:formatString arguments:args];
-    va_end(args);
-    [self sheetAlert:message subText:formattedString forWindow:window];
-}
-
-+ (void)sheetAlert:(NSString *)message subText:(NSString *)subtext forWindow:(NSWindow *)window {
-    [self sheetAlert:message subText:subtext style:NSCriticalAlertStyle forWindow:window];
-}
-
-+ (void)sheetAlert:(NSString *)message subText:(NSString *)subtext style:(NSAlertStyle)style forWindow:(NSWindow *)window {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert addButtonWithTitle:@"OK"];
-    [alert setMessageText:message];
-    [alert setInformativeText:subtext];
-    [alert setAlertStyle:style];
-    [alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:nil contextInfo:nil];
-}
-
-#pragma mark -
-
 + (BOOL)proceedAlert:(NSString *)message subText:(NSString *)subtext withActionNamed:(NSString *)actionName {
     NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:actionName ? actionName : @"Proceed"];

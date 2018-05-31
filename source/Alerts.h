@@ -40,10 +40,6 @@
 + (void)fatalAlert:(NSString *)message subText:(NSString *)subtext;
 + (void)fatalAlert:(NSString *)message subTextFormat:(NSString *)formatString, ...;
 
-+ (void)sheetAlert:(NSString *)message forWindow:(NSWindow *)window subTextFormat:(NSString *)formatString, ...;
-+ (void)sheetAlert:(NSString *)message subText:(NSString *)subtext forWindow:(NSWindow *)window;
-+ (void)sheetAlert:(NSString *)message subText:(NSString *)subtext style:(NSAlertStyle)style forWindow:(NSWindow *)window;
-
 + (BOOL)proceedAlert:(NSString *)message subText:(NSString *)subtext withActionNamed:(NSString *)action;
 
 @end
