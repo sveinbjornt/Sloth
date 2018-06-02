@@ -10,7 +10,7 @@ Sloth is free, open source software. If you find this program useful, please [ma
 
 ## Download
 
-* [Download Sloth 2.4](https://sveinbjorn.org/files/software/sloth.zip) (~0.6 MB, Intel 64-bit, 10.8 or later)
+* [Download Sloth 2.5](https://sveinbjorn.org/files/software/sloth.zip) (~0.6 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
@@ -19,6 +19,12 @@ Sloth is free, open source software. If you find this program useful, please [ma
 <img src="resources/sloth_screenshot2.jpg" align="center">
 
 ## Version history
+
+### 02/06/2018 - Version 2.5
+
+* Fixed critical lsof output parsing bug introduced in 2.4
+* New "Authenticate on launch" option in Preferences
+* Various minor interface refinements
 
 ### 10/05/2018 - Version 2.4
 

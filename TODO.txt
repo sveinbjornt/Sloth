@@ -1,6 +1,3 @@
 
-TODO list for Sloth 2.5
+TODO list for Sloth 2.6
 
-DONE * Minor interface refinements
-DONE * Fixed output parsing bug
-DONE * New "Authenticate on launch" option

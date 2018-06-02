@@ -7,6 +7,21 @@
         <language>en</language>
         
         <item>
+            <title>Version 2.5</title>
+            <pubDate>Saturday, 2 Jun 2018 12:55:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.5.zip" sparkle:version="151" sparkle:shortVersionString="2.5" length="631996" type="application/octet-stream" sparkle:dsaSignature="MEQCIFM66nZciDGoYVBi7qvm7KNwjq6XS9MCQAqDpWGlYokgAiBOMEWMZy7/f9p78cIGFJf+TNbhafJZNchxNF+GHKKWag=="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>New in Sloth 2.5</h2>
+                <ul>
+                    <li>Fixed critical lsof output parsing bug introduced in 2.4</li>
+                    <li>New "Authenticate on launch" option in Preferences</li>
+                    <li>Various minor interface refinements</li>
+                </ul>
+            ]]></description>
+        </item>
+        
+        <item>
             <title>Version 2.4</title>
             <pubDate>Thursday, 10 May 2018 13:27:00 +0000</pubDate>
             <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.4.zip" sparkle:version="142" sparkle:shortVersionString="2.4" length="622212" type="application/octet-stream" sparkle:dsaSignature="MEQCIC+lfCk/Jo2lNiSR0toJLVUybInI2IZuJVuFp+byhVUsAiAljGANOLCp7/9/lhIcgySyovcUPqA/wU9Hk1SLaUdwYw=="/>
