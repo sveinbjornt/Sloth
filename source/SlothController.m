@@ -1238,6 +1238,9 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                                                    keyEquivalent:@""];
             [item setTarget:self];
             [item setToolTip:[url path]];
+            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
+            [icon setSize:NSMakeSize(16, 16)];
+            [item setImage:icon];
             [volumesMenu addItem:item];
         }
         
@@ -1250,6 +1253,15 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             }
         }
         [volumesPopupButton selectItem:itemToSelect];
+    }
+}
+
+- (void)menuDidClose:(NSMenu *)menu {
+    if (menu == volumesMenu) {
+        // Don't show icons for volumes except during popup
+        for (NSMenuItem *item in [volumesMenu itemArray]) {
+            [item setImage:nil];
+        }
     }
 }
 
