@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -470,7 +470,6 @@ CA
                 <outlet property="revealButton" destination="211" id="622"/>
                 <outlet property="sortMenu" destination="z5a-Mg-tDe" id="Erx-7M-an9"/>
                 <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
-                <outlet property="volumesMenu" destination="nkF-CC-6XX" id="sI6-rQ-oTM"/>
                 <outlet property="volumesPopupButton" destination="1p9-Jd-MZE" id="Raa-AT-fEC"/>
                 <outlet property="window" destination="21" id="Nkl-ra-P1k"/>
             </connections>
@@ -811,23 +810,16 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" misplaced="YES" id="1p9-Jd-MZE">
+                    <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" misplaced="YES" id="1p9-Jd-MZE" customClass="VolumesPopUpButton">
                         <rect key="frame" x="561" y="553" width="95" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="All" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="5vh-HN-bI8" id="B3K-h8-ie3">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="B3K-h8-ie3">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
-                            <menu key="menu" id="YQj-Er-hdB">
-                                <items>
-                                    <menuItem title="All" state="on" id="5vh-HN-bI8"/>
-                                </items>
-                                <connections>
-                                    <outlet property="delegate" destination="212" id="Pv1-Gz-YQN"/>
-                                </connections>
-                            </menu>
+                            <menu key="menu" id="YQj-Er-hdB"/>
                         </popUpButtonCell>
                         <connections>
-                            <outlet property="menu" destination="nkF-CC-6XX" id="fM5-nD-iyD"/>
+                            <outlet property="delegate" destination="212" id="MPB-v2-Ed7"/>
                         </connections>
                     </popUpButton>
                     <button toolTip="Show character devices" misplaced="YES" id="234">

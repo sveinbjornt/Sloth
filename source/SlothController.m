@@ -58,7 +58,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     IBOutlet NSMenu *sortMenu;
     IBOutlet NSMenu *interfaceSizeSubmenu;
     IBOutlet NSMenu *accessModeSubmenu;
-    IBOutlet NSMenu *volumesMenu;
     IBOutlet NSMenu *filterMenu;
     IBOutlet NSPopUpButton *volumesPopupButton;
     
@@ -1197,6 +1196,12 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     return YES;
 }
 
+#pragma mark - VolumesPopUpDelegate
+
+- (void)volumeSelectionChanged:(NSString *)volumePath {
+    [self performSelector:@selector(updateFiltering) withObject:nil afterDelay:0.05];
+}
+
 #pragma mark - Menus
 
 - (void)menuWillOpen:(NSMenu *)menu {
@@ -1205,62 +1210,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         for (NSMenuItem *i in items) {
             NSControlStateValue on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
             [i setState:on];
-        }
-    }
-    else if (menu == volumesMenu) {
-        
-        // Get currently selected volume
-        NSMenuItem *selectedItem = [volumesPopupButton selectedItem];
-        NSString *selectedPath = [selectedItem toolTip];
-        
-        // Rebuild menu
-        [volumesMenu removeAllItems];
-        
-        NSArray *props = @[NSURLVolumeNameKey, NSURLVolumeIsRemovableKey, NSURLVolumeIsEjectableKey];
-        NSArray *urls = [FILEMGR mountedVolumeURLsIncludingResourceValuesForKeys:props options:0];
-        
-        // All + separator
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All"
-                                                      action:@selector(updateFiltering)
-                                               keyEquivalent:@""];
-        [item setTarget:self];
-        [item setToolTip:@""];
-        [volumesMenu addItem:item];
-        [volumesMenu addItem:[NSMenuItem separatorItem]];
-        
-        // Add all volumes as items
-        for (NSURL *url in urls) {
-            NSString *volumeName;
-            [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:nil];
-
-            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:volumeName
-                                                          action:@selector(updateFiltering)
-                                                   keyEquivalent:@""];
-            [item setTarget:self];
-            [item setToolTip:[url path]];
-            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
-            [icon setSize:NSMakeSize(16, 16)];
-            [item setImage:icon];
-            [volumesMenu addItem:item];
-        }
-        
-        // Restore selection, if possible
-        NSMenuItem *itemToSelect = [volumesMenu itemArray][0];
-        for (NSMenuItem *item in [volumesMenu itemArray]) {
-            if ([[item toolTip] isEqualToString:selectedPath]) {
-                itemToSelect = item;
-                break;
-            }
-        }
-        [volumesPopupButton selectItem:itemToSelect];
-    }
-}
-
-- (void)menuDidClose:(NSMenu *)menu {
-    if (menu == volumesMenu) {
-        // Don't show icons for volumes except during popup
-        for (NSMenuItem *item in [volumesMenu itemArray]) {
-            [item setImage:nil];
         }
     }
 }

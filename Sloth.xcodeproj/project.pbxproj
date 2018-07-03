@@ -20,6 +20,7 @@
 		F442E0781EA7DD0D00BAD80C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; };
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
+		F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */; };
 		F4AC98362060583E0000871B /* IPServices.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPServices.m */; };
 		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
@@ -61,6 +62,8 @@
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
+		F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VolumesPopUpButton.h; sourceTree = "<group>"; };
+		F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VolumesPopUpButton.m; sourceTree = "<group>"; };
 		F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		F4A9D5EF206A6A6E0069B2B6 /* src_loc_stats.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = src_loc_stats.sh; sourceTree = "<group>"; };
 		F4AC98342060583E0000871B /* IPServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPServices.h; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 				F4AC98352060583E0000871B /* IPServices.m */,
 				F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */,
 				F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */,
+				F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */,
+				F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */,
 				F40B7D2F1C75FAC6000A4616 /* Alerts.h */,
 				F40B7D301C75FAC6000A4616 /* Alerts.m */,
 			);
@@ -297,6 +302,7 @@
 			files = (
 				F4AC98362060583E0000871B /* IPServices.m in Sources */,
 				F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */,
+				F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */,
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
