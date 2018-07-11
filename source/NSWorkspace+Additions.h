@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
+ Copyright (c) 2003-2017, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
@@ -30,10 +30,16 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol VolumesPopUpDelegate
-- (void)volumeSelectionChanged:(NSString *)volumePath;
-@end
+@interface NSWorkspace (Additions)
 
-@interface VolumesPopUpButton : NSPopUpButton <NSMenuDelegate>
-@property (nonatomic, weak) IBOutlet id<VolumesPopUpDelegate> delegate;
+- (NSArray *)handlerApplicationsForFile:(NSString *)filePath;
+- (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath;
+- (NSString *)kindStringForFile:(NSString *)path;
+
+- (NSString *)fileSizeAsHumanReadableString:(UInt64)size;
+
+- (BOOL)showFinderGetInfoForFile:(NSString *)path;
+- (BOOL)quickLookFile:(NSString *)path;
+- (BOOL)runAppleScript:(NSString *)scriptSource;
+
 @end

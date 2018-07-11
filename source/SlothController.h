@@ -29,12 +29,14 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "VolumesPopUpButton.h"
 
 @interface SlothController : NSObject < NSApplicationDelegate,
                                         NSWindowDelegate,
                                         NSOutlineViewDataSource,
                                         NSOutlineViewDelegate,
-                                        NSMenuDelegate >
+                                        NSMenuDelegate,
+                                        VolumesPopUpDelegate >
 - (void)revealItemInFinder:(NSDictionary *)item;
 - (IBAction)kill:(id)sender;
 @end

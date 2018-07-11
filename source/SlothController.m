@@ -34,6 +34,7 @@
 #import "NSString+RegexConvenience.h"
 #import "InfoPanelController.h"
 #import "ProcessUtils.h"
+#import "NSWorkspace+Additions.h"
 
 #import <Security/Authorization.h>
 #import <Security/AuthorizationTags.h>
@@ -55,6 +56,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 {
     IBOutlet NSWindow *window;
     
+    IBOutlet NSMenu *itemContextualMenu;
     IBOutlet NSMenu *sortMenu;
     IBOutlet NSMenu *interfaceSizeSubmenu;
     IBOutlet NSMenu *accessModeSubmenu;
@@ -124,8 +126,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         };
         
         _content = [[NSMutableArray alloc] init];
-        
-        authorizationRef = NULL;
     }
     return self;
 }
@@ -780,8 +780,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     return processList;
 }
 
-// Get all sorts of additional info about process, then
-// add it to the process info dictionary
+// Get all sorts of additional info about process
+// and then add it to the process info dictionary
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
     
     if (p[@"image"] == nil) {
@@ -829,6 +829,47 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 }
 
 #pragma mark - Interface actions
+
+- (IBAction)open:(id)sender {
+    NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    NSString *path = item[@"name"];
+    
+    if ([self canRevealItemAtPath:path]) {
+        [WORKSPACE openFile:path];
+    } else {
+        NSBeep();
+    }
+}
+
+- (IBAction)openWith:(id)sender {
+    NSString *appPath = [sender toolTip];
+    NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
+    
+    if ([[sender title] isEqualToString:@"Select..."]) {
+        //create open panel
+        NSOpenPanel *oPanel = [NSOpenPanel openPanel];
+        [oPanel setAllowsMultipleSelection:NO];
+        [oPanel setCanChooseDirectories:NO];
+        [oPanel setAllowedFileTypes:@[(NSString *)kUTTypeApplicationBundle]];
+        
+        // set Applications folder as default directory
+        NSArray *applicationFolderPaths = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationDirectory inDomains:NSLocalDomainMask];
+        if ([applicationFolderPaths count]) {
+            [oPanel setDirectoryURL:applicationFolderPaths[0]];
+        }
+        
+        //run panel
+        if ([oPanel runModal] == NSModalResponseOK) {
+            appPath = [[oPanel URLs][0] path];
+        } else {
+            return;
+        }
+    }
+    
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    [WORKSPACE openFile:item[@"name"] withApplication:appPath];
+}
 
 - (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
     if (!asRoot) {
@@ -917,6 +958,39 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [self revealItemInFinder:item];
 }
 
+- (IBAction)showInfoInFinder:(id)sender {
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
+    [WORKSPACE showFinderGetInfoForFile:path];
+}
+
+- (IBAction)getInfo:(id)sender {
+    NSInteger selectedRow = [outlineView selectedRow];
+    if (selectedRow >= 0) {
+        [self showInfoPanelForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
+    } else {
+        NSBeep();
+    }
+}
+
+- (void)showInfoPanelForItem:(NSDictionary *)item {
+    // Create info panel lazily
+    if (infoPanelController == nil) {
+        infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
+    }
+    [infoPanelController loadItem:item];
+    [infoPanelController showWindow:self];
+}
+
+- (IBAction)quickLook:(id)sender {
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
+    [WORKSPACE quickLookFile:path];
+}
+
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
@@ -947,6 +1021,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
 }
 
+#pragma mark -
+
 - (IBAction)disclosureChanged:(id)sender {
     if ([DEFAULTS boolForKey:@"disclosure"]) {
         [outlineView expandItem:nil expandChildren:YES];
@@ -964,26 +1040,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         [disclosureTextField setStringValue:@"Expand all"];
         [disclosureButton setIntValue:0];
     }
-}
-
-#pragma mark - Get Info
-
-- (IBAction)getInfo:(id)sender {
-    NSInteger selectedRow = [outlineView selectedRow];
-    if (selectedRow >= 0) {
-        [self showInfoPanelForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
-    } else {
-        NSBeep();
-    }
-}
-
-- (void)showInfoPanelForItem:(NSDictionary *)item {
-    // Create info panel lazily
-    if (infoPanelController == nil) {
-        infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
-    }
-    [infoPanelController loadItem:item];
-    [infoPanelController showWindow:self];
 }
 
 #pragma mark - Sort
@@ -1142,6 +1198,23 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     return YES;
 }
 
+#pragma mark - Save
+
+- (IBAction)saveAsText:(id)sender {
+    NSSavePanel *sPanel = [NSSavePanel savePanel];
+    [sPanel setPrompt:@"Save"];
+    [sPanel setNameFieldStringValue:@"SlothOutput.txt"];
+    
+    [sPanel beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
+        if (result != NSModalResponseOK) {
+            return;
+        }
+// TODO: Implement!
+        NSString *strRep = @"Not implemented yet";
+        [strRep writeToFile:[[sPanel URL] path] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+    }];
+}
+
 #pragma mark - NSOutlineViewDelegate
 
 - (void)outlineView:(NSOutlineView *)ov didClickTableColumn:(NSTableColumn *)tableColumn {
@@ -1205,13 +1278,138 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 #pragma mark - Menus
 
 - (void)menuWillOpen:(NSMenu *)menu {
+    
     if (menu == sortMenu) {
         NSArray *items = [menu itemArray];
         for (NSMenuItem *i in items) {
             NSControlStateValue on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
             [i setState:on];
         }
+        return;
     }
+    
+    if (menu == itemContextualMenu) {
+        NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
+        
+        NSMenuItem *openItem = [itemContextualMenu itemAtIndex:0];
+        NSMenuItem *qlItem = [itemContextualMenu itemAtIndex:7];
+        NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:8];
+        NSMenuItem *killItem = [itemContextualMenu itemAtIndex:10];
+        
+        [killItem setTitle:[NSString stringWithFormat:@"Kill Process “%@”", item[@"pname"]]];
+        
+        if ([self canRevealItemAtPath:item[@"name"]]) {
+    
+            NSString *openTitle = @"Open";
+            NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
+            if (defaultApp) {
+                openTitle = [NSString stringWithFormat:@"Open with %@", [[defaultApp lastPathComponent] stringByDeletingPathExtension]];
+            }
+            
+            [openItem setTitle:openTitle];
+            [qlItem setTitle:[NSString stringWithFormat:@"Quick Look “%@”", [item[@"name"] lastPathComponent]]];
+            [copyItem setTitle:[NSString stringWithFormat:@"Copy “%@”", [item[@"name"] lastPathComponent]]];
+            
+        } else {
+            [openItem setTitle:@"Open"];
+            [qlItem setTitle:@"Quick Look"];
+            [copyItem setTitle:@"Copy"];
+        }
+
+        return;
+    }
+    
+    // Open With ...
+    if (menu == [[itemContextualMenu itemAtIndex:1] submenu]) {
+        NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
+        
+        [menu removeAllItems];
+        
+        // Not a regular file or folder
+        if (![self canRevealItemAtPath:item[@"name"]]) {
+            [menu addItemWithTitle:@"None" action:nil keyEquivalent:@""];
+            return;
+        }
+        
+        // Default handler app is first item
+        NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
+        
+        if (defaultApp == nil) {
+            [menu addItemWithTitle:@"None" action:nil keyEquivalent:@""];
+        } else {
+            NSString *title = [[defaultApp lastPathComponent] stringByDeletingPathExtension];
+            title = [NSString stringWithFormat:@"%@ (default)", title];
+            
+            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(openWith:) keyEquivalent:@""];
+            
+            NSImage *icon = [WORKSPACE iconForFile:defaultApp];
+            [icon setSize:NSMakeSize(16, 16)];
+            
+            [menuItem setTarget:self];
+            [menuItem setImage:icon];
+            [menuItem setToolTip:defaultApp];
+            
+            [menu addItem:menuItem];
+        }
+        
+        [menu addItem:[NSMenuItem separatorItem]];
+        
+        // Any other handler apps
+        NSArray *handlerApps = [WORKSPACE handlerApplicationsForFile:item[@"name"]];
+        for (NSString *app in handlerApps) {
+            if (defaultApp != nil && [app isEqualToString:defaultApp]) {
+                continue;
+            }
+            
+            NSString *title = [[app lastPathComponent] stringByDeletingPathExtension];
+            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(openWith:) keyEquivalent:@""];
+            
+            NSImage *icon = [WORKSPACE iconForFile:app];
+            [icon setSize:NSMakeSize(16, 16)];
+            
+            [menuItem setTarget:self];
+            [menuItem setImage:icon];
+            [menuItem setToolTip:app];
+            
+            [menu addItem:menuItem];
+        }
+        if ([handlerApps count]) {
+            [menu addItem:[NSMenuItem separatorItem]];
+        }
+        
+        [menu addItemWithTitle:@"Select..." action:@selector(openWith:) keyEquivalent:@""];
+    }
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    BOOL isAction = ([[menuItem title] isEqualToString:@"Show in Finder"] ||
+                     [[menuItem title] isEqualToString:@"Kill Process"] ||
+                     [[menuItem title] isEqualToString:@"Get Info"] ||
+                     [[menuItem title] hasPrefix:@"Open"]);
+    
+    // Actions on items should only be enabled when something is selected
+    if (isAction && selectedRow < 0) {
+        return NO;
+    }
+    
+    NSDictionary *selItem = [[outlineView itemAtRow:selectedRow] representedObject];
+    BOOL canReveal = ([self canRevealItemAtPath:selItem[@"name"]] || [self canRevealItemAtPath:selItem[@"path"]]);
+    BOOL isProcess = [selItem[@"type"] isEqualToString:@"Process"];
+    
+    if (isProcess && [[menuItem title] hasPrefix:@"Open"]) {
+        return NO;
+    }
+    
+    if (canReveal == NO && ([[menuItem title] isEqualToString:@"Show in Finder"] ||
+                            [[menuItem title] isEqualToString:@"Show Info in Finder"] ||
+                            [[menuItem title] hasPrefix:@"Quick Look"] ||
+                            [[menuItem title] hasPrefix:@"Open"])) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 // Called when user selects Copy menu item via edit or contextual menu
@@ -1262,25 +1460,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [DEFAULTS setBool:![DEFAULTS boolForKey:key] forKey:key]; // toggle
     // We shouldn't have to do this but bindings are flaky for NSSearchField menu templates
     [item setState:[DEFAULTS boolForKey:key]];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)item {
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
-    BOOL isAction = ([[item title] isEqualToString:@"Show in Finder"] ||
-                     [[item title] isEqualToString:@"Kill Process"] ||
-                     [[item title] isEqualToString:@"Get Info"]);
-    
-    // Actions on items should only be enabled when something is selected
-    if (isAction && selectedRow < 0) {
-        return NO;
-    }
-    
-    if ([[item title] isEqualToString:@"Show in Finder"]) {
-        NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-        return [self canRevealItemAtPath:item[@"name"]] || [self canRevealItemAtPath:item[@"path"]];
-    }
-    
-    return YES;
 }
 
 #pragma mark -

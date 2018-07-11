@@ -93,20 +93,18 @@
                 <menuItem title="File" id="83">
                     <menu key="submenu" title="File" id="81">
                         <items>
-                            <menuItem title="New" keyEquivalent="n" id="82"/>
-                            <menuItem title="Open..." keyEquivalent="o" id="72"/>
-                            <menuItem isSeparatorItem="YES" id="79">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
                             <menuItem title="Close" keyEquivalent="w" id="73">
                                 <connections>
                                     <action selector="performClose:" target="-1" id="193"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Save" keyEquivalent="s" id="75"/>
-                            <menuItem title="Save As…" keyEquivalent="S" id="80"/>
-                            <menuItem title="Revert" id="112">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem isSeparatorItem="YES" id="79">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Save As Text…" keyEquivalent="S" id="80">
+                                <connections>
+                                    <action selector="saveAsText:" target="212" id="QwX-Np-hPN"/>
+                                </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="74">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
@@ -356,9 +354,24 @@
                             <menuItem isSeparatorItem="YES" id="fXZ-dR-UuF">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
+                            <menuItem title="Open" keyEquivalent="o" id="tgm-vr-tSj">
+                                <connections>
+                                    <action selector="open:" target="212" id="ePp-k5-oYI"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Show in Finder" keyEquivalent="R" id="CIR-bH-ns8">
                                 <connections>
                                     <action selector="show:" target="212" id="yTJ-hB-wOS"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Info in Finder" keyEquivalent="R" id="jZ8-7u-Pma">
+                                <connections>
+                                    <action selector="showInfoInFinder:" target="212" id="6Yw-wo-hwK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Get Info" keyEquivalent="i" id="wOS-Cl-JZk" userLabel="Copy">
+                                <connections>
+                                    <action selector="getInfo:" target="212" id="q3f-9w-eoB"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Kill Process" id="OT5-Ol-ZJ7">
@@ -367,11 +380,6 @@ CA
 </string>
                                 <connections>
                                     <action selector="kill:" target="212" id="qPQ-C7-hH1"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Get Info" keyEquivalent="i" id="wOS-Cl-JZk" userLabel="Copy">
-                                <connections>
-                                    <action selector="getInfo:" target="212" id="q3f-9w-eoB"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="n1t-rs-ZZb">
@@ -449,7 +457,7 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="796"/>
             </connections>
-            <point key="canvasLocation" x="463" y="-545"/>
+            <point key="canvasLocation" x="288" y="-748"/>
         </menu>
         <customObject id="212" userLabel="SlothController" customClass="SlothController">
             <connections>
@@ -462,6 +470,7 @@ CA
                 <outlet property="filterTextField" destination="252" id="656"/>
                 <outlet property="getInfoButton" destination="y0R-qW-wSJ" id="kmb-65-9vX"/>
                 <outlet property="interfaceSizeSubmenu" destination="edY-kE-oJg" id="LPe-oz-MPW"/>
+                <outlet property="itemContextualMenu" destination="3w8-wK-AmU" id="AlW-D2-vVl"/>
                 <outlet property="killButton" destination="210" id="623"/>
                 <outlet property="numItemsTextField" destination="659" id="661"/>
                 <outlet property="outlineView" destination="OT1-kV-cHW" id="yMm-po-MiO"/>
@@ -490,17 +499,24 @@ CA
         <customObject id="Nds-SX-rlr" customClass="SUUpdater"/>
         <menu id="3w8-wK-AmU" userLabel="Item Contextual Menu">
             <items>
-                <menuItem title="Copy" id="aIV-bf-ZRN" userLabel="Copy">
+                <menuItem title="Open" id="2K8-b0-Ucw">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="copy:" target="-1" id="uXe-lX-tiz"/>
+                        <action selector="open:" target="212" id="b0p-Q1-bFc"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Get Info" id="VSp-YC-BbJ" userLabel="Copy">
+                <menuItem title="Open With" id="5dz-Rs-Jh6">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="getInfo:" target="212" id="Au8-T2-b71"/>
-                    </connections>
+                    <menu key="submenu" title="Open With" id="R3H-dg-F3K">
+                        <items>
+                            <menuItem title="None" id="s4m-wM-Vuq">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                        </items>
+                        <connections>
+                            <outlet property="delegate" destination="212" id="TXQ-mq-2Qp"/>
+                        </connections>
+                    </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="Tkx-Bf-LJp"/>
                 <menuItem title="Show in Finder" id="fhv-Jo-i0c">
@@ -509,6 +525,32 @@ CA
                         <action selector="show:" target="212" id="esI-cF-Zp8"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Show Info in Finder" id="kYs-nw-FUd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showInfoInFinder:" target="212" id="PcS-pV-ZUx"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="4IV-ex-GaX"/>
+                <menuItem title="Get Info" id="VSp-YC-BbJ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="getInfo:" target="212" id="Au8-T2-b71"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Quick Look" id="aIV-bf-ZRN">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="quickLook:" target="212" id="JAo-3b-Pwb"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Copy" id="QBt-uf-IOt" userLabel="Copy">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="copy:" target="-1" id="vgd-UD-HdK"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="aG7-Yh-hvA"/>
                 <menuItem title="Kill Process" id="pk8-fZ-ruU">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -519,7 +561,7 @@ CA
             <connections>
                 <outlet property="delegate" destination="212" id="nCV-1R-drI"/>
             </connections>
-            <point key="canvasLocation" x="238" y="345.5"/>
+            <point key="canvasLocation" x="50" y="616"/>
         </menu>
         <window identifier="SlothWindow" title="Sloth" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="SlothWindow" animationBehavior="default" tabbingMode="disallowed" id="21" userLabel="SlothWindow">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
@@ -889,7 +931,7 @@ DQ
                 <outlet property="delegate" destination="212" id="3KT-G0-6pk"/>
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
-            <point key="canvasLocation" x="333" y="160.5"/>
+            <point key="canvasLocation" x="417" y="-126"/>
         </window>
         <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>

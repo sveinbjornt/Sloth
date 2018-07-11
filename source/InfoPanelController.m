@@ -32,8 +32,8 @@
 #import "InfoPanelController.h"
 #import "Common.h"
 #import "IPServices.h"
-#import "NSString+RegexConvenience.h"
 #import "ProcessUtils.h"
+#import "NSWorkspace+Additions.h"
 
 #import <pwd.h>
 #import <grp.h>
@@ -318,7 +318,7 @@
     }
     
     UInt64 size = [[FILEMGR attributesOfItemAtPath:filePath error:nil] fileSize];
-    NSString *sizeString = [self fileSizeAsHumanReadableString:size];
+    NSString *sizeString = [WORKSPACE fileSizeAsHumanReadableString:size];
 
     if ([sizeString hasSuffix:@"bytes"] == NO) {
         NSString *byteSizeStr = [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
@@ -473,62 +473,6 @@
 
 - (IBAction)killProcess:(id)sender {
     [[NSApp delegate] performSelector:@selector(kill:) withObject:self];
-}
-
-- (IBAction)getInfoInFinder:(id)sender {
-    BOOL isDir;
-    if ([FILEMGR fileExistsAtPath:self.path isDirectory:&isDir] == NO) {
-        NSBeep();
-        return;
-    }
-    
-    NSString *type = (isDir && ![WORKSPACE isFilePackageAtPath:self.path]) ? @"folder" : @"file";
-    NSString *osaScript = [NSString stringWithFormat:
-                           @"tell application \"Finder\"\n\
-                           \tactivate\n\
-                           \topen the information window of %@ POSIX file \"%@\"\n\
-                           end tell", type, [self path], nil];
-    
-    [self runAppleScript:osaScript];
-}
-
-- (IBAction)quickLook:(id)sender {
-    if ([FILEMGR fileExistsAtPath:self.path] == NO) {
-        NSBeep();
-        return;
-    }
-    NSString *source = [NSString stringWithFormat:@"tell application \"Finder\"\n\
-                        activate\n\
-                        set imageFile to item (POSIX file \"%@\")\n\
-                        select imageFile\n\
-                        tell application \"System Events\" to keystroke \"y\" using command down\n\
-                        end tell", self.path];
-    
-    [self runAppleScript:source];
-}
-
-#pragma mark - Util
-
-- (BOOL)runAppleScript:(NSString *)scriptSource {
-    NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
-    if (appleScript != nil) {
-        [appleScript executeAndReturnError:nil];
-        return YES;
-    } else {
-        NSLog(@"Error running AppleScript");
-        return NO;
-    }
-}
-
-- (NSString *)fileSizeAsHumanReadableString:(UInt64)size {
-    if (size < 1024ULL) {
-        return [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
-    } else if (size < 1048576ULL) {
-        return [NSString stringWithFormat:@"%ld KB", (long)size/1024];
-    } else if (size < 1073741824ULL) {
-        return [NSString stringWithFormat:@"%.1f MB", size / 1048576.0];
-    }
-    return [NSString stringWithFormat:@"%.1f GB", size / 1073741824.0];
 }
 
 @end

@@ -19,6 +19,7 @@
 		F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F442E0721EA7DB1000BAD80C /* InfoPanel.xib */; };
 		F442E0781EA7DD0D00BAD80C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; };
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F471DF6220F586510057E667 /* NSWorkspace+Additions.m */; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */; };
 		F4AC98362060583E0000871B /* IPServices.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPServices.m */; };
@@ -59,6 +60,8 @@
 		F438712D13402CDD00B51A5E /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		F442E0721EA7DB1000BAD80C /* InfoPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPanel.xib; sourceTree = "<group>"; };
 		F442E0771EA7DD0D00BAD80C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = sparkle/Sparkle.framework; sourceTree = "<group>"; };
+		F471DF6220F586510057E667 /* NSWorkspace+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Additions.m"; sourceTree = "<group>"; };
+		F471DF6320F586510057E667 /* NSWorkspace+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Additions.h"; sourceTree = "<group>"; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
@@ -146,6 +149,8 @@
 				F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */,
 				F40B7D2F1C75FAC6000A4616 /* Alerts.h */,
 				F40B7D301C75FAC6000A4616 /* Alerts.m */,
+				F471DF6320F586510057E667 /* NSWorkspace+Additions.h */,
+				F471DF6220F586510057E667 /* NSWorkspace+Additions.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -304,6 +309,7 @@
 				F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */,
 				F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */,
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
+				F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
