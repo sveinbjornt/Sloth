@@ -364,11 +364,12 @@
                                     <action selector="show:" target="212" id="yTJ-hB-wOS"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Info in Finder" keyEquivalent="R" id="jZ8-7u-Pma">
+                            <menuItem title="Show Info in Finder" keyEquivalent="I" id="jZ8-7u-Pma">
                                 <connections>
                                     <action selector="showInfoInFinder:" target="212" id="6Yw-wo-hwK"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="PjX-6j-iXn"/>
                             <menuItem title="Get Info" keyEquivalent="i" id="wOS-Cl-JZk" userLabel="Copy">
                                 <connections>
                                     <action selector="getInfo:" target="212" id="q3f-9w-eoB"/>

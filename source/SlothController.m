@@ -1384,10 +1384,14 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
-    BOOL isAction = ([[menuItem title] isEqualToString:@"Show in Finder"] ||
-                     [[menuItem title] isEqualToString:@"Kill Process"] ||
-                     [[menuItem title] isEqualToString:@"Get Info"] ||
-                     [[menuItem title] hasPrefix:@"Open"]);
+    SEL action = [menuItem action];
+    
+    BOOL isAction = (action == @selector(show:) ||
+                     action == @selector(showInfoInFinder:) ||
+                     action == @selector(kill:) ||
+                     action == @selector(getInfo:) ||
+                     action == @selector(quickLook:) ||
+                     action == @selector(open:));
     
     // Actions on items should only be enabled when something is selected
     if (isAction && selectedRow < 0) {
@@ -1395,17 +1399,21 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     }
     
     NSDictionary *selItem = [[outlineView itemAtRow:selectedRow] representedObject];
-    BOOL canReveal = ([self canRevealItemAtPath:selItem[@"name"]] || [self canRevealItemAtPath:selItem[@"path"]]);
+    NSString *path = selItem[@"path"] ? selItem[@"path"] : selItem[@"name"];
+    
+    BOOL canReveal = ([self canRevealItemAtPath:path]);
     BOOL isProcess = [selItem[@"type"] isEqualToString:@"Process"];
     
-    if (isProcess && [[menuItem title] hasPrefix:@"Open"]) {
+    // Processes/apps can't be opened
+    if (isProcess && action == @selector(open:)) {
         return NO;
     }
-    
-    if (canReveal == NO && ([[menuItem title] isEqualToString:@"Show in Finder"] ||
-                            [[menuItem title] isEqualToString:@"Show Info in Finder"] ||
-                            [[menuItem title] hasPrefix:@"Quick Look"] ||
-                            [[menuItem title] hasPrefix:@"Open"])) {
+
+    // These actions should only be enabled for files the Finder can handle
+    if (canReveal == NO && (action == @selector(show:) ||
+                            action == @selector(showInfoInFinder:) ||
+                            action == @selector(quickLook:) ||
+                            action == @selector(open:))) {
         return NO;
     }
     
