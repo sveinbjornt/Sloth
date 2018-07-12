@@ -197,7 +197,7 @@
         NSString *fileInfoString = [self fileUtilityInfoForPath:path];
         [self.filetypeTextField setStringValue:fileInfoString];
         
-        NSString *finderTypeString = [self launchServicesTypeForPath:path];
+        NSString *finderTypeString = [WORKSPACE kindStringForFile:path];
         [self.finderTypeTextField setStringValue:finderTypeString];
         
         NSString *permString = [self ownerInfoForPath:path];
@@ -268,19 +268,6 @@
     return [NSString stringWithFormat:@"%@:%@", user, group, nil];
 }
 
-- (NSString *)launchServicesTypeForPath:(NSString *)filePath {
-    CFStringRef kindCFStr = nil;
-    NSString *kindStr = nil;
-    LSCopyKindStringForURL((__bridge CFURLRef)[NSURL fileURLWithPath:filePath], &kindCFStr);
-    if (kindCFStr) {
-        kindStr = [NSString stringWithString:(__bridge NSString *)kindCFStr];
-        CFRelease(kindCFStr);
-    } else {
-        kindStr = @"Unknown";
-    }
-    return kindStr;
-}
-
 // Run /usr/bin/file program on path, return output
 - (NSString *)fileUtilityInfoForPath:(NSString *)filePath {
     if (![FILEMGR fileExistsAtPath:filePath]) {
@@ -329,11 +316,7 @@
 }
 
 - (NSString *)identifierForBundleAtPath:(NSString *)path {
-    NSBundle *bundle = [NSBundle bundleWithPath:path];
-    if (bundle) {
-        return [bundle bundleIdentifier];
-    }
-    return nil;
+    return [[NSBundle bundleWithPath:path] bundleIdentifier];
 }
 
 - (NSString *)accessModeDescriptionForItem:(NSDictionary *)itemDict {

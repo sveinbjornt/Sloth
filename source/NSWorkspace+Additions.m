@@ -62,14 +62,16 @@
     return nil;
 }
 
-- (NSString *)kindStringForFile:(NSString *)path {
-    NSURL *url = [NSURL fileURLWithPath:path];
-    NSString *kindStr;
-    
-    if (![url getResourceValue:&kindStr forKey:NSURLLocalizedTypeDescriptionKey error:nil]) {
-        return @"Unknown";
+- (NSString *)kindStringForFile:(NSString *)filePath {
+    CFStringRef kindCFStr = nil;
+    NSString *kindStr = nil;
+    LSCopyKindStringForURL((__bridge CFURLRef)[NSURL fileURLWithPath:filePath], &kindCFStr);
+    if (kindCFStr) {
+        kindStr = [NSString stringWithString:(__bridge NSString *)kindCFStr];
+        CFRelease(kindCFStr);
+    } else {
+        kindStr = @"Unknown";
     }
-    
     return kindStr;
 }
 
