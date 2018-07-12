@@ -480,6 +480,7 @@ CA
                 <outlet property="revealButton" destination="211" id="622"/>
                 <outlet property="sortMenu" destination="z5a-Mg-tDe" id="Erx-7M-an9"/>
                 <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
+                <outlet property="volumesMenuItem" destination="EkI-Yj-uM6" id="c7q-dj-Uyt"/>
                 <outlet property="volumesPopupButton" destination="1p9-Jd-MZE" id="Raa-AT-fEC"/>
                 <outlet property="window" destination="21" id="Nkl-ra-P1k"/>
             </connections>
@@ -552,7 +553,7 @@ CA
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="aG7-Yh-hvA"/>
-                <menuItem title="Kill Process" id="pk8-fZ-ruU">
+                <menuItem title="Kill Process" image="Kill" id="pk8-fZ-ruU">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="kill:" target="212" id="mQA-04-MNu"/>

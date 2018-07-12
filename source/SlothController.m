@@ -62,6 +62,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     IBOutlet NSMenu *accessModeSubmenu;
     IBOutlet NSMenu *filterMenu;
     IBOutlet NSPopUpButton *volumesPopupButton;
+    IBOutlet NSMenuItem *volumesMenuItem;
     
     IBOutlet NSProgressIndicator *progressIndicator;
     
@@ -170,6 +171,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [lockIcon setSize:NSMakeSize(16, 16)];
     [authenticateButton setImage:lockIcon];
     [authenticateMenuItem setImage:lockIcon];
+    
+    [volumesMenuItem setSubmenu:[volumesPopupButton menu]];
     
     // Manually check the correct menu items for these submenus
     // on launch since we (annoyingly) can't use bindings for it

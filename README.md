@@ -10,7 +10,7 @@ Sloth is free, open source software. If you find this program useful, please [ma
 
 ## Download
 
-* ⇩ **[Download Sloth 2.5](https://sveinbjorn.org/files/software/sloth.zip)** (~0.6 MB, Intel 64-bit, 10.8 or later)
+*  **[⇩ Download Sloth 2.5](https://sveinbjorn.org/files/software/sloth.zip)** (~0.6 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
