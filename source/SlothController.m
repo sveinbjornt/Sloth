@@ -641,6 +641,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 if (currentProcess && currentFile && !skip) {
                     [currentProcess[@"children"] addObject:currentFile];
                     currentFile = nil;
+                    
                 }
                 
                 // Set up new process dict
@@ -648,7 +649,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 currentProcess[@"pid"] = [line substringFromIndex:1];
                 currentProcess[@"type"] = @"Process";
                 currentProcess[@"children"] = [NSMutableArray array];
-                [processList addObject:currentProcess];
+                [processList addObject:currentProcess];                
             }
                 break;
                 
@@ -838,9 +839,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     NSString *path = item[@"name"];
     
-    if ([self canRevealItemAtPath:path]) {
-        [WORKSPACE openFile:path];
-    } else {
+    if ([self canRevealItemAtPath:path] == NO || [WORKSPACE openFile:path] == NO) {
         NSBeep();
     }
 }
@@ -1299,7 +1298,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:8];
         NSMenuItem *killItem = [itemContextualMenu itemAtIndex:10];
         
-        [killItem setTitle:[NSString stringWithFormat:@"Kill Process “%@”", item[@"pname"]]];
+        [killItem setTitle:[NSString stringWithFormat:@"Kill Process “%@” (%@)", item[@"pname"], item[@"pid"]]];
         
         if ([self canRevealItemAtPath:item[@"name"]]) {
     

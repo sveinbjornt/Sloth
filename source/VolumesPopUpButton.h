@@ -30,10 +30,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol VolumesPopUpDelegate
+@protocol VolumesPopUpButtonDelegate
 - (void)volumeSelectionChanged:(NSString *)volumePath;
 @end
 
 @interface VolumesPopUpButton : NSPopUpButton <NSMenuDelegate>
-@property (nonatomic, weak) IBOutlet id<VolumesPopUpDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<VolumesPopUpButtonDelegate> delegate;
 @end

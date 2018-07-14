@@ -450,6 +450,16 @@
 
 #pragma mark - Interface actions
 
+- (IBAction)getInfoInFinder:(id)sender {
+    NSString *path = self.fileInfoDict[@"path"] ? self.fileInfoDict[@"path"] : self.fileInfoDict[@"name"];
+    [WORKSPACE showFinderGetInfoForFile:path];
+}
+
+- (IBAction)quickLook:(id)sender {
+    NSString *path = self.fileInfoDict[@"path"] ? self.fileInfoDict[@"path"] : self.fileInfoDict[@"name"];
+    [WORKSPACE quickLookFile:path];
+}
+
 - (IBAction)showInFinder:(id)sender {
     [[NSApp delegate] performSelector:@selector(revealItemInFinder:) withObject:self.fileInfoDict];
 }

@@ -36,7 +36,7 @@
                                         NSOutlineViewDataSource,
                                         NSOutlineViewDelegate,
                                         NSMenuDelegate,
-                                        VolumesPopUpDelegate >
+                                        VolumesPopUpButtonDelegate >
 - (void)revealItemInFinder:(NSDictionary *)item;
 - (IBAction)kill:(id)sender;
 @end
