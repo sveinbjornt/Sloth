@@ -177,7 +177,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
             [authenticateMenuItem setAction:nil];
         }
     }
-        
+    
     // Load system lock icon and set as icon for button & menu
     NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
     [lockIcon setSize:NSMakeSize(16, 16)];

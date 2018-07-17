@@ -565,7 +565,7 @@ CA
             </connections>
             <point key="canvasLocation" x="50" y="616"/>
         </menu>
-        <window identifier="SlothWindow" title="Sloth" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="SlothWindow" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="21" userLabel="SlothWindow">
+        <window identifier="SlothWindow" title="Sloth" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothWindow" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="21" userLabel="SlothWindow">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" rightStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="125" y="249" width="892" height="608"/>
@@ -587,17 +587,6 @@ DQ
                         </buttonCell>
                         <connections>
                             <action selector="refresh:" target="212" id="217"/>
-                        </connections>
-                    </button>
-                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" misplaced="YES" id="211">
-                        <rect key="frame" x="86" y="12" width="86" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="Show" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="show:" target="212" id="gVH-DN-Dt3"/>
                         </connections>
                     </button>
                     <button toolTip="Only show files in home folder hierarchy" misplaced="YES" id="27r-wc-J19">
@@ -667,7 +656,7 @@ DQ
                         </connections>
                     </button>
                     <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" verticalHuggingPriority="750" misplaced="YES" id="252">
-                        <rect key="frame" x="721" y="569" width="151" height="22"/>
+                        <rect key="frame" x="721" y="561" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" usesSingleLineMode="YES" bezelStyle="round" id="735">
                             <font key="font" metaFont="cellTitle"/>
@@ -680,17 +669,6 @@ DQ
                             <outlet property="searchMenuTemplate" destination="6L5-jB-614" id="7x1-pU-Ybs"/>
                         </connections>
                     </searchField>
-                    <button toolTip="Kill selected process" verticalHuggingPriority="750" misplaced="YES" id="210">
-                        <rect key="frame" x="14" y="12" width="72" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Kill" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="726">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="kill:" target="212" id="710"/>
-                        </connections>
-                    </button>
                     <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" misplaced="YES" id="tqa-Nm-sTb">
                         <rect key="frame" x="744" y="21" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -725,33 +703,12 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showPipes" id="Pke-9y-1TB"/>
                         </connections>
                     </button>
-                    <button toolTip="Toggles expand/collapse in outline view" horizontalHuggingPriority="750" verticalHuggingPriority="750" id="sd7-Q9-5I9">
-                        <rect key="frame" x="20" y="52" width="13" height="13"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ilJ-c0-CvL">
-                            <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="disclosureChanged:" target="212" id="adD-06-dyo"/>
-                            <binding destination="560" name="value" keyPath="values.disclosure" id="15D-E7-K9L"/>
-                        </connections>
-                    </button>
                     <textField verticalHuggingPriority="750" id="659">
                         <rect key="frame" x="424" y="52" width="447" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" id="738">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" red="0.24119475138121549" green="0.24119475138121549" blue="0.24119475138121549" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="cw1-nC-kNe">
-                        <rect key="frame" x="36" y="51" width="119" height="14"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Expand all" id="7A9-Ir-ydg">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
@@ -830,32 +787,21 @@ DQ
                             <outlet property="menu" destination="R4T-iO-LKX" id="r16-Pt-iY8"/>
                         </connections>
                     </popUpButton>
-                    <button toolTip="Show info window for item" verticalHuggingPriority="750" misplaced="YES" id="y0R-qW-wSJ">
-                        <rect key="frame" x="172" y="12" width="103" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="Info" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
-                        </connections>
-                    </button>
                     <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="GmK-As-ZM0">
-                        <rect key="frame" x="17" y="74" width="852" height="473"/>
+                        <rect key="frame" x="22" y="74" width="850" height="473"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
-                            <rect key="frame" x="1" y="0.0" width="850" height="472"/>
+                            <rect key="frame" x="1" y="0.0" width="848" height="472"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
-                                    <rect key="frame" x="0.0" y="0.0" width="850" height="449"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="848" height="449"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="children" editable="NO" width="847" minWidth="40" maxWidth="10000" id="qs5-X3-KJv">
+                                        <tableColumn identifier="children" editable="NO" width="845" minWidth="40" maxWidth="10000" id="qs5-X3-KJv">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" enabled="NO" borderStyle="border" title="Processes">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -870,7 +816,7 @@ DQ
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="Qd7-oA-yOC">
-                                                    <rect key="frame" x="1" y="1" width="847" height="17"/>
+                                                    <rect key="frame" x="1" y="1" width="845" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="8Kv-S7-Bev">
@@ -882,7 +828,7 @@ DQ
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="e1S-AA-cw7">
-                                                            <rect key="frame" x="25" y="0.0" width="822" height="17"/>
+                                                            <rect key="frame" x="25" y="0.0" width="820" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" id="2JS-SB-0or">
                                                                 <font key="font" metaFont="system"/>
@@ -920,13 +866,67 @@ DQ
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" identifier="processes" id="Hfh-Ob-0SO">
-                            <rect key="frame" x="0.0" y="0.0" width="850" height="23"/>
+                            <rect key="frame" x="0.0" y="0.0" width="848" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <connections>
                                 <outlet property="menu" destination="z5a-Mg-tDe" id="JYc-Wy-dAh"/>
                             </connections>
                         </tableHeaderView>
                     </scrollView>
+                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" misplaced="YES" id="211">
+                        <rect key="frame" x="88" y="13" width="86" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="Show" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="show:" target="212" id="gVH-DN-Dt3"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Kill selected process" verticalHuggingPriority="750" misplaced="YES" id="210">
+                        <rect key="frame" x="16" y="13" width="72" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Kill" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="726">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="kill:" target="212" id="710"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Toggles expand/collapse in outline view" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" id="sd7-Q9-5I9">
+                        <rect key="frame" x="22" y="53" width="13" height="13"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ilJ-c0-CvL">
+                            <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="disclosureChanged:" target="212" id="adD-06-dyo"/>
+                            <binding destination="560" name="value" keyPath="values.disclosure" id="15D-E7-K9L"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="cw1-nC-kNe">
+                        <rect key="frame" x="38" y="52" width="119" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Expand all" id="7A9-Ir-ydg">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button toolTip="Show info window for item" verticalHuggingPriority="750" misplaced="YES" id="y0R-qW-wSJ">
+                        <rect key="frame" x="174" y="13" width="103" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="Info" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
@@ -1036,7 +1036,7 @@ DQ
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="57.5" y="-469"/>
+            <point key="canvasLocation" x="-143" y="-623"/>
         </window>
         <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
             <items>
