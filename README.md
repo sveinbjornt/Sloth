@@ -114,11 +114,11 @@ Sloth is free, open source software. If you find this program useful, please [ma
 
 * Column sorting, column rearrangement
 * Several bug fixes
-* Copy/Drag and drop
+* Copy/drag and drop selected items
 
 ### 29/05/2009 - Version 1.4
 
-* Regular expression search filtering
+* Regular expressions in search filter
 * New "Relaunch as root" option
 * Fixed bug in Mac OS X 10.5
 * Now built for Mac OS X 10.4 or later
@@ -129,24 +129,23 @@ Sloth is free, open source software. If you find this program useful, please [ma
 
 ### 05/03/2004 - Version 1.3
 
-* Live update on search filter
-* Sorting in columns now works
+* Live update for search filter
+* Sorting by column now works
 * Performance improvements
-* The timed update feature is non-functional for the time being
 * Lots of code replaced by Cocoa bindings thanks to Bill Bumgarner
 
 ### 27/02/2004 - Version 1.2
 
-* Filter search field now counts all list fields when filtering
-* Auto-refresh timer option
-* Preferences for setting arbitrary lsof binary and kill signal type
+* Filter search field now tries to match all fields when filtering
+* Added auto-refresh timer option
+* lsof binary and kill signal type can now be set in Preferences
 * New application icon
 * Added Icelandic and Japanese localizations
 
 ### 22/02/2004 - Version 1.1
 
-* There is now a search field filter for entries in list. No type-in update.
-* "Actions" menu with menu items and shortcuts for button actions
+* Added search field filter.
+* New Action menu with menu items and shortcuts for button actions
 
 ### 21/02/2004 - Version 1.0
 

@@ -161,11 +161,23 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     
     // Hide Authenticate button & menu item if AEWP
     // is not available in this version of OS X
-    if ([self AEWPFunctionExists] == NO) {
-        [authenticateButton setHidden:YES];
-        [authenticateMenuItem setAction:nil];
+    if (!_AuthExecuteWithPrivsFn) {
+        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
+        // to continue using it since there's no good alternative (without
+        // code signing). We'll look up the function through dyld and fail if
+        // it is no longer accessible. If Apple removes the function entirely
+        // this will fail gracefully. If they keep the function and throw some
+        // sort of exception, this won't fail gracefully, but that's a risk
+        // we'll have to take for now.
+        // Pattern by Andy Kim from Potion Factory LLC
+        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
+        if (!_AuthExecuteWithPrivsFn) {
+            // This version of OS X has finally removed AEWP
+            [authenticateButton setHidden:YES];
+            [authenticateMenuItem setAction:nil];
+        }
     }
-    
+        
     // Load system lock icon and set as icon for button & menu
     NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
     [lockIcon setSize:NSMakeSize(16, 16)];
@@ -1009,11 +1021,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 - (void)revealItemInFinder:(NSDictionary *)item {
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     if ([self canRevealItemAtPath:path]) {
-        BOOL succ = [WORKSPACE selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
-        if (succ) {
+        if ([WORKSPACE selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]]) {
             return;
-        } else {
-            
         }
     }
     NSBeep();
@@ -1178,26 +1187,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         authorizationRef = NULL;
     }
     authenticated = NO;
-}
-
-- (BOOL)AEWPFunctionExists {
-    // Check to see if we have the correct function in our loaded libraries
-    if (!_AuthExecuteWithPrivsFn) {
-        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
-        // to continue using it since there's no good alternative (without
-        // code signing). We'll look up the function through dyld and fail if
-        // it is no longer accessible. If Apple removes the function entirely
-        // this will fail gracefully. If they keep the function and throw some
-        // sort of exception, this won't fail gracefully, but that's a risk
-        // we'll have to take for now.
-        // Pattern by Andy Kim from Potion Factory LLC
-        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
-        if (!_AuthExecuteWithPrivsFn) {
-            // This version of OS X has finally removed AEWP
-            return NO;
-        }
-    }
-    return YES;
 }
 
 #pragma mark - Save

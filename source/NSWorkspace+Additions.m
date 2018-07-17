@@ -32,7 +32,7 @@
 
 @implementation NSWorkspace (Additions)
 
-#pragma mark - Handler apps for files
+#pragma mark - Handler apps
 
 - (NSArray *)handlerApplicationsForFile:(NSString *)filePath {
     NSURL *url = [NSURL fileURLWithPath:filePath];
@@ -61,6 +61,8 @@
     
     return nil;
 }
+
+#pragma mark -
 
 - (NSString *)kindStringForFile:(NSString *)filePath {
     CFStringRef kindCFStr = nil;
@@ -126,6 +128,8 @@ end tell", path, type];
     
     return [self runAppleScript:source];
 }
+
+#pragma mark -
 
 - (BOOL)runAppleScript:(NSString *)scriptSource {
     
