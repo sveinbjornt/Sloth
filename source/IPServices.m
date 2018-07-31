@@ -54,9 +54,6 @@
                                               options:NSRegularExpressionCaseInsensitive
                                                 error:nil];
     return [ipString isMatchedByRegex:regex];
-
-    
-
 }
 
 + (BOOL)isPortNumberString:(NSString *)portNumString {

@@ -171,14 +171,15 @@
         }
         [self.sizeTextField setStringValue:pidStr];
         
-        [self.usedByTextField setStringValue:EMPTY_PLACEHOLDER];
+        [self.usedByTextField setStringValue:@"None (non-app process)"];
+        [self.usedByLabelTextField setStringValue:@"Identifier"];
         if (itemDict[@"bundle"]) {
             NSString *usedByStr = [self identifierForBundleAtPath:path];
             if (usedByStr) {
-                [self.usedByLabelTextField setStringValue:@"Identifier"];
                  [self.usedByTextField setStringValue:usedByStr];
             }
         }
+        
     } else {
         NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"pname"], itemDict[@"pid"]];
         [self.usedByTextField setStringValue:ownedByStr];
