@@ -1,3 +1,4 @@
 
 TODO list for Sloth 2.6
 
+* Add Move to Trash contextual menu item

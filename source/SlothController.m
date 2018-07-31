@@ -61,6 +61,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     IBOutlet NSMenu *interfaceSizeSubmenu;
     IBOutlet NSMenu *accessModeSubmenu;
     IBOutlet NSMenu *filterMenu;
+    IBOutlet NSMenu *openWithMenu;
+    
     IBOutlet NSPopUpButton *volumesPopupButton;
     IBOutlet NSMenuItem *volumesMenuItem;
     
@@ -72,8 +74,10 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     IBOutlet NSButton *revealButton;
     IBOutlet NSButton *killButton;
     IBOutlet NSButton *getInfoButton;
+    
     IBOutlet NSButton *authenticateButton;
     IBOutlet NSMenuItem *authenticateMenuItem;
+    
     IBOutlet NSButton *refreshButton;
     IBOutlet NSButton *disclosureButton;
     IBOutlet NSTextField *disclosureTextField;
@@ -500,9 +504,9 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
 - (IBAction)refresh:(id)sender {
     isRefreshing = YES;
     [numItemsTextField setStringValue:@""];
+    [outlineView deselectAll:self];
     
     // Disable controls
-    [filterTextField setEnabled:NO];
     [refreshButton setEnabled:NO];
     [outlineView setEnabled:NO];
     [outlineView setAlphaValue:0.5];
@@ -529,7 +533,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 
                 // Re-enable controls
                 [progressIndicator stopAnimation:self];
-                [filterTextField setEnabled:YES];
                 [outlineView setEnabled:YES];
                 [outlineView setAlphaValue:1.0];
                 [refreshButton setEnabled:YES];
@@ -979,6 +982,32 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [WORKSPACE showFinderGetInfoForFile:path];
 }
 
+- (IBAction)moveToTrash:(id)sender {
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
+    
+    BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
+    if (!optionKeyDown) {
+        
+        // Ask user to confirm
+        if ([Alerts proceedAlert:[NSString stringWithFormat:@"Move “%@” to the Trash?", [path lastPathComponent]]
+                         subText:@"This will tell the Finder to move the specified file into your Trash folder. \
+Hold the option key (⌥) to avoid this prompt."
+                 withActionNamed:@"Move to Trash"] == YES) {
+            
+            // Move to trash, refresh in a bit to give Finder time to complete command. Tends to be slow :/
+            if ([WORKSPACE moveFileToTrash:path]) {
+                [self performSelector:@selector(outlineViewSelectionDidChange:) withObject:nil afterDelay:0.4];
+                [outlineView performSelector:@selector(reloadData) withObject:nil afterDelay:0.6];
+            }
+
+        }
+    }
+
+    
+}
+
 - (IBAction)getInfo:(id)sender {
     NSInteger selectedRow = [outlineView selectedRow];
     if (selectedRow >= 0) {
@@ -1311,7 +1340,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     }
     
     // Open With ...
-    if (menu == [[itemContextualMenu itemAtIndex:1] submenu]) {
+    if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
         [menu removeAllItems];
@@ -1399,12 +1428,22 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     if (isProcess && action == @selector(open:)) {
         return NO;
     }
+    
+    // Processes/apps can't be opened
+    if (isProcess && action == @selector(moveToTrash:)) {
+        return NO;
+    }
 
     // These actions should only be enabled for files the Finder can handle
     if (canReveal == NO && (action == @selector(show:) ||
                             action == @selector(showInfoInFinder:) ||
                             action == @selector(quickLook:) ||
-                            action == @selector(open:))) {
+                            action == @selector(open:) ||
+                            action == @selector(moveToTrash:))) {
+        return NO;
+    }
+    
+    if ((action == @selector(refresh:) || action == @selector(toggleAuthentication:)) && isRefreshing) {
         return NO;
     }
     

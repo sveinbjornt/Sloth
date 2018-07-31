@@ -40,6 +40,7 @@
 
 - (BOOL)showFinderGetInfoForFile:(NSString *)path;
 - (BOOL)quickLookFile:(NSString *)path;
+- (BOOL)moveFileToTrash:(NSString *)path;
 - (BOOL)runAppleScript:(NSString *)scriptSource;
 
 @end
