@@ -12,10 +12,14 @@ Sloth is a Mac application that displays all open files and sockets in use by al
 * Powerful contextual menu for file operations
 * Authenticate to run with root privileges
 
-Sloth is essentially a graphical user interface built on top of the powerful [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of additional user-friendly functionality. Check out the screenshots.
->>>>>>> c4aac0a216e46113e0c7e1eb60cac0cf7692f602
+Sloth is essentially a graphical user interface built on top of the powerful [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of additional user-friendly functionality. Check out the screenshots below.
 
-Sloth is essentially a graphical user interface built on top of the powerful [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of additional user-friendly functionality. Check out the screenshots.
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float: right; margin-left: 20px; margin-bottom: 10px;">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="BDT58J7HYKAEE">
+<input type="image" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
 
 Sloth is free, open source software and has been around for a long time. If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).
 
@@ -30,6 +34,11 @@ Sloth is free, open source software and has been around for a long time. If you 
 <img src="resources/sloth_screenshot2.jpg" align="center">
 
 ## Version history
+
+<!--### 31/07/2018 - Version 2.6
+
+* New and powerful contextual menu 
+* Various user interface refinements-->
 
 ### 02/06/2018 - Version 2.5
 
@@ -117,7 +126,7 @@ Sloth is free, open source software and has been around for a long time. If you 
 * Smarter regex filtering
 * Load results as root without restart
 * Expanded sorting options
-* Migrated project to ARC, modern Objective-C and XCode 7
+* Migrated project to ARC, modern Objective-C and Xcode 7
 * Substantial rewrite
 * Now requires OS X 10.8 or later
 
