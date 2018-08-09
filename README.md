@@ -14,13 +14,6 @@ Sloth is a Mac application that displays all open files and sockets in use by al
 
 Sloth is essentially a graphical user interface built on top of the powerful [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of additional user-friendly functionality. Check out the screenshots below.
 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float: right; margin-left: 20px; margin-bottom: 10px;">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="BDT58J7HYKAEE">
-<input type="image" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
-
 Sloth is free, open source software and has been around for a long time. If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).
 
 ## Download
