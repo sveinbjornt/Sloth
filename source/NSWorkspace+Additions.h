@@ -39,7 +39,6 @@
 - (NSString *)fileSizeAsHumanReadableString:(UInt64)size;
 
 - (BOOL)showFinderGetInfoForFile:(NSString *)path;
-- (BOOL)quickLookFile:(NSString *)path;
 - (BOOL)moveFileToTrash:(NSString *)path;
 - (BOOL)runAppleScript:(NSString *)scriptSource;
 

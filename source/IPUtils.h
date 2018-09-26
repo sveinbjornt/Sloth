@@ -30,7 +30,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface IPServices : NSObject
+@interface IPUtils : NSObject
 
 + (BOOL)isIPv4AddressString:(NSString *)ipStr;
 + (BOOL)isIPv6AddressString:(NSString *)ipString;

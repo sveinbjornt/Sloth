@@ -113,23 +113,6 @@ end tell", path, type];
     return [self runAppleScript:source];
 }
 
-- (BOOL)quickLookFile:(NSString *)path {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path] == NO) {
-        NSBeep();
-        return NO;
-    }
-    
-    NSString *source = [NSString stringWithFormat:
-@"tell application \"Finder\"\n\
-activate\n\
-set fileName to item (POSIX file \"%@\")\n\
-select fileName\n\
-tell application \"System Events\" to keystroke \"y\" using command down\n\
-end tell", path];
-    
-    return [self runAppleScript:source];
-}
-
 - (BOOL)moveFileToTrash:(NSString *)path {
     if ([[NSFileManager defaultManager] fileExistsAtPath:path] == NO) {
         NSBeep();

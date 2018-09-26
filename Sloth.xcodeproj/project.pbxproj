@@ -22,7 +22,7 @@
 		F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F471DF6220F586510057E667 /* NSWorkspace+Additions.m */; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */; };
-		F4AC98362060583E0000871B /* IPServices.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPServices.m */; };
+		F4AC98362060583E0000871B /* IPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPUtils.m */; };
 		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */; };
@@ -69,8 +69,8 @@
 		F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VolumesPopUpButton.m; sourceTree = "<group>"; };
 		F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		F4A9D5EF206A6A6E0069B2B6 /* src_loc_stats.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = src_loc_stats.sh; sourceTree = "<group>"; };
-		F4AC98342060583E0000871B /* IPServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPServices.h; sourceTree = "<group>"; };
-		F4AC98352060583E0000871B /* IPServices.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPServices.m; sourceTree = "<group>"; };
+		F4AC98342060583E0000871B /* IPUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPUtils.h; sourceTree = "<group>"; };
+		F4AC98352060583E0000871B /* IPUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPUtils.m; sourceTree = "<group>"; };
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
 		F4D529311C90BAE10046FAE9 /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPanelController.h; path = source/InfoPanelController.h; sourceTree = SOURCE_ROOT; };
 		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
@@ -141,8 +141,8 @@
 			children = (
 				F4081F9E2088E0C9009BB15A /* ProcessUtils.h */,
 				F4081F9F2088E0C9009BB15A /* ProcessUtils.m */,
-				F4AC98342060583E0000871B /* IPServices.h */,
-				F4AC98352060583E0000871B /* IPServices.m */,
+				F4AC98342060583E0000871B /* IPUtils.h */,
+				F4AC98352060583E0000871B /* IPUtils.m */,
 				F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */,
 				F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */,
 				F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */,
@@ -238,7 +238,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -305,7 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4AC98362060583E0000871B /* IPServices.m in Sources */,
+				F4AC98362060583E0000871B /* IPUtils.m in Sources */,
 				F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */,
 				F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */,
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
@@ -335,7 +335,6 @@
 					"$(PROJECT_DIR)/sparkle",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
 				GENERATE_PKGINFO_FILE = NO;

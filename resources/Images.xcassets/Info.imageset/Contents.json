@@ -6,7 +6,7 @@
     },
     {
       "idiom" : "mac",
-      "filename" : "info@2x.png",
+      "filename" : "tbar_info-BBBAA77A32-C4EBFEA440@2x.png",
       "scale" : "2x"
     }
   ],
@@ -15,6 +15,7 @@
     "author" : "xcode"
   },
   "properties" : {
-    "template-rendering-intent" : "original"
+    "template-rendering-intent" : "template",
+    "preserves-vector-representation" : true
   }
 }

@@ -28,14 +28,14 @@
  POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "IPServices.h"
+#import "IPUtils.h"
 #import "NSString+RegexConvenience.h"
 
 #import <sys/types.h>
 #import <sys/socket.h>
 #import <netdb.h>
 
-@implementation IPServices
+@implementation IPUtils
 
 + (BOOL)isIPv4AddressString:(NSString *)ipString {
     NSRegularExpression *regex =
@@ -63,12 +63,14 @@
                                                                           error:nil];
     BOOL match = [portNumString isMatchedByRegex:rx];
     int portNum = [portNumString intValue];
-    BOOL validRange = portNum >= 0 && portNum < 65535;
+    BOOL validRange = (portNum >= 0 && portNum < 65535);
     return match && validRange;
 }
 
+#pragma mark -
+
 + (NSString *)dnsNameForIPv4AddressString:(NSString *)ipAddrStr {
-    if ([IPServices isIPv4AddressString:ipAddrStr] == NO) {
+    if ([IPUtils isIPv4AddressString:ipAddrStr] == NO) {
         return nil;
     }
     // Do DNS lookup for IP address
@@ -76,7 +78,7 @@
 }
 
 + (NSString *)dnsNameForIPv6AddressString:(NSString *)ipAddrStr {
-    if ([IPServices isIPv6AddressString:ipAddrStr] == NO) {
+    if ([IPUtils isIPv6AddressString:ipAddrStr] == NO) {
         return nil;
     }
     // Do DNS lookup for IP address
@@ -84,26 +86,28 @@
 }
 
 + (NSString *)dnsNameForIPAddressString:(NSString *)ipAddStr; {
-    NSString *dns = [IPServices dnsNameForIPv4AddressString:ipAddStr];
+    NSString *dns = [IPUtils dnsNameForIPv4AddressString:ipAddStr];
     if (dns) {
         return dns;
     }
-    return [IPServices dnsNameForIPv6AddressString:ipAddStr];
+    return [IPUtils dnsNameForIPv6AddressString:ipAddStr];
 }
 
+#pragma mark -
+
 + (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString {
-    NSString *ipAddr = [IPServices IPv4AddressStringForDNSName:dnsNameString];
+    NSString *ipAddr = [IPUtils IPv4AddressStringForDNSName:dnsNameString];
     if (ipAddr) {
         return ipAddr;
     }
-    return [IPServices IPv6AddressStringForDNSName:dnsNameString];
+    return [IPUtils IPv6AddressStringForDNSName:dnsNameString];
 }
 
 + (NSString *)IPv4AddressStringForDNSName:(NSString *)dnsNameString {
     NSHost *host = [NSHost hostWithName:dnsNameString];
     if (host) {
         for (NSString *addr in [host addresses]) {
-            if ([IPServices isIPv4AddressString:addr]) {
+            if ([IPUtils isIPv4AddressString:addr]) {
                 return addr;
             }
         }
@@ -115,7 +119,7 @@
     NSHost *host = [NSHost hostWithName:dnsNameString];
     if (host) {
         for (NSString *addr in [host addresses]) {
-            if ([IPServices isIPv6AddressString:addr]) {
+            if ([IPUtils isIPv6AddressString:addr]) {
                 return addr;
             }
         }
@@ -123,9 +127,11 @@
     return nil;
 }
 
+#pragma mark -
+
 // Look up port name, e.g. "http" for "80"
 + (NSString *)portNameForPortNumString:(NSString *)portNumStr {
-    if ([IPServices isPortNumberString:portNumStr] == NO) {
+    if ([IPUtils isPortNumberString:portNumStr] == NO) {
         return nil;
     }
 

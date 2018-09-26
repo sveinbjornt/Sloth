@@ -31,7 +31,7 @@
 #import "SlothController.h"
 #import "InfoPanelController.h"
 #import "Common.h"
-#import "IPServices.h"
+#import "IPUtils.h"
 #import "ProcessUtils.h"
 #import "NSWorkspace+Additions.h"
 
@@ -60,7 +60,6 @@
 @property (weak) IBOutlet NSButton *killButton;
 @property (weak) IBOutlet NSButton *showInFinderButton;
 @property (weak) IBOutlet NSButton *getFinderInfoButton;
-@property (weak) IBOutlet NSButton *quickLookButton;
 
 @property (assign, nonatomic) NSString *path;
 @property (assign, nonatomic) NSDictionary *fileInfoDict;
@@ -110,7 +109,6 @@
         [self.pathTextField setAttributedStringValue:redPath];
     }
     
-    
     // Resolve DNS and show details for IP sockets
     self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";
     if (isIPSocket) {
@@ -140,6 +138,7 @@
         [self.processIconView setImage:itemDict[@"pimage"]];
     }
     
+    // Size / socket status
     NSString *sizeStr = @"";
     if ([type isEqualToString:@"File"]) {
         sizeStr = [self fileSizeStringForPath:path];
@@ -214,7 +213,6 @@
     BOOL workablePath = [FILEMGR fileExistsAtPath:path] && (isFileOrFolder || isProcess);
     [self.showInFinderButton setEnabled:workablePath];
     [self.getFinderInfoButton setEnabled:workablePath];    
-    [self.quickLookButton setEnabled:workablePath];
 }
 
 #pragma mark - Get file info
@@ -400,13 +398,13 @@
         NSString *portDescStr = port;
         
         // Is the address an IP address?
-        if ([IPServices isIPv4AddressString:address] || [IPServices isIPv6AddressString:address]) {
-            NSString *dnsName = [IPServices dnsNameForIPAddressString:address];
+        if ([IPUtils isIPv4AddressString:address] || [IPUtils isIPv6AddressString:address]) {
+            NSString *dnsName = [IPUtils dnsNameForIPAddressString:address];
             if (dnsName) {
                 addrDescStr = dnsName;
             }
             
-            NSString *portName = [IPServices portNameForPortNumString:port];
+            NSString *portName = [IPUtils portNameForPortNumString:port];
             if (portName) {
                 portDescStr = portName;
             }
@@ -415,14 +413,14 @@
         else {
             NSString *ipStr;
             if ([ipVersion isEqualToString:@"IPv6"]) {
-                ipStr = [IPServices IPv6AddressStringForDNSName:address];
+                ipStr = [IPUtils IPv6AddressStringForDNSName:address];
             }
             if (!ipStr) {
-                ipStr = [IPServices IPv4AddressStringForDNSName:address];
+                ipStr = [IPUtils IPv4AddressStringForDNSName:address];
             }
             
             if (ipStr) {
-                if ([IPServices isIPv6AddressString:ipStr]) {
+                if ([IPUtils isIPv6AddressString:ipStr]) {
                     // RFC 3986
                     // A host identified by an Internet Protocol literal address,
                     // version 6 [RFC3513] or later, is distinguished by enclosing
@@ -432,7 +430,7 @@
                 addrDescStr = ipStr;
             }
             
-            NSString *portNum = [IPServices portNumberForPortNameString:port];
+            NSString *portNum = [IPUtils portNumberForPortNameString:port];
             if (portNum) {
                 portDescStr = portNum;
             }
@@ -454,11 +452,6 @@
 - (IBAction)getInfoInFinder:(id)sender {
     NSString *path = self.fileInfoDict[@"path"] ? self.fileInfoDict[@"path"] : self.fileInfoDict[@"name"];
     [WORKSPACE showFinderGetInfoForFile:path];
-}
-
-- (IBAction)quickLook:(id)sender {
-    NSString *path = self.fileInfoDict[@"path"] ? self.fileInfoDict[@"path"] : self.fileInfoDict[@"name"];
-    [WORKSPACE quickLookFile:path];
 }
 
 - (IBAction)showInFinder:(id)sender {

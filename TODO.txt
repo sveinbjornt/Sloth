@@ -2,3 +2,4 @@
 TODO list for Sloth 2.6
 
 * Add Move to Trash contextual menu item
+* Add args info (see ps src) to process Info Window (is it possible without setuid?)

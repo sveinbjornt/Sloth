@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -346,7 +345,7 @@
                 <menuItem title="Action" id="qjK-9c-w03">
                     <menu key="submenu" title="Action" id="qER-Jc-t35">
                         <items>
-                            <menuItem title="Refresh" image="NSRefreshTemplate" keyEquivalent="r" id="hQ5-ma-AFt">
+                            <menuItem title="Refresh" keyEquivalent="r" id="hQ5-ma-AFt">
                                 <connections>
                                     <action selector="refresh:" target="212" id="laV-tL-jZL"/>
                                 </connections>
@@ -572,12 +571,6 @@ CA
                         <action selector="getInfo:" target="212" id="Au8-T2-b71"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Quick Look" id="aIV-bf-ZRN">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="quickLook:" target="212" id="JAo-3b-Pwb"/>
-                    </connections>
-                </menuItem>
                 <menuItem title="Copy" id="QBt-uf-IOt" userLabel="Copy">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -603,11 +596,11 @@ CA
             <rect key="contentRect" x="125" y="249" width="892" height="611"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <value key="minSize" type="size" width="853" height="350"/>
-            <view key="contentView" wantsLayer="YES" misplaced="YES" id="2">
+            <view key="contentView" wantsLayer="YES" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="892" height="611"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button toolTip="Refresh listing" verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="208">
+                    <button toolTip="Refresh listing" verticalHuggingPriority="750" imageHugsTitle="YES" id="208">
                         <rect key="frame" x="768" y="13" width="110" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="725">
@@ -621,8 +614,8 @@ DQ
                             <action selector="refresh:" target="212" id="217"/>
                         </connections>
                     </button>
-                    <button toolTip="Only show files in home folder hierarchy" misplaced="YES" id="27r-wc-J19">
-                        <rect key="frame" x="421" y="582" width="122" height="21"/>
+                    <button toolTip="Only show files in home folder hierarchy" id="27r-wc-J19">
+                        <rect key="frame" x="421" y="584" width="122" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Home Folder Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="qRb-Ks-bpM">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -632,8 +625,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="p1D-61-9GM"/>
                         </connections>
                     </button>
-                    <button toolTip="Show Unix IPC sockets" misplaced="YES" id="235">
-                        <rect key="frame" x="115" y="560" width="97" height="21"/>
+                    <button toolTip="Show Unix IPC sockets" id="235">
+                        <rect key="frame" x="115" y="562" width="97" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Unix Sockets" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="729">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -643,8 +636,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showUnixSockets" id="uxc-G7-j2P"/>
                         </connections>
                     </button>
-                    <button toolTip="Show directories" misplaced="YES" id="236">
-                        <rect key="frame" x="115" y="581" width="96" height="21"/>
+                    <button toolTip="Show directories" id="236">
+                        <rect key="frame" x="115" y="583" width="96" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Directories" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="730">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -654,8 +647,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showDirectories" id="fiM-da-ZXt"/>
                         </connections>
                     </button>
-                    <button toolTip="Show IP sockets" misplaced="YES" id="239">
-                        <rect key="frame" x="19" y="560" width="97" height="21"/>
+                    <button toolTip="Show IP sockets" id="239">
+                        <rect key="frame" x="19" y="562" width="97" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="IP Sockets" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="732">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -665,8 +658,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showIPSockets" id="jWy-2p-ad7"/>
                         </connections>
                     </button>
-                    <button toolTip="Show regular files" misplaced="YES" id="240">
-                        <rect key="frame" x="19" y="581" width="96" height="21"/>
+                    <button toolTip="Show regular files" id="240">
+                        <rect key="frame" x="19" y="583" width="96" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Regular Files" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="733">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -676,8 +669,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showRegularFiles" id="kwD-h1-DIu"/>
                         </connections>
                     </button>
-                    <button toolTip="Only show application processes" misplaced="YES" id="241">
-                        <rect key="frame" x="421" y="561" width="122" height="21"/>
+                    <button toolTip="Only show application processes" id="241">
+                        <rect key="frame" x="421" y="563" width="122" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Applications Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="734">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -687,8 +680,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="kNZ-Wh-Rrx"/>
                         </connections>
                     </button>
-                    <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" verticalHuggingPriority="750" misplaced="YES" id="252">
-                        <rect key="frame" x="721" y="564" width="151" height="22"/>
+                    <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" verticalHuggingPriority="750" id="252">
+                        <rect key="frame" x="721" y="566" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" usesSingleLineMode="YES" bezelStyle="round" id="735">
                             <font key="font" metaFont="cellTitle"/>
@@ -701,7 +694,7 @@ DQ
                             <outlet property="searchMenuTemplate" destination="6L5-jB-614" id="7x1-pU-Ybs"/>
                         </connections>
                     </searchField>
-                    <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" misplaced="YES" id="tqa-Nm-sTb">
+                    <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" id="tqa-Nm-sTb">
                         <rect key="frame" x="744" y="21" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
@@ -716,16 +709,16 @@ DQ
                         <rect key="frame" x="501" y="14" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </progressIndicator>
-                    <box horizontalHuggingPriority="750" misplaced="YES" boxType="separator" id="9jY-Nj-HCo">
-                        <rect key="frame" x="408" y="558" width="5" height="48"/>
+                    <box horizontalHuggingPriority="750" boxType="separator" id="9jY-Nj-HCo">
+                        <rect key="frame" x="408" y="560" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
-                    <box horizontalHuggingPriority="750" misplaced="YES" boxType="separator" id="wZB-WG-ZQ5">
-                        <rect key="frame" x="547" y="558" width="5" height="48"/>
+                    <box horizontalHuggingPriority="750" boxType="separator" id="wZB-WG-ZQ5">
+                        <rect key="frame" x="547" y="560" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
-                    <button toolTip="Show pipes" misplaced="YES" id="Y0K-aj-uhW">
-                        <rect key="frame" x="213" y="560" width="68" height="21"/>
+                    <button toolTip="Show pipes" id="Y0K-aj-uhW">
+                        <rect key="frame" x="213" y="562" width="68" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Pipes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="iS6-IS-QUs">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -735,7 +728,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showPipes" id="Pke-9y-1TB"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" misplaced="YES" id="659">
+                    <textField verticalHuggingPriority="750" id="659">
                         <rect key="frame" x="424" y="57" width="447" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" id="738">
@@ -744,12 +737,12 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box horizontalHuggingPriority="750" misplaced="YES" boxType="separator" id="9wn-lX-PcL">
-                        <rect key="frame" x="665" y="558" width="5" height="48"/>
+                    <box horizontalHuggingPriority="750" boxType="separator" id="9wn-lX-PcL">
+                        <rect key="frame" x="665" y="560" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="beK-br-huc">
-                        <rect key="frame" x="564" y="585" width="49" height="14"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="beK-br-huc">
+                        <rect key="frame" x="564" y="587" width="49" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Volumes" id="ais-Zo-YIR">
                             <font key="font" metaFont="smallSystem"/>
@@ -757,8 +750,8 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" misplaced="YES" id="1p9-Jd-MZE" customClass="VolumesPopUpButton">
-                        <rect key="frame" x="561" y="560" width="95" height="22"/>
+                    <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" id="1p9-Jd-MZE" customClass="VolumesPopUpButton">
+                        <rect key="frame" x="561" y="562" width="95" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="B3K-h8-ie3">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -769,8 +762,8 @@ DQ
                             <outlet property="delegate" destination="212" id="MPB-v2-Ed7"/>
                         </connections>
                     </popUpButton>
-                    <button toolTip="Show character devices" misplaced="YES" id="234">
-                        <rect key="frame" x="213" y="581" width="68" height="21"/>
+                    <button toolTip="Show character devices" id="234">
+                        <rect key="frame" x="213" y="583" width="68" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Devices" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="728">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -780,8 +773,8 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="lQn-WG-DTM"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="TjP-ET-kct">
-                        <rect key="frame" x="301" y="585" width="75" height="14"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="TjP-ET-kct">
+                        <rect key="frame" x="301" y="587" width="75" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Access Mode" id="tA4-3L-YZn">
                             <font key="font" metaFont="smallSystem"/>
@@ -789,12 +782,12 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box horizontalHuggingPriority="750" misplaced="YES" boxType="separator" id="nhj-pS-e3c">
-                        <rect key="frame" x="286" y="558" width="5" height="48"/>
+                    <box horizontalHuggingPriority="750" boxType="separator" id="nhj-pS-e3c">
+                        <rect key="frame" x="286" y="560" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
-                    <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" misplaced="YES" id="xlJ-1p-EIn">
-                        <rect key="frame" x="299" y="560" width="99" height="22"/>
+                    <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" id="xlJ-1p-EIn">
+                        <rect key="frame" x="299" y="562" width="99" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Any" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="MiD-oo-DQS" id="xgX-97-Xdm">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -819,7 +812,7 @@ DQ
                             <outlet property="menu" destination="R4T-iO-LKX" id="r16-Pt-iY8"/>
                         </connections>
                     </popUpButton>
-                    <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="GmK-As-ZM0">
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="GmK-As-ZM0">
                         <rect key="frame" x="22" y="81" width="850" height="469"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
@@ -888,6 +881,7 @@ DQ
                                     </connections>
                                 </outlineView>
                             </subviews>
+                            <nil key="backgroundColor"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="i50-wE-fNz">
                             <rect key="frame" x="1" y="119" width="223" height="15"/>
@@ -905,29 +899,7 @@ DQ
                             </connections>
                         </tableHeaderView>
                     </scrollView>
-                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" misplaced="YES" id="211">
-                        <rect key="frame" x="88" y="13" width="86" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="Show" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="show:" target="212" id="gVH-DN-Dt3"/>
-                        </connections>
-                    </button>
-                    <button toolTip="Kill selected process" verticalHuggingPriority="750" misplaced="YES" id="210">
-                        <rect key="frame" x="16" y="13" width="72" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Kill" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="726">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="kill:" target="212" id="710"/>
-                        </connections>
-                    </button>
-                    <button toolTip="Toggles expand/collapse in outline view" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" id="sd7-Q9-5I9">
+                    <button toolTip="Toggles expand/collapse in outline view" horizontalHuggingPriority="750" verticalHuggingPriority="750" id="sd7-Q9-5I9">
                         <rect key="frame" x="22" y="58" width="13" height="13"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ilJ-c0-CvL">
@@ -939,7 +911,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.disclosure" id="15D-E7-K9L"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="cw1-nC-kNe">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cw1-nC-kNe">
                         <rect key="frame" x="38" y="57" width="119" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Expand all" id="7A9-Ir-ydg">
@@ -948,8 +920,8 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button toolTip="Show info window for item" verticalHuggingPriority="750" misplaced="YES" id="y0R-qW-wSJ">
-                        <rect key="frame" x="174" y="13" width="103" height="32"/>
+                    <button toolTip="Show info window for item" verticalHuggingPriority="750" imageHugsTitle="YES" id="y0R-qW-wSJ">
+                        <rect key="frame" x="16" y="13" width="112" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="Info" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -957,6 +929,28 @@ DQ
                         </buttonCell>
                         <connections>
                             <action selector="getInfo:" target="212" id="eWG-26-xqc"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Kill selected process" verticalHuggingPriority="750" imageHugsTitle="YES" id="210">
+                        <rect key="frame" x="235" y="13" width="125" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Kill Process" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="726">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="kill:" target="212" id="710"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" imageHugsTitle="YES" id="211">
+                        <rect key="frame" x="128" y="13" width="107" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="show:" target="212" id="gVH-DN-Dt3"/>
                         </connections>
                     </button>
                 </subviews>
@@ -967,24 +961,24 @@ DQ
             </connections>
             <point key="canvasLocation" x="417" y="-125.5"/>
         </window>
-        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
+        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
             <rect key="contentRect" x="131" y="159" width="385" height="234"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <view key="contentView" misplaced="YES" id="uuC-Xu-EUc">
+            <view key="contentView" id="uuC-Xu-EUc">
                 <rect key="frame" x="0.0" y="0.0" width="385" height="234"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box misplaced="YES" title="Box" titlePosition="noTitle" id="szz-CW-tz9">
+                    <box title="Box" titlePosition="noTitle" id="szz-CW-tz9">
                         <rect key="frame" x="17" y="52" width="351" height="164"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="0fi-kW-b7H">
-                            <rect key="frame" x="2" y="2" width="347" height="160"/>
+                            <rect key="frame" x="3" y="3" width="345" height="158"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button verticalHuggingPriority="750" misplaced="YES" id="hkL-nx-O5J">
-                                    <rect key="frame" x="18" y="123" width="304" height="20"/>
+                                <button verticalHuggingPriority="750" id="hkL-nx-O5J">
+                                    <rect key="frame" x="18" y="121" width="304" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PZc-ff-0hd">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -994,8 +988,8 @@ DQ
                                         <binding destination="560" name="value" keyPath="values.dnsLookup" id="v4e-8V-3tv"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" misplaced="YES" id="5c4-0y-w2t">
-                                    <rect key="frame" x="18" y="68" width="310" height="25"/>
+                                <button verticalHuggingPriority="750" id="5c4-0y-w2t">
+                                    <rect key="frame" x="18" y="66" width="310" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="c3A-YY-2hh">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1005,8 +999,8 @@ DQ
                                         <binding destination="560" name="value" keyPath="values.showCurrentWorkingDirectories" id="gIa-mS-dGn"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" misplaced="YES" id="zAn-k8-ZDp">
-                                    <rect key="frame" x="18" y="95" width="310" height="24"/>
+                                <button verticalHuggingPriority="750" id="zAn-k8-ZDp">
+                                    <rect key="frame" x="18" y="93" width="310" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jx1-Aq-PnX">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1016,8 +1010,8 @@ DQ
                                         <binding destination="560" name="value" keyPath="values.showProcessBinaries" id="9FL-Lh-4Kn"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" misplaced="YES" id="BQ8-dr-IQj">
-                                    <rect key="frame" x="18" y="37" width="304" height="35"/>
+                                <button verticalHuggingPriority="750" id="BQ8-dr-IQj">
+                                    <rect key="frame" x="18" y="35" width="304" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Display Mac-friendly process names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="deT-ps-7CI">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1027,8 +1021,8 @@ DQ
                                         <binding destination="560" name="value" keyPath="values.friendlyProcessNames" id="AIM-C4-XEh"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" misplaced="YES" id="AfS-o1-xHe">
-                                    <rect key="frame" x="18" y="10" width="304" height="35"/>
+                                <button verticalHuggingPriority="750" id="AfS-o1-xHe">
+                                    <rect key="frame" x="18" y="8" width="304" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Authenticate immediately when launched" bezelStyle="regularSquare" imagePosition="left" inset="2" id="kPK-sM-jNz">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1041,7 +1035,7 @@ DQ
                             </subviews>
                         </view>
                     </box>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="i2e-2r-g5Q">
+                    <button verticalHuggingPriority="750" id="i2e-2r-g5Q">
                         <rect key="frame" x="14" y="13" width="141" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jON-sf-Fl4">
@@ -1052,7 +1046,7 @@ DQ
                             <action selector="restoreDefaults:" target="212" id="IQh-FQ-2zl"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="2hd-8B-yos">
+                    <button verticalHuggingPriority="750" id="2hd-8B-yos">
                         <rect key="frame" x="278" y="13" width="93" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ecZ-Pe-8S7">
@@ -1102,10 +1096,10 @@ DQ
         </menu>
     </objects>
     <resources>
-        <image name="Info" width="14" height="14"/>
-        <image name="Kill" width="14" height="14"/>
+        <image name="Info" width="30" height="30"/>
+        <image name="Kill" width="30" height="30"/>
         <image name="NSLockLockedTemplate" width="10" height="14"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
-        <image name="Show" width="14" height="14"/>
+        <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
     </resources>
 </document>

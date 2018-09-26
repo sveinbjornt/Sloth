@@ -6,7 +6,7 @@
     },
     {
       "idiom" : "mac",
-      "filename" : "kill@2x.png",
+      "filename" : "tbar_stop-BBBAA77A32-C4EBFEA440@2x.png",
       "scale" : "2x"
     }
   ],
@@ -15,6 +15,6 @@
     "author" : "xcode"
   },
   "properties" : {
-    "template-rendering-intent" : "original"
+    "template-rendering-intent" : "template"
   }
 }

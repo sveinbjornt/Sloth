@@ -189,6 +189,14 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [authenticateMenuItem setImage:lockIcon];
     
     [volumesMenuItem setSubmenu:[volumesPopupButton menu]];
+    [filterTextField setStringValue:@""];
+    
+    // For some reason, IB isn't respecting template
+    // settings so we have to do this manually (sigh)
+    [[NSImage imageNamed:@"Kill"] setTemplate:YES];
+    [[NSImage imageNamed:@"Kill"] setSize:NSMakeSize(20, 20)];
+    [[NSImage imageNamed:@"Info"] setTemplate:YES];
+    [[NSImage imageNamed:@"Info"] setSize:NSMakeSize(20, 20)];
     
     // Manually check the correct menu items for these submenus
     // on launch since we (annoyingly) can't use bindings for it
@@ -510,6 +518,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [refreshButton setEnabled:NO];
     [outlineView setEnabled:NO];
     [outlineView setAlphaValue:0.5];
+    [filterTextField setEnabled:NO];
     
     // Center progress indicator and set it off
     CGFloat x = (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2;
@@ -536,6 +545,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
                 [outlineView setEnabled:YES];
                 [outlineView setAlphaValue:1.0];
                 [refreshButton setEnabled:YES];
+                [filterTextField setEnabled:YES];
                 
                 isRefreshing = NO;
                 
@@ -1026,14 +1036,6 @@ Hold the option key (⌥) to avoid this prompt."
     [infoPanelController showWindow:self];
 }
 
-- (IBAction)quickLook:(id)sender {
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
-    
-    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
-    [WORKSPACE quickLookFile:path];
-}
-
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
@@ -1256,7 +1258,7 @@ Hold the option key (⌥) to avoid this prompt."
         
         // We make the file path red if file has been moved or deleted
         if ([item[@"type"] isEqualToString:@"File"] || [item[@"type"] isEqualToString:@"Directory"]) {
-            NSColor *color = canReveal ? [NSColor blackColor] : [NSColor redColor];
+            NSColor *color = canReveal ? [NSColor controlTextColor] : [NSColor redColor];
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
                                                                    attributes:@{NSForegroundColorAttributeName: color}];
         }
@@ -1312,9 +1314,8 @@ Hold the option key (⌥) to avoid this prompt."
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
         NSMenuItem *openItem = [itemContextualMenu itemAtIndex:0];
-        NSMenuItem *qlItem = [itemContextualMenu itemAtIndex:7];
-        NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:8];
-        NSMenuItem *killItem = [itemContextualMenu itemAtIndex:10];
+        NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:9];
+        NSMenuItem *killItem = [itemContextualMenu itemAtIndex:11];
         
         [killItem setTitle:[NSString stringWithFormat:@"Kill Process “%@” (%@)", item[@"pname"], item[@"pid"]]];
         
@@ -1327,12 +1328,10 @@ Hold the option key (⌥) to avoid this prompt."
             }
             
             [openItem setTitle:openTitle];
-            [qlItem setTitle:[NSString stringWithFormat:@"Quick Look “%@”", [item[@"name"] lastPathComponent]]];
             [copyItem setTitle:[NSString stringWithFormat:@"Copy “%@”", [item[@"name"] lastPathComponent]]];
             
         } else {
             [openItem setTitle:@"Open"];
-            [qlItem setTitle:@"Quick Look"];
             [copyItem setTitle:@"Copy"];
         }
 
@@ -1345,9 +1344,11 @@ Hold the option key (⌥) to avoid this prompt."
         
         [menu removeAllItems];
         
+        NSMenuItem *noneItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
+        
         // Not a regular file or folder
         if (![self canRevealItemAtPath:item[@"name"]]) {
-            [menu addItemWithTitle:@"None" action:nil keyEquivalent:@""];
+            [menu addItem:noneItem];
             return;
         }
         
@@ -1355,7 +1356,7 @@ Hold the option key (⌥) to avoid this prompt."
         NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
         
         if (defaultApp == nil) {
-            [menu addItemWithTitle:@"None" action:nil keyEquivalent:@""];
+            [menu addItem:noneItem];
         } else {
             NSString *title = [[defaultApp lastPathComponent] stringByDeletingPathExtension];
             title = [NSString stringWithFormat:@"%@ (default)", title];
@@ -1410,7 +1411,6 @@ Hold the option key (⌥) to avoid this prompt."
                      action == @selector(showInfoInFinder:) ||
                      action == @selector(kill:) ||
                      action == @selector(getInfo:) ||
-                     action == @selector(quickLook:) ||
                      action == @selector(open:));
     
     // Actions on items should only be enabled when something is selected
@@ -1437,7 +1437,6 @@ Hold the option key (⌥) to avoid this prompt."
     // These actions should only be enabled for files the Finder can handle
     if (canReveal == NO && (action == @selector(show:) ||
                             action == @selector(showInfoInFinder:) ||
-                            action == @selector(quickLook:) ||
                             action == @selector(open:) ||
                             action == @selector(moveToTrash:))) {
         return NO;
