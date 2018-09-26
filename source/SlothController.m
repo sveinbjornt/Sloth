@@ -521,10 +521,10 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     [filterTextField setEnabled:NO];
     
     // Center progress indicator and set it off
-    CGFloat x = (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2;
-    CGFloat y = (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2;
-    [progressIndicator setFrameOrigin:NSMakePoint(x, y)];
-    [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
+//    CGFloat x = (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2;
+//    CGFloat y = (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2;
+//    [progressIndicator setFrameOrigin:NSMakePoint(0,0)];
+//    [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
     [progressIndicator setUsesThreadedAnimation:TRUE];
     [progressIndicator startAnimation:self];
 

@@ -705,10 +705,6 @@ DQ
                             <action selector="toggleAuthentication:" target="212" id="URh-at-ZRh"/>
                         </connections>
                     </button>
-                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" id="335">
-                        <rect key="frame" x="501" y="14" width="32" height="32"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </progressIndicator>
                     <box horizontalHuggingPriority="750" boxType="separator" id="9jY-Nj-HCo">
                         <rect key="frame" x="408" y="560" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -899,6 +895,17 @@ DQ
                             </connections>
                         </tableHeaderView>
                     </scrollView>
+                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" imageHugsTitle="YES" id="211">
+                        <rect key="frame" x="128" y="13" width="150" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="show:" target="212" id="gVH-DN-Dt3"/>
+                        </connections>
+                    </button>
                     <button toolTip="Toggles expand/collapse in outline view" horizontalHuggingPriority="750" verticalHuggingPriority="750" id="sd7-Q9-5I9">
                         <rect key="frame" x="22" y="58" width="13" height="13"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -932,7 +939,7 @@ DQ
                         </connections>
                     </button>
                     <button toolTip="Kill selected process" verticalHuggingPriority="750" imageHugsTitle="YES" id="210">
-                        <rect key="frame" x="235" y="13" width="125" height="32"/>
+                        <rect key="frame" x="278" y="13" width="125" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Kill Process" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="726">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -942,17 +949,10 @@ DQ
                             <action selector="kill:" target="212" id="710"/>
                         </connections>
                     </button>
-                    <button toolTip="Show file in Finder" verticalHuggingPriority="750" imageHugsTitle="YES" id="211">
-                        <rect key="frame" x="128" y="13" width="107" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="show:" target="212" id="gVH-DN-Dt3"/>
-                        </connections>
-                    </button>
+                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" id="335">
+                        <rect key="frame" x="697" y="15" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    </progressIndicator>
                 </subviews>
             </view>
             <connections>

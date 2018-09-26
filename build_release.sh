@@ -44,13 +44,13 @@ xcodebuild  -parallelizeTargets \
 #1> /dev/null
 
 # Check if build succeeded
-if test $? -eq 0
-then
-    echo "Build successful"
-else
-    echo "Build failed"
-    exit
-fi
+#if test $? -eq 0
+#then
+#    echo "Build successful"
+#else
+#    echo "Build failed"
+#    exit
+#fi
 
 # Remove any .DS_Store junk
 find "${BUILD_DIR}/${APP_BUNDLE_NAME}/" -name ".DS_Store" -exec rm -f "{}" \;
