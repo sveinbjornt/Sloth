@@ -35,6 +35,7 @@
 #import "InfoPanelController.h"
 #import "ProcessUtils.h"
 #import "NSWorkspace+Additions.h"
+#import "STPrivilegedTask.h"
 
 #import <Security/Authorization.h>
 #import <Security/AuthorizationTags.h>
@@ -43,14 +44,6 @@
 #import <dlfcn.h>
 #import <stdlib.h>
 #import <pwd.h>
-
-// Function pointer to AuthorizationExecuteWithPrivileges
-// in case it doesn't exist in this version of OS X
-static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
-                                           const char *pathToTool,
-                                           AuthorizationFlags options,
-                                           char * const *arguments,
-                                           FILE **communicationsPipe) = NULL;
 
 @interface SlothController ()
 {
@@ -165,21 +158,9 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     
     // Hide Authenticate button & menu item if AEWP
     // is not available in this version of OS X
-    if (!_AuthExecuteWithPrivsFn) {
-        // On 10.7, AuthorizationExecuteWithPrivileges is deprecated. We want
-        // to continue using it since there's no good alternative (without
-        // code signing). We'll look up the function through dyld and fail if
-        // it is no longer accessible. If Apple removes the function entirely
-        // this will fail gracefully. If they keep the function and throw some
-        // sort of exception, this won't fail gracefully, but that's a risk
-        // we'll have to take for now.
-        // Pattern by Andy Kim from Potion Factory LLC
-        _AuthExecuteWithPrivsFn = dlsym(RTLD_DEFAULT, "AuthorizationExecuteWithPrivileges");
-        if (!_AuthExecuteWithPrivsFn) {
-            // This version of OS X has finally removed AEWP
-            [authenticateButton setHidden:YES];
-            [authenticateMenuItem setAction:nil];
-        }
+    if ([STPrivilegedTask authorizationFunctionAvailable] == NO) {
+        [authenticateButton setHidden:YES];
+        [authenticateMenuItem setAction:nil];
     }
     
     // Load system lock icon and set as icon for button & menu
@@ -573,39 +554,13 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
     NSData *outputData;
     
     if (isAuthenticated) {
-        if (!_AuthExecuteWithPrivsFn) {
-            NSBeep();
-            NSLog(@"AuthorizationExecuteWithPrivileges function undefined");
-            return nil;
-        }
         
-        const char *toolPath = [[self lsofPath] fileSystemRepresentation];
-        NSMutableArray *arguments = [self lsofArguments];
-        NSUInteger numberOfArguments = [arguments count];
-        char *args[numberOfArguments + 1];
-        FILE *outputFile;
+        STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
+        [task setLaunchPath:[self lsofPath]];
+        [task setArguments:[self lsofArguments]];
+        [task launchWithAuthorization:authorizationRef];
         
-        // First, construct an array of c strings from NSArray w. arguments
-        for (int i = 0; i < numberOfArguments; i++) {
-            NSString *argString = arguments[i];
-            NSUInteger stringLength = [argString length];
-            
-            args[i] = malloc((stringLength + 1) * sizeof(char));
-            snprintf(args[i], stringLength + 1, "%s", [argString fileSystemRepresentation]);
-        }
-        args[numberOfArguments] = NULL;
-        
-        // Use Authorization Reference to execute script with privileges
-        _AuthExecuteWithPrivsFn(authorizationRef, toolPath, kAuthorizationFlagDefaults, args, &outputFile);
-        
-        // Free malloc'd argument strings
-        for (int i = 0; i < numberOfArguments; i++) {
-            free(args[i]);
-        }
-
-        NSFileHandle *outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fileno(outputFile) closeOnDealloc:YES];
-        
-        outputData = [outputFileHandle readDataToEndOfFile];
+        outputData = [[task outputFileHandle] readDataToEndOfFile];
         
     } else {
         
@@ -923,21 +878,12 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization,
         return NO;
     }
     
-    // Construct c string arguments array
-    // /bin/kill -9 [pid]
-    char *args[3];
-    args[0] = malloc(4);
-    sprintf(args[0], "%s", "-9");
-    args[1] = malloc(10);
-    sprintf(args[1], "%d", pid);
-    args[2] = NULL;
+    // Create and launch authorized task
+    STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
+    [task setLaunchPath:@(toolPath)];
+    [task setArguments:@[@"-9", [NSString stringWithFormat:@"%d", pid]]];
+    [task launchWithAuthorization:authRef];
     
-    // Use Authorization Reference to execute /bin/kill with root privileges
-    err = _AuthExecuteWithPrivsFn(authRef, toolPath, kAuthorizationFlagDefaults, args, NULL);
-    
-    // Cleanup
-    free(args[0]);
-    free(args[1]);
     AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
     
     if (err != errAuthorizationSuccess) {

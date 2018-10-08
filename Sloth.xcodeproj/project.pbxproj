@@ -19,6 +19,7 @@
 		F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F442E0721EA7DB1000BAD80C /* InfoPanel.xib */; };
 		F442E0781EA7DD0D00BAD80C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; };
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F4584497216BA23400428797 /* STPrivilegedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4584496216BA23400428797 /* STPrivilegedTask.m */; };
 		F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F471DF6220F586510057E667 /* NSWorkspace+Additions.m */; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */; };
@@ -60,6 +61,8 @@
 		F438712D13402CDD00B51A5E /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		F442E0721EA7DB1000BAD80C /* InfoPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPanel.xib; sourceTree = "<group>"; };
 		F442E0771EA7DD0D00BAD80C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = sparkle/Sparkle.framework; sourceTree = "<group>"; };
+		F4584495216BA23400428797 /* STPrivilegedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPrivilegedTask.h; sourceTree = "<group>"; };
+		F4584496216BA23400428797 /* STPrivilegedTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPrivilegedTask.m; sourceTree = "<group>"; };
 		F471DF6220F586510057E667 /* NSWorkspace+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Additions.m"; sourceTree = "<group>"; };
 		F471DF6320F586510057E667 /* NSWorkspace+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Additions.h"; sourceTree = "<group>"; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 		F40B7D2E1C75FA94000A4616 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				F4584495216BA23400428797 /* STPrivilegedTask.h */,
+				F4584496216BA23400428797 /* STPrivilegedTask.m */,
 				F4081F9E2088E0C9009BB15A /* ProcessUtils.h */,
 				F4081F9F2088E0C9009BB15A /* ProcessUtils.m */,
 				F4AC98342060583E0000871B /* IPUtils.h */,
@@ -311,6 +316,7 @@
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
 				F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
+				F4584497216BA23400428797 /* STPrivilegedTask.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
 				F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */,
