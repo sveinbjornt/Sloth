@@ -170,7 +170,7 @@
         }
         [self.sizeTextField setStringValue:pidStr];
         
-        [self.usedByTextField setStringValue:@"None (non-app process)"];
+        [self.usedByTextField setStringValue:@"None (non-bundle process)"];
         [self.usedByLabelTextField setStringValue:@"Identifier"];
         if (itemDict[@"bundle"]) {
             NSString *usedByStr = [self identifierForBundleAtPath:path];

@@ -1256,6 +1256,7 @@ Hold the option key (⌥) to avoid this prompt."
         return;
     }
     
+    // Dynamically generate contextual menu for items
     if (menu == itemContextualMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
@@ -1284,7 +1285,7 @@ Hold the option key (⌥) to avoid this prompt."
         return;
     }
     
-    // Open With ...
+    // Dynamically generate Open With submenu
     if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
@@ -1374,8 +1375,6 @@ Hold the option key (⌥) to avoid this prompt."
     if (isProcess && action == @selector(open:)) {
         return NO;
     }
-    
-    // Processes/apps can't be opened
     if (isProcess && action == @selector(moveToTrash:)) {
         return NO;
     }
@@ -1395,7 +1394,7 @@ Hold the option key (⌥) to avoid this prompt."
     return YES;
 }
 
-// Called when user selects Copy menu item via edit or contextual menu
+// Called when user selects Copy menu item via Edit or contextual menu
 - (void)copy:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard clearContents];
