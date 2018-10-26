@@ -97,14 +97,6 @@
                                     <action selector="performClose:" target="-1" id="193"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="79">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Save As Text…" keyEquivalent="S" id="80">
-                                <connections>
-                                    <action selector="saveAsText:" target="212" id="QwX-Np-hPN"/>
-                                </connections>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="74">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -978,7 +970,7 @@ DQ
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button verticalHuggingPriority="750" id="hkL-nx-O5J">
-                                    <rect key="frame" x="18" y="121" width="304" height="20"/>
+                                    <rect key="frame" x="19" y="122" width="304" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PZc-ff-0hd">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -989,7 +981,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" id="5c4-0y-w2t">
-                                    <rect key="frame" x="18" y="66" width="310" height="25"/>
+                                    <rect key="frame" x="19" y="67" width="310" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="c3A-YY-2hh">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1000,7 +992,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" id="zAn-k8-ZDp">
-                                    <rect key="frame" x="18" y="93" width="310" height="24"/>
+                                    <rect key="frame" x="19" y="94" width="310" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jx1-Aq-PnX">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1011,7 +1003,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" id="BQ8-dr-IQj">
-                                    <rect key="frame" x="18" y="35" width="304" height="35"/>
+                                    <rect key="frame" x="19" y="36" width="304" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Display Mac-friendly process names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="deT-ps-7CI">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1022,7 +1014,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" id="AfS-o1-xHe">
-                                    <rect key="frame" x="18" y="8" width="304" height="35"/>
+                                    <rect key="frame" x="19" y="9" width="304" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Authenticate immediately when launched" bezelStyle="regularSquare" imagePosition="left" inset="2" id="kPK-sM-jNz">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1036,7 +1028,7 @@ DQ
                         </view>
                     </box>
                     <button verticalHuggingPriority="750" id="i2e-2r-g5Q">
-                        <rect key="frame" x="14" y="13" width="141" height="32"/>
+                        <rect key="frame" x="14" y="13" width="154" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jON-sf-Fl4">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1062,7 +1054,7 @@ DQ
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-143" y="-623"/>
+            <point key="canvasLocation" x="-265" y="-690"/>
         </window>
         <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
             <items>

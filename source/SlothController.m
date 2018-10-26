@@ -129,9 +129,11 @@
 }
 
 + (void)initialize {
-    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-    [DEFAULTS registerDefaults:defaults];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
+        [DEFAULTS registerDefaults:[NSDictionary dictionaryWithContentsOfFile:defaultsPath]];
+    });
 }
 
 - (IBAction)restoreDefaults:(id)sender {
@@ -250,245 +252,7 @@
     return NO;
 }
 
-#pragma mark - Filtering
-
-- (void)updateProcessCountHeader {
-    NSString *headerTitle = [NSString stringWithFormat:@"%d processes - sorted by %@", (int)[self.content count], [DEFAULTS stringForKey:@"sortBy"]];
-    [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
-}
-
-- (void)updateFiltering {
-    if (isRefreshing) {
-        return;
-    }
-    //NSLog(@"Filtering");
-    
-    // Filter content
-    int matchingFilesCount = 0;
-    self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
-    
-    // Update outline view header
-    [self updateProcessCountHeader];
-    
-    // Update num items label
-    NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
-    [numItemsTextField setStringValue:str];
-
-    [outlineView reloadData];
-    
-    if ([DEFAULTS boolForKey:@"disclosure"]) {
-        [outlineView expandItem:nil expandChildren:YES];
-    } else {
-        [outlineView collapseItem:nil collapseChildren:YES];
-    }
-}
-
-// User typed in search filter
-- (void)controlTextDidChange:(NSNotification *)aNotification {
-    if (filterTimer) {
-        [filterTimer invalidate];
-    }
-    filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateFiltering) userInfo:nil repeats:NO];
-}
-
-// Some default changed
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
-        [outlineView reloadData];
-        return;
-    }
-    // The default that changed was one of the filters
-    [self updateFiltering];
-}
-
-// Filter content according to active filters
-- (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
-    
-    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
-    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
-    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
-    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSockets"];
-    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevices"];
-    BOOL showPipes = [DEFAULTS boolForKey:@"showPipes"];
-    
-    BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
-    BOOL showHomeFolderOnly = [DEFAULTS boolForKey:@"showHomeFolderOnly"];
-    
-    BOOL searchCaseSensitive = [DEFAULTS boolForKey:@"searchFilterCaseSensitive"];
-    BOOL searchUsesRegex = [DEFAULTS boolForKey:@"searchFilterRegex"];
-    
-    // Access mode filter
-    NSString *accessModeFilter = [DEFAULTS stringForKey:@"accessMode"];
-    BOOL hasAccessModeFilter = ([accessModeFilter isEqualToString:@"Any"] == NO);
-    
-    // Volumes filter
-    NSString *volumesFilter = nil;
-    BOOL hasVolumesFilter = ([[[volumesPopupButton selectedItem] title] isEqualToString:@"All"] == NO);
-    if (hasVolumesFilter) {
-        volumesFilter = [[volumesPopupButton selectedItem] toolTip];
-    }
-    
-    // Path filters such as by volume or home folder should
-    // exclude everything that isn't a file or directory
-    if (hasVolumesFilter || showHomeFolderOnly) {
-        showIPSockets = FALSE;
-        showUnixSockets = FALSE;
-        showCharDevices = FALSE;
-        showPipes = FALSE;
-    }
-    
-    // User home dir path prefix
-    NSString *homeDirPath = NSHomeDirectory();
-    
-    // Search field filter
-    NSMutableArray *searchFilters = [NSMutableArray array];
-    NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
-    
-    for (NSString *fs in filterStrings) {
-        NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if ([s length] == 0) {
-            continue;
-        }
-
-        if (searchUsesRegex) {
-            NSError *err;
-            NSRegularExpressionOptions options = searchCaseSensitive ? 0 : NSRegularExpressionCaseInsensitive;
-            
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
-                                                                                   options:options
-                                                                                     error:&err];
-            if (!regex) {
-                NSLog(@"Error creating regex: %@", [err localizedDescription]);
-                continue;
-            }
-            [searchFilters addObject:regex];
-        } else {
-            [searchFilters addObject:s];
-        }
-    }
-    
-    BOOL hasSearchFilter = ([searchFilters count] > 0);
-    BOOL showAllProcessTypes = !showApplicationsOnly;
-    BOOL showAllItemTypes = (showRegularFiles &&
-                             showDirectories &&
-                             showIPSockets &&
-                             showUnixSockets &&
-                             showCharDevices &&
-                             showPipes &&
-                             !showHomeFolderOnly &&
-                             !hasVolumesFilter);
-    
-    // Minor optimization: If there is no filtering, just return
-    // unfiltered content instead of iterating over all items
-    if (showAllItemTypes && showAllProcessTypes && !hasSearchFilter && !hasAccessModeFilter) {
-        *matchingFilesCount = self.totalFileCount;
-        return unfilteredContent;
-    }
-
-    NSMutableArray *filteredContent = [NSMutableArray array];
-
-    // Iterate over each process, filter the children
-    for (NSMutableDictionary *process in self.unfilteredContent) {
-
-        NSMutableArray *matchingFiles = [NSMutableArray array];
-        
-        for (NSDictionary *file in process[@"children"]) {
-            
-            // Let's see if child gets filtered by type or path
-            if (showAllItemTypes == NO) {
-                
-                if (showHomeFolderOnly && ![file[@"name"] hasPrefix:homeDirPath]) {
-                    continue;
-                }
-                
-                if (volumesFilter && ![file[@"name"] hasPrefix:volumesFilter]) {
-                    continue;
-                }
-                
-                NSString *type = file[@"type"];
-                if (([type isEqualToString:@"File"] && !showRegularFiles) ||
-                    ([type isEqualToString:@"Directory"] && !showDirectories) ||
-                    ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
-                    ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-                    ([type isEqualToString:@"Character Device"] && !showCharDevices) ||
-                    ([type isEqualToString:@"Pipe"] && !showPipes)) {
-                    continue;
-                }
-            }
-            
-            // Filter by access mode
-            if (hasAccessModeFilter) {
-                NSString *mode = file[@"accessmode"];
-                if ([accessModeFilter isEqualToString:@"Read"] && ![mode isEqualToString:@"r"]) {
-                    continue;
-                }
-                if ([accessModeFilter isEqualToString:@"Write"] && ![mode isEqualToString:@"w"]) {
-                    continue;
-                }
-                if ([accessModeFilter isEqualToString:@"Read/Write"] && ![mode isEqualToString:@"u"]) {
-                    continue;
-                }
-            }
-            
-            // See if it matches regex in search field filter
-            if (hasSearchFilter) {
-                
-                int matchCount = 0;
-                
-                if (searchUsesRegex) {
-                
-                    // Regex search
-                    for (NSRegularExpression *regex in searchFilters) {
-                        if (!([file[@"name"] isMatchedByRegex:regex] ||
-                              [file[@"pname"] isMatchedByRegex:regex] ||
-                              [file[@"pid"] isMatchedByRegex:regex] ||
-                              [file[@"protocol"] isMatchedByRegex:regex] ||
-                              [file[@"ipversion"] isMatchedByRegex:regex] ||
-                              [file[@"socketstate"] isMatchedByRegex:regex])) {
-                            break;
-                        }
-                        matchCount += 1;
-                    }
-                    
-                } else {
-                    
-                    // Non-regex search
-                    NSStringCompareOptions options = searchCaseSensitive ? 0 : NSCaseInsensitiveSearch;
-                    
-                    for (NSString *searchStr in searchFilters) {
-                        if ([file[@"name"] rangeOfString:searchStr options:options].location == NSNotFound &&
-                            [file[@"pname"] rangeOfString:searchStr options:options].location == NSNotFound &&
-                            [file[@"pid"] rangeOfString:searchStr options:options].location == NSNotFound) {
-                            break;
-                        }
-                        matchCount += 1;
-                    }
-                }
-                
-                // Skip if it doesn't match all filter strings
-                if (matchCount != [searchFilters count]) {
-                    continue;
-                }
-            }
-            
-            [matchingFiles addObject:file];
-        }
-        
-        // If we have matching files for the process, and it's not being excluded as a non-app
-        if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
-            NSMutableDictionary *p = [process mutableCopy];
-            p[@"children"] = matchingFiles;
-            [self updateProcessInfo:p];
-            [filteredContent addObject:p];
-            *matchingFilesCount += [matchingFiles count];
-        }
-    }
-    
-    return filteredContent;
-}
-
-#pragma mark - Update/parse results
+#pragma mark - Get and parse lsof results
 
 - (IBAction)refresh:(id)sender {
     isRefreshing = YES;
@@ -812,6 +576,249 @@
     p[@"displayname"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
 }
 
+#pragma mark - Filtering
+
+- (void)updateProcessCountHeader {
+    NSString *headerTitle = [NSString stringWithFormat:@"%d processes - sorted by %@", (int)[self.content count], [DEFAULTS stringForKey:@"sortBy"]];
+    [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
+}
+
+- (void)updateFiltering {
+    if (isRefreshing) {
+        return;
+    }
+    //NSLog(@"Filtering");
+    
+    // Filter content
+    int matchingFilesCount = 0;
+    self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
+    
+    // Update outline view header
+    [self updateProcessCountHeader];
+    
+    // Update num items label
+    NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
+    [numItemsTextField setStringValue:str];
+    
+    [outlineView reloadData];
+    
+    if ([DEFAULTS boolForKey:@"disclosure"]) {
+        [outlineView expandItem:nil expandChildren:YES];
+    } else {
+        [outlineView collapseItem:nil collapseChildren:YES];
+    }
+}
+
+// User typed in search filter
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+    if (filterTimer) {
+        [filterTimer invalidate];
+    }
+    filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateFiltering) userInfo:nil repeats:NO];
+}
+
+// VolumesPopUpDelegate
+- (void)volumeSelectionChanged:(NSString *)volumePath {
+    [self performSelector:@selector(updateFiltering) withObject:nil afterDelay:0.05];
+}
+
+// Some default changed
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
+        [outlineView reloadData];
+        return;
+    }
+    // The default that changed was one of the filters
+    [self updateFiltering];
+}
+
+// Filter content according to active filters
+- (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
+    
+    BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
+    BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
+    BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
+    BOOL showUnixSockets = [DEFAULTS boolForKey:@"showUnixSockets"];
+    BOOL showCharDevices = [DEFAULTS boolForKey:@"showCharacterDevices"];
+    BOOL showPipes = [DEFAULTS boolForKey:@"showPipes"];
+    
+    BOOL showApplicationsOnly = [DEFAULTS boolForKey:@"showApplicationsOnly"];
+    BOOL showHomeFolderOnly = [DEFAULTS boolForKey:@"showHomeFolderOnly"];
+    
+    BOOL searchCaseSensitive = [DEFAULTS boolForKey:@"searchFilterCaseSensitive"];
+    BOOL searchUsesRegex = [DEFAULTS boolForKey:@"searchFilterRegex"];
+    
+    // Access mode filter
+    NSString *accessModeFilter = [DEFAULTS stringForKey:@"accessMode"];
+    BOOL hasAccessModeFilter = ([accessModeFilter isEqualToString:@"Any"] == NO);
+    
+    // Volumes filter
+    NSString *volumesFilter = nil;
+    BOOL hasVolumesFilter = ([[[volumesPopupButton selectedItem] title] isEqualToString:@"All"] == NO);
+    if (hasVolumesFilter) {
+        volumesFilter = [[volumesPopupButton selectedItem] toolTip];
+    }
+    
+    // Path filters such as by volume or home folder should
+    // exclude everything that isn't a file or directory
+    if (hasVolumesFilter || showHomeFolderOnly) {
+        showIPSockets = FALSE;
+        showUnixSockets = FALSE;
+        showCharDevices = FALSE;
+        showPipes = FALSE;
+    }
+    
+    // User home dir path prefix
+    NSString *homeDirPath = NSHomeDirectory();
+    
+    // Search field filter
+    NSMutableArray *searchFilters = [NSMutableArray array];
+    NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
+    
+    for (NSString *fs in filterStrings) {
+        NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if ([s length] == 0) {
+            continue;
+        }
+        
+        if (searchUsesRegex) {
+            NSError *err;
+            NSRegularExpressionOptions options = searchCaseSensitive ? 0 : NSRegularExpressionCaseInsensitive;
+            
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
+                                                                                   options:options
+                                                                                     error:&err];
+            if (!regex) {
+                NSLog(@"Error creating regex: %@", [err localizedDescription]);
+                continue;
+            }
+            [searchFilters addObject:regex];
+        } else {
+            [searchFilters addObject:s];
+        }
+    }
+    
+    BOOL hasSearchFilter = ([searchFilters count] > 0);
+    BOOL showAllProcessTypes = !showApplicationsOnly;
+    BOOL showAllItemTypes = (showRegularFiles &&
+                             showDirectories &&
+                             showIPSockets &&
+                             showUnixSockets &&
+                             showCharDevices &&
+                             showPipes &&
+                             !showHomeFolderOnly &&
+                             !hasVolumesFilter);
+    
+    // Minor optimization: If there is no filtering, just return
+    // unfiltered content instead of iterating over all items
+    if (showAllItemTypes && showAllProcessTypes && !hasSearchFilter && !hasAccessModeFilter) {
+        *matchingFilesCount = self.totalFileCount;
+        return unfilteredContent;
+    }
+    
+    NSMutableArray *filteredContent = [NSMutableArray array];
+    
+    // Iterate over each process, filter the children
+    for (NSMutableDictionary *process in self.unfilteredContent) {
+        
+        NSMutableArray *matchingFiles = [NSMutableArray array];
+        
+        for (NSDictionary *file in process[@"children"]) {
+            
+            // Let's see if child gets filtered by type or path
+            if (showAllItemTypes == NO) {
+                
+                if (showHomeFolderOnly && ![file[@"name"] hasPrefix:homeDirPath]) {
+                    continue;
+                }
+                
+                if (volumesFilter && ![file[@"name"] hasPrefix:volumesFilter]) {
+                    continue;
+                }
+                
+                NSString *type = file[@"type"];
+                if (([type isEqualToString:@"File"] && !showRegularFiles) ||
+                    ([type isEqualToString:@"Directory"] && !showDirectories) ||
+                    ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
+                    ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
+                    ([type isEqualToString:@"Character Device"] && !showCharDevices) ||
+                    ([type isEqualToString:@"Pipe"] && !showPipes)) {
+                    continue;
+                }
+            }
+            
+            // Filter by access mode
+            if (hasAccessModeFilter) {
+                NSString *mode = file[@"accessmode"];
+                if ([accessModeFilter isEqualToString:@"Read"] && ![mode isEqualToString:@"r"]) {
+                    continue;
+                }
+                if ([accessModeFilter isEqualToString:@"Write"] && ![mode isEqualToString:@"w"]) {
+                    continue;
+                }
+                if ([accessModeFilter isEqualToString:@"Read/Write"] && ![mode isEqualToString:@"u"]) {
+                    continue;
+                }
+            }
+            
+            // See if it matches regex in search field filter
+            if (hasSearchFilter) {
+                
+                int matchCount = 0;
+                
+                if (searchUsesRegex) {
+                    
+                    // Regex search
+                    for (NSRegularExpression *regex in searchFilters) {
+                        if (!([file[@"name"] isMatchedByRegex:regex] ||
+                              [file[@"pname"] isMatchedByRegex:regex] ||
+                              [file[@"pid"] isMatchedByRegex:regex] ||
+                              [file[@"protocol"] isMatchedByRegex:regex] ||
+                              [file[@"ipversion"] isMatchedByRegex:regex] ||
+                              [file[@"socketstate"] isMatchedByRegex:regex])) {
+                            break;
+                        }
+                        matchCount += 1;
+                    }
+                    
+                } else {
+                    
+                    // Non-regex search
+                    NSStringCompareOptions options = searchCaseSensitive ? 0 : NSCaseInsensitiveSearch;
+                    
+                    for (NSString *searchStr in searchFilters) {
+                        if ([file[@"name"] rangeOfString:searchStr options:options].location == NSNotFound &&
+                            [file[@"pname"] rangeOfString:searchStr options:options].location == NSNotFound &&
+                            [file[@"pid"] rangeOfString:searchStr options:options].location == NSNotFound) {
+                            break;
+                        }
+                        matchCount += 1;
+                    }
+                }
+                
+                // Skip if it doesn't match all filter strings
+                if (matchCount != [searchFilters count]) {
+                    continue;
+                }
+            }
+            
+            [matchingFiles addObject:file];
+        }
+        
+        // If we have matching files for the process, and it's not being excluded as a non-app
+        if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
+            NSMutableDictionary *p = [process mutableCopy];
+            p[@"children"] = matchingFiles;
+            [self updateProcessInfo:p];
+            [filteredContent addObject:p];
+            *matchingFilesCount += [matchingFiles count];
+        }
+    }
+    
+    return filteredContent;
+}
+
 #pragma mark - Interface actions
 
 - (IBAction)open:(id)sender {
@@ -819,38 +826,9 @@
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     NSString *path = item[@"name"];
     
-    if ([self canRevealItemAtPath:path] == NO || [WORKSPACE openFile:path] == NO) {
+    if ([WORKSPACE canRevealFileAtPath:path] == NO || [WORKSPACE openFile:path] == NO) {
         NSBeep();
     }
-}
-
-- (IBAction)openWith:(id)sender {
-    NSString *appPath = [sender toolTip];
-    NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
-    
-    if ([[sender title] isEqualToString:@"Select..."]) {
-        //create open panel
-        NSOpenPanel *oPanel = [NSOpenPanel openPanel];
-        [oPanel setAllowsMultipleSelection:NO];
-        [oPanel setCanChooseDirectories:NO];
-        [oPanel setAllowedFileTypes:@[(NSString *)kUTTypeApplicationBundle]];
-        
-        // set Applications folder as default directory
-        NSArray *applicationFolderPaths = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationDirectory inDomains:NSLocalDomainMask];
-        if ([applicationFolderPaths count]) {
-            [oPanel setDirectoryURL:applicationFolderPaths[0]];
-        }
-        
-        //run panel
-        if ([oPanel runModal] == NSModalResponseOK) {
-            appPath = [[oPanel URLs][0] path];
-        } else {
-            return;
-        }
-    }
-    
-    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-    [WORKSPACE openFile:item[@"name"] withApplication:appPath];
 }
 
 - (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
@@ -885,10 +863,6 @@
     [task launchWithAuthorization:authRef];
     
     AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
-    
-    if (err != errAuthorizationSuccess) {
-        return NO;
-    }
     
     return YES;
 }
@@ -945,23 +919,20 @@
     
     BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
     if (!optionKeyDown) {
-        
         // Ask user to confirm
         if ([Alerts proceedAlert:[NSString stringWithFormat:@"Move “%@” to the Trash?", [path lastPathComponent]]
                          subText:@"This will tell the Finder to move the specified file into your Trash folder. \
 Hold the option key (⌥) to avoid this prompt."
-                 withActionNamed:@"Move to Trash"] == YES) {
-            
-            // Move to trash, refresh in a bit to give Finder time to complete command. Tends to be slow :/
-            if ([WORKSPACE moveFileToTrash:path]) {
-                [self performSelector:@selector(outlineViewSelectionDidChange:) withObject:nil afterDelay:0.4];
-                [outlineView performSelector:@selector(reloadData) withObject:nil afterDelay:0.6];
-            }
-
+                 withActionNamed:@"Move to Trash"] == NO) {
+            return;
         }
     }
-
     
+    // Move to trash, refresh in a bit to give Finder time to complete command. Tends to be slow :/
+    if ([WORKSPACE moveFileToTrash:path]) {
+        [self performSelector:@selector(outlineViewSelectionDidChange:) withObject:nil afterDelay:0.4];
+        [outlineView performSelector:@selector(reloadData) withObject:nil afterDelay:0.6];
+    }
 }
 
 - (IBAction)getInfo:(id)sender {
@@ -982,6 +953,27 @@ Hold the option key (⌥) to avoid this prompt."
     [infoPanelController showWindow:self];
 }
 
+// Called when user selects Copy menu item via Edit or contextual menu
+- (void)copy:(id)sender {
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard clearContents];
+    
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    if (selectedRow == -1) {
+        NSBeep();
+        return;
+    }
+    
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    
+    // Write to pasteboard
+    if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
+        [pasteBoard declareTypes:@[NSFilenamesPboardType] owner:nil];
+        [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+    }
+    [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
+}
+
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
@@ -997,7 +989,7 @@ Hold the option key (⌥) to avoid this prompt."
 
 - (void)revealItemInFinder:(NSDictionary *)item {
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
-    if ([self canRevealItemAtPath:path]) {
+    if ([WORKSPACE canRevealFileAtPath:path]) {
         if ([WORKSPACE selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]]) {
             return;
         }
@@ -1005,11 +997,7 @@ Hold the option key (⌥) to avoid this prompt."
     NSBeep();
 }
 
-- (BOOL)canRevealItemAtPath:(NSString *)path {
-    return path && [FILEMGR fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
-}
-
-#pragma mark -
+#pragma mark - Disclosure
 
 - (IBAction)disclosureChanged:(id)sender {
     if ([DEFAULTS boolForKey:@"disclosure"]) {
@@ -1120,8 +1108,8 @@ Hold the option key (⌥) to avoid this prompt."
         [self deauthenticate];
     }
     
-    OSType iconID = authenticated ? kUnlockedIcon : kLockedIcon;
-    NSImage *img = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(iconID)];
+    OSType lockIconID = authenticated ? kUnlockedIcon : kLockedIcon;
+    NSImage *img = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(lockIconID)];
     [img setSize:NSMakeSize(16, 16)];
     NSString *actionName = authenticated ? @"Deauthenticate" : @"Authenticate";
     NSString *ttip = authenticated ? @"Deauthenticate" : @"Authenticate to view all system processes";
@@ -1166,23 +1154,6 @@ Hold the option key (⌥) to avoid this prompt."
     authenticated = NO;
 }
 
-#pragma mark - Save
-
-- (IBAction)saveAsText:(id)sender {
-    NSSavePanel *sPanel = [NSSavePanel savePanel];
-    [sPanel setPrompt:@"Save"];
-    [sPanel setNameFieldStringValue:@"SlothOutput.txt"];
-    
-    [sPanel beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
-        if (result != NSModalResponseOK) {
-            return;
-        }
-// TODO: Implement!
-        NSString *strRep = @"Not implemented yet";
-        [strRep writeToFile:[[sPanel URL] path] atomically:NO encoding:NSUTF8StringEncoding error:nil];
-    }];
-}
-
 #pragma mark - NSOutlineViewDelegate
 
 - (void)outlineView:(NSOutlineView *)ov didClickTableColumn:(NSTableColumn *)tableColumn {
@@ -1195,8 +1166,8 @@ Hold the option key (⌥) to avoid this prompt."
     
     if (selectedRow >= 0) {
         NSMutableDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-        BOOL canReveal = [self canRevealItemAtPath:item[@"name"]];
-        BOOL hasBundlePath = [self canRevealItemAtPath:item[@"path"]];
+        BOOL canReveal = [WORKSPACE canRevealFileAtPath:item[@"name"]];
+        BOOL hasBundlePath = [WORKSPACE canRevealFileAtPath:item[@"path"]];
         [revealButton setEnabled:(canReveal || hasBundlePath)];
         [getInfoButton setEnabled:YES];
         [killButton setEnabled:YES];
@@ -1237,17 +1208,12 @@ Hold the option key (⌥) to avoid this prompt."
     return YES;
 }
 
-#pragma mark - VolumesPopUpDelegate
-
-- (void)volumeSelectionChanged:(NSString *)volumePath {
-    [self performSelector:@selector(updateFiltering) withObject:nil afterDelay:0.05];
-}
-
 #pragma mark - Menus
 
 - (void)menuWillOpen:(NSMenu *)menu {
     
     if (menu == sortMenu) {
+        // Bindings should do this for us! Grr...
         NSArray *items = [menu itemArray];
         for (NSMenuItem *i in items) {
             NSControlStateValue on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
@@ -1256,7 +1222,7 @@ Hold the option key (⌥) to avoid this prompt."
         return;
     }
     
-    // Dynamically generate contextual menu for items
+    // Dynamically generate contextual menu for item
     if (menu == itemContextualMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
@@ -1266,7 +1232,7 @@ Hold the option key (⌥) to avoid this prompt."
         
         [killItem setTitle:[NSString stringWithFormat:@"Kill Process “%@” (%@)", item[@"pname"], item[@"pid"]]];
         
-        if ([self canRevealItemAtPath:item[@"name"]]) {
+        if ([WORKSPACE canRevealFileAtPath:item[@"name"]]) {
     
             NSString *openTitle = @"Open";
             NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
@@ -1285,67 +1251,14 @@ Hold the option key (⌥) to avoid this prompt."
         return;
     }
     
-    // Dynamically generate Open With submenu
+    // Dynamically generate Open With submenu for item
     if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
-        
-        [menu removeAllItems];
-        
-        NSMenuItem *noneItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
-        
-        // Not a regular file or folder
-        if (![self canRevealItemAtPath:item[@"name"]]) {
-            [menu addItem:noneItem];
-            return;
+        NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
+        if ([item[@"type"] isEqualToString:@"Process"]) {
+            path = nil;
         }
-        
-        // Default handler app is first item
-        NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
-        
-        if (defaultApp == nil) {
-            [menu addItem:noneItem];
-        } else {
-            NSString *title = [[defaultApp lastPathComponent] stringByDeletingPathExtension];
-            title = [NSString stringWithFormat:@"%@ (default)", title];
-            
-            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(openWith:) keyEquivalent:@""];
-            
-            NSImage *icon = [WORKSPACE iconForFile:defaultApp];
-            [icon setSize:NSMakeSize(16, 16)];
-            
-            [menuItem setTarget:self];
-            [menuItem setImage:icon];
-            [menuItem setToolTip:defaultApp];
-            
-            [menu addItem:menuItem];
-        }
-        
-        [menu addItem:[NSMenuItem separatorItem]];
-        
-        // Any other handler apps
-        NSArray *handlerApps = [WORKSPACE handlerApplicationsForFile:item[@"name"]];
-        for (NSString *app in handlerApps) {
-            if (defaultApp != nil && [app isEqualToString:defaultApp]) {
-                continue;
-            }
-            
-            NSString *title = [[app lastPathComponent] stringByDeletingPathExtension];
-            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(openWith:) keyEquivalent:@""];
-            
-            NSImage *icon = [WORKSPACE iconForFile:app];
-            [icon setSize:NSMakeSize(16, 16)];
-            
-            [menuItem setTarget:self];
-            [menuItem setImage:icon];
-            [menuItem setToolTip:app];
-            
-            [menu addItem:menuItem];
-        }
-        if ([handlerApps count]) {
-            [menu addItem:[NSMenuItem separatorItem]];
-        }
-        
-        [menu addItemWithTitle:@"Select..." action:@selector(openWith:) keyEquivalent:@""];
+        [WORKSPACE openWithMenuForFile:path target:nil action:nil menu:menu];
     }
 }
 
@@ -1365,13 +1278,13 @@ Hold the option key (⌥) to avoid this prompt."
         return NO;
     }
     
-    NSDictionary *selItem = [[outlineView itemAtRow:selectedRow] representedObject];
-    NSString *path = selItem[@"path"] ? selItem[@"path"] : selItem[@"name"];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     
-    BOOL canReveal = ([self canRevealItemAtPath:path]);
-    BOOL isProcess = [selItem[@"type"] isEqualToString:@"Process"];
+    BOOL canReveal = [WORKSPACE canRevealFileAtPath:path];
+    BOOL isProcess = [item[@"type"] isEqualToString:@"Process"];
     
-    // Processes/apps can't be opened
+    // Processes/apps can't be opened/trashed
     if (isProcess && action == @selector(open:)) {
         return NO;
     }
@@ -1379,7 +1292,7 @@ Hold the option key (⌥) to avoid this prompt."
         return NO;
     }
 
-    // These actions should only be enabled for files the Finder can handle
+    // Only enabled for files the Finder can handle
     if (canReveal == NO && (action == @selector(show:) ||
                             action == @selector(showInfoInFinder:) ||
                             action == @selector(open:) ||
@@ -1392,27 +1305,6 @@ Hold the option key (⌥) to avoid this prompt."
     }
     
     return YES;
-}
-
-// Called when user selects Copy menu item via Edit or contextual menu
-- (void)copy:(id)sender {
-    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
-    [pasteBoard clearContents];
-    
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
-    if (selectedRow == -1) {
-        NSBeep();
-        return;
-    }
-    
-    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-
-    // Write to pasteboard
-    if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
-        [pasteBoard declareTypes:@[NSFilenamesPboardType] owner:nil];
-        [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
-    }
-    [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
 }
 
 - (void)checkItemWithTitle:(NSString *)title inMenu:(NSMenu *)menu {
@@ -1444,11 +1336,7 @@ Hold the option key (⌥) to avoid this prompt."
     [item setState:[DEFAULTS boolForKey:key]];
 }
 
-#pragma mark -
-
-- (IBAction)supportSlothDevelopment:(id)sender {
-    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
-}
+#pragma mark - Open websites
 
 - (IBAction)visitSlothWebsite:(id)sender {
     [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
@@ -1456,6 +1344,10 @@ Hold the option key (⌥) to avoid this prompt."
 
 - (IBAction)visitSlothOnGitHubWebsite:(id)sender {
     [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_GITHUB_WEBSITE]];
+}
+
+- (IBAction)supportSlothDevelopment:(id)sender {
+    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
 }
 
 @end

@@ -4,10 +4,10 @@
 
 Sloth is a Mac application that displays all open files and sockets in use by all running applications on your system. This makes it easy to inspect which apps are using which files and sockets.
 
-* View all open files, directories, IP sockets, devices, unix sockets and pipes
+* View all open files, directories, IP sockets, devices, sockets and pipes
 * View IP socket status, protocol and version
-* Filter by access mode, volume, type, location, or using regular expressions
-* Sort by name, process id, user etc.
+* Filter by name, access mode, volume, type, location, or using regular expressions
+* Sort by name, process ID, user etc.
 * Inspection window with detailed macOS and Unix file/socket info
 * Powerful contextual menu for file operations
 * Authenticate to run with root privileges
@@ -28,7 +28,7 @@ Sloth is free, open source software and has been maintained for a long time. If 
 
 ## Version history
 
-### 09/08/2018 - Version 2.6
+### 26/09/2018 - Version 2.6
 
 * New and improved contextual menu 
 * Fixed quirks with macOS Mojave's "Dark Mode"
@@ -42,8 +42,8 @@ Sloth is free, open source software and has been maintained for a long time. If 
 
 ### 10/05/2018 - Version 2.4
 
-* Now defaults to showing Mac-friendly process names (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent"). 
-* Unix process names no longer truncated to 32 characters.
+* Now defaults to showing Mac-friendly process names (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent")
+* Unix process names no longer truncated to 32 characters
 * Search filter can now be used to filter by IP protocol (e.g. TCP or UDP) or IP version (e.g. IPv4 or IPv6)
 * Now shows TCP socket state (e.g. LISTEN, ESTABLISHED) in list and Info Panel
 * Info Panel now shows file descriptor integer
@@ -79,7 +79,7 @@ Sloth is free, open source software and has been maintained for a long time. If 
 
 * Copying a file path now creates a file representation in clipboard in addition to text
 * File paths are now red in colour if selected file does not exist at path
-* Uniform Type Identifier is now used to identify app bundles instead of .app suffix
+* Uniform Type Identifier now used to identify app bundles instead of .app suffix
 * Fixed issue with Info Window's handling of moved or non-existent files
 * Minor interface refinements
 
@@ -96,14 +96,14 @@ Sloth is free, open source software and has been maintained for a long time. If 
 * File representations can now be copied to the clipboard
 * Cmd-double-click now reveals file in Finder
 * Fixed various minor user interface bugs
-* Fixed collapse all bug with Get Info window open
+* Fixed collapse all bug with Info Panel open
 * New compact interface size option
-* Fixed broken permissions display for non-bundle processes in Info window
+* Fixed broken permissions display for non-bundle processes in Info Panel
 
 ### 03/05/2017 - Version 1.8
 
 * Sloth is now code-signed
-* QuickLook now works from Get Info panel
+* QuickLook now works from the Info panel
 * Minor user interface improvements
 
 ### 17/06/2016 - Version 1.7
@@ -118,7 +118,7 @@ Sloth is free, open source software and has been maintained for a long time. If 
 * UI improvements
 * New filtering options
 * Smarter regex filtering
-* Load results as root without restart
+* Load results as root without relaunching application
 * Expanded sorting options
 * Migrated project to ARC, modern Objective-C and Xcode 7
 * Substantial rewrite
@@ -158,7 +158,7 @@ Sloth is free, open source software and has been maintained for a long time. If 
 
 ### 22/02/2004 - Version 1.1
 
-* Added search field filter.
+* Added search filter.
 * New Action menu with menu items and shortcuts for button actions
 
 ### 21/02/2004 - Version 1.0

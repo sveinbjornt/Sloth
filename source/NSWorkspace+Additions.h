@@ -34,7 +34,10 @@
 
 - (NSArray *)handlerApplicationsForFile:(NSString *)filePath;
 - (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath;
+- (NSMenu *)openWithMenuForFile:(NSString *)path target:(id)target action:(SEL)selector menu:(NSMenu *)menu;
+
 - (NSString *)kindStringForFile:(NSString *)path;
+- (BOOL)canRevealFileAtPath:(NSString *)path;
 
 - (NSString *)fileSizeAsHumanReadableString:(UInt64)size;
 
