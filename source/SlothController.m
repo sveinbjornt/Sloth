@@ -264,6 +264,7 @@
     [outlineView setEnabled:NO];
     [outlineView setAlphaValue:0.5];
     [filterTextField setEnabled:NO];
+    [authenticateButton setEnabled:NO];
     
     // Center progress indicator and set it off
 //    CGFloat x = (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2;
@@ -291,6 +292,7 @@
                 [outlineView setAlphaValue:1.0];
                 [refreshButton setEnabled:YES];
                 [filterTextField setEnabled:YES];
+                [authenticateButton setEnabled:YES];
                 
                 isRefreshing = NO;
                 
@@ -466,9 +468,6 @@
                 }
                 else if ([ftype isEqualToString:@"PIPE"]) {
                     currentFile[@"type"] = @"Pipe";
-                    if ([currentFile[@"name"] isEqualToString:@""]) {
-                        currentFile[@"displayname"] = @"Unnamed Pipe";
-                    }
                 }
                 else {
                     //NSLog(@"Unrecognized file type: %@ : %@", ftype, [fileInfo description]);
@@ -485,7 +484,7 @@
             case 'n':
             {
                 currentFile[@"name"] = [line substringFromIndex:1];
-                currentFile[@"displayname"] = currentFile[@"name"];
+                currentFile[@"displayname"] = [currentFile[@"name"] length] ? currentFile[@"name"] : @"Unnamed";
                 
                 // Some files when running in root mode have no type listed
                 // and are only reported with the name "(revoked)". Skip those.
