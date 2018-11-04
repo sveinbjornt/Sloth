@@ -51,15 +51,8 @@
 
 - (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath {
     NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-    
-    CFURLRef appURL = LSCopyDefaultApplicationURLForURL((__bridge CFURLRef)fileURL, kLSRolesAll, NULL);
-    if (appURL) {
-        NSString *appPath = [(__bridge NSURL *)appURL path];
-        CFRelease(appURL);
-        return appPath;
-    }
-    
-    return nil;
+    NSURL *appURL = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:fileURL];
+    return [appURL path];
 }
 
 // Generate Open With menu for a given file. If no target and action are provided, we use our own.
