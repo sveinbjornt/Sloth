@@ -43,10 +43,10 @@
         return @[];
     }
     
-    for (int i = 0; i < [applications count]; i++) {
-        [appPaths addObject:[applications[i] path]];
+    for (NSURL *appURL in applications) {
+        [appPaths addObject:[appURL path]];
     }
-    return appPaths;
+    return [NSArray arrayWithArray:appPaths];
 }
 
 - (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath {
