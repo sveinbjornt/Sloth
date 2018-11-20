@@ -61,6 +61,7 @@
     [menu removeAllItems];
 
     NSMenuItem *noneMenuItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
+    NSString *defaultApp = [self defaultHandlerApplicationForFile:path];
     if ([self canRevealFileAtPath:path] == NO) {
         [menu addItem:noneMenuItem];
         return menu;
@@ -72,47 +73,49 @@
     NSMenu *submenu = menu ? menu : [[NSMenu alloc] init];
     [submenu setTitle:path]; // Used by selector
     
-    // Add menu item for default app
-    NSString *defaultApp = [self defaultHandlerApplicationForFile:path];
-    NSString *defaultAppName = [NSString stringWithFormat:@"%@ (default)", [[NSFileManager defaultManager] displayNameAtPath:defaultApp]];
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:defaultApp];
-    [icon setSize:NSMakeSize(16,16)];
-    
-    NSMenuItem *defaultAppItem = [submenu addItemWithTitle:defaultAppName action:selector keyEquivalent:@""];
-    [defaultAppItem setImage:icon];
-    [defaultAppItem setTarget:target];
-    [defaultAppItem setToolTip:defaultApp];
-    
-    [submenu addItem:[NSMenuItem separatorItem]];
-    
-    // Add items for all other apps that can open this file
-    NSArray *apps = [self handlerApplicationsForFile:path];
     int numOtherApps = 0;
-    if ([apps count]) {
-    
-        apps = [apps sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    
-        for (NSString *appPath in apps) {
-            if ([appPath isEqualToString:defaultApp]) {
-                continue; // Skip previously listed default app
-            }
-            
-            numOtherApps++;
-            NSString *title = [[NSFileManager defaultManager] displayNameAtPath:appPath];
-            
-            NSMenuItem *item = [submenu addItemWithTitle:title action:selector keyEquivalent:@""];
-            [item setTarget:target];
-            [item setToolTip:appPath];
-            
-            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
-            if (icon) {
-                [icon setSize:NSMakeSize(16,16)];
-                [item setImage:icon];
-            }
-        }
+    if (defaultApp) {
         
-    } else {
-        [submenu addItem:noneMenuItem];
+        // Add menu item for default app
+        NSString *defaultAppName = [NSString stringWithFormat:@"%@ (default)", [[NSFileManager defaultManager] displayNameAtPath:defaultApp]];
+        NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:defaultApp];
+        [icon setSize:NSMakeSize(16,16)];
+        
+        NSMenuItem *defaultAppItem = [submenu addItemWithTitle:defaultAppName action:selector keyEquivalent:@""];
+        [defaultAppItem setImage:icon];
+        [defaultAppItem setTarget:target];
+        [defaultAppItem setToolTip:defaultApp];
+        
+        [submenu addItem:[NSMenuItem separatorItem]];
+        
+        // Add items for all other apps that can open this file
+        NSArray *apps = [self handlerApplicationsForFile:path];
+        if ([apps count]) {
+        
+            apps = [apps sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+            for (NSString *appPath in apps) {
+                if ([appPath isEqualToString:defaultApp]) {
+                    continue; // Skip previously listed default app
+                }
+                
+                numOtherApps++;
+                NSString *title = [[NSFileManager defaultManager] displayNameAtPath:appPath];
+                
+                NSMenuItem *item = [submenu addItemWithTitle:title action:selector keyEquivalent:@""];
+                [item setTarget:target];
+                [item setToolTip:appPath];
+                
+                NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
+                if (icon) {
+                    [icon setSize:NSMakeSize(16,16)];
+                    [item setImage:icon];
+                }
+            }
+            
+        } else {
+            [submenu addItem:noneMenuItem];
+        }
     }
     
     if (numOtherApps) {
