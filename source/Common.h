@@ -38,6 +38,8 @@
 #define PROGRAM_LSOF_ARGS           @[@"-F", @"fpPcntuaT", @"+c0"]
 #define PROGRAM_LSOF_NO_DNS_ARGS    @[@"-n", @"-P"]
 
+#define DYN_UTI_PREFIX              @"dyn."
+
 #define GENERIC_EXEC_ICON_PATH \
 @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
 #define GENERIC_DOCUMENT_ICON_PATH \

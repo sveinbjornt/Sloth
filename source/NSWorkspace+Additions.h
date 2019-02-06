@@ -37,6 +37,7 @@
 - (NSMenu *)openWithMenuForFile:(NSString *)path target:(id)target action:(SEL)selector menu:(NSMenu *)menu;
 
 - (NSString *)kindStringForFile:(NSString *)path;
+- (NSString *)UTIForFile:(NSString *)filePath;
 - (BOOL)canRevealFileAtPath:(NSString *)path;
 
 - (NSString *)fileSizeAsHumanReadableString:(UInt64)size;

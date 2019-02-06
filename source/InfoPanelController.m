@@ -198,7 +198,12 @@
         [self.filetypeTextField setStringValue:fileInfoString];
         
         NSString *finderTypeString = [WORKSPACE kindStringForFile:path];
+        NSString *uti = [WORKSPACE UTIForFile:path];
+        if (uti && ![uti hasPrefix:DYN_UTI_PREFIX]) {
+            finderTypeString = [finderTypeString stringByAppendingFormat:@" (%@)", uti];
+        }
         [self.finderTypeTextField setStringValue:finderTypeString];
+        
         
         NSString *permString = [self ownerInfoForPath:path];
         [self.permissionsTextField setStringValue:permString];
@@ -272,6 +277,7 @@
     if (![FILEMGR fileExistsAtPath:filePath]) {
         return @"";
     }
+    
     // Run 'file' command and get output
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/usr/bin/file"];

@@ -173,6 +173,23 @@
     return kindStr;
 }
 
+- (NSString *)UTIForFile:(NSString *)filePath {
+    
+    MDItemRef item = MDItemCreateWithURL(NULL, (__bridge CFURLRef)[NSURL fileURLWithPath:filePath]);
+    if (!item) {
+        return nil;
+    }
+    NSArray *names = @[(__bridge NSString*)kMDItemContentType];
+    NSDictionary *dictionary = CFBridgingRelease(MDItemCopyAttributes(item, (__bridge CFArrayRef)names));
+    CFRelease(item);
+    
+    if (!dictionary || ![dictionary objectForKey:@"kMDItemContentType"]) {
+        return nil;
+    }
+    
+    return dictionary[@"kMDItemContentType"];
+}
+
 - (BOOL)canRevealFileAtPath:(NSString *)path {
     return path && [[NSFileManager defaultManager] fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
 }
