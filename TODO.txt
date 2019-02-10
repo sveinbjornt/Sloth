@@ -1,7 +1,4 @@
 
-TODO list for Sloth 2.7
+TODO list for Sloth 2.8
 
-    DONE * Use STPriviledTask with external AuthorizationRef to handle authentication
-    DONE * Fixed issue which would cause Sloth to crash on macOS 10.9 and earlier
-    DONE * Info Panel now shows Uniform Type Identifier of files
-    DONE * Minor bug fixes
+    * Update Sparkle to Mojave Dark Mode-compatible build
