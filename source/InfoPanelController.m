@@ -204,7 +204,6 @@
         }
         [self.finderTypeTextField setStringValue:finderTypeString];
         
-        
         NSString *permString = [self ownerInfoForPath:path];
         [self.permissionsTextField setStringValue:permString];
     }
@@ -223,6 +222,9 @@
 #pragma mark - Get file info
 
 - (NSString *)ownerInfoForPath:(NSString *)filePath {
+    if ([FILEMGR fileExistsAtPath:filePath] == NO) {
+        return @"-";
+    }
     NSString *userAndGroupStr = [self userAndGroupForPath:filePath];
     NSString *permStr = [self permissionsStringForPath:filePath];
     return [NSString stringWithFormat:@"%@ %@", permStr, userAndGroupStr];
@@ -347,7 +349,7 @@
     }
     
     if (fd != -1) {
-        access = [NSString stringWithFormat:@"%@   (fd%d%@)", access, fd, ioDesc];
+        access = [NSString stringWithFormat:@"%@  (fd%d%@)", access, fd, ioDesc];
     }
     
     // OK, we don't have any access mode

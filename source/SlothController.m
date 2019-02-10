@@ -267,10 +267,10 @@
     [authenticateButton setEnabled:NO];
     
     // Center progress indicator and set it off
-//    CGFloat x = (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2;
-//    CGFloat y = (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2;
-//    [progressIndicator setFrameOrigin:NSMakePoint(0,0)];
-//    [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
+    CGFloat x = (NSWidth([window.contentView bounds]) - NSWidth([progressIndicator frame])) / 2;
+    CGFloat y = (NSHeight([window.contentView bounds]) - NSHeight([progressIndicator frame])) / 2;
+    [progressIndicator setFrameOrigin:NSMakePoint(x,y)];
+    [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
     [progressIndicator setUsesThreadedAnimation:TRUE];
     [progressIndicator startAnimation:self];
 
@@ -1229,10 +1229,13 @@ Hold the option key (⌥) to avoid this prompt."
         NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:9];
         NSMenuItem *killItem = [itemContextualMenu itemAtIndex:11];
         
-        [killItem setTitle:[NSString stringWithFormat:@"Kill Process “%@” (%@)", item[@"pname"], item[@"pid"]]];
+        NSString *killTitle = @"Kill Process";
+        if (item) {
+            killTitle = [NSString stringWithFormat:@"Kill Process “%@” (%@)", item[@"pname"], item[@"pid"]];
+        }
+        [killItem setTitle:killTitle];
         
-        if ([WORKSPACE canRevealFileAtPath:item[@"name"]]) {
-    
+        if (item && [WORKSPACE canRevealFileAtPath:item[@"name"]]) {
             NSString *openTitle = @"Open";
             NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
             if (defaultApp) {
@@ -1241,7 +1244,6 @@ Hold the option key (⌥) to avoid this prompt."
             
             [openItem setTitle:openTitle];
             [copyItem setTitle:[NSString stringWithFormat:@"Copy “%@”", [item[@"name"] lastPathComponent]]];
-            
         } else {
             [openItem setTitle:@"Open"];
             [copyItem setTitle:@"Copy"];
@@ -1253,9 +1255,12 @@ Hold the option key (⌥) to avoid this prompt."
     // Dynamically generate Open With submenu for item
     if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
-        NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
-        if ([item[@"type"] isEqualToString:@"Process"]) {
-            path = nil;
+        NSString *path = nil;
+        if (item) {
+            path = item[@"path"] ? item[@"path"] : item[@"name"];
+            if ([item[@"type"] isEqualToString:@"Process"]) {
+                path = nil;
+            }
         }
         [WORKSPACE openWithMenuForFile:path target:nil action:nil menu:menu];
     }
@@ -1278,6 +1283,10 @@ Hold the option key (⌥) to avoid this prompt."
     }
     
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    if (!item && action == @selector(copy:)) {
+        return NO;
+    }
+    
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     
     BOOL canReveal = [WORKSPACE canRevealFileAtPath:path];

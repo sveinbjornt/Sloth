@@ -61,8 +61,7 @@
     [menu removeAllItems];
 
     NSMenuItem *noneMenuItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
-    NSString *defaultApp = [self defaultHandlerApplicationForFile:path];
-    if ([self canRevealFileAtPath:path] == NO) {
+    if (!path || [self canRevealFileAtPath:path] == NO) {
         [menu addItem:noneMenuItem];
         return menu;
     }
@@ -74,6 +73,7 @@
     [submenu setTitle:path]; // Used by selector
     
     int numOtherApps = 0;
+    NSString *defaultApp = [self defaultHandlerApplicationForFile:path];
     if (defaultApp) {
         
         // Add menu item for default app
