@@ -7,6 +7,22 @@
         <language>en</language>
         
         <item>
+            <title>Version 2.7</title>
+            <pubDate>Sunday, 10 Feb 2019 14:42:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.7.zip" sparkle:version="182" sparkle:shortVersionString="2.7" length="644176" type="application/octet-stream" sparkle:dsaSignature="MEQCIBn7dhIv7wAUQ8DKoth3C77hGmVcrgUYFPVW7dS95Q9aAiAhVYoVGK5Z3FHs
+            J7Y1kWKHnZxiff/F9lVkNtLPtz8xtQ=="/>
+            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h2>New in Sloth 2.7</h2>
+                <ul>
+                    <li>Info Panel now shows file Uniform Type Identifier</li>
+                    <li>Fixed crash bug on macOS 10.9 and earlier</li>
+                    <li>Various minor bug fixes and interface improvements</li>
+                </ul>
+            ]]></description>
+        </item>
+        
+        <item>
             <title>Version 2.6</title>
             <pubDate>Wednesday, 26 Sep 2018 21:15:00 +0000</pubDate>
             <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.6.zip" sparkle:version="168" sparkle:shortVersionString="2.6" length="640430" type="application/octet-stream" sparkle:dsaSignature="MEQCICw5fvJ6EbfTt+pbBieZLLaxpg5xYfSyKmmqUYVBQw7xAiBc6QDMj1CzOSkqEm+dXRkFYYcUow4RuREFeDJuzjDblA=="/>
@@ -21,186 +37,5 @@
             ]]></description>
         </item>
         
-        <item>
-            <title>Version 2.5</title>
-            <pubDate>Saturday, 2 Jun 2018 12:55:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.5.zip" sparkle:version="151" sparkle:shortVersionString="2.5" length="631996" type="application/octet-stream" sparkle:dsaSignature="MEQCIFM66nZciDGoYVBi7qvm7KNwjq6XS9MCQAqDpWGlYokgAiBOMEWMZy7/f9p78cIGFJf+TNbhafJZNchxNF+GHKKWag=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>New in Sloth 2.5</h2>
-                <ul>
-                    <li>Fixed critical lsof output parsing bug introduced in 2.4</li>
-                    <li>New "Authenticate on launch" option in Preferences</li>
-                    <li>Various minor interface refinements</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 2.4</title>
-            <pubDate>Thursday, 10 May 2018 13:27:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.4.zip" sparkle:version="142" sparkle:shortVersionString="2.4" length="622212" type="application/octet-stream" sparkle:dsaSignature="MEQCIC+lfCk/Jo2lNiSR0toJLVUybInI2IZuJVuFp+byhVUsAiAljGANOLCp7/9/lhIcgySyovcUPqA/wU9Hk1SLaUdwYw=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>New in Sloth 2.4</h2>
-                <ul>
-                    <li>Now defaults to showing Mac-friendly process names (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent")</li>
-                    <li>Unix process names no longer truncated to 32 characters.</li>
-                    <li>Search filter can now be used to filter by IP protocol (e.g. TCP or UDP) or IP version (e.g. IPv4 or IPv6)</li>
-                    <li>Now shows TCP socket state (e.g. LISTEN, ESTABLISHED) in list and Info Panel</li>
-                    <li>Info Panel now shows file descriptor integer</li>
-                    <li>Info Panel now shows additional info for character devices</li>
-                    <li>Info Panel now shows Carbon Process Serial Number (PSN), if available</li>
-                    <li>Much improved IPv6 socket handling</li>
-                    <li>DNS to IP and port name resolution in Info Panel when DNS/port lookup enabled in Prefs</li>
-                    <li>Minor user interface enhancements</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 2.3</title>
-            <pubDate>Monday, 16 Apr 2018 20:27:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.3.zip" sparkle:version="117" sparkle:shortVersionString="2.3" length="617375" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCCYEN2xSIpA1Byc1Sxl7iZ2itBo+jSqKtZzOPyJbSM/AIgGKuXEbCrm7GcEmvb7IvJGvtStbera+IJXTrpLDqNfwo="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>New in Sloth 2.3</h2>
-                <ul>
-                    <li>Now supports access mode filtering (e.g. read, write, read/write)</li>
-                    <li>Search filter now also filters by PID</li>
-                    <li>DNS and port name lookup for IP Sockets in Info Panel</li>
-                    <li>Info Panel now identifies standard I/O stream character devices</li>
-                    <li>New Search Filter menu with case sensitivity and regex options</li>
-                    <li>New application icon</li>
-                    <li>Fixed bug where Volumes filter wouldn't work</li>
-                    <li>Minor interface improvements</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 2.2</title>
-            <pubDate>Wed, 7 Mar 2018 14:45:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.2.zip" sparkle:version="86" sparkle:shortVersionString="2.2" length="467436" type="application/octet-stream" sparkle:dsaSignature="MEQCIGf15bP3b4DKlrwH2D8w058h5qrIwL3ZxRWLS4HAuGNsAiA6xy//8gcWkXlQ9Q2JxLNKnHsgMgr+WQ9Ede8NwC572A=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>New in Version 2.2:</h2>
-                <ul>
-                    <li>Now defaults to excluding process binaries, shared libraries and current working directories in listing</li>
-                    <li>DNS and port name lookup now disabled by default for faster execution (can be enabled in Preferences)</li>
-                    <li>Info Panel now displays file access mode and process owner</li>
-                    <li>New sort option: User ID</li>
-                    <li>Info Panel now shows IP socket protocol and version</li>
-                    <li>New Preferences window</li>
-                    <li>New high-resolution pipe and socket icons</li>
-                    <li>Fixed bug where sort settings were not respected on launch</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 2.1</title>
-            <pubDate>Mon, 12 Feb 2018 18:45:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.1.zip" sparkle:version="74" sparkle:shortVersionString="2.1" length="459206" type="application/octet-stream" sparkle:dsaSignature="MEQCIFV0hNVspQ78V9gctvjvds6U4g7sud8AHHPdF9ehIjFQAiA8KjP8kr4ZmkXcwtb+lsLeKJfYW9Zl9+HYBYOTe2bMeg=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>New in Version 2.1:</h2>
-                <ul>
-                    <li>Copying a file path now creates a file representation in clipboard in addition to text</li>
-                    <li>File paths are now red in colour if selected file does not exist at path</li>
-                    <li>Uniform Type Identifier is now used to identify app bundles instead of .app suffix</li>
-                    <li>Fixed issue with Info Window's handling of moved or non-existent files</li>
-                    <li>Minor interface refinements</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 2.0</title>
-            <pubDate>Sun, 1 Oct 2017 18:45:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.0.zip" sparkle:version="61" sparkle:shortVersionString="2.0" length="431752" type="application/octet-stream" sparkle:dsaSignature="MEQCIEQtl3kDINH2iZeMtzwsOugBr+SdByIgAEXF855lwiPeAiAuwJkJcpbkQCTO
-            r1u+/PH4i1Awu5lcxs99aTDvU0FI7g=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>New in Version 2.0:</h2>
-                <ul>
-                    <li>Added Volumes filter</li>
-                    <li>New "Sort By" submenu under View in main menu</li>
-                    <li>Sorting by PID now correctly does numerical sort instead of alphabetic</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 1.9</title>
-            <pubDate>Wed, 7 Jun 2017 11:45:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.9.zip" sparkle:version="56" sparkle:shortVersionString="1.9" length="429231" type="application/octet-stream" sparkle:dsaSignature="MEQCIHp2lP1wgylpswAgwUcd2YhfgUExpZilL28Bwac7ngKJAiAKfX5ckOUM90Bi
-            NFJ/FCh2/yj+GUvT5WYRSNO4S4McYg=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>Version 1.9 Changes</h2>
-                <ul>
-                    <li>Files can now be dragged and dropped</li>
-                    <li>Cmd-F now focuses on filter field</li>
-                    <li>File representations can now be copied to the clipboard</li>
-                    <li>Cmd-double-click now reveals file in Finder</li>
-                    <li>Fixed various minor user interface bugs</li>
-                    <li>Fixed collapse all bug with Get Info window open</li>
-                    <li>New compact interface size option</li>
-                    <li>Fixed broken permissions display for non-bundle processes in Info window</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 1.8</title>
-            <pubDate>Wed, 3 May 2017 15:45:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.8.zip" sparkle:version="42" sparkle:shortVersionString="1.8" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIG2gJ4F7TFK4thYsKX0xMXDgN6O4kDHFp15GBmYiisDaAiB4wS1SSD/ZHpSKLY8YE/BcWZUzbzUoxzh7ognQcQTzlw=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>Version 1.8 Changes</h2>
-                <ul>
-                    <li>Sloth is now code-signed</li>
-                    <li>QuickLook now works from Get Info panel</li>
-                    <li>Minor user interface improvements</li>
-                </ul>
-            ]]></description>
-        </item>
-        
-        <item>
-            <title>Version 1.7</title>
-            <pubDate>Fri, 17 Jun 2016 14:28:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.7.zip" sparkle:version="34" sparkle:shortVersionString="1.7" length="463.749" type="application/octet-stream" sparkle:dsaSignature="MEQCIDOn9V1I6df2P4pfX2LudUtkmoPPyug/7Me/XylwyOikAiBkztzAtYOpiqixzfZoqeQQyrpAV0N6IuLIXj1IayQvkA=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>Version 1.7 Changes</h2>
-                <ul>
-                    <li>New Info Panel for items</li>
-                    <li>Minor UI changes</li>
-                </ul>
-            ]]></description>
-        </item>
-
-        <item>
-            <title>Version 1.6</title>
-            <pubDate>Wed, 30 Nov 2015 00:28:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-1.6.zip" sparkle:version="25" sparkle:shortVersionString="1.6" length="449664" type="application/octet-stream" sparkle:dsaSignature="MEQCIEA1HkqvE/n0+l/FQaY5cn0aNlJEFknRWSoX/CrqEFCYAiB+7ap9xBo55i8VuGIgtSCZraFH2F1qDLSWaaB1F/zWnA=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>Version 1.6 Changes</h2>
-                <ul>
-                    <li>Asynchronous refresh</li>
-                    <li>Much improved performance</li>
-                    <li>UI improvements</li>
-                    <li>New filtering options</li>
-                    <li>Smarter regex filtering</li>
-                    <li>Load results as root without restart</li>
-                    <li>Expanded sorting options</li>
-                    <li>Migrated project to ARC, modern Objective-C and XCode 7</li>
-                    <li>Substantial rewrite</li>
-                    <li>Now requires OS X 10.8 or later</li>
-                </ul>
-            ]]></description>
-        </item>
     </channel>
 </rss>

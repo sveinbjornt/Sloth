@@ -2,7 +2,7 @@
 
 <img src="resources/sloth_icon.png" width="128" height="128" align="right" style="float: right; margin-left: 30px;">
 
-Sloth is a Mac application that displays all open files and sockets in use by all running applications on your system. This makes it easy to inspect which apps are using which files and sockets.
+Sloth is a Mac application that displays all open files and sockets in use by all running processes on your system. This makes it easy to inspect which apps are using which files and sockets.
 
 * View all open files, directories, IP sockets, devices, sockets and pipes
 * View IP socket status, protocol and version
@@ -18,7 +18,7 @@ Sloth is free, open source software and has been maintained for a long time. If 
 
 ## Download
 
-*  **[⇩ Download Sloth 2.6](https://sveinbjorn.org/files/software/sloth.zip)** (~0.6 MB, Intel 64-bit, 10.8 or later)
+*  **[⇩ Download Sloth 2.7](https://sveinbjorn.org/files/software/sloth.zip)** (~0.6 MB, Intel 64-bit, 10.8 or later)
 
 ## Screenshots
 
@@ -27,6 +27,12 @@ Sloth is free, open source software and has been maintained for a long time. If 
 <img src="resources/sloth_screenshot2.jpg" align="center">
 
 ## Version history
+
+### 10/02/2019 - Version 2.7
+
+* Info Panel now shows file Uniform Type Identifier
+* Fixed crash bug on macOS 10.9 and earlier
+* Various minor bug fixes and interface improvements
 
 ### 26/09/2018 - Version 2.6
 
