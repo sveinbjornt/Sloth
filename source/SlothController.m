@@ -1256,11 +1256,8 @@ Hold the option key (⌥) to avoid this prompt."
     if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         NSString *path = nil;
-        if (item) {
+        if (item && [item[@"type"] isEqualToString:@"Process"] == NO) {
             path = item[@"path"] ? item[@"path"] : item[@"name"];
-            if ([item[@"type"] isEqualToString:@"Process"]) {
-                path = nil;
-            }
         }
         [WORKSPACE openWithMenuForFile:path target:nil action:nil menu:menu];
     }
