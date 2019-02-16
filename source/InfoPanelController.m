@@ -127,7 +127,7 @@
             }
         });
     }
-
+    
     // Icon
     NSImage *img = isFileOrFolder ? [WORKSPACE iconForFile:path] : [itemDict[@"image"] copy];
     [img setSize:NSMakeSize(48,48)];
@@ -265,7 +265,7 @@
 - (NSString *)userAndGroupForPath:(NSString *)filePath {
     struct stat statInfo;
     stat([filePath fileSystemRepresentation], &statInfo);
-
+    
     const char *u = user_from_uid(statInfo.st_uid, 0);
     const char *g = group_from_gid(statInfo.st_gid, 0);
     NSString *user = [NSString stringWithCString:u encoding:NSUTF8StringEncoding];

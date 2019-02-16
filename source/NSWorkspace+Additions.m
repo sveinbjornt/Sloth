@@ -65,7 +65,7 @@
         [menu addItem:noneMenuItem];
         return menu;
     }
-
+    
     id target = t ? t : self;
     SEL selector = s ? s : @selector(openWith:);
     
@@ -121,7 +121,7 @@
     if (numOtherApps) {
         [submenu addItem:[NSMenuItem separatorItem]];
     }
-
+    
     NSMenuItem *selectItem = [submenu addItemWithTitle:@"Select..." action:selector keyEquivalent:@""];
     [selectItem setTarget:target];
     

@@ -64,7 +64,7 @@
     
     IBOutlet NSTextField *filterTextField;
     IBOutlet NSTextField *numItemsTextField;
-
+    
     IBOutlet NSButton *revealButton;
     IBOutlet NSButton *killButton;
     IBOutlet NSButton *getInfoButton;
@@ -78,7 +78,7 @@
     
     IBOutlet NSOutlineView *outlineView;
     IBOutlet NSTreeController *treeController;
-
+    
     IBOutlet NSImageView *cellImageView;
     IBOutlet NSTextField *cellTextField;
     
@@ -110,7 +110,7 @@
         // Mark these icons as templates so they're inverted on selection
         [[NSImage imageNamed:@"Socket"] setTemplate:YES];
         [[NSImage imageNamed:@"Pipe"] setTemplate:YES];
-
+        
         // Map item types to icons
         type2icon = @{
             @"File": [NSImage imageNamed:@"NSGenericDocument"],
@@ -119,7 +119,7 @@
             @"Unix Socket": [NSImage imageNamed:@"Socket"],
             @"IP Socket": [NSImage imageNamed:@"NSNetwork"],
             @"Pipe": [NSImage imageNamed:@"Pipe"],
-
+            
             // Just for Filter menu
             @"Applications": [NSImage imageNamed:@"NSDefaultApplicationIcon"],
             @"Home": [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kToolbarHomeIcon)]
@@ -247,7 +247,6 @@
     [refreshButton setEnabled:NO];
     [outlineView setEnabled:NO];
     [outlineView setAlphaValue:0.5];
-    [filterTextField setEnabled:NO];
     [authenticateButton setEnabled:NO];
     
     // Center progress indicator and set it off
@@ -257,12 +256,12 @@
     [progressIndicator setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
     [progressIndicator setUsesThreadedAnimation:TRUE];
     [progressIndicator startAnimation:self];
-
+    
     // Run lsof asynchronously in the background, so interface doesn't lock up
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         @autoreleasepool {
             NSString *output = [self runLsof:authenticated];
-
+            
             int fileCount;
             self.unfilteredContent = [self parseLsofOutput:output numFiles:&fileCount];
             self.totalFileCount = fileCount;
@@ -275,7 +274,6 @@
                 [outlineView setEnabled:YES];
                 [outlineView setAlphaValue:1.0];
                 [refreshButton setEnabled:YES];
-                [filterTextField setEnabled:YES];
                 [authenticateButton setEnabled:YES];
                 
                 isRefreshing = NO;
@@ -285,10 +283,6 @@
             });
         }
     });
-}
-
-- (NSString *)lsofPath {
-    return PROGRAM_LSOF_SYSTEM_PATH;
 }
 
 - (NSMutableArray *)lsofArguments {
@@ -306,7 +300,7 @@
     if (isAuthenticated) {
         
         STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
-        [task setLaunchPath:[self lsofPath]];
+        [task setLaunchPath:PROGRAM_LSOF_SYSTEM_PATH];
         [task setArguments:[self lsofArguments]];
         [task launchWithAuthorization:authorizationRef];
         
@@ -315,7 +309,7 @@
     } else {
         
         NSTask *lsof = [[NSTask alloc] init];
-        [lsof setLaunchPath:[self lsofPath]];
+        [lsof setLaunchPath:PROGRAM_LSOF_SYSTEM_PATH];
         [lsof setArguments:[self lsofArguments]];
         
         NSPipe *pipe = [NSPipe pipe];
@@ -356,7 +350,7 @@
     NSMutableDictionary *currentProcess;
     NSMutableDictionary *currentFile;
     BOOL skip = FALSE;
-
+    
     // Parse each line
     for (NSString *line in [outputString componentsSeparatedByString:@"\n"]) {
         if ([line length] == 0) {
@@ -531,7 +525,7 @@
             p[@"app"] = @NO;
             p[@"path"] = [ProcessUtils executablePathForPID:pid];
         }
-
+        
         p[@"psn"] = [ProcessUtils carbonProcessSerialNumberForPID:pid];
         
         // On Mac OS X, lsof truncates process names that are longer than
@@ -1113,7 +1107,7 @@ Hold the option key (⌥) to avoid this prompt."
 
 - (OSStatus)authenticate {
     OSStatus err = noErr;
-    const char *toolPath = [[self lsofPath] fileSystemRepresentation];
+    const char *toolPath = [PROGRAM_LSOF_SYSTEM_PATH fileSystemRepresentation];
     
     AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
     AuthorizationRights myRights = { 1, &myItems };
@@ -1130,7 +1124,7 @@ Hold the option key (⌥) to avoid this prompt."
     if (err != errAuthorizationSuccess) {
         return err;
     }
-
+    
     return noErr;
 }
 
@@ -1201,7 +1195,7 @@ Hold the option key (⌥) to avoid this prompt."
 - (void)menuWillOpen:(NSMenu *)menu {
     
     if (menu == sortMenu) {
-        // Bindings should do this for us! Grr...
+        // Bindings should really be able to do this for us! Grr...
         NSArray *items = [menu itemArray];
         for (NSMenuItem *i in items) {
             NSControlStateValue on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
@@ -1237,7 +1231,7 @@ Hold the option key (⌥) to avoid this prompt."
             [openItem setTitle:@"Open"];
             [copyItem setTitle:@"Copy"];
         }
-
+        
         return;
     }
     

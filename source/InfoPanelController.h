@@ -29,7 +29,6 @@
 */
 
 #import <Cocoa/Cocoa.h>
-@import Quartz;
 
 @interface InfoPanelController : NSWindowController <NSWindowDelegate>
 

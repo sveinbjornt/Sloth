@@ -134,11 +134,11 @@
     if ([IPUtils isPortNumberString:portNumStr] == NO) {
         return nil;
     }
-
+    
     int port = [portNumStr intValue];
     struct servent *serv;
     serv = getservbyport(htons(port), NULL);
-
+    
     // Just return original port num string if port name couldn't be resolved
     if (!serv) {
         return portNumStr;
