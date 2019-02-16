@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1080" identifier="macosx"/>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,7 +35,7 @@
                             </menuItem>
                             <menuItem title="Preferences…" keyEquivalent="," id="129">
                                 <connections>
-                                    <action selector="makeKeyAndOrderFront:" target="OsR-k1-sul" id="r7B-wo-zXg"/>
+                                    <action selector="showPrefs:" target="212" id="TYR-GM-13N"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="143">
@@ -582,7 +582,7 @@ CA
             </connections>
             <point key="canvasLocation" x="50" y="615.5"/>
         </menu>
-        <window identifier="SlothWindow" title="Sloth" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothWindow" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="21" userLabel="SlothWindow">
+        <window identifier="SlothWindow" title="Sloth" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" frameAutosaveName="SlothWindow" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="21" userLabel="SlothWindow">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="125" y="249" width="892" height="611"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
@@ -951,109 +951,6 @@ DQ
                 <outlet property="initialFirstResponder" destination="252" id="414"/>
             </connections>
             <point key="canvasLocation" x="417" y="-125.5"/>
-        </window>
-        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="OsR-k1-sul">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
-            <rect key="contentRect" x="131" y="159" width="385" height="234"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <view key="contentView" id="uuC-Xu-EUc">
-                <rect key="frame" x="0.0" y="0.0" width="385" height="234"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <box title="Box" titlePosition="noTitle" id="szz-CW-tz9">
-                        <rect key="frame" x="17" y="52" width="351" height="164"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="0fi-kW-b7H">
-                            <rect key="frame" x="3" y="3" width="345" height="158"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button verticalHuggingPriority="750" id="hkL-nx-O5J">
-                                    <rect key="frame" x="19" y="122" width="304" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PZc-ff-0hd">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="560" name="value" keyPath="values.dnsLookup" id="v4e-8V-3tv"/>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" id="5c4-0y-w2t">
-                                    <rect key="frame" x="19" y="67" width="310" height="25"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="c3A-YY-2hh">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="560" name="value" keyPath="values.showCurrentWorkingDirectories" id="gIa-mS-dGn"/>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" id="zAn-k8-ZDp">
-                                    <rect key="frame" x="19" y="94" width="310" height="24"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jx1-Aq-PnX">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="560" name="value" keyPath="values.showProcessBinaries" id="9FL-Lh-4Kn"/>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" id="BQ8-dr-IQj">
-                                    <rect key="frame" x="19" y="36" width="304" height="35"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Display Mac-friendly process names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="deT-ps-7CI">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="560" name="value" keyPath="values.friendlyProcessNames" id="AIM-C4-XEh"/>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" id="AfS-o1-xHe">
-                                    <rect key="frame" x="19" y="9" width="304" height="35"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Authenticate immediately when launched" bezelStyle="regularSquare" imagePosition="left" inset="2" id="kPK-sM-jNz">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="560" name="value" keyPath="values.authenticateOnLaunch" id="RLt-gR-hdv"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </view>
-                    </box>
-                    <button verticalHuggingPriority="750" id="i2e-2r-g5Q">
-                        <rect key="frame" x="14" y="13" width="154" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jON-sf-Fl4">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="restoreDefaults:" target="212" id="IQh-FQ-2zl"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" id="2hd-8B-yos">
-                        <rect key="frame" x="278" y="13" width="93" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ecZ-Pe-8S7">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="performClose:" target="OsR-k1-sul" id="eos-lc-nNE"/>
-                        </connections>
-                    </button>
-                </subviews>
-            </view>
-            <point key="canvasLocation" x="-265" y="-690"/>
         </window>
         <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
             <items>

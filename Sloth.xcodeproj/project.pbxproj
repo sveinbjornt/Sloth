@@ -28,6 +28,9 @@
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */; };
 		F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F4F1D9121C7CB95700945D3E /* dsa_pub.pem */; };
+		F4F7A5012215F0F0004421AA /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F7A4FF2215F0F0004421AA /* PrefsController.m */; };
+		F4F7A5042215F11E004421AA /* Prefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4F7A5032215F11E004421AA /* Prefs.xib */; };
+		F4F7A5072215FA10004421AA /* LsofTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F7A5062215FA10004421AA /* LsofTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -89,6 +92,11 @@
 		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
 		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
 		F4F1D9181C7E08D100945D3E /* build_release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_release.sh; sourceTree = "<group>"; };
+		F4F7A4FE2215F0F0004421AA /* PrefsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefsController.h; path = source/PrefsController.h; sourceTree = SOURCE_ROOT; };
+		F4F7A4FF2215F0F0004421AA /* PrefsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PrefsController.m; path = source/PrefsController.m; sourceTree = SOURCE_ROOT; };
+		F4F7A5032215F11E004421AA /* Prefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Prefs.xib; sourceTree = "<group>"; };
+		F4F7A5052215FA10004421AA /* LsofTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LsofTask.h; sourceTree = "<group>"; };
+		F4F7A5062215FA10004421AA /* LsofTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LsofTask.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +178,10 @@
 				F438710E13402C8200B51A5E /* SlothController.m */,
 				F4D529311C90BAE10046FAE9 /* InfoPanelController.h */,
 				F4D529321C90BAE10046FAE9 /* InfoPanelController.m */,
+				F4F7A4FE2215F0F0004421AA /* PrefsController.h */,
+				F4F7A4FF2215F0F0004421AA /* PrefsController.m */,
+				F4F7A5052215FA10004421AA /* LsofTask.h */,
+				F4F7A5062215FA10004421AA /* LsofTask.m */,
 				F40B7D2E1C75FA94000A4616 /* Util */,
 			);
 			name = Source;
@@ -182,6 +194,7 @@
 				F40B7D2C1C75FA05000A4616 /* Images.xcassets */,
 				F413E66E1C76842A00385DB3 /* MainMenu.xib */,
 				F442E0721EA7DB1000BAD80C /* InfoPanel.xib */,
+				F4F7A5032215F11E004421AA /* Prefs.xib */,
 				F47B45351EE74F2C00D79DFF /* Credits.rtf */,
 				F438712913402CDD00B51A5E /* Info.plist */,
 				F438712C13402CDD00B51A5E /* Defaults.plist */,
@@ -279,6 +292,7 @@
 			files = (
 				F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */,
 				F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */,
+				F4F7A5042215F11E004421AA /* Prefs.xib in Resources */,
 				F43440C620822A7F00AF60AA /* AppIcon.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
@@ -319,7 +333,9 @@
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
 				F4584497216BA23400428797 /* STPrivilegedTask.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
+				F4F7A5072215FA10004421AA /* LsofTask.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
+				F4F7A5012215F0F0004421AA /* PrefsController.m in Sources */,
 				F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,7 +384,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

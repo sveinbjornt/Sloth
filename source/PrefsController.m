@@ -28,13 +28,33 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
-#import "VolumesPopUpButton.h"
+#import "PrefsController.h"
+#import "Common.h"
 
-@interface SlothController : NSObject < NSApplicationDelegate,
-                                        NSWindowDelegate,
-                                        NSOutlineViewDataSource,
-                                        NSOutlineViewDelegate,
-                                        NSMenuDelegate,
-                                        VolumesPopUpButtonDelegate >
+@implementation PrefsController
+
+- (void)windowDidLoad {
+    [self.window setRepresentedURL:[NSURL URLWithString:@""]]; // Not representing a URL
+    [[self.window standardWindowButton:NSWindowDocumentIconButton] setImage:[NSImage imageNamed:@"Prefs"]];
+}
+
+- (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
+    // Prevent popup menu when window icon/title is cmd-clicked
+    return NO;
+}
+
+- (BOOL)window:(NSWindow *)window shouldDragDocumentWithEvent:(NSEvent *)event from:(NSPoint)dragImageLocation withPasteboard:(NSPasteboard *)pasteboard {
+    // Prevent dragging of title bar icon
+    return NO;
+}
+
+- (IBAction)restoreDefaults:(id)sender {
+    [DEFAULTS setBool:NO forKey:@"dnsLookup"];
+    [DEFAULTS setBool:NO forKey:@"showProcessBinaries"];
+    [DEFAULTS setBool:NO forKey:@"showCurrentWorkingDirectories"];
+    [DEFAULTS setBool:YES forKey:@"friendlyProcessNames"];
+    [DEFAULTS setBool:NO forKey:@"authenticateOnLaunch"];
+    [DEFAULTS synchronize];
+}
+
 @end

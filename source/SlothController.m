@@ -28,11 +28,12 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "SlothController.h"
 #import "Common.h"
+#import "SlothController.h"
 #import "Alerts.h"
 #import "NSString+RegexConvenience.h"
 #import "InfoPanelController.h"
+#import "PrefsController.h"
 #import "ProcessUtils.h"
 #import "NSWorkspace+Additions.h"
 #import "STPrivilegedTask.h"
@@ -91,6 +92,7 @@
     NSTimer *filterTimer;
     
     InfoPanelController *infoPanelController;
+    PrefsController *prefsController;
 }
 @property int totalFileCount;
 @property (strong) IBOutlet NSMutableArray *content;
@@ -136,18 +138,10 @@
     });
 }
 
-- (IBAction)restoreDefaults:(id)sender {
-    [DEFAULTS setBool:NO forKey:@"dnsLookup"];
-    [DEFAULTS setBool:NO forKey:@"showProcessBinaries"];
-    [DEFAULTS setBool:NO forKey:@"showCurrentWorkingDirectories"];
-    [DEFAULTS setBool:YES forKey:@"friendlyProcessNames"];
-    [DEFAULTS setBool:NO forKey:@"authenticateOnLaunch"];
-    [DEFAULTS synchronize];
-}
-
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    
     // Make sure lsof exists on the system
     if ([FILEMGR fileExistsAtPath:PROGRAM_LSOF_SYSTEM_PATH] == NO) {
         [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No binary at path %@", PROGRAM_LSOF_SYSTEM_PATH];
@@ -155,21 +149,22 @@
     }
     
     // Put application icon in window title bar
-    [window setRepresentedURL:[NSURL URLWithString:@""]];
+    [window setRepresentedURL:[NSURL URLWithString:@""]]; // Not representing a URL
     [[window standardWindowButton:NSWindowDocumentIconButton] setImage:[NSApp applicationIconImage]];
     
     // Hide Authenticate button & menu item if AEWP
     // is not available in this version of OS X
-    if ([STPrivilegedTask authorizationFunctionAvailable] == NO) {
+    if ([STPrivilegedTask authorizationFunctionAvailable]) {
+        // Load system lock icon and set as icon for button & menu
+        NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
+        [lockIcon setSize:NSMakeSize(16, 16)];
+        [authenticateButton setImage:lockIcon];
+        [authenticateMenuItem setImage:lockIcon];
+    } else {
+        // Hide/disable all authentication-related controls
         [authenticateButton setHidden:YES];
         [authenticateMenuItem setAction:nil];
     }
-    
-    // Load system lock icon and set as icon for button & menu
-    NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
-    [lockIcon setSize:NSMakeSize(16, 16)];
-    [authenticateButton setImage:lockIcon];
-    [authenticateMenuItem setImage:lockIcon];
     
     [volumesMenuItem setSubmenu:[volumesPopupButton menu]];
     [filterTextField setStringValue:@""];
@@ -196,7 +191,7 @@
             [i setImage:img];
         }
     }
-
+    
     // Start observing defaults
     for (NSString *key in @[@"showCharacterDevices",
                             @"showDirectories",
@@ -221,18 +216,7 @@
     [outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
     
     [self updateDiscloseControl];
-
     [self updateSorting];
-
-    // Layer-backed window
-    [[window contentView] setWantsLayer:YES];
-    
-    // If launching for the first time, center window
-    if ([DEFAULTS boolForKey:@"PreviouslyLaunched"] == NO) {
-        [window center];
-        [DEFAULTS setBool:YES forKey:@"PreviouslyLaunched"];
-    }
-    [window makeKeyAndOrderFront:self];
     
     if ([DEFAULTS boolForKey:@"authenticateOnLaunch"]) {
         [self toggleAuthentication:self];
@@ -586,7 +570,6 @@
     if (isRefreshing) {
         return;
     }
-    //NSLog(@"Filtering");
     
     // Filter content
     int matchingFilesCount = 0;
@@ -761,7 +744,7 @@
                 }
             }
             
-            // See if it matches regex in search field filter
+            // See if it matches regexes in search field filter
             if (hasSearchFilter) {
                 
                 int matchCount = 0;
@@ -996,6 +979,14 @@ Hold the option key (⌥) to avoid this prompt."
     NSBeep();
 }
 
+- (IBAction)showPrefs:(id)sender {
+    // Create info panel lazily
+    if (prefsController == nil) {
+        prefsController = [[PrefsController alloc] initWithWindowNibName:@"Prefs"];
+    }
+    [prefsController showWindow:self];
+}
+
 #pragma mark - Disclosure
 
 - (IBAction)disclosureChanged:(id)sender {
@@ -1068,14 +1059,12 @@ Hold the option key (⌥) to avoid this prompt."
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
     }
-    
-    if ([sortBy isEqualToString:@"user id"]) {
+    else if ([sortBy isEqualToString:@"user id"]) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"userid"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
     }
-    
-    if ([sortBy isEqualToString:@"file count"]) {
+    else if ([sortBy isEqualToString:@"file count"]) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"children"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:numChildrenComparisonBlock];

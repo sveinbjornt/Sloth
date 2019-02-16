@@ -22,20 +22,5 @@
             ]]></description>
         </item>
         
-        <item>
-            <title>Version 2.6</title>
-            <pubDate>Wednesday, 26 Sep 2018 21:15:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.6.zip" sparkle:version="168" sparkle:shortVersionString="2.6" length="640430" type="application/octet-stream" sparkle:dsaSignature="MEQCICw5fvJ6EbfTt+pbBieZLLaxpg5xYfSyKmmqUYVBQw7xAiBc6QDMj1CzOSkqEm+dXRkFYYcUow4RuREFeDJuzjDblA=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <h2>New in Sloth 2.6</h2>
-                <ul>
-                    <li>New and improved contextual menu</li>
-                    <li>Fixed aesthetic quirks in macOS Mojave's "Dark Mode"</li>
-                    <li>Various user interface improvements</li>
-                </ul>
-            ]]></description>
-        </item>
-        
     </channel>
 </rss>

@@ -28,13 +28,12 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
-#import "VolumesPopUpButton.h"
+#import <Foundation/Foundation.h>
 
-@interface SlothController : NSObject < NSApplicationDelegate,
-                                        NSWindowDelegate,
-                                        NSOutlineViewDataSource,
-                                        NSOutlineViewDelegate,
-                                        NSMenuDelegate,
-                                        VolumesPopUpButtonDelegate >
+NS_ASSUME_NONNULL_BEGIN
+
+@interface LsofTask : NSObject
+
 @end
+
+NS_ASSUME_NONNULL_END

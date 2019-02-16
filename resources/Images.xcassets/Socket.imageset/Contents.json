@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "socket-64.png",
+      "filename" : "Socket.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "socket.png",
+      "filename" : "Socket@2x.png",
       "scale" : "2x"
     }
   ],

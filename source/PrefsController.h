@@ -29,12 +29,7 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "VolumesPopUpButton.h"
 
-@interface SlothController : NSObject < NSApplicationDelegate,
-                                        NSWindowDelegate,
-                                        NSOutlineViewDataSource,
-                                        NSOutlineViewDelegate,
-                                        NSMenuDelegate,
-                                        VolumesPopUpButtonDelegate >
+@interface PrefsController : NSWindowController <NSWindowDelegate>
+
 @end

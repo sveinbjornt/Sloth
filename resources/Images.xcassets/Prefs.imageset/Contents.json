@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
+      "filename" : "Prefs.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "Kill@2x.png",
+      "filename" : "Prefs@2x.png",
       "scale" : "2x"
     }
   ],
@@ -14,7 +15,4 @@
     "version" : 1,
     "author" : "xcode"
   },
-  "properties" : {
-    "template-rendering-intent" : "template"
-  }
 }

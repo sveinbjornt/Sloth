@@ -1,4 +1,5 @@
 
 TODO list for Sloth 2.8
 
-    * Update Sparkle to Mojave Dark Mode-compatible build
+    DONE * Update Sparkle to Mojave Dark Mode-compatible build
+    * Show which processes are connected via pipes & unix sockets

@@ -109,7 +109,12 @@
     for (NSURL *url in urls) {
         
         NSString *volumeName;
-        [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:nil];
+        NSError *err;
+        [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
+        if (volumeName == nil) {
+            NSLog(@"%@", [err localizedDescription]);
+            continue;
+        }
         
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:volumeName
                                                       action:@selector(notifyDelegateSelectionHasChanged:)

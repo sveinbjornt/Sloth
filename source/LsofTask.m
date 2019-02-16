@@ -26,15 +26,10 @@
     WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 
-#import <Cocoa/Cocoa.h>
-#import "VolumesPopUpButton.h"
+#import "LsofTask.h"
 
-@interface SlothController : NSObject < NSApplicationDelegate,
-                                        NSWindowDelegate,
-                                        NSOutlineViewDataSource,
-                                        NSOutlineViewDelegate,
-                                        NSMenuDelegate,
-                                        VolumesPopUpButtonDelegate >
+@implementation LsofTask
+
 @end
