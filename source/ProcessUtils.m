@@ -29,6 +29,7 @@
 */
 
 #import "ProcessUtils.h"
+#import "STPrivilegedTask.h"
 
 #import <AppKit/AppKit.h>
 #import <libproc.h>
@@ -199,6 +200,42 @@
     
     free(pathbuf);
     return path;
+}
+
++ (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
+    if (!asRoot) {
+        return (kill(pid, SIGKILL) == 0);
+    }
+    
+    // Kill process as root
+    const char *toolPath = [@"/bin/kill" fileSystemRepresentation];
+    
+    AuthorizationRef authRef;
+    AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
+    AuthorizationRights myRights = { 1, &myItems };
+    AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
+    
+    // Create authorization reference
+    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authRef);
+    if (err != errAuthorizationSuccess) {
+        return NO;
+    }
+    
+    // Pre-authorize the privileged operation
+    err = AuthorizationCopyRights(authRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
+    if (err != errAuthorizationSuccess) {
+        return NO;
+    }
+    
+    // Create and launch authorized task
+    STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
+    [task setLaunchPath:@(toolPath)];
+    [task setArguments:@[@"-9", [NSString stringWithFormat:@"%d", pid]]];
+    [task launchWithAuthorization:authRef];
+    
+    AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
+    
+    return YES;
 }
 
 @end

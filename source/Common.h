@@ -34,9 +34,9 @@
 #define PROGRAM_GITHUB_WEBSITE      @"https://github.com/sveinbjornt/Sloth"
 #define PROGRAM_DONATIONS           @"https://sveinbjorn.org/donations"
 
-#define PROGRAM_LSOF_SYSTEM_PATH    @"/usr/sbin/lsof"
-#define PROGRAM_LSOF_ARGS           @[@"-F", @"fpPcntuaT", @"+c0"]
-#define PROGRAM_LSOF_NO_DNS_ARGS    @[@"-n", @"-P"]
+#define LSOF_PATH                   @"/usr/sbin/lsof"
+#define LSOF_ARGS                   @[@"-F", @"fpPcntuaT", @"+c0"]
+#define LSOF_NO_DNS_ARGS            @[@"-n", @"-P"]
 
 #define DYN_UTI_PREFIX              @"dyn."
 

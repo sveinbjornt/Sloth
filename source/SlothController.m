@@ -143,8 +143,8 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
     // Make sure lsof exists on the system
-    if ([FILEMGR fileExistsAtPath:PROGRAM_LSOF_SYSTEM_PATH] == NO) {
-        [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No binary at path %@", PROGRAM_LSOF_SYSTEM_PATH];
+    if ([FILEMGR fileExistsAtPath:LSOF_PATH] == NO) {
+        [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No binary at path %@", LSOF_PATH];
         [[NSApplication sharedApplication] terminate:self];
     }
     
@@ -286,10 +286,10 @@
 }
 
 - (NSMutableArray *)lsofArguments {
-    NSMutableArray *arguments = [PROGRAM_LSOF_ARGS mutableCopy];
+    NSMutableArray *arguments = [LSOF_ARGS mutableCopy];
     if ([DEFAULTS boolForKey:@"dnsLookup"] == NO) {
         // Add arguments to disable dns and port name lookup
-        [arguments addObjectsFromArray:PROGRAM_LSOF_NO_DNS_ARGS];
+        [arguments addObjectsFromArray:LSOF_NO_DNS_ARGS];
     }
     return arguments;
 }
@@ -300,7 +300,7 @@
     if (isAuthenticated) {
         
         STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
-        [task setLaunchPath:PROGRAM_LSOF_SYSTEM_PATH];
+        [task setLaunchPath:LSOF_PATH];
         [task setArguments:[self lsofArguments]];
         [task launchWithAuthorization:authorizationRef];
         
@@ -309,7 +309,7 @@
     } else {
         
         NSTask *lsof = [[NSTask alloc] init];
-        [lsof setLaunchPath:PROGRAM_LSOF_SYSTEM_PATH];
+        [lsof setLaunchPath:LSOF_PATH];
         [lsof setArguments:[self lsofArguments]];
         
         NSPipe *pipe = [NSPipe pipe];
@@ -807,42 +807,6 @@
     }
 }
 
-- (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
-    if (!asRoot) {
-        return (kill(pid, SIGKILL) == 0);
-    }
-    
-    // Kill process as root
-    const char *toolPath = [@"/bin/kill" fileSystemRepresentation];
-    
-    AuthorizationRef authRef;
-    AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
-    AuthorizationRights myRights = { 1, &myItems };
-    AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
-    
-    // Create authorization reference
-    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authRef);
-    if (err != errAuthorizationSuccess) {
-        return NO;
-    }
-    
-    // Pre-authorize the privileged operation
-    err = AuthorizationCopyRights(authRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
-    if (err != errAuthorizationSuccess) {
-        return NO;
-    }
-    
-    // Create and launch authorized task
-    STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
-    [task setLaunchPath:@(toolPath)];
-    [task setArguments:@[@"-9", [NSString stringWithFormat:@"%d", pid]]];
-    [task launchWithAuthorization:authRef];
-    
-    AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
-    
-    return YES;
-}
-
 - (IBAction)kill:(id)sender {
     NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
@@ -866,7 +830,7 @@
 
     // Kill it
     BOOL ownsProcess = [ProcessUtils isProcessOwnedByCurrentUser:pid];
-    if ([self killProcess:pid asRoot:!ownsProcess] == NO) {
+    if ([ProcessUtils killProcess:pid asRoot:!ownsProcess] == NO) {
         [Alerts alert:@"Failed to kill process"
         subTextFormat:@"Could not kill process %@ (PID: %d)", item[@"pname"], pid];
         return;
@@ -1106,15 +1070,14 @@ Hold the option key (⌥) to avoid this prompt."
 }
 
 - (OSStatus)authenticate {
-    OSStatus err = noErr;
-    const char *toolPath = [PROGRAM_LSOF_SYSTEM_PATH fileSystemRepresentation];
+    const char *toolPath = [LSOF_PATH fileSystemRepresentation];
     
     AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
     AuthorizationRights myRights = { 1, &myItems };
     AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
     // Create authorization reference
-    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
+    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
     if (err != errAuthorizationSuccess) {
         return err;
     }
@@ -1125,7 +1088,7 @@ Hold the option key (⌥) to avoid this prompt."
         return err;
     }
     
-    return noErr;
+    return err;
 }
 
 - (void)deauthenticate {
@@ -1155,7 +1118,7 @@ Hold the option key (⌥) to avoid this prompt."
         [killButton setEnabled:YES];
         [infoPanelController loadItem:item];
         
-        // We make the file path red if file has been moved or deleted
+        // Make the file path red if file has been moved or deleted
         if ([item[@"type"] isEqualToString:@"File"] || [item[@"type"] isEqualToString:@"Directory"]) {
             NSColor *color = canReveal ? [NSColor controlTextColor] : [NSColor redColor];
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]

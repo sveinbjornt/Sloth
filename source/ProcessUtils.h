@@ -42,5 +42,6 @@
 + (NSString *)fullKernelProcessNameForPID:(pid_t)pid;
 + (NSString *)bundlePathForPID:(pid_t)pid;
 + (NSString *)executablePathForPID:(pid_t)pid;
++ (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot;
 
 @end
