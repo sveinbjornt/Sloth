@@ -35,16 +35,9 @@
 #import "InfoPanelController.h"
 #import "PrefsController.h"
 #import "ProcessUtils.h"
+#import "IconUtils.h"
 #import "NSWorkspace+Additions.h"
 #import "STPrivilegedTask.h"
-
-#import <Security/Authorization.h>
-#import <Security/AuthorizationTags.h>
-#import <stdio.h>
-#import <unistd.h>
-#import <dlfcn.h>
-#import <stdlib.h>
-#import <pwd.h>
 
 @interface SlothController ()
 {
@@ -82,9 +75,6 @@
     IBOutlet NSImageView *cellImageView;
     IBOutlet NSTextField *cellTextField;
     
-    NSDictionary *type2icon;
-    NSImage *genericExecutableIcon;
-    
     AuthorizationRef authorizationRef;
     BOOL authenticated;
     BOOL isRefreshing;
@@ -105,26 +95,6 @@
 
 - (instancetype)init {
     if ((self = [super init])) {
-        genericExecutableIcon = [[NSImage alloc] initWithContentsOfFile:GENERIC_EXEC_ICON_PATH];
-        
-        // Mark these icons as templates so they're inverted on selection
-        [[NSImage imageNamed:@"Socket"] setTemplate:YES];
-        [[NSImage imageNamed:@"Pipe"] setTemplate:YES];
-        
-        // Map item types to icons
-        type2icon = @{
-            @"File": [NSImage imageNamed:@"NSGenericDocument"],
-            @"Directory": [NSImage imageNamed:@"NSFolder"],
-            @"Character Device": [NSImage imageNamed:@"NSActionTemplate"],
-            @"Unix Socket": [NSImage imageNamed:@"Socket"],
-            @"IP Socket": [NSImage imageNamed:@"NSNetwork"],
-            @"Pipe": [NSImage imageNamed:@"Pipe"],
-            
-            // Just for Filter menu
-            @"Applications": [NSImage imageNamed:@"NSDefaultApplicationIcon"],
-            @"Home": [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kToolbarHomeIcon)]
-        };
-        
         _content = [[NSMutableArray alloc] init];
     }
     return self;
@@ -155,9 +125,7 @@
     // Hide Authenticate button & menu item if AEWP
     // is not available in this version of OS X
     if ([STPrivilegedTask authorizationFunctionAvailable]) {
-        // Load system lock icon and set as icon for button & menu
-        NSImage *lockIcon = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(kLockedIcon)];
-        [lockIcon setSize:NSMakeSize(16, 16)];
+        NSImage *lockIcon = [IconUtils imageNamed:@"Locked"];
         [authenticateButton setImage:lockIcon];
         [authenticateMenuItem setImage:lockIcon];
     } else {
@@ -185,9 +153,8 @@
     NSArray<NSMenuItem *> *items = [filterMenu itemArray];
     for (NSMenuItem *i in items) {
         NSString *type = [i toolTip];
-        if (type2icon[type]) {
-            NSImage *img = type2icon[type];
-            [img setSize:NSMakeSize(16, 16)];
+        NSImage *img = [IconUtils imageNamed:type];
+        if (img) {
             [i setImage:img];
         }
     }
@@ -453,7 +420,10 @@
                 }
                 
                 if (currentFile[@"type"]) {
-                    currentFile[@"image"] = type2icon[currentFile[@"type"]];
+                    NSImage *img = [IconUtils imageNamed:currentFile[@"type"]];
+                    if (img) {
+                        currentFile[@"image"] = img;
+                    }
                 }
             }
                 break;
@@ -520,7 +490,7 @@
             p[@"app"] = @([ProcessUtils isAppProcess:pid]);
             p[@"path"] = bundlePath;
         } else {
-            p[@"image"] = genericExecutableIcon;
+            p[@"image"] = [IconUtils imageNamed:@"GenericExecutable"];
             p[@"bundle"] = @NO;
             p[@"app"] = @NO;
             p[@"path"] = [ProcessUtils executablePathForPID:pid];
@@ -860,9 +830,10 @@
     BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
     if (!optionKeyDown) {
         // Ask user to confirm
+        NSString *prompt = @"This will tell the Finder to move the specified file into your Trash folder. \
+ Hold the option key (⌥) to avoid this prompt.";
         if ([Alerts proceedAlert:[NSString stringWithFormat:@"Move “%@” to the Trash?", [path lastPathComponent]]
-                         subText:@"This will tell the Finder to move the specified file into your Trash folder. \
-Hold the option key (⌥) to avoid this prompt."
+                         subText:prompt
                  withActionNamed:@"Move to Trash"] == NO) {
             return;
         }
@@ -1054,9 +1025,8 @@ Hold the option key (⌥) to avoid this prompt."
         [self deauthenticate];
     }
     
-    OSType lockIconID = authenticated ? kUnlockedIcon : kLockedIcon;
-    NSImage *img = [WORKSPACE iconForFileType:NSFileTypeForHFSTypeCode(lockIconID)];
-    [img setSize:NSMakeSize(16, 16)];
+    NSString *iconName =  authenticated ? @"Unlocked" : @"Locked";
+    NSImage *img = [IconUtils imageNamed:iconName];
     NSString *actionName = authenticated ? @"Deauthenticate" : @"Authenticate";
     NSString *ttip = authenticated ? @"Deauthenticate" : @"Authenticate to view all system processes";
     

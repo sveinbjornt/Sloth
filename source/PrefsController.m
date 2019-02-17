@@ -28,14 +28,18 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "PrefsController.h"
 #import "Common.h"
+#import "PrefsController.h"
+#import "IconUtils.h"
 
 @implementation PrefsController
 
 - (void)windowDidLoad {
-    [self.window setRepresentedURL:[NSURL URLWithString:@""]]; // Not representing a URL
-    [[self.window standardWindowButton:NSWindowDocumentIconButton] setImage:[NSImage imageNamed:@"Prefs"]];
+    NSImage *img = [IconUtils imageNamed:@"Prefs"];
+    if (img) {
+        [self.window setRepresentedURL:[NSURL URLWithString:@""]]; // Not representing a URL
+        [[self.window standardWindowButton:NSWindowDocumentIconButton] setImage:img];
+    }
 }
 
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
