@@ -292,7 +292,7 @@
 }
 
 - (NSMutableArray *)parseLsofOutput:(NSString *)outputString numFiles:(int *)numFiles {
-    // Lsof output has the following format:
+    // Parse-friendly lsof output has the following format:
     //
     //    p113                              // PROCESS INFO STARTS (pid)
     //    cloginwindow                          // name
@@ -306,6 +306,8 @@
     //    tCHR                                  // type
     //    n/dev/null                            // name / path
     //    ...
+    // We parse this into an array of processes, each of which has children.
+    // Each child is a dictionary containing file/socket info.
     
     NSMutableArray *processList = [NSMutableArray array];
     *numFiles = 0;
@@ -313,6 +315,9 @@
     if (![outputString length]) {
         return processList;
     }
+    
+    // Maps device character codes to items. Used to link sockets/pipes between items.
+    NSMutableDictionary *devCharCodeMap = [NSMutableDictionary dictionary];
     
     NSMutableDictionary *currentProcess;
     NSMutableDictionary *currentFile;
@@ -332,7 +337,6 @@
                 if (currentProcess && currentFile && !skip) {
                     [currentProcess[@"children"] addObject:currentFile];
                     currentFile = nil;
-                    
                 }
                 
                 // Set up new process dict
@@ -457,6 +461,15 @@
                 currentFile[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)", currentFile[@"name"], currentFile[@"socketstate"]];
             }
                 break;
+                
+            // Device character code
+            case 'd':
+            {
+                NSString *devCharCode = [line substringFromIndex:1];
+                currentFile[@"devcharcode"] = devCharCode;
+                devCharCodeMap[devCharCode] = currentFile;
+            }
+                break;
         }
     }
     
@@ -470,8 +483,28 @@
     for (NSMutableDictionary *process in processList) {
         [self updateProcessInfo:process];
         *numFiles += [process[@"children"] count];
-    }
         
+        // Iterate over the process's children, map sockets and pipes to their endpoint
+        for (NSMutableDictionary *f in process[@"children"]) {
+            if ([f[@"type"] isEqualToString:@"Unix Socket"] || [f[@"type"] isEqualToString:@"Pipe"]) {
+                // Pipes and sockets have names in the format "->[NAME]"
+                if ([f[@"name"] length] < 3) {
+                    continue;
+                }
+                NSString *name = [f[@"name"] substringFromIndex:2];
+                
+                // If we know which process owns the other end of the pipe/socket
+                // Needs to run with root privileges for succesful lookup of the
+                // endpoints of system process pipes/sockets such as syslogd
+                if (devCharCodeMap[name]) {
+                    //NSLog(@"%@", devCharCodeMap[name][@"pname"]);
+                    
+                    f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)", f[@"displayname"], devCharCodeMap[name][@"pname"]];
+                }
+            }
+        }
+    }
+    
     return processList;
 }
 

@@ -32,7 +32,6 @@
         <window title="Info Panel" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" animationBehavior="utilityWindow" frameAutosaveName="SlothGetInfoPanel" id="dXY-bn-XEk" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES" nonactivatingPanel="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="139" y="81" width="276" height="471"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="7sJ-lu-Um5">
@@ -40,7 +39,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hE2-M4-OUX">
-                        <rect key="frame" x="20" y="407" width="48" height="48"/>
+                        <rect key="frame" x="20" y="409" width="42" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="z5e-jx-nre"/>
                     </imageView>
@@ -54,7 +53,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="cGa-0E-BjY">
-                        <rect key="frame" x="18" y="272" width="240" height="70"/>
+                        <rect key="frame" x="18" y="277" width="240" height="64"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" lineBreakMode="charWrapping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="—" id="TRF-Bz-Uag">
                             <font key="font" metaFont="smallSystem"/>
@@ -81,7 +80,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="xdR-4I-pOJ">
-                        <rect key="frame" x="18" y="345" width="240" height="14"/>
+                        <rect key="frame" x="18" y="344" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Path" id="Ubl-Z2-GNz">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -117,7 +116,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lJ2-T1-Tca">
-                        <rect key="frame" x="40" y="368" width="205" height="14"/>
+                        <rect key="frame" x="40" y="366" width="205" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="mwk-DE-7RU">
                             <font key="font" metaFont="smallSystem"/>
@@ -213,7 +212,7 @@
                         </textFieldCell>
                     </textField>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="XGv-8P-DoV">
-                        <rect key="frame" x="21" y="367" width="16" height="16"/>
+                        <rect key="frame" x="21" y="365" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="sRO-CS-rD8"/>
                     </imageView>

@@ -35,7 +35,7 @@
 #define PROGRAM_DONATIONS           @"https://sveinbjorn.org/donations"
 
 #define LSOF_PATH                   @"/usr/sbin/lsof"
-#define LSOF_ARGS                   @[@"-F", @"fpPcntuaT", @"+c0"]
+#define LSOF_ARGS                   @[@"-F", @"fpPcntuaTd", @"+c0"]
 #define LSOF_NO_DNS_ARGS            @[@"-n", @"-P"]
 
 #define DYN_UTI_PREFIX              @"dyn."
