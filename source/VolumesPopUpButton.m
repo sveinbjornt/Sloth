@@ -104,7 +104,7 @@
     
     NSArray *props = @[NSURLVolumeNameKey, NSURLVolumeIsRemovableKey, NSURLVolumeIsEjectableKey];
     NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props
-                                                                                            options:0];
+                                                                                            options:NSVolumeEnumerationSkipHiddenVolumes];
     // Add all volumes as items
     for (NSURL *url in urls) {
         

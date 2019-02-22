@@ -2,5 +2,6 @@
 TODO list for Sloth 2.8
 
     DONE * Update Sparkle to Mojave Dark Mode-compatible build
+    DONE * No longer shows hidden volumes (e.g. "/private/var/vm"") in Volumes filter
     * Show which processes are connected via pipes & unix sockets
     * Add parent process IDs and file inode numbers
