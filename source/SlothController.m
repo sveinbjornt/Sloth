@@ -36,6 +36,7 @@
 #import "PrefsController.h"
 #import "ProcessUtils.h"
 #import "IconUtils.h"
+#import "FSUtils.h"
 #import "NSWorkspace+Additions.h"
 #import "STPrivilegedTask.h"
 
@@ -316,6 +317,9 @@
         return processList;
     }
     
+    // Get info about mounted filesystems
+    NSDictionary *fileSystems = [FSUtils mountedFileSystems];
+    
     // Maps device character codes to items. Used to link sockets/pipes between items.
     NSMutableDictionary *devCharCodeMap = [NSMutableDictionary dictionary];
     
@@ -329,7 +333,10 @@
             continue;
         }
         
-        switch ([line characterAtIndex:0]) {
+        unichar prefix = [line characterAtIndex:0];
+        NSString *value = [line substringFromIndex:1];
+        
+        switch (prefix) {
             
             // PID - First line of output for new process
             case 'p':
@@ -341,7 +348,7 @@
                 
                 // Set up new process dict
                 currentProcess = [NSMutableDictionary dictionary];
-                currentProcess[@"pid"] = [line substringFromIndex:1];
+                currentProcess[@"pid"] = value;
                 currentProcess[@"type"] = @"Process";
                 currentProcess[@"children"] = [NSMutableArray array];
                 [processList addObject:currentProcess];                
@@ -350,13 +357,21 @@
                 
             // Process name
             case 'c':
-                currentProcess[@"name"] = [line substringFromIndex:1];
+                currentProcess[@"name"] = value;
                 currentProcess[@"displayname"] = currentProcess[@"name"];
                 break;
                 
             // Process UID
             case 'u':
-                currentProcess[@"userid"] = [line substringFromIndex:1];
+                currentProcess[@"userid"] = value;
+                break;
+            
+            // Parent process ID
+            case 'R':
+            {
+                NSString *parentProcIDStr = value;
+                currentProcess[@"parentid"] = @([parentProcIDStr integerValue]);
+            }
                 break;
             
             // File descriptor - First line of output for a file
@@ -369,7 +384,7 @@
                 
                 // New file info starting, create new file dict
                 currentFile = [NSMutableDictionary dictionary];
-                NSString *fd = [line substringFromIndex:1];
+                NSString *fd = value;
                 currentFile[@"fd"] = fd;
                 currentFile[@"pname"] = currentProcess[@"name"];
                 currentFile[@"pid"] = currentProcess[@"pid"];
@@ -391,13 +406,13 @@
             
             // File access mode
             case 'a':
-                currentFile[@"accessmode"] = [line substringFromIndex:1];
+                currentFile[@"accessmode"] = value;
                 break;
                 
             // File type
             case 't':
             {
-                NSString *ftype = [line substringFromIndex:1];
+                NSString *ftype = value;
                 
                 if ([ftype isEqualToString:@"VREG"] || [ftype isEqualToString:@"REG"]) {
                     currentFile[@"type"] = @"File";
@@ -435,7 +450,7 @@
             // File name / path
             case 'n':
             {
-                currentFile[@"name"] = [line substringFromIndex:1];
+                currentFile[@"name"] = value;
                 currentFile[@"displayname"] = [currentFile[@"name"] length] ? currentFile[@"name"] : @"Unnamed";
                 
                 // Some files when running in root mode have no type listed
@@ -448,13 +463,13 @@
             
             // Protocol (IP sockets only)
             case 'P':
-                currentFile[@"protocol"] = [line substringFromIndex:1];
+                currentFile[@"protocol"] = value;
                 break;
                 
             // TCP socket info (IP sockets only)
             case 'T':
             {
-                NSString *socketInfo = [line substringFromIndex:1];
+                NSString *socketInfo = value;
                 if ([socketInfo hasPrefix:@"ST="]) {
                     currentFile[@"socketstate"] = [socketInfo substringFromIndex:3];
                 }
@@ -465,9 +480,28 @@
             // Device character code
             case 'd':
             {
-                NSString *devCharCode = [line substringFromIndex:1];
+                NSString *devCharCode = value;
                 currentFile[@"devcharcode"] = devCharCode;
                 devCharCodeMap[devCharCode] = currentFile;
+            }
+                break;
+                
+            // File's major/minor device number (0x<hexadecimal>)
+            case 'D':
+            {
+                unsigned int deviceID;
+                NSString *deviceIDStr = value;
+                NSScanner *scanner = [NSScanner scannerWithString:deviceIDStr];
+                [scanner scanHexInt:&deviceID];
+                currentFile[@"device"] = fileSystems[@(deviceID)] ? fileSystems[@(deviceID)] : @{ @"devid": @(deviceID) };
+            }
+                break;
+            
+            // File inode number
+            case 'i':
+            {
+                NSString *inodeNumStr = value;
+                currentFile[@"inode"] = @([inodeNumStr integerValue]);
             }
                 break;
         }
@@ -498,7 +532,6 @@
                 // endpoints of system process pipes/sockets such as syslogd
                 if (devCharCodeMap[name]) {
                     //NSLog(@"%@", devCharCodeMap[name][@"pname"]);
-                    
                     f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)", f[@"displayname"], devCharCodeMap[name][@"pname"]];
                 }
             }

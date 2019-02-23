@@ -28,21 +28,42 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#define PROGRAM_NAME                @"Sloth"
-#define PROGRAM_VERSION             @"2.7"
-#define PROGRAM_WEBSITE             @"https://sveinbjorn.org/sloth"
-#define PROGRAM_GITHUB_WEBSITE      @"https://github.com/sveinbjornt/Sloth"
-#define PROGRAM_DONATIONS           @"https://sveinbjorn.org/donations"
+#import "FSUtils.h"
+#import <sys/param.h>
+#import <sys/mount.h>
 
-#define LSOF_PATH                   @"/usr/sbin/lsof"
-#define LSOF_ARGS                   @[@"-F", @"fpPcntuaTdDiR", @"+c0"]
-#define LSOF_NO_DNS_ARGS            @[@"-n", @"-P"]
+#define MAX_FILESYSTEMS 128
 
-#define DYN_UTI_PREFIX              @"dyn."
+@implementation FSUtils
 
-#define VALUES_KEYPATH(X)           [NSString stringWithFormat:@"values.%@", (X)]
++ (NSDictionary *)mountedFileSystems {
+    struct statfs buf[MAX_FILESYSTEMS];
+    
+    int fs_count = getfsstat(NULL, 0, MNT_NOWAIT);
+    if (fs_count == -1) {
+        fprintf(stderr, "Error: %d\n", errno);
+        return nil;
+    }
 
-// Let's make things a bit less verbose
-#define FILEMGR     [NSFileManager defaultManager]
-#define DEFAULTS    [NSUserDefaults standardUserDefaults]
-#define WORKSPACE   [NSWorkspace sharedWorkspace]
+    getfsstat(buf, fs_count * sizeof(buf[0]), MNT_NOWAIT);
+    
+    NSMutableDictionary *fsdict = [NSMutableDictionary dictionary];
+    
+    for (int i = 0; i < fs_count; ++i) {
+        dev_t fsid = buf[i].f_fsid.val[0];
+        
+        fsdict[@(fsid)] = \
+        @{
+            @"devid": @(fsid),
+            @"devid_major": @(major(fsid)),
+            @"devid_minor": @(minor(fsid)),
+            @"fstype": @(buf[i].f_fstypename),
+            @"devname": @(buf[i].f_mntfromname),
+            @"mountpoint": @(buf[i].f_mntonname)
+        };
+    }
+
+    return [fsdict copy]; // Return immutable copy
+}
+
+@end

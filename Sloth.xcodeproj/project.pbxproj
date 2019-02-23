@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		F4070BE0221ED056006E7700 /* FSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4070BDF221ED056006E7700 /* FSUtils.m */; };
 		F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4081F9F2088E0C9009BB15A /* ProcessUtils.m */; };
 		F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40B7D2C1C75FA05000A4616 /* Images.xcassets */; };
 		F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F40B7D301C75FAC6000A4616 /* Alerts.m */; };
@@ -50,6 +51,8 @@
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Sloth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sloth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4070BDE221ED056006E7700 /* FSUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSUtils.h; sourceTree = "<group>"; };
+		F4070BDF221ED056006E7700 /* FSUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSUtils.m; sourceTree = "<group>"; };
 		F4081F9E2088E0C9009BB15A /* ProcessUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProcessUtils.h; sourceTree = "<group>"; };
 		F4081F9F2088E0C9009BB15A /* ProcessUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProcessUtils.m; sourceTree = "<group>"; };
 		F40B7D2B1C75F161000A4616 /* sloth_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloth_icon.png; sourceTree = "<group>"; };
@@ -159,6 +162,8 @@
 				F4081F9E2088E0C9009BB15A /* ProcessUtils.h */,
 				F4AC98342060583E0000871B /* IPUtils.h */,
 				F4AC98352060583E0000871B /* IPUtils.m */,
+				F4070BDE221ED056006E7700 /* FSUtils.h */,
+				F4070BDF221ED056006E7700 /* FSUtils.m */,
 				F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */,
 				F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */,
 				F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */,
@@ -328,6 +333,7 @@
 				F42940C9221987240031E564 /* IconUtils.m in Sources */,
 				F4AC98362060583E0000871B /* IPUtils.m in Sources */,
 				F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */,
+				F4070BE0221ED056006E7700 /* FSUtils.m in Sources */,
 				F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */,
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
 				F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */,
