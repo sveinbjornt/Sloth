@@ -91,7 +91,8 @@
     if (GetProcessForPID(pid, &psn) == noErr) {
         CFStringRef procName = NULL;
         if (CopyProcessName(&psn, &procName) == noErr) {
-            return [(__bridge_transfer NSString *)procName copy];
+            NSString *nameStr = CFBridgingRelease(procName);
+            return nameStr.length > 0 ? [nameStr copy] : nil;
         }
     }
     return nil;
