@@ -91,7 +91,8 @@
     if (GetProcessForPID(pid, &psn) == noErr) {
         CFStringRef procName = NULL;
         if (CopyProcessName(&psn, &procName) == noErr) {
-            return [(__bridge_transfer NSString *)procName copy];
+            NSString *nameStr = CFBridgingRelease(procName);
+            return nameStr.length > 0 ? [nameStr copy] : nil;
         }
     }
     return nil;
@@ -113,7 +114,7 @@
 // This is a limitation with libproc on Mac OS X
 + (NSString *)procNameForPID:(pid_t)pid {
     char name[1024];
-    if (proc_name(pid, name, sizeof(name)) == 0) {
+    if (proc_name(pid, name, sizeof(name)) > 0) {
         NSString *nameStr = @(name);
         return [nameStr length] ? nameStr : nil;
     }
