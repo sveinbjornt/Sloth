@@ -606,7 +606,7 @@ DQ
                         </connections>
                     </button>
                     <button toolTip="Only show files in home folder hierarchy" id="27r-wc-J19">
-                        <rect key="frame" x="421" y="584" width="122" height="21"/>
+                        <rect key="frame" x="421" y="583" width="122" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Home Folder Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="qRb-Ks-bpM">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -661,7 +661,7 @@ DQ
                         </connections>
                     </button>
                     <button toolTip="Only show application processes" id="241">
-                        <rect key="frame" x="421" y="563" width="122" height="21"/>
+                        <rect key="frame" x="421" y="562" width="122" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Applications Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="734">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -672,7 +672,7 @@ DQ
                         </connections>
                     </button>
                     <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" verticalHuggingPriority="750" id="252">
-                        <rect key="frame" x="721" y="566" width="151" height="22"/>
+                        <rect key="frame" x="721" y="565" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" usesSingleLineMode="YES" bezelStyle="round" id="735">
                             <font key="font" metaFont="cellTitle"/>
@@ -729,7 +729,7 @@ DQ
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="beK-br-huc">
-                        <rect key="frame" x="564" y="587" width="49" height="14"/>
+                        <rect key="frame" x="564" y="586" width="49" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Volumes" id="ais-Zo-YIR">
                             <font key="font" metaFont="smallSystem"/>
@@ -738,7 +738,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" id="1p9-Jd-MZE" customClass="VolumesPopUpButton">
-                        <rect key="frame" x="561" y="562" width="95" height="22"/>
+                        <rect key="frame" x="562" y="561" width="95" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="B3K-h8-ie3">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -761,7 +761,7 @@ DQ
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="TjP-ET-kct">
-                        <rect key="frame" x="301" y="587" width="75" height="14"/>
+                        <rect key="frame" x="301" y="586" width="75" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Access Mode" id="tA4-3L-YZn">
                             <font key="font" metaFont="smallSystem"/>
@@ -774,7 +774,7 @@ DQ
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
                     <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" id="xlJ-1p-EIn">
-                        <rect key="frame" x="299" y="562" width="99" height="22"/>
+                        <rect key="frame" x="299" y="560" width="99" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Any" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="MiD-oo-DQS" id="xgX-97-Xdm">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>

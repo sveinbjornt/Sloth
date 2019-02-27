@@ -8,3 +8,5 @@ TODO list for Sloth 2.8
     * Add parent process IDs and file inode numbers
     * pipe: FD unavailable handling
     * Fix alignment of top filter controls
+    * Filter by device info, not just using mount path prefix (should be faster)
+    * Spin off Lsof task and parsing into separate class, document the parsing and datastructure produced

@@ -13,25 +13,26 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="HPx-7j-YOW">
+        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="HPx-7j-YOW">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
-            <rect key="contentRect" x="131" y="159" width="385" height="234"/>
+            <rect key="contentRect" x="131" y="159" width="385" height="249"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="637-Nx-CnL">
-                <rect key="frame" x="0.0" y="0.0" width="385" height="234"/>
+                <rect key="frame" x="0.0" y="0.0" width="385" height="249"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="UmY-bc-B6R">
-                        <rect key="frame" x="17" y="52" width="351" height="164"/>
+                        <rect key="frame" x="17" y="57" width="351" height="174"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" ambiguous="YES" id="CHL-zX-X5D">
-                            <rect key="frame" x="3" y="3" width="345" height="158"/>
+                            <rect key="frame" x="3" y="3" width="345" height="168"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sDi-2n-kah">
-                                    <rect key="frame" x="19" y="122" width="304" height="20"/>
+                                    <rect key="frame" x="21" y="131" width="304" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <string key="toolTip">Perform DNS lookup for all IP addresses and port lookup for port numbers. This is slow. Don't use it. The Info Panel does DNS lookup when you double-click an IP socket item.</string>
                                     <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Kkb-zj-8Vf">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -40,8 +41,8 @@
                                         <binding destination="Fml-Xt-HVp" name="value" keyPath="values.dnsLookup" id="fDv-WZ-ON3"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QfZ-5B-OQO">
-                                    <rect key="frame" x="19" y="67" width="310" height="25"/>
+                                <button toolTip="Show current working directories for all processes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QfZ-5B-OQO">
+                                    <rect key="frame" x="21" y="74" width="310" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vvB-Ny-MRM">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -51,8 +52,8 @@
                                         <binding destination="Fml-Xt-HVp" name="value" keyPath="values.showCurrentWorkingDirectories" id="PJ9-XV-4Rk"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0lg-UF-HXc">
-                                    <rect key="frame" x="19" y="94" width="310" height="24"/>
+                                <button toolTip="Show process binary and open files in shared libaries." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0lg-UF-HXc">
+                                    <rect key="frame" x="21" y="102" width="310" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8Xc-bW-SGR">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -63,8 +64,9 @@
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4zm-NG-tlO">
-                                    <rect key="frame" x="19" y="36" width="304" height="35"/>
+                                    <rect key="frame" x="21" y="42" width="304" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <string key="toolTip">Show "Mac-friendly" process names from the Carbon Process Manager (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent")</string>
                                     <buttonCell key="cell" type="check" title="Display Mac-friendly process names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jz8-VI-cXW">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -73,8 +75,8 @@
                                         <binding destination="Fml-Xt-HVp" name="value" keyPath="values.friendlyProcessNames" id="8vq-Jj-Na9"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duf-F0-KT3">
-                                    <rect key="frame" x="19" y="9" width="304" height="35"/>
+                                <button toolTip="Prompt for authentication to run as root before launching lsof on launch." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duf-F0-KT3">
+                                    <rect key="frame" x="21" y="14" width="304" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Authenticate immediately when launched" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PBX-8y-ZLU">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -87,8 +89,8 @@
                             </subviews>
                         </view>
                     </box>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3fT-Oj-lxR">
-                        <rect key="frame" x="14" y="13" width="154" height="32"/>
+                    <button toolTip="Restore default preferences" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3fT-Oj-lxR">
+                        <rect key="frame" x="14" y="13" width="141" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VbG-cb-dRB">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -98,7 +100,7 @@
                             <action selector="restoreDefaults:" target="-2" id="6Sf-Ia-Uex"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85E-cu-yPP">
+                    <button toolTip="Save and apply preferences" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85E-cu-yPP">
                         <rect key="frame" x="278" y="13" width="93" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3QF-LU-qfd">
@@ -117,7 +119,7 @@ DQ
             <connections>
                 <outlet property="delegate" destination="-2" id="c9m-jL-0FT"/>
             </connections>
-            <point key="canvasLocation" x="-265" y="-690"/>
+            <point key="canvasLocation" x="-431.5" y="-735.5"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="Fml-Xt-HVp"/>
     </objects>

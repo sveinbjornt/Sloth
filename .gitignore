@@ -1,4 +1,5 @@
 build/
+dist/
 DerivedData
 ## Various settings
 *.pbxuser
