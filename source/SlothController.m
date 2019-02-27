@@ -320,7 +320,7 @@
     // Get info about mounted filesystems
     NSDictionary *fileSystems = [FSUtils mountedFileSystems];
     
-    // Maps device character codes to items. Used to link sockets/pipes between items.
+    // Maps device character codes to items. Used to find sockets/pipe endpoints.
     NSMutableDictionary *devCharCodeMap = [NSMutableDictionary dictionary];
     
     NSMutableDictionary *currentProcess;
@@ -473,7 +473,8 @@
                 if ([socketInfo hasPrefix:@"ST="]) {
                     currentFile[@"socketstate"] = [socketInfo substringFromIndex:3];
                 }
-                currentFile[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)", currentFile[@"name"], currentFile[@"socketstate"]];
+                currentFile[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)",
+                                               currentFile[@"name"], currentFile[@"socketstate"]];
             }
                 break;
                 
@@ -510,30 +511,35 @@
     // Add the one remaining output item
     if (currentProcess && currentFile && !skip) {
         [currentProcess[@"children"] addObject:currentFile];
-        currentFile = nil;
     }
     
-    // Get additional info about the processes
+    // Get additional info about the processes, count total number of files
     for (NSMutableDictionary *process in processList) {
         [self updateProcessInfo:process];
         *numFiles += [process[@"children"] count];
         
         // Iterate over the process's children, map sockets and pipes to their endpoint
         for (NSMutableDictionary *f in process[@"children"]) {
-            if ([f[@"type"] isEqualToString:@"Unix Socket"] || [f[@"type"] isEqualToString:@"Pipe"]) {
-                // Pipes and sockets have names in the format "->[NAME]"
-                if ([f[@"name"] length] < 3) {
-                    continue;
-                }
-                NSString *name = [f[@"name"] substringFromIndex:2];
-                
-                // If we know which process owns the other end of the pipe/socket
-                // Needs to run with root privileges for succesful lookup of the
-                // endpoints of system process pipes/sockets such as syslogd
-                if (devCharCodeMap[name]) {
-                    //NSLog(@"%@", devCharCodeMap[name][@"pname"]);
-                    f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)", f[@"displayname"], devCharCodeMap[name][@"pname"]];
-                }
+            if (![f[@"type"] isEqualToString:@"Unix Socket"] && ![f[@"type"] isEqualToString:@"Pipe"]) {
+                continue;
+            }
+            // Pipes and sockets should have names in the format "->[NAME]"
+            if ([f[@"name"] length] < 3) {
+                continue;
+            }
+            
+            NSString *name = [f[@"name"] substringFromIndex:2];
+            
+            // If we know which process owns the other end of the pipe/socket
+            // Needs to run with root privileges for succesful lookup of the
+            // endpoints of system process pipes/sockets such as syslogd
+            if (devCharCodeMap[name]) {
+                NSDictionary *endPoint = devCharCodeMap[name];
+                f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)",
+                                     f[@"displayname"], endPoint[@"pname"]];
+                f[@"endpointname"] = endPoint[@"pname"];
+                f[@"endpointpid"] = endPoint[@"pid"];
+                f[@"endpointimg"] = endPoint[@"pimage"];
             }
         }
     }

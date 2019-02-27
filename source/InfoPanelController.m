@@ -83,6 +83,7 @@
     BOOL isProcess = [type isEqualToString:@"Process"];
     BOOL isFileOrFolder = [type isEqualToString:@"File"] || [type isEqualToString:@"Directory"];
     BOOL isIPSocket = [type isEqualToString:@"IP Socket"];
+    BOOL isPipeOrSocket = [type isEqualToString:@"Unix Socket"] || [type isEqualToString:@"Pipe"];
     
     // Name
     NSString *name = isFileOrFolder ? [itemDict[@"name"] lastPathComponent] : itemDict[@"name"];
@@ -128,15 +129,19 @@
         });
     }
     
+    // Show endpoints for pipes and unix sockets
+    self.pathLabelTextField.stringValue = isPipeOrSocket ? @"Connected to" : @"Path";
+    if (isPipeOrSocket && itemDict[@"endpointname"]) {
+        NSString *epString = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"endpointname"], itemDict[@"endpointpid"]];
+        [self.pathTextField setStringValue:epString];
+    }
+    
     // Icon
     NSImage *img = isFileOrFolder ? [WORKSPACE iconForFile:path] : [itemDict[@"image"] copy];
     [img setSize:NSMakeSize(48,48)];
     [self.iconView setImage:img];
-    if (isProcess) {
-        [self.processIconView setImage:itemDict[@"image"]];
-    } else {
-        [self.processIconView setImage:itemDict[@"pimage"]];
-    }
+    NSImage *procImg = isProcess ? itemDict[@"image"] : itemDict[@"pimage"];
+    [self.processIconView setImage:procImg];
     
     // Size / socket status
     NSString *sizeStr = @"";
