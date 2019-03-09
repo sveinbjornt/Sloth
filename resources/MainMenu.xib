@@ -606,7 +606,7 @@ DQ
                         </connections>
                     </button>
                     <button toolTip="Only show files in home folder hierarchy" id="27r-wc-J19">
-                        <rect key="frame" x="421" y="583" width="122" height="21"/>
+                        <rect key="frame" x="421" y="582" width="122" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Home Folder Only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="qRb-Ks-bpM">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -672,7 +672,7 @@ DQ
                         </connections>
                     </button>
                     <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" verticalHuggingPriority="750" id="252">
-                        <rect key="frame" x="721" y="565" width="151" height="22"/>
+                        <rect key="frame" x="721" y="563" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" usesSingleLineMode="YES" bezelStyle="round" id="735">
                             <font key="font" metaFont="cellTitle"/>
@@ -738,7 +738,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <popUpButton toolTip="Only show files located on selected volume" verticalHuggingPriority="750" id="1p9-Jd-MZE" customClass="VolumesPopUpButton">
-                        <rect key="frame" x="562" y="561" width="95" height="22"/>
+                        <rect key="frame" x="562" y="560" width="95" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="B3K-h8-ie3">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -804,7 +804,7 @@ DQ
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
                             <rect key="frame" x="1" y="0.0" width="848" height="468"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
                                     <rect key="frame" x="0.0" y="0.0" width="848" height="445"/>
@@ -984,8 +984,8 @@ DQ
         </menu>
     </objects>
     <resources>
-        <image name="Info" width="30" height="30"/>
-        <image name="Kill" width="30" height="30"/>
+        <image name="Info" width="25" height="25"/>
+        <image name="Kill" width="29" height="29"/>
         <image name="NSLockLockedTemplate" width="10" height="14"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>

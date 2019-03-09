@@ -79,10 +79,11 @@
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
 		F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VolumesPopUpButton.h; sourceTree = "<group>"; };
 		F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VolumesPopUpButton.m; sourceTree = "<group>"; };
+		F4A8B5CD222DB5280049FA51 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		F4A9D5EF206A6A6E0069B2B6 /* src_loc_stats.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = src_loc_stats.sh; sourceTree = "<group>"; };
 		F4AC98342060583E0000871B /* IPUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPUtils.h; sourceTree = "<group>"; };
 		F4AC98352060583E0000871B /* IPUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPUtils.m; sourceTree = "<group>"; };
+		F4B4F70B2230479F00F3C073 /* srcloc.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = srcloc.sh; sourceTree = "<group>"; };
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
 		F4D529311C90BAE10046FAE9 /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPanelController.h; path = source/InfoPanelController.h; sourceTree = SOURCE_ROOT; };
 		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
@@ -96,7 +97,6 @@
 		F4F1D9141C7CB95700945D3E /* sign_update.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = sign_update.rb; sourceTree = "<group>"; };
 		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
 		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
-		F4F1D9181C7E08D100945D3E /* build_release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_release.sh; sourceTree = "<group>"; };
 		F4F7A4FE2215F0F0004421AA /* PrefsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefsController.h; path = source/PrefsController.h; sourceTree = SOURCE_ROOT; };
 		F4F7A4FF2215F0F0004421AA /* PrefsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PrefsController.m; path = source/PrefsController.m; sourceTree = SOURCE_ROOT; };
 		F4F7A5032215F11E004421AA /* Prefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Prefs.xib; sourceTree = "<group>"; };
@@ -127,8 +127,8 @@
 		29B97314FDCFA39411CA2CEA /* Sloth */ = {
 			isa = PBXGroup;
 			children = (
-				F4F1D9181C7E08D100945D3E /* build_release.sh */,
-				F4A9D5EF206A6A6E0069B2B6 /* src_loc_stats.sh */,
+				F4A8B5CD222DB5280049FA51 /* Makefile */,
+				F4B4F70B2230479F00F3C073 /* srcloc.sh */,
 				F4F1D8A01C7623AF00945D3E /* README.md */,
 				F47B453F1EF82AC200D79DFF /* TODO.txt */,
 				F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */,
@@ -360,7 +360,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -379,6 +379,7 @@
 				PRODUCT_NAME = Sloth;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				STRIPFLAGS = "-x";
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -411,6 +412,7 @@
 				PRODUCT_NAME = Sloth;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				STRIPFLAGS = "-x";
 				STRIP_INSTALLED_PRODUCT = YES;
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;

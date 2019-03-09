@@ -341,6 +341,7 @@
             // PID - First line of output for new process
             case 'p':
             {
+                // Add last item
                 if (currentProcess && currentFile && !skip) {
                     [currentProcess[@"children"] addObject:currentFile];
                     currentFile = nil;
@@ -425,7 +426,7 @@
                     currentFile[@"ipversion"] = ftype;
                 }
                 else  if ([ftype isEqualToString:@"unix"]) {
-                    currentFile[@"type"] = @"Unix Socket";
+                    currentFile[@"type"] = @"Unix Domain Socket";
                 }
                 else if ([ftype isEqualToString:@"VCHR"] || [ftype isEqualToString:@"CHR"]) {
                     currentFile[@"type"] = @"Character Device";
@@ -520,7 +521,7 @@
         
         // Iterate over the process's children, map sockets and pipes to their endpoint
         for (NSMutableDictionary *f in process[@"children"]) {
-            if (![f[@"type"] isEqualToString:@"Unix Socket"] && ![f[@"type"] isEqualToString:@"Pipe"]) {
+            if (![f[@"type"] isEqualToString:@"Unix Domain Socket"] && ![f[@"type"] isEqualToString:@"Pipe"]) {
                 continue;
             }
             // Pipes and sockets should have names in the format "->[NAME]"
@@ -616,6 +617,9 @@
     
     // Update num items label
     NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
+    if (matchingFilesCount == self.totalFileCount) {
+        str = @"Showing all items";
+    }
     [numItemsTextField setStringValue:str];
     
     [outlineView reloadData];
@@ -756,12 +760,12 @@
                 }
                 
                 NSString *type = file[@"type"];
-                if (([type isEqualToString:@"File"] && !showRegularFiles) ||
-                    ([type isEqualToString:@"Directory"] && !showDirectories) ||
-                    ([type isEqualToString:@"IP Socket"] && !showIPSockets) ||
-                    ([type isEqualToString:@"Unix Socket"] && !showUnixSockets) ||
-                    ([type isEqualToString:@"Character Device"] && !showCharDevices) ||
-                    ([type isEqualToString:@"Pipe"] && !showPipes)) {
+                if (([type hasPrefix:@"F"] && !showRegularFiles) ||
+                    ([type hasPrefix:@"D"] && !showDirectories) ||
+                    ([type hasPrefix:@"I"] && !showIPSockets) ||
+                    ([type hasPrefix:@"U"] && !showUnixSockets) ||
+                    ([type hasPrefix:@"C"] && !showCharDevices) ||
+                    ([type hasPrefix:@"P"] && !showPipes)) {
                     continue;
                 }
             }

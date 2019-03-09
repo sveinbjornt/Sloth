@@ -4,9 +4,11 @@ TODO list for Sloth 2.8
     DONE * Update Sparkle to Mojave Dark Mode-compatible build
     DONE * No longer shows hidden volumes (e.g. "/private/var/vm"") in Volumes filter
     DONE * Fixed issue with mangled process names
-    * Show which processes are connected via pipes & unix sockets
+    DONE * Fixed alignment of top filter controls
+    * Build mechanism should default to not code-signing
+    * Cmd-L menu item to show selected item
+    * Show which processes are connected via pipes & unix domain sockets
     * Add parent process IDs and file inode numbers
     * pipe: FD unavailable handling
-    * Fix alignment of top filter controls
     * Filter by device info, not just using mount path prefix (should be faster)
-    * Spin off Lsof task and parsing into separate class, document the parsing and datastructure produced
+    * Spin off Lsof task and parsing into separate class, document the parsing and data structure produced

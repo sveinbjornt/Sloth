@@ -71,7 +71,7 @@ static NSMutableDictionary *iconStore;
         @"Pipe": @[
             @{ @"name": @"Pipe", @"template": @YES }
         ],
-        @"Unix Socket": @[
+        @"Unix Domain Socket": @[
             @{ @"name": @"Socket", @"template": @YES }
         ],
         @"IP Socket": @[

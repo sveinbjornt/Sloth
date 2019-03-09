@@ -36,17 +36,16 @@
 
 - (NSArray *)handlerApplicationsForFile:(NSString *)filePath {
     NSURL *url = [NSURL fileURLWithPath:filePath];
-    NSMutableArray *appPaths = [[NSMutableArray alloc] initWithCapacity:256];
-    
     NSArray *applications = (NSArray *)CFBridgingRelease(LSCopyApplicationURLsForURL((__bridge CFURLRef)url, kLSRolesAll));
     if (applications == nil) {
         return @[];
     }
     
+    NSMutableArray *appPaths = [NSMutableArray array];
     for (NSURL *appURL in applications) {
         [appPaths addObject:[appURL path]];
     }
-    return [NSArray arrayWithArray:appPaths];
+    return [appPaths copy];
 }
 
 - (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath {
@@ -183,10 +182,6 @@
     NSDictionary *dictionary = CFBridgingRelease(MDItemCopyAttributes(item, (__bridge CFArrayRef)names));
     CFRelease(item);
     
-    if (!dictionary || ![dictionary objectForKey:@"kMDItemContentType"]) {
-        return nil;
-    }
-    
     return dictionary[@"kMDItemContentType"];
 }
 
@@ -234,7 +229,7 @@ end tell", path, type];
     
     NSString *source = [NSString stringWithFormat:
 @"tell application \"Finder\"\n\
-move POSIX file \"%@\" to trash\n\
+\tmove POSIX file \"%@\" to trash\n\
 end tell", path];
     
     return [self runAppleScript:source];    
@@ -243,17 +238,17 @@ end tell", path];
 #pragma mark -
 
 - (BOOL)runAppleScript:(NSString *)scriptSource {
-    
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
-    if (appleScript != nil) {
-        NSDictionary *errorInfo;
-        if ([appleScript executeAndReturnError:&errorInfo] == nil) {
-            NSLog(@"%@", [errorInfo description]);
+    if (appleScript) {
+        NSDictionary *error;
+        if ([appleScript :&error] == nil) {
+            NSLog(@"%@", [error description]);
             return NO;
         }
+        return YES;
     }
     
-    return YES;
+    return NO;
 }
 
 @end

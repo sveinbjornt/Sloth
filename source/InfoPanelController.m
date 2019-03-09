@@ -83,7 +83,7 @@
     BOOL isProcess = [type isEqualToString:@"Process"];
     BOOL isFileOrFolder = [type isEqualToString:@"File"] || [type isEqualToString:@"Directory"];
     BOOL isIPSocket = [type isEqualToString:@"IP Socket"];
-    BOOL isPipeOrSocket = [type isEqualToString:@"Unix Socket"] || [type isEqualToString:@"Pipe"];
+    BOOL isPipeOrSocket = [type isEqualToString:@"Unix Domain Socket"] || [type isEqualToString:@"Pipe"];
     
     // Name
     NSString *name = isFileOrFolder ? [itemDict[@"name"] lastPathComponent] : itemDict[@"name"];
@@ -129,7 +129,7 @@
         });
     }
     
-    // Show endpoints for pipes and unix sockets
+    // Show endpoints for pipes and unix domain sockets
     self.pathLabelTextField.stringValue = isPipeOrSocket ? @"Connected to" : @"Path";
     if (isPipeOrSocket && itemDict[@"endpointname"]) {
         NSString *epString = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"endpointname"], itemDict[@"endpointpid"]];
