@@ -241,7 +241,7 @@ end tell", path];
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
     if (appleScript) {
         NSDictionary *error;
-        if ([appleScript :&error] == nil) {
+        if ([appleScript executeAndReturnError:&error] == nil) {
             NSLog(@"%@", [error description]);
             return NO;
         }
