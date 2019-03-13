@@ -1,0 +1,6 @@
+language: objective-c
+
+osx_image: xcode10.2 # 10.14
+
+script:
+  - make
