@@ -134,6 +134,10 @@
     
     [volumesMenuItem setSubmenu:[volumesPopupButton menu]];
     
+    NSImage *revealImg = [NSImage imageNamed:@"NSRevealFreestandingTemplate"];
+    [revealImg setSize:NSMakeSize(12,12)];
+    [revealButton setImage:revealImg];
+    
     // For some reason, IB isn't respecting template
     // settings so we have to do this manually (sigh)
     [[NSImage imageNamed:@"Kill"] setTemplate:YES];
@@ -151,9 +155,7 @@
     for (NSMenuItem *i in items) {
         NSString *type = [i toolTip];
         NSImage *img = [IconUtils imageNamed:type];
-        if (img) {
-            [i setImage:img];
-        }
+        [i setImage:img];
     }
     
     // Start observing defaults
@@ -183,11 +185,11 @@
     [self updateSorting];
     
     if ([DEFAULTS boolForKey:@"authenticateOnLaunch"]) {
-        [self toggleAuthentication:self];
+        [self toggleAuthentication:self]; // Triggers refresh
+    } else {
+        // Refresh immediately when app is launched
+        [self refresh:self];
     }
-    
-    // Refresh immediately when app is launched
-    [self refresh:self];
 }
 
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
@@ -1001,7 +1003,7 @@
 
 - (IBAction)showSelectedItem:(id)sender {
     NSInteger selectedRow = [outlineView selectedRow];
-    if (selectedRow < 0) {
+    if (selectedRow > -1) {
         [outlineView scrollRowToVisible:selectedRow];
     } else {
         NSBeep();
