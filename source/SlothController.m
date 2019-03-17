@@ -102,11 +102,8 @@
 }
 
 + (void)initialize {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-        [DEFAULTS registerDefaults:[NSDictionary dictionaryWithContentsOfFile:defaultsPath]];
-    });
+    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
+    [DEFAULTS registerDefaults:[NSDictionary dictionaryWithContentsOfFile:defaultsPath]];
 }
 
 #pragma mark - NSApplicationDelegate
@@ -136,7 +133,6 @@
     }
     
     [volumesMenuItem setSubmenu:[volumesPopupButton menu]];
-    [filterTextField setStringValue:@""];
     
     // For some reason, IB isn't respecting template
     // settings so we have to do this manually (sigh)
@@ -942,8 +938,6 @@
 
 // Called when user selects Copy menu item via Edit or contextual menu
 - (void)copy:(id)sender {
-    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
-    [pasteBoard clearContents];
     
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
     if (selectedRow == -1) {
@@ -951,14 +945,27 @@
         return;
     }
     
-    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-    
     // Write to pasteboard
-    if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard clearContents];
+    
+    NSMutableArray *names = [NSMutableArray new];
+    NSMutableArray *filePaths = [NSMutableArray new];
+
+    [[outlineView selectedRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        NSDictionary *item = [[outlineView itemAtRow:idx] representedObject];
+        [names addObject:item[@"name"]];
+        if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
+            [filePaths addObject:item[@"name"]];
+        }
+    }];
+    
+    if ([filePaths count]) {
         [pasteBoard declareTypes:@[NSFilenamesPboardType] owner:nil];
-        [pasteBoard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+        [pasteBoard setPropertyList:filePaths forType:NSFilenamesPboardType];
     }
-    [pasteBoard setString:item[@"name"] forType:NSStringPboardType];
+    NSString *copyStr = [names componentsJoinedByString:@"\n"];
+    [pasteBoard setString:copyStr forType:NSStringPboardType];
 }
 
 - (void)rowDoubleClicked:(id)object {
@@ -990,6 +997,15 @@
         prefsController = [[PrefsController alloc] initWithWindowNibName:@"Prefs"];
     }
     [prefsController showWindow:self];
+}
+
+- (IBAction)showSelectedItem:(id)sender {
+    NSInteger selectedRow = [outlineView selectedRow];
+    if (selectedRow < 0) {
+        [outlineView scrollRowToVisible:selectedRow];
+    } else {
+        NSBeep();
+    }
 }
 
 #pragma mark - Disclosure
@@ -1214,7 +1230,7 @@
     }
     
     // Dynamically generate contextual menu for item
-    if (menu == itemContextualMenu) {
+    else if (menu == itemContextualMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
         NSMenuItem *openItem = [itemContextualMenu itemAtIndex:0];
@@ -1245,7 +1261,7 @@
     }
     
     // Dynamically generate Open With submenu for item
-    if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
+    else if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         NSString *path = nil;
         if (item && [item[@"type"] isEqualToString:@"Process"] == NO) {
@@ -1264,7 +1280,8 @@
                      action == @selector(showInfoInFinder:) ||
                      action == @selector(kill:) ||
                      action == @selector(getInfo:) ||
-                     action == @selector(open:));
+                     action == @selector(open:) ||
+                     action == @selector(showSelectedItem:));
     
     // Actions on items should only be enabled when something is selected
     if (isAction && selectedRow < 0) {

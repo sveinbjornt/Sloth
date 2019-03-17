@@ -7,7 +7,9 @@ TODO list for Sloth 2.8
     DONE * Fixed alignment of top filter controls
     DONE * Fixed issue with Pipe icon on non-retina displays
     DONE * Build mechanism should default to not code-signing
-    * Cmd-L menu item to show selected item
+    DONE * Multiple items can now be selected and copied
+    DONE * Cmd-L menu item to show selected item
+
     * Show which processes are connected via pipes & unix domain sockets
     * Add parent process IDs and file inode numbers
     * pipe: FD unavailable handling

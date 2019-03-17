@@ -222,6 +222,14 @@
                                     </connections>
                                 </menu>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Z80-LP-DWV">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Show Selected Item" keyEquivalent="l" id="W49-ln-Sh4">
+                                <connections>
+                                    <action selector="showSelectedItem:" target="212" id="W6x-sq-i74"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="OxA-O1-B1k">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -262,7 +270,7 @@
                                     <binding destination="560" name="value" keyPath="values.showIPSockets" id="7Fy-7t-9cC"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Unix Sockets" keyEquivalent="5" toolTip="Unix Socket" id="QRq-1p-OVp">
+                            <menuItem title="Show Unix Sockets" keyEquivalent="5" toolTip="Unix Domain Socket" id="QRq-1p-OVp">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showUnixSockets" id="LDo-O4-6qU"/>
                                 </connections>
@@ -680,7 +688,6 @@ DQ
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </searchFieldCell>
                         <connections>
-                            <binding destination="560" name="value" keyPath="values.filterString" id="ydo-dA-IIK"/>
                             <outlet property="delegate" destination="212" id="552"/>
                             <outlet property="searchMenuTemplate" destination="6L5-jB-614" id="7x1-pU-Ybs"/>
                         </connections>
@@ -804,9 +811,9 @@ DQ
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
                             <rect key="frame" x="1" y="0.0" width="848" height="468"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
+                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
                                     <rect key="frame" x="0.0" y="0.0" width="848" height="445"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
