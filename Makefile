@@ -56,7 +56,6 @@ size:
 	@cd $(BUILD_DIR); du -hs $(APP_ZIP_NAME)
 	@cd $(BUILD_DIR); du -hs $(APP_SRC_ZIP_NAME)
 
-
 clean:
 	xcodebuild -project "$(XCODE_PROJ)" clean
 	rm -rf products/* 2> /dev/null

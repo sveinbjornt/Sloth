@@ -110,9 +110,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
 {
     STPrivilegedTask *task = [[STPrivilegedTask alloc] initWithLaunchPath:path];
-#if !__has_feature(objc_arc)
-    [task autorelease];
-#endif
     [task launch];
     [task waitUntilExit];
     return task;
@@ -121,10 +118,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path arguments:(NSArray *)args
 {
     STPrivilegedTask *task = [[STPrivilegedTask alloc] initWithLaunchPath:path arguments:args];
-#if !__has_feature(objc_arc)
-    [task autorelease];
-#endif
-    
     [task launch];
     [task waitUntilExit];
     return task;
@@ -133,10 +126,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path arguments:(NSArray *)args currentDirectory:(NSString *)cwd
 {
     STPrivilegedTask *task = [[STPrivilegedTask alloc] initWithLaunchPath:path arguments:args currentDirectory:cwd];
-#if !__has_feature(objc_arc)
-    [task autorelease];
-#endif
-    
     [task launch];
     [task waitUntilExit];
     return task;
@@ -145,10 +134,6 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path arguments:(NSArray *)args currentDirectory:(NSString *)cwd authorization:(AuthorizationRef)authorization
 {
     STPrivilegedTask *task = [[STPrivilegedTask alloc] initWithLaunchPath:path arguments:args currentDirectory:cwd];
-#if !__has_feature(objc_arc)
-    [task autorelease];
-#endif
-    
     [task launchWithAuthorization:authorization];
     [task waitUntilExit];
     return task;
