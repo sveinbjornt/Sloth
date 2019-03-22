@@ -40,6 +40,7 @@
 #define FOLDER_ICON_PATH    CORE_TYPES_RESOURCE(@"SidebarGenericFolder.icns")
 #define APPL_ICON_PATH      CORE_TYPES_RESOURCE(@"SidebarApplicationsFolder.icns")
 #define HOME_ICON_PATH      CORE_TYPES_RESOURCE(@"SidebarHomeFolder.icns")
+#define ERR_ICON_PATH       CORE_TYPES_RESOURCE(@"AlertStopIcon.icns")
 
 static NSMutableDictionary *iconStore;
 
@@ -54,7 +55,7 @@ static NSMutableDictionary *iconStore;
     // version of macOS, the new ones on Mojave onwards. Saves us from having
     // to bloat the application bundle with custom icon assets.
     NSMutableDictionary *icons = [NSMutableDictionary dictionary];
-    
+
     NSDictionary *iconSettings = @{
         @"File": @[
             @{ @"path": FILE_ICON_PATH, @"template": @YES },
@@ -77,6 +78,10 @@ static NSMutableDictionary *iconStore;
         @"IP Socket": @[
             @{ @"path": NETWORK_ICON_PATH, @"template": @YES },
             @{ @"name": NSImageNameNetwork, @"template": @NO }
+        ],
+        @"Error": @[
+            @{ @"path": ERR_ICON_PATH, @"template": @NO },
+            @{ @"name": NSImageNameCaution, @"template": @NO }
         ],
         @"Prefs": @[
             @{ @"name": NSImageNamePreferencesGeneral, @"template": @NO }

@@ -385,6 +385,10 @@
                 currentFile = [NSMutableDictionary dictionary];
                 NSString *fd = value;
                 currentFile[@"fd"] = fd;
+                if ([fd isEqualToString:@"err"]) {
+                    currentFile[@"type"] = @"Error";
+                    currentFile[@"image"] = [IconUtils imageNamed:@"Error"];
+                }
                 currentFile[@"pname"] = currentProcess[@"name"];
                 currentFile[@"pid"] = currentProcess[@"pid"];
                 currentFile[@"puserid"] = currentProcess[@"userid"];
@@ -482,7 +486,10 @@
             {
                 NSString *devCharCode = value;
                 currentFile[@"devcharcode"] = devCharCode;
-                devCharCodeMap[devCharCode] = currentFile;
+                if (devCharCodeMap[devCharCode] == nil) {
+                    devCharCodeMap[devCharCode] = [NSMutableArray new];
+                }
+                [devCharCodeMap[devCharCode] addObject:currentFile];
             }
                 break;
                 
@@ -518,48 +525,50 @@
         *numFiles += [process[@"children"] count];
         
         // Iterate over the process's children, map sockets and pipes to their endpoint
-        for (NSMutableDictionary *f in process[@"children"]) {
-            if (![f[@"type"] isEqualToString:@"Unix Domain Socket"] && ![f[@"type"] isEqualToString:@"Pipe"]) {
-                continue;
-            }
-            // Pipes and sockets should have names in the format "->[NAME]"
-            if ([f[@"name"] length] < 3) {
-                continue;
-            }
-            
-            NSString *name = [f[@"name"] substringFromIndex:2];
-            
-            // If we know which process owns the other end of the pipe/socket
-            // Needs to run with root privileges for succesful lookup of the
-            // endpoints of system process pipes/sockets such as syslogd
-            if (devCharCodeMap[name]) {
-                NSDictionary *endPoint = devCharCodeMap[name];
-                f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)",
-                                     f[@"displayname"], endPoint[@"pname"]];
-                f[@"endpointname"] = endPoint[@"pname"];
-                f[@"endpointpid"] = endPoint[@"pid"];
-                f[@"endpointimg"] = endPoint[@"pimage"];
-            }
-        }
+//        for (NSMutableDictionary *f in process[@"children"]) {
+//            if (![f[@"type"] isEqualToString:@"Unix Domain Socket"] && ![f[@"type"] isEqualToString:@"Pipe"]) {
+//                continue;
+//            }
+//            // Pipes and sockets should have names in the format "->[NAME]"
+//            if ([f[@"name"] length] < 3) {
+//                continue;
+//            }
+//            
+//            NSString *name = [f[@"name"] substringFromIndex:2];
+//            
+//            // If we know which process owns the other end of the pipe/socket
+//            // Needs to run with root privileges for succesful lookup of the
+//            // endpoints of system process pipes/sockets such as syslogd
+//            if (devCharCodeMap[name]) {
+//                if ([devCharCodeMap[name] count] > 1) {
+//                    NSLog(@"%@", [devCharCodeMap[name] description]);
+//                }
+//                NSDictionary *endPoint = devCharCodeMap[name][0];
+//                f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)",
+//                                     f[@"displayname"], endPoint[@"pname"]];
+//                f[@"endpointname"] = endPoint[@"pname"];
+//                f[@"endpointpid"] = endPoint[@"pid"];
+//                f[@"endpointimg"] = endPoint[@"pimage"];
+//            }
+//        }
     }
     
     return processList;
 }
 
-// Get all sorts of additional info about process
-// and then add it to the process info dictionary
+// Get additional info about process and
+// add it to the process info dictionary
 - (void)updateProcessInfo:(NSMutableDictionary *)p {
     
     if (p[@"image"] == nil) {
         pid_t pid = [p[@"pid"] intValue];
+        NSRunningApplication *app = [ProcessUtils appForPID:pid];
         
-        NSString *bundlePath = [ProcessUtils bundlePathForPID:pid];
-        
-        if (bundlePath) {
-            p[@"image"] = [WORKSPACE iconForFile:bundlePath];
+        if (app) {
             p[@"bundle"] = @YES;
-            p[@"app"] = @([ProcessUtils isAppProcess:pid]);
-            p[@"path"] = bundlePath;
+            p[@"path"] = [[app bundleURL] path];
+            p[@"image"] = [WORKSPACE iconForFile:p[@"path"]];
+            p[@"app"] = @([ProcessUtils isAppProcess:p[@"path"]]);
         } else {
             p[@"image"] = [IconUtils imageNamed:@"GenericExecutable"];
             p[@"bundle"] = @NO;
@@ -584,7 +593,7 @@
             p[@"pname"] = p[@"name"];
         }
         
-        // Set process icon for all children (i.e. files)
+        // Set process icon for all children (i.e. files, sockets, etc.)
         for (NSMutableDictionary *item in p[@"children"]) {
             item[@"pimage"] = p[@"image"];
         }

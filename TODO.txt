@@ -1,15 +1,14 @@
 
 TODO list for Sloth 2.8
 
+    DONE * New Dark Mode friendly template icons for Mojave
     DONE * Multiple items can now be selected and copied
     DONE * Cmd-L menu action to show selected item
-    DONE * Some minor performance improvements
-    DONE * New Dark Mode friendly template icons
+    DONE * Minor performance improvements
     DONE * Sparkle update framework now Mojave Dark Mode-compatible
     DONE * No longer shows hidden volumes (e.g. "/private/var/vm"") in Volumes filter
     DONE * Fixed issue with mangled process names
-    DONE * Fixed alignment of top filter controls
-    DONE * Fixed issue with Pipe icon on non-retina displays
+    DONE * Fixed issue with pipe icon on non-retina displays
     DONE * Fixed minor memory leak
 
     * Show which processes are connected via pipes & unix domain sockets

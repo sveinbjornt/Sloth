@@ -41,11 +41,11 @@
 
 @implementation ProcessUtils
 
-+ (BOOL)isAppProcess:(pid_t)pid {
-    NSString *bundlePath = [ProcessUtils bundlePathForPID:pid];
-    if (!bundlePath) {
-        return NO;
-    }
++ (NSRunningApplication *)appForPID:(pid_t)pid {
+    return [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
+}
+
++ (BOOL)isAppProcess:(NSString *)bundlePath {
     NSString *fileType = [[NSWorkspace sharedWorkspace] typeOfFile:bundlePath error:nil];
     return ([[NSWorkspace sharedWorkspace] type:fileType conformsToType:@"com.apple.application"]);
 }
@@ -179,15 +179,8 @@
     }
     
     NSString *pname = [@(cp) stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    free(procargs);
     return ([pname length] == 0) ? nil : [pname lastPathComponent];
-}
-
-+ (NSString *)bundlePathForPID:(pid_t)pid {
-    ProcessSerialNumber psn;
-    GetProcessForPID(pid, &psn);
-    NSDictionary *infoDict = (__bridge_transfer NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-    
-    return infoDict[@"BundlePath"];
 }
 
 + (NSString *)executablePathForPID:(pid_t)pid {

@@ -29,10 +29,12 @@
 */
 
 #import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 
 @interface ProcessUtils : NSObject
 
-+ (BOOL)isAppProcess:(pid_t)pid;
++ (NSRunningApplication *)appForPID:(pid_t)pid;
++ (BOOL)isAppProcess:(NSString *)bundlePath;
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid;
 + (uid_t)UIDForPID:(pid_t)pid;
 + (NSString *)ownerUserNameForPID:(pid_t)pid;
@@ -40,7 +42,6 @@
 + (NSString *)carbonProcessSerialNumberForPID:(pid_t)pid;
 + (NSString *)procNameForPID:(pid_t)pid;
 + (NSString *)fullKernelProcessNameForPID:(pid_t)pid;
-+ (NSString *)bundlePathForPID:(pid_t)pid;
 + (NSString *)executablePathForPID:(pid_t)pid;
 + (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot;
 
