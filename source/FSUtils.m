@@ -52,11 +52,10 @@
     for (int i = 0; i < fs_count; ++i) {
         dev_t fsid = buf[i].f_fsid.val[0];
         
-        fsdict[@(fsid)] = \
-        @{
+        fsdict[@(fsid)] = @{
             @"devid": @(fsid),
-            @"devid_major": @(major(fsid)),
-            @"devid_minor": @(minor(fsid)),
+//            @"devid_major": @(major(fsid)),
+//            @"devid_minor": @(minor(fsid)),
             @"fstype": @(buf[i].f_fstypename),
             @"devname": @(buf[i].f_mntfromname),
             @"mountpoint": @(buf[i].f_mntonname)

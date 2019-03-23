@@ -29,6 +29,7 @@
 */
 
 #import "VolumesPopUpButton.h"
+#import "FSUtils.h"
 
 @implementation VolumesPopUpButton
 
@@ -90,7 +91,10 @@
     NSMenuItem *selectedItem = [self selectedItem];
     NSString *selectedPath = [selectedItem toolTip];
     
-    // Rebuild menu
+    // Get info about mounted file systems
+    NSDictionary *filesystems = [FSUtils mountedFileSystems];
+    
+    // Clear menu
     [volumesMenu removeAllItems];
     
     // All + separator
@@ -102,7 +106,7 @@
     [volumesMenu addItem:item];
     [volumesMenu addItem:[NSMenuItem separatorItem]];
     
-    NSArray *props = @[NSURLVolumeNameKey, NSURLVolumeIsRemovableKey, NSURLVolumeIsEjectableKey];
+    NSArray *props = @[NSURLVolumeNameKey];
     NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props
                                                                                             options:NSVolumeEnumerationSkipHiddenVolumes];
     // Add all volumes as items
@@ -116,11 +120,21 @@
             continue;
         }
         
+        SEL action = @selector(notifyDelegateSelectionHasChanged:);
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:volumeName
-                                                      action:@selector(notifyDelegateSelectionHasChanged:)
+                                                      action:action
                                                keyEquivalent:@""];
         [item setTarget:self];
         [item setToolTip:[url path]];
+
+        // Set filesystem info dict as represented object
+        for (NSNumber *fsid in filesystems) {
+            NSDictionary *fs = filesystems[fsid];
+            if ([fs[@"mountpoint"] isEqualToString:[url path]]) {
+                [item setRepresentedObject:fs];
+                break;
+            }
+        }
         
         [volumesMenu addItem:item];
     }
@@ -133,7 +147,6 @@
             break;
         }
     }
-    
     [self selectItem:itemToSelect];
     
     if (selectedItem != itemToSelect) {

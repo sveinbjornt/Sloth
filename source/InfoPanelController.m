@@ -56,6 +56,7 @@
 @property (weak) IBOutlet NSTextField *sizeTextField;
 @property (weak) IBOutlet NSTextField *permissionsTextField;
 @property (weak) IBOutlet NSTextField *accessModeTextField;
+@property (weak) IBOutlet NSTextField *fileSystemTextField;
 
 @property (weak) IBOutlet NSButton *killButton;
 @property (weak) IBOutlet NSButton *showInFinderButton;
@@ -74,7 +75,7 @@
     if (!itemDict) {
         return;
     }
-    //NSLog(@"%@", [itemDict description]);
+//    NSLog(@"%@", [itemDict description]);
     
     self.fileInfoDict = itemDict;
     
@@ -109,6 +110,15 @@
         NSAttributedString *redPath = [[NSAttributedString alloc] initWithString:path attributes:@{ NSForegroundColorAttributeName : [NSColor redColor] }];
         [self.pathTextField setAttributedStringValue:redPath];
     }
+    
+    // File system
+    NSString *fsInfo = EMPTY_PLACEHOLDER;
+    if (isFileOrFolder) {
+        fsInfo = [NSString stringWithFormat:@"%@ (inode %@)",
+                  itemDict[@"device"][@"devname"],
+                  itemDict[@"inode"]];
+    }
+    [self.fileSystemTextField setStringValue:fsInfo];
     
     // Resolve DNS and show details for IP sockets
     self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";

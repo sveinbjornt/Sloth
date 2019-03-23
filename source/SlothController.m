@@ -500,6 +500,7 @@
                 NSString *deviceIDStr = value;
                 NSScanner *scanner = [NSScanner scannerWithString:deviceIDStr];
                 [scanner scanHexInt:&deviceID];
+                // Use device number to add file system info to file
                 currentFile[@"device"] = fileSystems[@(deviceID)] ? fileSystems[@(deviceID)] : @{ @"devid": @(deviceID) };
             }
                 break;
@@ -682,10 +683,10 @@
     BOOL hasAccessModeFilter = ([accessModeFilter isEqualToString:@"Any"] == NO);
     
     // Volumes filter
-    NSString *volumesFilter = nil;
+    NSNumber *volumesFilter = nil; // Device ID number
     BOOL hasVolumesFilter = ([[[volumesPopupButton selectedItem] title] isEqualToString:@"All"] == NO);
     if (hasVolumesFilter) {
-        volumesFilter = [[volumesPopupButton selectedItem] toolTip];
+        volumesFilter = [[volumesPopupButton selectedItem] representedObject][@"devid"];
     }
     
     // Path filters such as by volume or home folder should
@@ -762,8 +763,10 @@
                     continue;
                 }
                 
-                if (volumesFilter && ![file[@"name"] hasPrefix:volumesFilter]) {
-                    continue;
+                if (volumesFilter) {
+                    if ([file[@"device"][@"devid"] isEqualToNumber:volumesFilter] == NO) {
+                        continue;
+                    }
                 }
                 
                 NSString *type = file[@"type"];

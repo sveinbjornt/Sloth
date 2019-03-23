@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="InfoPanelController">
             <connections>
                 <outlet property="accessModeTextField" destination="uCC-cF-VxJ" id="ijt-6K-iWo"/>
+                <outlet property="fileSystemTextField" destination="tQo-bi-hrs" id="lgL-Qc-GyI"/>
                 <outlet property="filetypeTextField" destination="uh0-Kf-GXL" id="sln-g1-afr"/>
                 <outlet property="finderTypeTextField" destination="K3A-Sf-uMz" id="eww-Y0-7ZY"/>
                 <outlet property="getFinderInfoButton" destination="MXD-uv-J2k" id="iiG-eE-jrQ"/>
@@ -32,19 +33,19 @@
         <window title="Info Panel" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" animationBehavior="utilityWindow" frameAutosaveName="SlothGetInfoPanel" id="dXY-bn-XEk" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES" nonactivatingPanel="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES"/>
-            <rect key="contentRect" x="139" y="81" width="276" height="471"/>
+            <rect key="contentRect" x="139" y="81" width="276" height="512"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="7sJ-lu-Um5">
-                <rect key="frame" x="0.0" y="0.0" width="276" height="471"/>
+                <rect key="frame" x="0.0" y="0.0" width="276" height="512"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hE2-M4-OUX">
-                        <rect key="frame" x="20" y="409" width="42" height="42"/>
+                        <rect key="frame" x="20" y="450" width="42" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="z5e-jx-nre"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Cje-LT-dIn">
-                        <rect key="frame" x="74" y="441" width="184" height="14"/>
+                        <rect key="frame" x="74" y="482" width="184" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="UpK-Ao-LyL">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -53,7 +54,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="cGa-0E-BjY">
-                        <rect key="frame" x="18" y="266" width="240" height="75"/>
+                        <rect key="frame" x="18" y="307" width="240" height="75"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" lineBreakMode="charWrapping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="—" id="TRF-Bz-Uag">
                             <font key="font" metaFont="smallSystem"/>
@@ -62,7 +63,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="uh0-Kf-GXL">
-                        <rect key="frame" x="18" y="77" width="240" height="47"/>
+                        <rect key="frame" x="18" y="73" width="240" height="47"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="OBs-mL-uF4">
                             <font key="font" metaFont="smallSystem"/>
@@ -71,7 +72,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="bz5-gt-B9U">
-                        <rect key="frame" x="18" y="129" width="240" height="14"/>
+                        <rect key="frame" x="18" y="125" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="File Info" id="AZU-sp-nnE">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -80,7 +81,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="xdR-4I-pOJ">
-                        <rect key="frame" x="18" y="344" width="240" height="14"/>
+                        <rect key="frame" x="18" y="385" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Path" id="Ubl-Z2-GNz">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -89,7 +90,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="2mF-X4-GT6">
-                        <rect key="frame" x="18" y="386" width="240" height="14"/>
+                        <rect key="frame" x="18" y="427" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Used by" id="Maq-i6-lNk">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -98,7 +99,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="K3A-Sf-uMz">
-                        <rect key="frame" x="18" y="151" width="260" height="14"/>
+                        <rect key="frame" x="18" y="147" width="260" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="5tX-Gc-YZe">
                             <font key="font" metaFont="smallSystem"/>
@@ -107,7 +108,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="fD6-j9-RxM">
-                        <rect key="frame" x="18" y="170" width="240" height="14"/>
+                        <rect key="frame" x="18" y="166" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Launch Services Type" id="G8b-P3-hQL">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -116,7 +117,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lJ2-T1-Tca">
-                        <rect key="frame" x="40" y="366" width="205" height="14"/>
+                        <rect key="frame" x="40" y="407" width="205" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="mwk-DE-7RU">
                             <font key="font" metaFont="smallSystem"/>
@@ -125,7 +126,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="7pW-fE-wSI">
-                        <rect key="frame" x="74" y="424" width="184" height="14"/>
+                        <rect key="frame" x="74" y="465" width="184" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="LA1-Jj-Z5M">
                             <font key="font" metaFont="smallSystem"/>
@@ -167,7 +168,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="rr1-Vb-8Yo">
-                        <rect key="frame" x="74" y="407" width="184" height="14"/>
+                        <rect key="frame" x="74" y="448" width="184" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="SdQ-PN-C2h">
                             <font key="font" metaFont="smallSystem"/>
@@ -176,7 +177,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="h4U-kP-xgP">
-                        <rect key="frame" x="18" y="255" width="240" height="14"/>
+                        <rect key="frame" x="18" y="251" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Access Mode" id="I0D-B4-ctV">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -185,7 +186,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="uCC-cF-VxJ">
-                        <rect key="frame" x="18" y="236" width="240" height="14"/>
+                        <rect key="frame" x="18" y="232" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="bOo-aZ-ynH">
                             <font key="font" metaFont="smallSystem"/>
@@ -194,12 +195,12 @@
                         </textFieldCell>
                     </textField>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="XGv-8P-DoV">
-                        <rect key="frame" x="21" y="365" width="16" height="16"/>
+                        <rect key="frame" x="21" y="406" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="sRO-CS-rD8"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Tlk-41-d7j">
-                        <rect key="frame" x="18" y="211" width="240" height="14"/>
+                        <rect key="frame" x="18" y="207" width="240" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Permissions" id="jS2-HM-CjG">
                             <font key="font" metaFont="smallSystemBold"/>
@@ -208,10 +209,28 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="yDA-tY-fWG">
-                        <rect key="frame" x="18" y="187" width="240" height="23"/>
+                        <rect key="frame" x="18" y="183" width="240" height="23"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="JLq-Js-hw8">
                             <font key="font" metaFont="fixedUser" size="11"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="bHI-Gw-oTt">
+                        <rect key="frame" x="18" y="292" width="240" height="14"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="File System" id="yjU-D7-dWn">
+                            <font key="font" metaFont="smallSystemBold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="tQo-bi-hrs">
+                        <rect key="frame" x="18" y="273" width="240" height="14"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" title="—" id="RSb-GF-2dh">
+                            <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -221,7 +240,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="Lue-ZZ-y1f"/>
             </connections>
-            <point key="canvasLocation" x="193" y="138.5"/>
+            <point key="canvasLocation" x="193" y="159"/>
         </window>
     </objects>
     <resources>
