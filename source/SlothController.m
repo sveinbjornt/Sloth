@@ -202,6 +202,11 @@
     return NO;
 }
 
+- (BOOL)windowShouldClose:(NSWindow *)sender {
+    [[NSApplication sharedApplication] terminate:self];
+    return YES;
+}
+
 #pragma mark - Get and parse lsof results
 
 - (IBAction)refresh:(id)sender {
@@ -626,7 +631,7 @@
     // Update num items label
     NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
     if (matchingFilesCount == self.totalFileCount) {
-        str = @"Showing all items";
+        str = [NSString stringWithFormat:@"Showing all %d items", self.totalFileCount];
     }
     [numItemsTextField setStringValue:str];
     
