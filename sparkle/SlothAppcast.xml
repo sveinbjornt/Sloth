@@ -7,17 +7,26 @@
         <language>en</language>
         
         <item>
-            <title>Version 2.7</title>
-            <pubDate>Sunday, 10 Feb 2019 14:42:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.7.zip" sparkle:version="182" sparkle:shortVersionString="2.7" length="644176" type="application/octet-stream" sparkle:dsaSignature="MEQCIBn7dhIv7wAUQ8DKoth3C77hGmVcrgUYFPVW7dS95Q9aAiAhVYoVGK5Z3FHs
-            J7Y1kWKHnZxiff/F9lVkNtLPtz8xtQ=="/>
+            <title>Version 2.8</title>
+            <pubDate>Wednesday, 27 Mar 2019 22:01:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.8.zip" sparkle:version="210" sparkle:shortVersionString="2.8" length="671365" type="application/octet-stream" sparkle:dsaSignature="MEQCIAUxA3sToni4fkqzIF8dRqyNtGa9OgBv4bEq4SxW/ljeAiAELq05lFPHuZDQURftI249nvhaNSNhwVyVC+fOR9jDfw=="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
-                <h2>New in Sloth 2.7</h2>
+                <h2>New in Sloth 2.8</h2>
                 <ul>
-                    <li>Info Panel now shows file Uniform Type Identifier</li>
-                    <li>Fixed crash bug on macOS 10.9 and earlier</li>
-                    <li>Various minor bug fixes and interface improvements</li>
+                <li>Sloth is now Developer ID signed, which should silence Apple's annoying GateKeeper. You may have to fetch it manually: <a href="https://sveinbjorn.org/files/software/sloth/sloth-2.8.zip">https://sveinbjorn.org/files/software/sloth/sloth-2.8.zip</a></li>
+                    <li>New Dark Mode friendly template icons for Mojave</li>
+                    <li>Multiple items can now be selected and copied</li>
+                    <li>Info Panel now shows which processes are connected to each other via unix pipes & domain sockets</li>
+                    <li>Info Panel now also shows file system info such as device name & inode</li>
+                    <li>Cmd-L menu action to show selected item</li>
+                    <li>Minor performance improvements</li>
+                    <li>Sparkle update framework now has Mojave Dark Mode-compatible appearance</li>
+                    <li>No longer shows hidden volumes in Volumes filter</li>
+                    <li>Fixed issue with mangled process names</li>
+                    <li>Fixed issue with pipe icon on non-retina displays</li>
+                    <li>Fixed minor memory leak</li>
+                    <li>More graceful error handling when file descriptor lookup fails in lsof</li>
                 </ul>
             ]]></description>
         </item>

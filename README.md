@@ -19,7 +19,7 @@ Sloth is free, open source software and has been developed and maintained for a 
 
 ## Download
 
-*  **[⇩ Download Sloth 2.7](https://sveinbjorn.org/files/software/sloth.zip)** (~0.6 MB, Intel 64-bit, macOS 10.8 or later)
+*  **[⇩ Download Sloth 2.8](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
 
 Sloth can also be installed via [Homebrew](https://brew.sh):
 
@@ -34,6 +34,21 @@ $ brew cask install sloth
 <img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot 2">
 
 ## Version history
+
+### 27/03/2019 - Version 2.8
+
+* New Dark Mode friendly template icons for Mojave
+* Multiple items can now be selected and copied
+* Info Panel now shows which processes are connected to each other via unix pipes & domain sockets
+* Info Panel now also shows file system info such as device name & inode
+* Cmd-L menu action to show selected item
+* Minor performance improvements
+* Sparkle update framework now has Mojave Dark Mode-compatible appearance
+* No longer shows hidden volumes in Volumes filter
+* Fixed issue with mangled process names
+* Fixed issue with pipe icon on non-retina displays
+* Fixed minor memory leak
+* More graceful error handling when file descriptor lookup fails in lsof
 
 ### 10/02/2019 - Version 2.7
 

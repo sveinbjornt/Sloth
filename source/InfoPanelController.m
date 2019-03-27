@@ -141,9 +141,9 @@
     
     // Show endpoints for pipes and unix domain sockets
     self.pathLabelTextField.stringValue = isPipeOrSocket ? @"Connected to" : @"Path";
-    if (isPipeOrSocket && itemDict[@"endpointname"]) {
-        NSString *epString = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"endpointname"], itemDict[@"endpointpid"]];
-        [self.pathTextField setStringValue:epString];
+    if (isPipeOrSocket && [itemDict[@"endpoints"] count]) {
+        NSString *eps = [itemDict[@"endpoints"] componentsJoinedByString:@"\n"];
+        [self.pathTextField setStringValue:eps];
     }
     
     // Icon

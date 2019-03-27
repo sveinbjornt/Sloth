@@ -531,32 +531,34 @@
         *numFiles += [process[@"children"] count];
         
         // Iterate over the process's children, map sockets and pipes to their endpoint
-//        for (NSMutableDictionary *f in process[@"children"]) {
-//            if (![f[@"type"] isEqualToString:@"Unix Domain Socket"] && ![f[@"type"] isEqualToString:@"Pipe"]) {
-//                continue;
-//            }
-//            // Pipes and sockets should have names in the format "->[NAME]"
-//            if ([f[@"name"] length] < 3) {
-//                continue;
-//            }
-//            
-//            NSString *name = [f[@"name"] substringFromIndex:2];
-//            
-//            // If we know which process owns the other end of the pipe/socket
-//            // Needs to run with root privileges for succesful lookup of the
-//            // endpoints of system process pipes/sockets such as syslogd
-//            if (devCharCodeMap[name]) {
-//                if ([devCharCodeMap[name] count] > 1) {
-//                    NSLog(@"%@", [devCharCodeMap[name] description]);
-//                }
-//                NSDictionary *endPoint = devCharCodeMap[name][0];
-//                f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)",
-//                                     f[@"displayname"], endPoint[@"pname"]];
-//                f[@"endpointname"] = endPoint[@"pname"];
-//                f[@"endpointpid"] = endPoint[@"pid"];
-//                f[@"endpointimg"] = endPoint[@"pimage"];
-//            }
-//        }
+        for (NSMutableDictionary *f in process[@"children"]) {
+            if (![f[@"type"] isEqualToString:@"Unix Domain Socket"] && ![f[@"type"] isEqualToString:@"Pipe"]) {
+                continue;
+            }
+            // Identifiable pipes and sockets should have names in the format "->[NAME]"
+            if ([f[@"name"] length] < 3) {
+                continue;
+            }
+            
+            NSString *name = [f[@"name"] substringFromIndex:2];
+            
+            // If we know which process owns the other end of the pipe/socket
+            // Needs to run with root privileges for succesful lookup of the
+            // endpoints of system process pipes/sockets such as syslogd
+            if (devCharCodeMap[name]) {
+                NSArray *endPoints = devCharCodeMap[name];
+                NSMutableArray *epItems = [NSMutableArray new];
+                NSDictionary *first = devCharCodeMap[name][0];
+                f[@"displayname"] = [NSString stringWithFormat:@"%@ (%@%@)",
+                                     f[@"displayname"], first[@"pname"],
+                                     [endPoints count] > 1 ? @" ..." : @""];
+                for (NSDictionary *e in endPoints) {
+                    NSString *i = [NSString stringWithFormat:@"%@ (%@)", e[@"pname"], e[@"pid"]];
+                    [epItems addObject:i];
+                }
+                f[@"endpoints"] = epItems;
+            }
+        }
     }
     
     return processList;
