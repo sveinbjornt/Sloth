@@ -15,11 +15,13 @@ Sloth is a Mac application that displays all open files and sockets in use by al
 
 Sloth is essentially a friendly, exploratory graphical user interface built on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of convenient additional functionality. Check out the screenshots below.
 
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BDT58J7HYKAEE"><img align="right" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" ></a>
+
 Sloth is free, open source software and has been developed and maintained for a long time. If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).
 
 ## Download
 
-*  **[⇩ Download Sloth 2.7](https://sveinbjorn.org/files/software/sloth.zip)** (~0.6 MB, Intel 64-bit, macOS 10.8 or later)
+*  **[⇩ Download Sloth 2.8](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
 
 Sloth can also be installed via [Homebrew](https://brew.sh):
 
@@ -34,6 +36,21 @@ $ brew cask install sloth
 <img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot 2">
 
 ## Version history
+
+### 27/03/2019 - Version 2.8
+
+* New Dark Mode friendly template icons for Mojave
+* Multiple items can now be selected and copied
+* Info Panel now shows which processes are connected to each other via unix pipes & domain sockets
+* Info Panel now also shows file system info such as device name & inode
+* Cmd-L menu action to show selected item
+* Minor performance improvements
+* Sparkle update framework now has Mojave Dark Mode-compatible appearance
+* No longer shows hidden volumes in Volumes filter
+* Fixed issue with mangled process names
+* Fixed issue with pipe icon on non-retina displays
+* Fixed minor memory leak
+* More graceful error handling when file descriptor lookup fails in lsof
 
 ### 10/02/2019 - Version 2.7
 
@@ -205,4 +222,4 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-The Sloth icon is Copyright (C) Drífa Thoroddsen.
+The Sloth application icon is copyright (C) [Drífa Thoroddsen](https://drifaliftora.is).
