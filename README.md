@@ -21,9 +21,9 @@ Sloth is free, open source software and has been developed and maintained for a 
 
 ## Download
 
-*  **[⇩ Download Sloth 2.8](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
+*  **[⇩ Download Sloth 2.8.1](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
 
-Sloth can also be installed via [Homebrew](https://brew.sh):
+Sloth can also be installed via [Homebrew](https://brew.sh) (may not be latest version):
 
 ```shell
 $ brew cask install sloth
@@ -36,6 +36,10 @@ $ brew cask install sloth
 <img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot 2">
 
 ## Version history
+
+### 30/03/2019 - Version 2.8.1
+
+* Fixed potential crash bug introduced in version 2.8.
 
 ### 27/03/2019 - Version 2.8
 

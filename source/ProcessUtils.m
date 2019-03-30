@@ -46,6 +46,9 @@
 }
 
 + (BOOL)isAppProcess:(NSString *)bundlePath {
+    if (!bundlePath) {
+        return NO;
+    }
     NSString *fileType = [[NSWorkspace sharedWorkspace] typeOfFile:bundlePath error:nil];
     return ([[NSWorkspace sharedWorkspace] type:fileType conformsToType:@"com.apple.application"]);
 }

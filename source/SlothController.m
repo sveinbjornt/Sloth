@@ -574,7 +574,10 @@
         
         if (app) {
             p[@"bundle"] = @YES;
-            p[@"path"] = [[app bundleURL] path];
+            NSString *bundlePath = [[app bundleURL] path];
+            if (bundlePath) {
+                p[@"path"] = bundlePath;
+            }
             p[@"image"] = [WORKSPACE iconForFile:p[@"path"]];
             p[@"app"] = @([ProcessUtils isAppProcess:p[@"path"]]);
         } else {

@@ -7,9 +7,9 @@
         <language>en</language>
         
         <item>
-            <title>Version 2.8</title>
-            <pubDate>Wednesday, 27 Mar 2019 22:01:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.8.zip" sparkle:version="210" sparkle:shortVersionString="2.8" length="671365" type="application/octet-stream" sparkle:dsaSignature="MEQCIBLoXfexLCemtjvCZQ35mNjCmQ9ddElBCFOEoBxeaYKyAiBqj1kYWlK5GSY5oPOLm06vfhzT2mX0wvKnC3MWxN0Y5w=="/>
+            <title>Version 2.8.1</title>
+            <pubDate>Saturday, 30 Mar 2019 13:06:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.8.1.zip" sparkle:version="211" sparkle:shortVersionString="2.8.1" length="675202" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCD6Cq468sFxT7D53P90uRw8Bnt53luTq9/Pz+Fbveo+wIgUVncQ1q+Wan3izkY9xuW7xQoqbFEUIwe1xxqCl9kmgE="/>
             <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
                 <h2>New in Sloth 2.8</h2>
