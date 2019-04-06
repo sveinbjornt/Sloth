@@ -9,7 +9,7 @@ Sloth is a Mac application that displays all open files and sockets in use by al
 * Sort by name, process ID, user etc.
 * View IP socket status, protocol and version
 * View sockets and pipes established between processes
-* Inspection window with detailed macOS and Unix file/socket info
+* Inspection window with detailed macOS and Unix file/socket/process info
 * Powerful contextual menu for file operations
 * In-app authentication to run with root privileges
 
