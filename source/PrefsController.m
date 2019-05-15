@@ -35,6 +35,7 @@
 @implementation PrefsController
 
 - (void)windowDidLoad {
+    [super windowDidLoad];
     NSImage *img = [IconUtils imageNamed:@"Prefs"];
     if (img) {
         [self.window setRepresentedURL:[NSURL URLWithString:@""]]; // Not representing a URL

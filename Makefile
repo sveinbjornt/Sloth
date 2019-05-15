@@ -8,7 +8,6 @@ APP_NAME := $(shell /usr/libexec/PlistBuddy -c "Print :CFBundleName" resources/I
 APP_NAME_LC := $(shell echo "${APP_NAME}" | tr '[:upper:]' '[:lower:]') # lowercase name
 APP_BUNDLE_NAME := "$(APP_NAME).app"
 
-#APP_ZIP_NAME := $(APP_NAME_LC)
 APP_ZIP_NAME := $(APP_NAME_LC:=-${VERSION}).zip
 APP_SRC_ZIP_NAME := $(APP_NAME_LC:=-${VERSION}).src.zip
 APP_PATH := $(BUILD_DIR:=/${APP_BUNDLE_NAME})
