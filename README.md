@@ -12,12 +12,13 @@ Sloth is a Mac application that displays all open files and sockets in use by al
 * Inspection window with detailed macOS and Unix file/socket/process info
 * Powerful contextual menu for file operations
 * In-app authentication to run with root privileges
+* Fast, responsive native app written in Objective-C/Cocoa
 
 Sloth is essentially a friendly, exploratory graphical user interface built on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of convenient additional functionality. Check out the screenshots below.
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BDT58J7HYKAEE"><img align="right" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" ></a>
 
-Sloth is free, open source software and has been developed and maintained for a long time. If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).
+Sloth is free, open source software and has been developed and maintained for a long time. **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
 ## Download
 
