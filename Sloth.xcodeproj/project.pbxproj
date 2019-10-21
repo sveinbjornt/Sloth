@@ -23,7 +23,6 @@
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F4584497216BA23400428797 /* STPrivilegedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4584496216BA23400428797 /* STPrivilegedTask.m */; };
 		F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F471DF6220F586510057E667 /* NSWorkspace+Additions.m */; };
-		F479672E224FA4E000CA0746 /* TimeAgoTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F479672D224FA4E000CA0746 /* TimeAgoTextField.m */; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */; };
 		F4AC98362060583E0000871B /* IPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPUtils.m */; };
@@ -75,8 +74,6 @@
 		F4584496216BA23400428797 /* STPrivilegedTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPrivilegedTask.m; sourceTree = "<group>"; };
 		F471DF6220F586510057E667 /* NSWorkspace+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Additions.m"; sourceTree = "<group>"; };
 		F471DF6320F586510057E667 /* NSWorkspace+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Additions.h"; sourceTree = "<group>"; };
-		F479672C224FA4E000CA0746 /* TimeAgoTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeAgoTextField.h; sourceTree = "<group>"; };
-		F479672D224FA4E000CA0746 /* TimeAgoTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeAgoTextField.m; sourceTree = "<group>"; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
@@ -162,8 +159,6 @@
 			children = (
 				F4584495216BA23400428797 /* STPrivilegedTask.h */,
 				F4584496216BA23400428797 /* STPrivilegedTask.m */,
-				F479672C224FA4E000CA0746 /* TimeAgoTextField.h */,
-				F479672D224FA4E000CA0746 /* TimeAgoTextField.m */,
 				F42940C7221987240031E564 /* IconUtils.h */,
 				F42940C8221987240031E564 /* IconUtils.m */,
 				F4081F9E2088E0C9009BB15A /* ProcessUtils.h */,
@@ -270,7 +265,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -344,7 +339,6 @@
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
 				F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */,
 				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
-				F479672E224FA4E000CA0746 /* TimeAgoTextField.m in Sources */,
 				F4584497216BA23400428797 /* STPrivilegedTask.m in Sources */,
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
@@ -360,12 +354,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sparkle",
@@ -394,12 +389,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sparkle",

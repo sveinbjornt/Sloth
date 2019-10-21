@@ -39,7 +39,6 @@
 #import "FSUtils.h"
 #import "NSWorkspace+Additions.h"
 #import "STPrivilegedTask.h"
-#import "TimeAgoTextField.h"
 
 @interface SlothController ()
 {
@@ -59,7 +58,6 @@
     
     IBOutlet NSTextField *filterTextField;
     IBOutlet NSTextField *numItemsTextField;
-    IBOutlet TimeAgoTextField *timeAgoTextField;
     
     IBOutlet NSButton *revealButton;
     IBOutlet NSButton *killButton;
@@ -248,11 +246,8 @@
                 [outlineView setAlphaValue:1.0];
                 [refreshButton setEnabled:YES];
                 [authenticateButton setEnabled:YES];
-                
-                [timeAgoTextField setDate:[NSDate date]];
-                
+                                
                 isRefreshing = NO;
-                
                 
                 // Filter results
                 [self updateFiltering];
