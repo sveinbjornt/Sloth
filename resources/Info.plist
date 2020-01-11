@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Sloth</string>
 	<key>CFBundleGetInfoString</key>
-	<string>© 2004-2019 Sveinbjorn Thordarson.</string>
+	<string>© 2004-2020 Sveinbjorn Thordarson.</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
@@ -23,13 +23,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>215</string>
+	<string>216</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.8</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2004-2019 Sveinbjorn Thordarson.</string>
+	<string>© 2004-2020 Sveinbjorn Thordarson.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

@@ -210,7 +210,7 @@ Built products are created in `products/`.
 
 ## BSD License 
 
-Copyright (C) 2004-2019 Sveinbjorn Thordarson &lt;<a href="mailto:">sveinbjorn@sveinbjorn.org</a>&gt;
+Copyright (C) 2004-2020 Sveinbjorn Thordarson &lt;<a href="mailto:">sveinbjorn@sveinbjorn.org</a>&gt;
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
