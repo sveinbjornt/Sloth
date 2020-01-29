@@ -4,3 +4,4 @@ TODO for Sloth 2.9
     * Show last lsof run time in GUI. It's important for the user to know how up to date the information is.
     * Highlight matching part of string when filtering (option in popup)
     * Show full command (ala ps -ef) in Info Window
+    * Sort by whether app/process
