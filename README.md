@@ -18,13 +18,13 @@ Sloth is essentially a friendly, exploratory graphical user interface built on t
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BDT58J7HYKAEE"><img align="right" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" ></a>
 
-Sloth is free, open source software and has been continuously developed and maintained for a very long time. **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
+Sloth is free, open source software and has been continuously developed and maintained for a very long time (since 2004). **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
 ## Download
 
 *  **[⇩ Download Sloth 2.8.1](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
 
-Sloth can also be installed via [Homebrew](https://brew.sh):
+Sloth can also be installed via [Homebrew](https://brew.sh) (may not be latest version):
 
 ```shell
 $ brew cask install sloth
@@ -38,7 +38,7 @@ $ brew cask install sloth
 
 ## Build
 
-Sloth can be built either via the `xcodeproj` or by running the following command in the repository root:
+Sloth can be built using a reasonably modern version of Xcode via the `xcodeproj` or by running the following command in the repository root:
 
 ```
 make
