@@ -29,7 +29,7 @@
 */
 
 #define PROGRAM_NAME                @"Sloth"
-#define PROGRAM_VERSION             @"2.8.1"
+#define PROGRAM_VERSION             @"2.9"
 #define PROGRAM_WEBSITE             @"https://sveinbjorn.org/sloth"
 #define PROGRAM_GITHUB_WEBSITE      @"https://github.com/sveinbjornt/Sloth"
 #define PROGRAM_DONATIONS           @"https://sveinbjorn.org/donations"
@@ -43,6 +43,6 @@
 #define VALUES_KEYPATH(X)           [NSString stringWithFormat:@"values.%@", (X)]
 
 // Let's make things a bit less verbose
-#define FILEMGR     [NSFileManager defaultManager]
-#define DEFAULTS    [NSUserDefaults standardUserDefaults]
-#define WORKSPACE   [NSWorkspace sharedWorkspace]
+#define FILEMGR                     [NSFileManager defaultManager]
+#define DEFAULTS                    [NSUserDefaults standardUserDefaults]
+#define WORKSPACE                   [NSWorkspace sharedWorkspace]

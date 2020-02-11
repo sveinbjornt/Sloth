@@ -106,8 +106,8 @@
 + (NSString *)carbonProcessSerialNumberForPID:(pid_t)pid {
     ProcessSerialNumber psn;
     if (GetProcessForPID(pid, &psn) == noErr) {
-        return [NSString stringWithFormat:@"%d_%d",
-                (unsigned int)psn.highLongOfPSN,
+        return [NSString stringWithFormat:@"%d",
+//                (unsigned int)psn.highLongOfPSN,
                 (unsigned int)psn.lowLongOfPSN];
     }
     return nil;

@@ -1119,6 +1119,16 @@
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:numChildrenComparisonBlock];
     }
+    else if ([sortBy isEqualToString:@"process type"]) {
+        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"bundle"
+                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                comparator:integerComparisonBlock];
+    }
+    else if ([sortBy isEqualToString:@"carbon psn"]) {
+        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"psn"
+                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                comparator:integerComparisonBlock];
+    }
     
     self.sortDescriptors = @[sortDesc];
 }
