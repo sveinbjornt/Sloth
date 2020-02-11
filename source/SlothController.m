@@ -466,6 +466,11 @@
                 if (!currentFile[@"type"] && [currentFile[@"name"] isEqualToString:@"(revoked)"]) {
                     skip = TRUE;
                 }
+                
+                if ([value hasSuffix:@"Operation not permitted"]) {
+                    currentFile[@"type"] = @"Error";
+                    currentFile[@"image"] = [IconUtils imageNamed:@"Error"];
+                }
             }
                 break;
             
@@ -1210,6 +1215,7 @@
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
                                                                    attributes:@{NSForegroundColorAttributeName: color}];
         }
+        //NSLog([item description]);
     } else {
         [revealButton setEnabled:NO];
         [killButton setEnabled:NO];
