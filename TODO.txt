@@ -3,4 +3,5 @@ TODO for Sloth 2.9
     * Spin off Lsof task and parsing into separate class, document the parsing and data structure produced
     * Highlight matching part of string when filtering (option in popup)
     * Show full command (ala ps -ef) in Info Window
-    * Sort by whether app/process
+    DONE * Sort by process type
+    DONE * Sort by Carbon Process Serial Number (PSN)

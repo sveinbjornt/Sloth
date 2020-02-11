@@ -442,7 +442,7 @@
                     currentFile[@"type"] = @"Pipe";
                 }
                 else {
-                    //NSLog(@"Unrecognized file type: %@ : %@", ftype, [fileInfo description]);
+                    DLog(@"Unrecognized file type: %@ : %@", ftype, [currentFile description]);
                     skip = TRUE;
                 }
                 
@@ -735,7 +735,7 @@
                                                                                    options:options
                                                                                      error:&err];
             if (!regex) {
-                NSLog(@"Error creating regex: %@", [err localizedDescription]);
+                DLog(@"Error creating regex: %@", [err localizedDescription]);
                 continue;
             }
             [searchFilters addObject:regex];
@@ -1120,9 +1120,18 @@
                                                 comparator:numChildrenComparisonBlock];
     }
     else if ([sortBy isEqualToString:@"process type"]) {
+        // Process type sorting uses the "bundle" and "app" boolean properties
+        NSMutableArray *sdesc = [NSMutableArray new];
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"bundle"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
+        [sdesc addObject:sortDesc];
+        sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"app"
+                                                 ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                comparator:integerComparisonBlock];
+        [sdesc addObject:sortDesc];
+        self.sortDescriptors = [sdesc copy];
+        return;
     }
     else if ([sortBy isEqualToString:@"carbon psn"]) {
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"psn"
@@ -1148,7 +1157,7 @@
         } else {
             if (err != errAuthorizationCanceled) {
                 NSBeep();
-                NSLog(@"Authentication failed: %d", err);
+                DLog(@"Authentication failed: %d", err);
             }
             return;
         }
@@ -1225,7 +1234,6 @@
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
                                                                    attributes:@{NSForegroundColorAttributeName: color}];
         }
-        //NSLog([item description]);
     } else {
         [revealButton setEnabled:NO];
         [killButton setEnabled:NO];

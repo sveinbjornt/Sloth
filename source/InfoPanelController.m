@@ -75,7 +75,7 @@
     if (!itemDict) {
         return;
     }
-//    NSLog(@"%@", [itemDict description]);
+    DLog(@"%@", [itemDict description]);
     
     self.fileInfoDict = itemDict;
     

@@ -46,3 +46,10 @@
 #define FILEMGR                     [NSFileManager defaultManager]
 #define DEFAULTS                    [NSUserDefaults standardUserDefaults]
 #define WORKSPACE                   [NSWorkspace sharedWorkspace]
+
+// Logging in debug mode only
+#ifdef DEBUG
+    #define DLog(...) NSLog(__VA_ARGS__)
+#else
+    #define DLog(...)
+#endif
