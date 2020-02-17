@@ -94,9 +94,9 @@ static NSMutableDictionary *iconStore;
             @{ @"path": HOME_ICON_PATH, @"template": @YES },
             @{ @"type": NSFileTypeForHFSTypeCode(kToolbarHomeIcon), @"template": @NO }
         ],
-        @"GenericApplication": @[
-            @{ @"name": @"NSDefaultApplicationIcon", @"template": @NO }
-        ],
+//        @"GenericApplication": @[
+//            @{ @"name": @"NSDefaultApplicationIcon", @"template": @NO }
+//        ],
         @"GenericExecutable": @[
             @{ @"path": EXEC_ICON_PATH, @"template": @NO },
         ],
@@ -133,7 +133,7 @@ static NSMutableDictionary *iconStore;
         if (img) {
             icons[name] = img;
         } else {
-            NSLog(@"Unable to load icon '%@'", name);
+            DLog(@"Unable to load icon '%@'", name);
         }
     }
     
@@ -145,10 +145,11 @@ static NSMutableDictionary *iconStore;
     if (iconStore == nil) {
         iconStore = [self _loadIcons];
     }
-//    if (iconStore[name] == nil) {
-//        NSLog(@"Icon '%@' not found", name);
-//    }
-    return iconStore[name];
+    NSImage *img = [iconStore objectForKey:name];
+    if (img == nil) {
+        DLog(@"Icon '%@' not found", name);
+    }
+    return img;
 }
 
 @end

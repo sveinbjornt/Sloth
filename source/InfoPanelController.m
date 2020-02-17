@@ -188,7 +188,7 @@
         [self.usedByTextField setStringValue:@"None (non-bundle process)"];
         [self.usedByLabelTextField setStringValue:@"Identifier"];
         if (itemDict[@"bundle"]) {
-            NSString *usedByStr = [self identifierForBundleAtPath:path];
+            NSString *usedByStr = [ProcessUtils identifierForBundleAtPath:path];
             if (usedByStr) {
                  [self.usedByTextField setStringValue:usedByStr];
             }
@@ -335,10 +335,6 @@
     }
     
     return sizeString;
-}
-
-- (NSString *)identifierForBundleAtPath:(NSString *)path {
-    return [[NSBundle bundleWithPath:path] bundleIdentifier];
 }
 
 - (NSString *)accessModeDescriptionForItem:(NSDictionary *)itemDict {

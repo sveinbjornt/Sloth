@@ -53,6 +53,10 @@
     return ([[NSWorkspace sharedWorkspace] type:fileType conformsToType:@"com.apple.application"]);
 }
 
++ (NSString *)identifierForBundleAtPath:(NSString *)path {
+    return [[NSBundle bundleWithPath:path] bundleIdentifier];
+}
+
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid {
     return ([ProcessUtils UIDForPID:pid] == getuid());
 }

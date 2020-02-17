@@ -266,6 +266,7 @@
 }
 
 - (NSString *)runLsof:(BOOL)isAuthenticated {
+    DLog(@"Running lsof task");
     NSData *outputData;
     
     if (isAuthenticated) {
@@ -312,7 +313,7 @@
     //    ...
     // We parse this into an array of processes, each of which has children.
     // Each child is a dictionary containing file/socket info.
-    
+    DLog(@"Parsing lsof output");
     NSMutableArray *processList = [NSMutableArray array];
     *numFiles = 0;
     
@@ -592,6 +593,9 @@
             p[@"path"] = [ProcessUtils executablePathForPID:pid];
         }
         
+        if ([p[@"bundle"] boolValue]) {
+            p[@"identifier"] = [ProcessUtils identifierForBundleAtPath:p[@"path"]];
+        }
         p[@"psn"] = [ProcessUtils carbonProcessSerialNumberForPID:pid];
         
         // On Mac OS X, lsof truncates process names that are longer than
@@ -1138,6 +1142,11 @@
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
     }
+    else if ([sortBy isEqualToString:@"bundle identifier"]) {
+        sortDesc = [[NSSortDescriptor alloc] initWithKey:@"identifier"
+                                               ascending:[DEFAULTS boolForKey:@"ascending"]
+                                                selector:@selector(caseInsensitiveCompare:)];
+    }
     
     self.sortDescriptors = @[sortDesc];
 }
@@ -1180,6 +1189,7 @@
 }
 
 - (OSStatus)authenticate {
+    DLog(@"Authenticating");
     const char *toolPath = [LSOF_PATH fileSystemRepresentation];
     
     AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
@@ -1202,6 +1212,7 @@
 }
 
 - (void)deauthenticate {
+    DLog(@"Deathenticating");
     if (authorizationRef) {
         AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
         authorizationRef = NULL;

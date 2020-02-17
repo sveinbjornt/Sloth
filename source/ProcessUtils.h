@@ -35,6 +35,7 @@
 
 + (NSRunningApplication *)appForPID:(pid_t)pid;
 + (BOOL)isAppProcess:(NSString *)bundlePath;
++ (NSString *)identifierForBundleAtPath:(NSString *)path;
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid;
 + (uid_t)UIDForPID:(pid_t)pid;
 + (NSString *)ownerUserNameForPID:(pid_t)pid;
