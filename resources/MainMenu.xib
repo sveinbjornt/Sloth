@@ -474,7 +474,7 @@ CA
                                     <action selector="visitSlothWebsite:" target="212" id="F44-OM-KnH"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Donate to support Sloth..." id="bBN-AQ-OQK">
+                            <menuItem title="Donate to Support Sloth..." id="bBN-AQ-OQK">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="supportSlothDevelopment:" target="212" id="tA0-Ew-l0N"/>
@@ -611,7 +611,7 @@ CA
         <window identifier="SlothWindow" title="Sloth" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" frameAutosaveName="SlothWindow" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="21" userLabel="SlothWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="125" y="249" width="892" height="611"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="853" height="350"/>
             <view key="contentView" wantsLayer="YES" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="892" height="611"/>

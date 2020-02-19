@@ -1,12 +1,12 @@
 # Sloth
 
-<img src="resources/sloth_icon.png" width="128" height="128" align="right" style="float: right; margin-left: 30px;">
+<img src="resources/sloth_icon.png" width="192" height="192" align="right" style="float: right; margin-left: 30px;">
 
-Sloth is a Mac application that displays all open files and sockets in use by all running processes on your system. This makes it easy to inspect which apps are using which files and sockets.
+**Sloth** is a Mac application that displays all open files and sockets in use by all running processes on your system. This makes it easy to inspect which apps are using which files and sockets.
 
 * View all open files, directories, IP sockets, devices, Unix domain sockets and pipes
 * Filter by name, access mode, volume, type, location, or using regular expressions
-* Sort by name, process ID, user, etc.
+* Sort by name, file count, process ID, process type, user ID, Carbon PSN, bundle UTI, etc.
 * View IP socket status, protocol and version
 * View sockets and pipes established between processes
 * Inspection window with detailed macOS and Unix file/socket/process info
@@ -32,13 +32,27 @@ $ brew cask install sloth
 
 ## Screenshots
 
-<img src="resources/sloth_screenshot1.jpg" align="center" alt="Sloth Screenshot 1">
+#### View open files
 
-<img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot 2">
+<a href="resources/sloth_screenshot1.jpg">
+<img src="resources/sloth_screenshot1.jpg" align="center" alt="Sloth Screenshot 1 - Files">
+</a>
+
+#### IPv4/IPv6 sockets
+
+<a href="resources/sloth_screenshot2.jpg">
+<img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot 2 - IP Sockets">
+</a>
+
+#### Pipes and sockets between processes
+
+<a href="resources/sloth_screenshot3.jpg">
+<img src="resources/sloth_screenshot3.jpg" align="center" alt="Sloth Screenshot 3 - Pipes and Unix Sockets">
+</a>
 
 ## Build
 
-Sloth can be built using a reasonably modern version of Xcode via the `xcodeproj` or by running the following command in the repository root:
+Sloth can be built using a reasonably modern version of Xcode via the `xcodeproj` or by running the following command in the repository root (requires Xcode build tools):
 
 ```
 make
