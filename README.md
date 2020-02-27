@@ -22,7 +22,7 @@ Sloth is free, open source software and has been continuously developed and main
 
 ## Download
 
-*  **[⇩ Download Sloth 2.8.1](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
+*  **[⇩ Download Sloth 2.9](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
 
 Sloth can also be installed via [Homebrew](https://brew.sh) (may not be latest version):
 
@@ -61,6 +61,11 @@ make
 Built products are created in `products/`.
 
 ## Version history
+
+### 27/02/2020 - Version 2.9
+
+* Sort by process type, bundle identifier or Carbon Process Serial Number
+* Better handling of errors in lsof output
 
 ### 30/03/2019 - Version 2.8.1
 
