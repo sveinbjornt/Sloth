@@ -246,7 +246,7 @@
                 [outlineView setAlphaValue:1.0];
                 [refreshButton setEnabled:YES];
                 [authenticateButton setEnabled:YES];
-                                
+                
                 isRefreshing = NO;
                 
                 // Filter results
