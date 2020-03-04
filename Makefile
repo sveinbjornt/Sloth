@@ -24,7 +24,7 @@ build_unsigned:
 	            -configuration "Release" \
 	            CONFIGURATION_BUILD_DIR="$(BUILD_DIR)" \
 	            CODE_SIGN_IDENTITY="" \
-                CODE_SIGNING_REQUIRED=NO \
+	            CODE_SIGNING_REQUIRED=NO \
 	            clean build
 
 build_signed:

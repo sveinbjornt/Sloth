@@ -6,8 +6,8 @@
 
 * View all open files, directories, IP sockets, devices, Unix domain sockets and pipes
 * Filter by name, access mode, volume, type, location, or using regular expressions
-* Sort by name, file count, process ID, process type, user ID, Carbon PSN, bundle UTI, etc.
-* View IP socket status, protocol and version
+* Sort by process name, file count, type, process ID, user ID, Carbon PSN, bundle UTI, etc.
+* View IP socket status, protocol, ports and version
 * View sockets and pipes established between processes
 * Inspection window with detailed macOS and Unix file/socket/process info
 * Powerful contextual menu for file operations
@@ -44,7 +44,7 @@ $ brew cask install sloth
 <img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot 2 - IP Sockets">
 </a>
 
-#### Pipes and sockets between processes
+#### Sockets and pipes between processes
 
 <a href="resources/sloth_screenshot3.jpg">
 <img src="resources/sloth_screenshot3.jpg" align="center" alt="Sloth Screenshot 3 - Pipes and Unix Sockets">
@@ -185,7 +185,6 @@ Built products are created in `products/`.
 * Load results as root without relaunching application
 * Expanded sorting options
 * Migrated project to ARC, modern Objective-C and Xcode 7
-* Substantial rewrite
 * Now requires OS X 10.8 or later
 
 ### 08/07/2010 - Version 1.5
