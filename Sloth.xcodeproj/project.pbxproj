@@ -27,6 +27,9 @@
 		F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */; };
 		F4AC98362060583E0000871B /* IPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPUtils.m */; };
 		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
+		F4E90AC824098AF1004EE9A6 /* LsofTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E90AC724098AF1004EE9A6 /* LsofTask.m */; };
+		F4E90ACB24098B29004EE9A6 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E90AC924098B28004EE9A6 /* Item.m */; };
+		F4E90ACE24098B3F004EE9A6 /* MutableDictProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E90ACD24098B3F004EE9A6 /* MutableDictProxy.m */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
 		F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */; };
 		F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F4F1D9121C7CB95700945D3E /* dsa_pub.pem */; };
@@ -87,6 +90,12 @@
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
 		F4D529311C90BAE10046FAE9 /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPanelController.h; path = source/InfoPanelController.h; sourceTree = SOURCE_ROOT; };
 		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
+		F4E90AC624098AF1004EE9A6 /* LsofTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LsofTask.h; sourceTree = "<group>"; };
+		F4E90AC724098AF1004EE9A6 /* LsofTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LsofTask.m; sourceTree = "<group>"; };
+		F4E90AC924098B28004EE9A6 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		F4E90ACA24098B28004EE9A6 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		F4E90ACC24098B3F004EE9A6 /* MutableDictProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableDictProxy.h; sourceTree = "<group>"; };
+		F4E90ACD24098B3F004EE9A6 /* MutableDictProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableDictProxy.m; sourceTree = "<group>"; };
 		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		F4F1D89A1C75FBF800945D3E /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexConvenience.h"; sourceTree = "<group>"; };
@@ -175,6 +184,8 @@
 				F40B7D301C75FAC6000A4616 /* Alerts.m */,
 				F471DF6320F586510057E667 /* NSWorkspace+Additions.h */,
 				F471DF6220F586510057E667 /* NSWorkspace+Additions.m */,
+				F4E90ACC24098B3F004EE9A6 /* MutableDictProxy.h */,
+				F4E90ACD24098B3F004EE9A6 /* MutableDictProxy.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -190,6 +201,10 @@
 				F4D529321C90BAE10046FAE9 /* InfoPanelController.m */,
 				F4F7A4FE2215F0F0004421AA /* PrefsController.h */,
 				F4F7A4FF2215F0F0004421AA /* PrefsController.m */,
+				F4E90AC624098AF1004EE9A6 /* LsofTask.h */,
+				F4E90AC724098AF1004EE9A6 /* LsofTask.m */,
+				F4E90ACA24098B28004EE9A6 /* Item.h */,
+				F4E90AC924098B28004EE9A6 /* Item.m */,
 				F40B7D2E1C75FA94000A4616 /* Util */,
 			);
 			name = Source;
@@ -265,7 +280,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -334,6 +349,7 @@
 				F42940C9221987240031E564 /* IconUtils.m in Sources */,
 				F4AC98362060583E0000871B /* IPUtils.m in Sources */,
 				F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */,
+				F4E90ACB24098B29004EE9A6 /* Item.m in Sources */,
 				F4070BE0221ED056006E7700 /* FSUtils.m in Sources */,
 				F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */,
 				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
@@ -343,6 +359,8 @@
 				F438711813402C8200B51A5E /* main.m in Sources */,
 				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
 				F4F7A5012215F0F0004421AA /* PrefsController.m in Sources */,
+				F4E90ACE24098B3F004EE9A6 /* MutableDictProxy.m in Sources */,
+				F4E90AC824098AF1004EE9A6 /* LsofTask.m in Sources */,
 				F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,13 +372,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				DEVELOPMENT_TEAM = 5WX26Y89JP;
-				ENABLE_HARDENED_RUNTIME = NO;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sparkle",
@@ -395,7 +413,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sparkle",
