@@ -29,11 +29,10 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "MutableDictProxy.h"
 
-@class Item;
-
-@interface InfoPanelController : NSWindowController <NSWindowDelegate>
-
-- (void)loadItem:(Item *)item;
+// This class behaves like a dict since it inherits from MutableDictProxy object and
+// can therefore be subscripted using modern Objective-C syntax, e.g. spec[@"key"]
+@interface Item : MutableDictProxy
 
 @end

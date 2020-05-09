@@ -28,12 +28,41 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+#import "Item.h"
+#import "ProcessUtils.h"
 
-@class Item;
+@interface Item ()
+{
+    NSDictionary *lazyAttrs;
+}
+@end
 
-@interface InfoPanelController : NSWindowController <NSWindowDelegate>
+@implementation Item
 
-- (void)loadItem:(Item *)item;
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        lazyAttrs = @{
+            @"identifier": [NSValue valueWithPointer:@selector(bundleIdentifier)]
+        };
+    }
+    return self;
+}
+
+- (id)objectForKey:(id)aKey {
+    id obj = [properties objectForKey:aKey];
+    if (!obj) {
+        id val = [lazyAttrs objectForKey:aKey];
+        if (val) {
+            SEL sel = [val pointerValue];
+            properties[aKey] = [self performSelector:sel];
+        }
+    }
+    return obj;
+}
+
+- (NSString *)bundleIdentifier {
+    return [ProcessUtils identifierForBundleAtPath:self[@"path"]];;
+}
 
 @end

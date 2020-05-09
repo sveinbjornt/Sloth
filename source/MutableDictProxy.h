@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2004-2020, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
+    Copyright (c) 2003-2020, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without modification,
@@ -28,12 +28,10 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@class Item;
-
-@interface InfoPanelController : NSWindowController <NSWindowDelegate>
-
-- (void)loadItem:(Item *)item;
-
+@interface MutableDictProxy : NSMutableDictionary
+{
+    NSMutableDictionary *properties;
+}
 @end

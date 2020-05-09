@@ -34,6 +34,7 @@
 #import "IPUtils.h"
 #import "ProcessUtils.h"
 #import "NSWorkspace+Additions.h"
+#import "Item.h"
 
 #import <pwd.h>
 #import <grp.h>
@@ -71,15 +72,15 @@
 
 #pragma mark - Load info
 
-- (void)loadItem:(NSDictionary *)itemDict {
-    if (!itemDict) {
+- (void)loadItem:(Item *)item {
+    if (!item) {
         return;
     }
-    DLog(@"%@", [itemDict description]);
+    DLog(@"%@", [item description]);
     
-    self.fileInfoDict = itemDict;
+    self.fileInfoDict = item;
     
-    NSString *type = itemDict[@"type"];
+    NSString *type = item[@"type"];
     
     BOOL isProcess = [type isEqualToString:@"Process"];
     BOOL isFileOrFolder = [type isEqualToString:@"File"] || [type isEqualToString:@"Directory"];
@@ -87,12 +88,12 @@
     BOOL isPipeOrSocket = [type isEqualToString:@"Unix Domain Socket"] || [type isEqualToString:@"Pipe"];
     
     // Name
-    NSString *name = isFileOrFolder ? [itemDict[@"name"] lastPathComponent] : itemDict[@"name"];
+    NSString *name = isFileOrFolder ? [item[@"name"] lastPathComponent] : item[@"name"];
     if (name == nil || [name isEqualToString:@""]) {
         name = [NSString stringWithFormat:@"Unnamed %@", type];
     }
     if (isProcess) {
-        name = itemDict[@"pname"];
+        name = item[@"pname"];
     }
     [self.window setTitle:name];
     [self.nameTextField setStringValue:name];
@@ -100,7 +101,7 @@
     // Path
     NSString *path = EMPTY_PLACEHOLDER;
     if (isFileOrFolder || isProcess) {
-        NSString *p = [itemDict[@"type"] isEqualToString:@"Process"] ? itemDict[@"path"] : itemDict[@"name"];
+        NSString *p = [item[@"type"] isEqualToString:@"Process"] ? item[@"path"] : item[@"name"];
         path = p ? p : path;
     }
     self.path = path;
@@ -115,8 +116,8 @@
     NSString *fsInfo = EMPTY_PLACEHOLDER;
     if (isFileOrFolder) {
         fsInfo = [NSString stringWithFormat:@"%@ (inode %@)",
-                  itemDict[@"device"][@"devname"],
-                  itemDict[@"inode"]];
+                  item[@"device"][@"devname"],
+                  item[@"inode"]];
     }
     [self.fileSystemTextField setStringValue:fsInfo];
     
@@ -127,7 +128,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @autoreleasepool {
                 NSString *ipSockName = [self.path copy];
-                NSString *descStr = [self IPSocketDescriptionForItem:itemDict];
+                NSString *descStr = [self IPSocketDescriptionForItem:item];
                 // Then update UI on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // Make sure loaded item hasn't changed during DNS lookup
@@ -141,70 +142,70 @@
     
     // Show endpoints for pipes and unix domain sockets
     self.pathLabelTextField.stringValue = isPipeOrSocket ? @"Connected to" : @"Path";
-    if (isPipeOrSocket && [itemDict[@"endpoints"] count]) {
-        NSString *eps = [itemDict[@"endpoints"] componentsJoinedByString:@"\n"];
+    if (isPipeOrSocket && [item[@"endpoints"] count]) {
+        NSString *eps = [item[@"endpoints"] componentsJoinedByString:@"\n"];
         [self.pathTextField setStringValue:eps];
     }
     
     // Icon
-    NSImage *img = isFileOrFolder ? [WORKSPACE iconForFile:path] : [itemDict[@"image"] copy];
+    NSImage *img = isFileOrFolder ? [WORKSPACE iconForFile:path] : [item[@"image"] copy];
     [img setSize:NSMakeSize(48,48)];
     [self.iconView setImage:img];
-    NSImage *procImg = isProcess ? itemDict[@"image"] : itemDict[@"pimage"];
+    NSImage *procImg = isProcess ? item[@"image"] : item[@"pimage"];
     [self.processIconView setImage:procImg];
     
     // Size / socket status
     NSString *sizeStr = @"";
     if ([type isEqualToString:@"File"]) {
         sizeStr = [self fileSizeStringForPath:path];
-    } else if (isIPSocket && itemDict[@"socketstate"]) {
-        sizeStr = [NSString stringWithFormat:@"State: %@", itemDict[@"socketstate"]];
+    } else if (isIPSocket && item[@"socketstate"]) {
+        sizeStr = [NSString stringWithFormat:@"State: %@", item[@"socketstate"]];
     }
     [self.sizeTextField setStringValue:sizeStr];
     
     // Type
     NSString *typeStr = type;
     if (isProcess) {
-        pid_t pid = [itemDict[@"pid"] intValue];
+        pid_t pid = [item[@"pid"] intValue];
         NSString *owner = [ProcessUtils ownerUserNameForPID:pid];
         if (owner) {
             typeStr = [NSString stringWithFormat:@"Process (%@)", owner];
         }
     }
     if (isIPSocket) {
-        typeStr = [NSString stringWithFormat:@"%@ Socket (%@)", itemDict[@"ipversion"], itemDict[@"protocol"]];
+        typeStr = [NSString stringWithFormat:@"%@ Socket (%@)", item[@"ipversion"], item[@"protocol"]];
     }
     [self.itemTypeTextField setStringValue:typeStr];
     
     // Owned by
     [self.usedByLabelTextField setStringValue:@"Used by"];
     if (isProcess) {
-        NSString *pidStr = [NSString stringWithFormat:@"PID: %@", itemDict[@"pid"]];
-        if (itemDict[@"psn"]) {
-            pidStr = [pidStr stringByAppendingFormat:@"  PSN: %@", itemDict[@"psn"]];
+        NSString *pidStr = [NSString stringWithFormat:@"PID: %@", item[@"pid"]];
+        if (item[@"psn"]) {
+            pidStr = [pidStr stringByAppendingFormat:@"  PSN: %@", item[@"psn"]];
         }
         [self.sizeTextField setStringValue:pidStr];
         
         [self.usedByTextField setStringValue:@"None (non-bundle process)"];
         [self.usedByLabelTextField setStringValue:@"Identifier"];
-        if (itemDict[@"bundle"]) {
-            NSString *usedByStr = [ProcessUtils identifierForBundleAtPath:path];
+        if (item[@"bundle"]) {
+            NSString *usedByStr = item[@"identifier"];
             if (usedByStr) {
                  [self.usedByTextField setStringValue:usedByStr];
             }
         }
         
     } else {
-        NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", itemDict[@"pname"], itemDict[@"pid"]];
+        NSString *ownedByStr = [NSString stringWithFormat:@"%@ (%@)", item[@"pname"], item[@"pid"]];
         [self.usedByTextField setStringValue:ownedByStr];
     }
     
     // Access mode
-    NSString *access = [self accessModeDescriptionForItem:itemDict];
+    NSString *access = [self accessModeDescriptionForItem:item];
     [self.accessModeTextField setStringValue:access];
     
     // The other fields
-    if (!isFileOrFolder && (!isProcess || (isProcess && itemDict[@"path"] == nil))) {
+    if (!isFileOrFolder && (!isProcess || (isProcess && item[@"path"] == nil))) {
         [self.filetypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.finderTypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.permissionsTextField setStringValue:EMPTY_PLACEHOLDER];
@@ -214,7 +215,7 @@
         
         NSString *finderTypeString = [WORKSPACE kindStringForFile:path];
         NSString *uti = [WORKSPACE UTIForFile:path];
-        if (uti && ![uti hasPrefix:DYN_UTI_PREFIX]) {
+        if (uti && ![uti hasPrefix:DYNAMIC_UTI_PREFIX]) {
             finderTypeString = [finderTypeString stringByAppendingFormat:@" (%@)", uti];
         }
         [self.finderTypeTextField setStringValue:finderTypeString];

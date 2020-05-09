@@ -38,7 +38,7 @@
 #define LSOF_ARGS                   @[@"-F", @"fpPcntuaTdDiR", @"+c0"]
 #define LSOF_NO_DNS_ARGS            @[@"-n", @"-P"]
 
-#define DYN_UTI_PREFIX              @"dyn."
+#define DYNAMIC_UTI_PREFIX          @"dyn."
 
 #define VALUES_KEYPATH(X)           [NSString stringWithFormat:@"values.%@", (X)]
 

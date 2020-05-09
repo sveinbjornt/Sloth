@@ -39,6 +39,7 @@
 #import "FSUtils.h"
 #import "NSWorkspace+Additions.h"
 #import "STPrivilegedTask.h"
+#import "Item.h"
 
 @interface SlothController ()
 {
@@ -71,10 +72,6 @@
     IBOutlet NSTextField *disclosureTextField;
     
     IBOutlet NSOutlineView *outlineView;
-    IBOutlet NSTreeController *treeController;
-    
-    IBOutlet NSImageView *cellImageView;
-    IBOutlet NSTextField *cellTextField;
     
     AuthorizationRef authorizationRef;
     BOOL authenticated;
@@ -154,8 +151,10 @@
     NSArray<NSMenuItem *> *items = [filterMenu itemArray];
     for (NSMenuItem *i in items) {
         NSString *type = [i toolTip];
-        NSImage *img = [IconUtils imageNamed:type];
-        [i setImage:img];
+        if (type) {
+            NSImage *img = [IconUtils imageNamed:type];
+            [i setImage:img];
+        }
     }
     
     // Start observing defaults
@@ -327,8 +326,8 @@
     // Maps device character codes to items. Used to find sockets/pipe endpoints.
     NSMutableDictionary *devCharCodeMap = [NSMutableDictionary dictionary];
     
-    NSMutableDictionary *currentProcess;
-    NSMutableDictionary *currentFile;
+    Item *currentProcess;
+    Item *currentFile;
     BOOL skip = FALSE;
     
     // Parse each line
@@ -352,7 +351,7 @@
                 }
                 
                 // Set up new process dict
-                currentProcess = [NSMutableDictionary dictionary];
+                currentProcess = [Item new];
                 currentProcess[@"pid"] = value;
                 currentProcess[@"type"] = @"Process";
                 currentProcess[@"children"] = [NSMutableArray array];
@@ -388,7 +387,7 @@
                 }
                 
                 // New file info starting, create new file dict
-                currentFile = [NSMutableDictionary dictionary];
+                currentFile = [Item new];
                 NSString *fd = value;
                 currentFile[@"fd"] = fd;
                 if ([fd isEqualToString:@"err"]) {
@@ -593,9 +592,9 @@
             p[@"path"] = [ProcessUtils executablePathForPID:pid];
         }
         
-        if ([p[@"bundle"] boolValue]) {
-            p[@"identifier"] = [ProcessUtils identifierForBundleAtPath:p[@"path"]];
-        }
+//        if ([p[@"bundle"] boolValue]) {
+//            p[@"identifier"] = [ProcessUtils identifierForBundleAtPath:p[@"path"]];
+//        }
         p[@"psn"] = [ProcessUtils carbonProcessSerialNumberForPID:pid];
         
         // On Mac OS X, lsof truncates process names that are longer than
@@ -960,7 +959,7 @@
     }
 }
 
-- (void)showInfoPanelForItem:(NSDictionary *)item {
+- (void)showInfoPanelForItem:(Item *)item {
     // Create info panel lazily
     if (infoPanelController == nil) {
         infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
@@ -1003,7 +1002,7 @@
 
 - (void)rowDoubleClicked:(id)object {
     NSInteger rowNumber = [outlineView clickedRow];
-    NSDictionary *item = [[outlineView itemAtRow:rowNumber] representedObject];
+    Item *item = [[outlineView itemAtRow:rowNumber] representedObject];
     
     BOOL cmdKeyDown = (([[NSApp currentEvent] modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask);
     
@@ -1231,7 +1230,7 @@
     NSInteger selectedRow = [outlineView selectedRow];
     
     if (selectedRow >= 0) {
-        NSMutableDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+        Item *item = [[outlineView itemAtRow:selectedRow] representedObject];
         BOOL canReveal = [WORKSPACE canRevealFileAtPath:item[@"name"]];
         BOOL hasBundlePath = [WORKSPACE canRevealFileAtPath:item[@"path"]];
         [revealButton setEnabled:(canReveal || hasBundlePath)];

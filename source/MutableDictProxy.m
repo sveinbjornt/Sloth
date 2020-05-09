@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2004-2020, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
+    Copyright (c) 2003-2020, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without modification,
@@ -28,12 +28,67 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+#import "MutableDictProxy.h"
 
-@class Item;
+@interface MutableDictProxy()
 
-@interface InfoPanelController : NSWindowController <NSWindowDelegate>
+@end
 
-- (void)loadItem:(Item *)item;
+@implementation MutableDictProxy
+
+#pragma mark - NSMutableDictionary proxy
+
+- (instancetype)init {
+    if (self = [super init]) {
+        // Proxy dictionary object
+        properties = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (instancetype)initWithContentsOfFile:(NSString *)path {
+    if (self = [super init]) {
+        properties = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+    if (self = [super init]) {
+        properties = [[NSMutableDictionary alloc] initWithCoder:aDecoder];
+    }
+    return self;
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (self = [super init]) {
+        properties = [[NSMutableDictionary alloc] initWithDictionary:dict];
+    }
+    return self;
+}
+
+- (void)removeObjectForKey:(id)aKey {
+    [properties removeObjectForKey:aKey];
+}
+
+- (void)setObject:(id)anObject forKey:(id <NSCopying>)aKey {
+    [properties setObject:anObject forKey:aKey];
+}
+
+- (id)objectForKey:(id)aKey {
+    return [properties objectForKey:aKey];
+}
+
+- (void)addEntriesFromDictionary:(NSDictionary *)otherDictionary {
+    [properties addEntriesFromDictionary:otherDictionary];
+}
+
+- (NSEnumerator *)keyEnumerator {
+    return [properties keyEnumerator];
+}
+
+- (NSUInteger)count {
+    return [properties count];
+}
 
 @end
