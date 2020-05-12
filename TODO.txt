@@ -1,13 +1,16 @@
 
 TODO for Sloth 3.0
-    * Spin off Lsof task and parsing into separate class, document the parsing and data structure produced
     * Show full command (ala ps -ef) in Info Window
-    * Make main controller slimmer
-        * Move over to object-oriented model for items, lazy-load expensive properties such as bundle identifier, PSN, etc.
-        * Highlight matching part of string when filtering (option in filter field popup)
+    * Highlight matching part of string when filtering (option in filter field popup)
+    * Store authentication privileges and use them to run command line tool "/usr/bin/file"
+
+TODO for Sloth 2.9.1
+    DONE * Bundle identifier for processes is now lazy-loaded for a small performance gain
+    DONE * Spin off Lsof task and parsing into separate class, document the parsing and data structure produced
+    DONE * Make main controller slimmer
+    DONE * Move over to object-oriented model for items, lazy-load expensive properties such as bundle identifier, PSN, etc.
+    * Why is Move to Trash available for sockets?
     * Smart copying (tab-indent subfile names if process + subfiles selected)
-    * Show raw IP numbers briefly before IP socket DNS lookup, which can be expensive
+    * Show raw IP numbers briefly in Info Panel before IP socket DNS lookup, which can be slow
     * Process name shown under "Used by" should use Mac-friendly process name if enabled and available (see third screenshot)
     * File System in Info Panel should show name of volume and mount point, in addition to device ID and inode id
-    * Store authentication privileges and use them to run command line tool   /usr/bin/file"
-    * Why is Move to Trash available for sockets?
