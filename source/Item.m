@@ -55,14 +55,16 @@
         id val = [lazyAttrs objectForKey:aKey];
         if (val) {
             SEL sel = [val pointerValue];
-            properties[aKey] = [self performSelector:sel];
+            if ([self respondsToSelector:sel]) {
+                properties[aKey] = [self performSelector:sel];
+            }
         }
     }
     return obj;
 }
 
 - (NSString *)bundleIdentifier {
-    return [ProcessUtils identifierForBundleAtPath:self[@"path"]];;
+    return [ProcessUtils identifierForBundleAtPath:self[@"path"]];
 }
 
 @end
