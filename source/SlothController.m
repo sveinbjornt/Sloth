@@ -984,7 +984,8 @@
     
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     
-    BOOL canReveal = [WORKSPACE canRevealFileAtPath:path];
+    BOOL isSocket = [item[@"type"] isEqualToString:@"Socket"];
+    BOOL canReveal = ([WORKSPACE canRevealFileAtPath:path] && !isSocket);
     BOOL isProcess = [item[@"type"] isEqualToString:@"Process"];
     
     // Processes/apps can't be opened/trashed
