@@ -186,7 +186,18 @@
 }
 
 - (BOOL)canRevealFileAtPath:(NSString *)path {
-    return path && [[NSFileManager defaultManager] fileExistsAtPath:path] && ![path hasPrefix:@"/dev/"];
+    if (!path || ![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        return NO;
+    }
+    NSError *err;
+    NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&err];
+    if (!attrs || err) {
+        return NO;
+    }
+    NSArray *badTypes = @[NSFileTypeSocket, NSFileTypeCharacterSpecial,
+                          NSFileTypeBlockSpecial, NSFileTypeUnknown];
+    NSFileAttributeType type = [attrs objectForKey:NSFileType];
+    return ![badTypes containsObject:type];
 }
 
 #pragma mark - File/folder size
