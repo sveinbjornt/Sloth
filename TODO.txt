@@ -9,8 +9,9 @@ TODO for Sloth 2.9.1
     DONE * Spin off Lsof task and parsing into separate class, document the parsing and data structure produced
     DONE * Make main controller slimmer
     DONE * Move over to object-oriented model for items, lazy-load expensive properties such as bundle identifier, PSN, etc.
+    DONE * Show raw IP numbers briefly in Info Panel before IP socket DNS lookup, which can be slow
+    * Fix Catalina Volumes filtering
     * Why is Move to Trash available for sockets?
     * Smart copying (tab-indent subfile names if process + subfiles selected)
-    * Show raw IP numbers briefly in Info Panel before IP socket DNS lookup, which can be slow
     * Process name shown under "Used by" should use Mac-friendly process name if enabled and available (see third screenshot)
     * File System in Info Panel should show name of volume and mount point, in addition to device ID and inode id

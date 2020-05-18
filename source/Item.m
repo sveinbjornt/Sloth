@@ -42,6 +42,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        // Getting som item properties is expensive and therefore lazy-loaded
         lazyAttrs = @{
             @"identifier": [NSValue valueWithPointer:@selector(bundleIdentifier)]
         };
@@ -50,9 +51,12 @@
 }
 
 - (id)objectForKey:(id)aKey {
+    // See if dict has an entry for this key
     id obj = [properties objectForKey:aKey];
     if (!obj) {
+        // If not, check if it's a lazy-load property
         id val = [lazyAttrs objectForKey:aKey];
+        // If it is, generate the value using the appropriate selector
         if (val) {
             SEL sel = [val pointerValue];
             if ([self respondsToSelector:sel]) {

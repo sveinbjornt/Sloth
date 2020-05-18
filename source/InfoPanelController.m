@@ -105,7 +105,8 @@
         path = p ? p : path;
     }
     self.path = path;
-    if ([FILEMGR fileExistsAtPath:path] || [path isEqualToString:EMPTY_PLACEHOLDER]) {
+    if (([path hasPrefix:@"/"] && [FILEMGR fileExistsAtPath:path])
+        || [path isEqualToString:EMPTY_PLACEHOLDER]) {
         [self.pathTextField setStringValue:path];
     } else {
         NSAttributedString *redPath = [[NSAttributedString alloc] initWithString:path attributes:@{ NSForegroundColorAttributeName : [NSColor redColor] }];
@@ -124,17 +125,17 @@
     // Resolve DNS and show details for IP sockets
     self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";
     if (isIPSocket) {
-        // Resolve DNS asynchronously
+        [self.pathTextField setStringValue:item[@"name"]];
+        // Resolve DNS asynchronously since it is slow
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @autoreleasepool {
-                NSString *ipSockName = [self.path copy];
+//                NSString *ipSockName = [self.path copy];
                 NSString *descStr = [self IPSocketDescriptionForItem:item];
                 // Then update UI on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // Make sure loaded item hasn't changed during DNS lookup
-                    if ([self.pathTextField.stringValue isEqualToString:ipSockName]) {
+//                    if ([self.pathTextField.stringValue isEqualToString:ipSockName]) {
                         [self.pathTextField setStringValue:descStr];
-                    }
+//                    }
                 });
             }
         });
@@ -386,9 +387,9 @@
     return access;
 }
 
-- (NSString *)IPSocketDescriptionForItem:(NSDictionary *)itemDict {
-    NSString *name = itemDict[@"name"];
-    NSString *ipVersion = itemDict[@"ipversion"];
+- (NSString *)IPSocketDescriptionForItem:(Item *)item {
+    NSString *name = item[@"name"];
+    NSString *ipVersion = item[@"ipversion"];
     
     NSMutableString *descriptionString = [NSMutableString string];
     

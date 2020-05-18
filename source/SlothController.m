@@ -208,7 +208,7 @@
     return YES;
 }
 
-#pragma mark - Get and parse lsof results
+#pragma mark - Run lsof task
 
 - (IBAction)refresh:(id)sender {
     isRefreshing = YES;
@@ -314,7 +314,6 @@
 
 // Filter content according to active filters
 - (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
-    
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
@@ -355,7 +354,7 @@
     NSMutableArray *searchFilters = [NSMutableArray array];
     NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
-    
+    // Trim and create regex objects from filter strings
     for (NSString *fs in filterStrings) {
         NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([s length] == 0) {
@@ -365,7 +364,6 @@
         if (searchUsesRegex) {
             NSError *err;
             NSRegularExpressionOptions options = searchCaseSensitive ? 0 : NSRegularExpressionCaseInsensitive;
-            
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
                                                                                    options:options
                                                                                      error:&err];
