@@ -617,9 +617,13 @@
 
     [[outlineView selectedRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSDictionary *item = [[outlineView itemAtRow:idx] representedObject];
-        [names addObject:item[@"name"]];
         if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
             [filePaths addObject:item[@"name"]];
+        }
+        if ([item[@"type"] isEqualToString:@"Process"]) {
+            [names addObject:[NSString stringWithFormat:@"%@ (%@)", item[@"name"], item[@"pid"]]];
+        } else {
+            [names addObject:[NSString stringWithFormat:@"\t%@", item[@"name"]]];
         }
     }];
     
