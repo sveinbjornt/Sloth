@@ -356,7 +356,7 @@
     
     // See if it's one of the three standard io streams
     NSString *ioDesc = @"";
-    if (accessModeName != nil && hasFD && fd < 3 && [itemDict[@"type"] isEqualToString:@"Character Device"]) {
+    if (accessModeName != nil && hasFD && fd < 3) {
         NSArray *standardIOs = @[@" - STDIN?", @" - STDOUT?", @" - STDERR?"];
         ioDesc = standardIOs[fd];
     }

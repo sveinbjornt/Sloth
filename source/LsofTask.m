@@ -392,6 +392,7 @@
         // Set process icon for all children (i.e. files, sockets, etc.)
         for (NSMutableDictionary *item in p[@"children"]) {
             item[@"pimage"] = p[@"image"];
+            item[@"pname"] = p[@"pname"];
         }
     }
     

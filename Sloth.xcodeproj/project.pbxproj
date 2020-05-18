@@ -79,6 +79,7 @@
 		F471DF6320F586510057E667 /* NSWorkspace+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Additions.h"; sourceTree = "<group>"; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		F48BB5B924732C2C00B569F6 /* sloth_screenshot3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot3.jpg; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
 		F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VolumesPopUpButton.h; sourceTree = "<group>"; };
 		F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VolumesPopUpButton.m; sourceTree = "<group>"; };
@@ -234,6 +235,7 @@
 				F40B7D2B1C75F161000A4616 /* sloth_icon.png */,
 				F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */,
 				F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */,
+				F48BB5B924732C2C00B569F6 /* sloth_screenshot3.jpg */,
 			);
 			name = Images;
 			sourceTree = "<group>";
