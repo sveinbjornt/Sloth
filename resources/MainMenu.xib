@@ -521,7 +521,6 @@ CA
                 <outlet property="refreshButton" destination="208" id="483"/>
                 <outlet property="revealButton" destination="211" id="622"/>
                 <outlet property="sortMenu" destination="z5a-Mg-tDe" id="Erx-7M-an9"/>
-                <outlet property="treeController" destination="smP-ER-E7y" id="IUx-Wd-kNF"/>
                 <outlet property="volumesMenuItem" destination="EkI-Yj-uM6" id="c7q-dj-Uyt"/>
                 <outlet property="volumesPopupButton" destination="1p9-Jd-MZE" id="Raa-AT-fEC"/>
                 <outlet property="window" destination="21" id="Nkl-ra-P1k"/>

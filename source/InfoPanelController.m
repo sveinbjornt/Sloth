@@ -58,6 +58,7 @@
 @property (weak) IBOutlet NSTextField *permissionsTextField;
 @property (weak) IBOutlet NSTextField *accessModeTextField;
 @property (weak) IBOutlet NSTextField *fileSystemTextField;
+@property (weak) IBOutlet NSTextField *fileSystemExtraTextField;
 
 @property (weak) IBOutlet NSButton *killButton;
 @property (weak) IBOutlet NSButton *showInFinderButton;
@@ -114,13 +115,15 @@
     }
     
     // File system
-    NSString *fsInfo = EMPTY_PLACEHOLDER;
+    [self.fileSystemTextField setStringValue:EMPTY_PLACEHOLDER];
+    [self.fileSystemExtraTextField setStringValue:@""];
     if (isFileOrFolder) {
-        fsInfo = [NSString stringWithFormat:@"%@ (inode %@)",
+        [self.fileSystemTextField setStringValue:[self filesystemDescriptionForItem:item]];
+        NSString *addInfo = [NSString stringWithFormat:@"%@ (inode %@)",
                   item[@"device"][@"devname"],
                   item[@"inode"]];
+        [self.fileSystemExtraTextField setStringValue:addInfo];
     }
-    [self.fileSystemTextField setStringValue:fsInfo];
     
     // Resolve DNS and show details for IP sockets
     self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";
@@ -466,6 +469,32 @@
     }
     
     return descriptionString;
+}
+
+- (NSString *)filesystemDescriptionForItem:(Item *)item {
+    if (![item objectForKey:@"device"]) {
+        return EMPTY_PLACEHOLDER;
+    }
+    
+    NSString *mountPoint = item[@"device"][@"mountpoint"];
+    NSString *desc;
+    NSString *type;
+    [WORKSPACE getFileSystemInfoForPath:mountPoint
+                            isRemovable:NULL
+                             isWritable:NULL
+                          isUnmountable:NULL
+                            description:&desc
+                                   type:&type];
+
+    NSURL *url = [NSURL fileURLWithPath:mountPoint];
+    NSError *error;
+    NSString *volName;
+    [url getResourceValue:&volName forKey:NSURLVolumeNameKey error:&error];
+    if (!volName || error) {
+        volName = @"????";
+    }
+    
+    return [NSString stringWithFormat:@"%@ (%@)", volName, [type uppercaseString]];
 }
 
 #pragma mark - Interface actions

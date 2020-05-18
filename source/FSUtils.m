@@ -61,6 +61,8 @@
             @"mountpoint": @(buf[i].f_mntonname)
         };
     }
+    
+    NSLog(@"%@", fsdict);
 
     return [fsdict copy]; // Return immutable copy
 }
