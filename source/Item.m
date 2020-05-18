@@ -59,8 +59,12 @@
         // If it is, generate the value using the appropriate selector
         if (val) {
             SEL sel = [val pointerValue];
-            if ([self respondsToSelector:sel]) {
+            if (sel && [self respondsToSelector:sel]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 properties[aKey] = [self performSelector:sel];
+#pragma clang diagnostic pop
+                return properties[aKey];1
             }
         }
     }
