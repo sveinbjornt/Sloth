@@ -64,7 +64,7 @@
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 properties[aKey] = [self performSelector:sel];
 #pragma clang diagnostic pop
-                return properties[aKey];1
+                return properties[aKey];
             }
         }
     }
