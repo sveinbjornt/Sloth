@@ -13,6 +13,8 @@ TODO for Sloth 3.0
     DONE * Move to Trash + file context menu operations no longer available for sockets
     DONE * Process name shown under "Used by" should use Mac-friendly process name if enabled and available (see third screenshot)
     DONE * Smart copying (tab-indent subfile names if process + subfiles selected)
-    DONE * File System in Info Panel should show name of volume and mount point, in ad dition to device ID and inode number
+    DONE * File System in Info Panel should show name of volume and mount point, in addition to device ID and inode number
     DONE * Fix broken bundle identifier loading
+    DONE * "Path" label in Info Window for IP sockets should show more intelligent label
     * Fix Catalina Volumes filtering
+    
