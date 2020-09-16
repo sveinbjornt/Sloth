@@ -1,3 +1,6 @@
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Build Status](https://travis-ci.com/sveinbjornt/Sloth.svg?branch=master)](https://travis-ci.com/sveinbjornt/Sloth) 
+
 # Sloth
 
 <img src="resources/sloth_icon.png" width="192" height="192" align="right" style="float: right; margin-left: 30px;">
@@ -61,6 +64,13 @@ make
 Built products are created in `products/`.
 
 ## Version history
+
+### 18/05/2020 - Version 3.0
+
+* Fixed filtering by volume on macOS 10.15 "Catalina"
+* Info Panel now shows more detailed filesystem info
+* Some item attributes are now lazy-loaded for a small performance gain
+* Various other minor improvements
 
 ### 27/02/2020 - Version 2.9
 
