@@ -3,6 +3,8 @@
 
 # Sloth
 
+> "Replaces the system default DMG mounting application; is better in every way." - Some guy on the Internet
+
 <img src="resources/sloth_icon.png" width="192" height="192" align="right" style="float: right; margin-left: 30px;">
 
 **Sloth** is a Mac application that shows all open files, directories, sockets, pipes and devices in use by all running processes on your system. This makes it easy to inspect which apps are using which files etc.
@@ -64,13 +66,6 @@ make
 Built products are created in `products/`.
 
 ## Version history
-
-### 18/05/2020 - Version 3.0
-
-* Fixed filtering by volume on macOS 10.15 "Catalina"
-* Info Panel now shows more detailed filesystem info
-* Some item attributes are now lazy-loaded for a small performance gain
-* Various other minor improvements
 
 ### 27/02/2020 - Version 2.9
 
