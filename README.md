@@ -3,8 +3,6 @@
 
 # Sloth
 
-> "Replaces the system default DMG mounting application; is better in every way." - Some guy on the Internet
-
 <img src="resources/sloth_icon.png" width="192" height="192" align="right" style="float: right; margin-left: 30px;">
 
 **Sloth** is a Mac application that shows all open files, directories, sockets, pipes and devices in use by all running processes on your system. This makes it easy to inspect which apps are using which files etc.
