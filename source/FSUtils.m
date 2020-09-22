@@ -29,6 +29,8 @@
 */
 
 #import "FSUtils.h"
+#import "Common.h"
+
 #import <sys/param.h>
 #import <sys/mount.h>
 
@@ -62,8 +64,8 @@
         };
     }
     
-    NSLog(@"%@", fsdict);
-
+    DLog(@"File system info: %@", fsdict);
+    
     return [fsdict copy]; // Return immutable copy
 }
 
