@@ -17,4 +17,4 @@ TODO for Sloth 3.0
     DONE * Fix broken bundle identifier loading
     DONE * "Path" label in Info Window for IP sockets should show more intelligent label
     * Fix Catalina Volumes filtering
-    
+    * Fix dragging of app/process items (apps, at least, should register as appropriate file)

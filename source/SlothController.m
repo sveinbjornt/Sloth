@@ -137,7 +137,7 @@
     [revealImg setSize:NSMakeSize(12,12)];
     [revealButton setImage:revealImg];
     
-    // For some reason, Interfaace Builder isn't respecting
+    // For some reason, Interface Builder isn't respecting
     // template settings so we have to do this manually...
     [[NSImage imageNamed:@"Kill"] setTemplate:YES];
     [[NSImage imageNamed:@"Kill"] setSize:NSMakeSize(20, 20)];
