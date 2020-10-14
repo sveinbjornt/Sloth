@@ -246,6 +246,14 @@ end tell", path];
     return [self runAppleScript:source];    
 }
 
+- (BOOL)showPackageContents:(NSString *)path {
+    if (![self isFilePackageAtPath:path]) {
+        return NO;
+    }
+    NSString *contentsPath = [path stringByAppendingString:@"/Contents"];
+    return [self selectFile:contentsPath inFileViewerRootedAtPath:[contentsPath stringByDeletingLastPathComponent]];
+}
+
 #pragma mark -
 
 - (BOOL)runAppleScript:(NSString *)scriptSource {
@@ -258,7 +266,6 @@ end tell", path];
         }
         return YES;
     }
-    
     return NO;
 }
 

@@ -557,6 +557,15 @@
     [WORKSPACE showFinderGetInfoForFile:path];
 }
 
+- (IBAction)showPackageContents:(id)sender {
+    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
+    NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
+    if (![WORKSPACE showPackageContents:path]) {
+        NSBeep();
+    }
+}
+
 - (IBAction)moveToTrash:(id)sender {
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
@@ -971,6 +980,7 @@
     
     BOOL isAction = (action == @selector(show:) ||
                      action == @selector(showInfoInFinder:) ||
+                     action == @selector(showPackageContents:) ||
                      action == @selector(kill:) ||
                      action == @selector(getInfo:) ||
                      action == @selector(open:) ||
@@ -1004,6 +1014,11 @@
                             action == @selector(showInfoInFinder:) ||
                             action == @selector(open:) ||
                             action == @selector(moveToTrash:))) {
+        return NO;
+    }
+    
+    BOOL isPackage = [WORKSPACE isFilePackageAtPath:path];
+    if (!isPackage && action == @selector(showPackageContents:)) {
         return NO;
     }
     
