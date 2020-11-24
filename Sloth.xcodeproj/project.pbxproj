@@ -107,7 +107,6 @@
 		F4F1D8A01C7623AF00945D3E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F4F1D9111C7CB95700945D3E /* dsa_priv.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_priv.pem; sourceTree = "<group>"; };
 		F4F1D9121C7CB95700945D3E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		F4F1D9141C7CB95700945D3E /* sign_update.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = sign_update.rb; sourceTree = "<group>"; };
 		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
 		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
 		F4F7A5032215F11E004421AA /* Prefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Prefs.xib; sourceTree = "<group>"; };
@@ -247,7 +246,6 @@
 				F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */,
 				F4F1D9111C7CB95700945D3E /* dsa_priv.pem */,
 				F4F1D9121C7CB95700945D3E /* dsa_pub.pem */,
-				F4F1D9141C7CB95700945D3E /* sign_update.rb */,
 				F4F1D9161C7CB95700945D3E /* update_appcast.sh */,
 			);
 			name = Sparkle;
@@ -288,7 +286,7 @@
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
 						DevelopmentTeam = 5WX26Y89JP;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -375,14 +373,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = Sloth.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sparkle",
@@ -410,14 +408,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = Sloth.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sparkle",
