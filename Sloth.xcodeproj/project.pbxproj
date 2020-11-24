@@ -8,32 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		F4070BE0221ED056006E7700 /* FSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4070BDF221ED056006E7700 /* FSUtils.m */; };
-		F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4081F9F2088E0C9009BB15A /* ProcessUtils.m */; };
 		F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40B7D2C1C75FA05000A4616 /* Images.xcassets */; };
-		F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F40B7D301C75FAC6000A4616 /* Alerts.m */; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
-		F42940C9221987240031E564 /* IconUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F42940C8221987240031E564 /* IconUtils.m */; };
-		F43440C620822A7F00AF60AA /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F438712D13402CDD00B51A5E /* AppIcon.icns */; };
-		F438711813402C8200B51A5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710913402C8200B51A5E /* main.m */; };
-		F438711A13402C8200B51A5E /* SlothController.m in Sources */ = {isa = PBXBuildFile; fileRef = F438710E13402C8200B51A5E /* SlothController.m */; };
+		F43440C620822A7F00AF60AA /* sloth.icns in Resources */ = {isa = PBXBuildFile; fileRef = F438712D13402CDD00B51A5E /* sloth.icns */; };
+		F435322E2558EFC800AF00BD /* MutableDictProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F435320F2558EFC800AF00BD /* MutableDictProxy.m */; };
+		F435322F2558EFC800AF00BD /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532122558EFC800AF00BD /* Alerts.m */; };
+		F43532302558EFC800AF00BD /* LsofTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532142558EFC800AF00BD /* LsofTask.m */; };
+		F43532312558EFC800AF00BD /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532152558EFC800AF00BD /* VolumesPopUpButton.m */; };
+		F43532322558EFC800AF00BD /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532162558EFC800AF00BD /* PrefsController.m */; };
+		F43532332558EFC800AF00BD /* NSWorkspace+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532182558EFC800AF00BD /* NSWorkspace+Additions.m */; };
+		F43532342558EFC800AF00BD /* IPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532192558EFC800AF00BD /* IPUtils.m */; };
+		F43532352558EFC800AF00BD /* FSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F435321C2558EFC800AF00BD /* FSUtils.m */; };
+		F43532362558EFC800AF00BD /* STPrivilegedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F435321D2558EFC800AF00BD /* STPrivilegedTask.m */; };
+		F43532372558EFC800AF00BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F435321F2558EFC800AF00BD /* main.m */; };
+		F43532382558EFC800AF00BD /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532202558EFC800AF00BD /* InfoPanelController.m */; };
+		F43532392558EFC800AF00BD /* IconUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532232558EFC800AF00BD /* IconUtils.m */; };
+		F435323A2558EFC800AF00BD /* NSString+RegexConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532252558EFC800AF00BD /* NSString+RegexConvenience.m */; };
+		F435323B2558EFC800AF00BD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532272558EFC800AF00BD /* Item.m */; };
+		F435323C2558EFC800AF00BD /* SlothController.m in Sources */ = {isa = PBXBuildFile; fileRef = F435322B2558EFC800AF00BD /* SlothController.m */; };
+		F435323D2558EFC800AF00BD /* ProcessUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F435322C2558EFC800AF00BD /* ProcessUtils.m */; };
 		F438713413402CDD00B51A5E /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F438712C13402CDD00B51A5E /* Defaults.plist */; };
 		F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F442E0721EA7DB1000BAD80C /* InfoPanel.xib */; };
 		F442E0781EA7DD0D00BAD80C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; };
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F4584497216BA23400428797 /* STPrivilegedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4584496216BA23400428797 /* STPrivilegedTask.m */; };
-		F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F471DF6220F586510057E667 /* NSWorkspace+Additions.m */; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
-		F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */; };
-		F4AC98362060583E0000871B /* IPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AC98352060583E0000871B /* IPUtils.m */; };
-		F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D529321C90BAE10046FAE9 /* InfoPanelController.m */; };
-		F4E90AC824098AF1004EE9A6 /* LsofTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E90AC724098AF1004EE9A6 /* LsofTask.m */; };
-		F4E90ACB24098B29004EE9A6 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E90AC924098B28004EE9A6 /* Item.m */; };
-		F4E90ACE24098B3F004EE9A6 /* MutableDictProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E90ACD24098B3F004EE9A6 /* MutableDictProxy.m */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
-		F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */; };
 		F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F4F1D9121C7CB95700945D3E /* dsa_pub.pem */; };
-		F4F7A5012215F0F0004421AA /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F7A4FF2215F0F0004421AA /* PrefsController.m */; };
 		F4F7A5042215F11E004421AA /* Prefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4F7A5032215F11E004421AA /* Prefs.xib */; };
 /* End PBXBuildFile section */
 
@@ -54,62 +54,62 @@
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Sloth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sloth.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4070BDE221ED056006E7700 /* FSUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSUtils.h; sourceTree = "<group>"; };
-		F4070BDF221ED056006E7700 /* FSUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSUtils.m; sourceTree = "<group>"; };
-		F4081F9E2088E0C9009BB15A /* ProcessUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProcessUtils.h; sourceTree = "<group>"; };
-		F4081F9F2088E0C9009BB15A /* ProcessUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProcessUtils.m; sourceTree = "<group>"; };
 		F40B7D2B1C75F161000A4616 /* sloth_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloth_icon.png; sourceTree = "<group>"; };
 		F40B7D2C1C75FA05000A4616 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		F40B7D2F1C75FAC6000A4616 /* Alerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alerts.h; sourceTree = "<group>"; };
-		F40B7D301C75FAC6000A4616 /* Alerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alerts.m; sourceTree = "<group>"; };
 		F413E66E1C76842A00385DB3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		F42940C7221987240031E564 /* IconUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IconUtils.h; sourceTree = "<group>"; };
-		F42940C8221987240031E564 /* IconUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IconUtils.m; sourceTree = "<group>"; };
-		F438710913402C8200B51A5E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F438710D13402C8200B51A5E /* SlothController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlothController.h; sourceTree = "<group>"; };
-		F438710E13402C8200B51A5E /* SlothController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlothController.m; sourceTree = "<group>"; };
+		F435320E2558EFC800AF00BD /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPanelController.h; sourceTree = "<group>"; };
+		F435320F2558EFC800AF00BD /* MutableDictProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableDictProxy.m; sourceTree = "<group>"; };
+		F43532102558EFC800AF00BD /* STPrivilegedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPrivilegedTask.h; sourceTree = "<group>"; };
+		F43532112558EFC800AF00BD /* NSString+RegexConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexConvenience.h"; sourceTree = "<group>"; };
+		F43532122558EFC800AF00BD /* Alerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alerts.m; sourceTree = "<group>"; };
+		F43532132558EFC800AF00BD /* IconUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconUtils.h; sourceTree = "<group>"; };
+		F43532142558EFC800AF00BD /* LsofTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LsofTask.m; sourceTree = "<group>"; };
+		F43532152558EFC800AF00BD /* VolumesPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumesPopUpButton.m; sourceTree = "<group>"; };
+		F43532162558EFC800AF00BD /* PrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsController.m; sourceTree = "<group>"; };
+		F43532172558EFC800AF00BD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		F43532182558EFC800AF00BD /* NSWorkspace+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Additions.m"; sourceTree = "<group>"; };
+		F43532192558EFC800AF00BD /* IPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPUtils.m; sourceTree = "<group>"; };
+		F435321A2558EFC800AF00BD /* ProcessUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessUtils.h; sourceTree = "<group>"; };
+		F435321B2558EFC800AF00BD /* SlothController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlothController.h; sourceTree = "<group>"; };
+		F435321C2558EFC800AF00BD /* FSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSUtils.m; sourceTree = "<group>"; };
+		F435321D2558EFC800AF00BD /* STPrivilegedTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPrivilegedTask.m; sourceTree = "<group>"; };
+		F435321E2558EFC800AF00BD /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		F435321F2558EFC800AF00BD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F43532202558EFC800AF00BD /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoPanelController.m; sourceTree = "<group>"; };
+		F43532212558EFC800AF00BD /* MutableDictProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableDictProxy.h; sourceTree = "<group>"; };
+		F43532222558EFC800AF00BD /* LsofTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LsofTask.h; sourceTree = "<group>"; };
+		F43532232558EFC800AF00BD /* IconUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconUtils.m; sourceTree = "<group>"; };
+		F43532242558EFC800AF00BD /* Alerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alerts.h; sourceTree = "<group>"; };
+		F43532252558EFC800AF00BD /* NSString+RegexConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexConvenience.m"; sourceTree = "<group>"; };
+		F43532262558EFC800AF00BD /* NSWorkspace+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Additions.h"; sourceTree = "<group>"; };
+		F43532272558EFC800AF00BD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		F43532282558EFC800AF00BD /* PrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsController.h; sourceTree = "<group>"; };
+		F43532292558EFC800AF00BD /* VolumesPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumesPopUpButton.h; sourceTree = "<group>"; };
+		F435322A2558EFC800AF00BD /* FSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSUtils.h; sourceTree = "<group>"; };
+		F435322B2558EFC800AF00BD /* SlothController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlothController.m; sourceTree = "<group>"; };
+		F435322C2558EFC800AF00BD /* ProcessUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessUtils.m; sourceTree = "<group>"; };
+		F435322D2558EFC800AF00BD /* IPUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPUtils.h; sourceTree = "<group>"; };
 		F438712913402CDD00B51A5E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F438712C13402CDD00B51A5E /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
-		F438712D13402CDD00B51A5E /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		F438712D13402CDD00B51A5E /* sloth.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sloth.icns; sourceTree = "<group>"; };
 		F442E0721EA7DB1000BAD80C /* InfoPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPanel.xib; sourceTree = "<group>"; };
 		F442E0771EA7DD0D00BAD80C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = sparkle/Sparkle.framework; sourceTree = "<group>"; };
-		F4584495216BA23400428797 /* STPrivilegedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPrivilegedTask.h; sourceTree = "<group>"; };
-		F4584496216BA23400428797 /* STPrivilegedTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPrivilegedTask.m; sourceTree = "<group>"; };
-		F471DF6220F586510057E667 /* NSWorkspace+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Additions.m"; sourceTree = "<group>"; };
-		F471DF6320F586510057E667 /* NSWorkspace+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Additions.h"; sourceTree = "<group>"; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F48BB5B924732C2C00B569F6 /* sloth_screenshot3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot3.jpg; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
-		F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VolumesPopUpButton.h; sourceTree = "<group>"; };
-		F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VolumesPopUpButton.m; sourceTree = "<group>"; };
 		F4A8B5CD222DB5280049FA51 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		F4AC98342060583E0000871B /* IPUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPUtils.h; sourceTree = "<group>"; };
-		F4AC98352060583E0000871B /* IPUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPUtils.m; sourceTree = "<group>"; };
 		F4ACA4662497C3620013B2E5 /* Sloth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sloth.entitlements; sourceTree = "<group>"; };
 		F4B4F70B2230479F00F3C073 /* srcloc.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = srcloc.sh; sourceTree = "<group>"; };
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
-		F4D529311C90BAE10046FAE9 /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoPanelController.h; path = source/InfoPanelController.h; sourceTree = SOURCE_ROOT; };
-		F4D529321C90BAE10046FAE9 /* InfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoPanelController.m; path = source/InfoPanelController.m; sourceTree = SOURCE_ROOT; };
-		F4E90AC624098AF1004EE9A6 /* LsofTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LsofTask.h; sourceTree = "<group>"; };
-		F4E90AC724098AF1004EE9A6 /* LsofTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LsofTask.m; sourceTree = "<group>"; };
-		F4E90AC924098B28004EE9A6 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
-		F4E90ACA24098B28004EE9A6 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
-		F4E90ACC24098B3F004EE9A6 /* MutableDictProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableDictProxy.h; sourceTree = "<group>"; };
-		F4E90ACD24098B3F004EE9A6 /* MutableDictProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableDictProxy.m; sourceTree = "<group>"; };
 		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		F4F1D89A1C75FBF800945D3E /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexConvenience.h"; sourceTree = "<group>"; };
-		F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexConvenience.m"; sourceTree = "<group>"; };
 		F4F1D8A01C7623AF00945D3E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F4F1D9111C7CB95700945D3E /* dsa_priv.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_priv.pem; sourceTree = "<group>"; };
 		F4F1D9121C7CB95700945D3E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		F4F1D9141C7CB95700945D3E /* sign_update.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = sign_update.rb; sourceTree = "<group>"; };
 		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
 		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
-		F4F7A4FE2215F0F0004421AA /* PrefsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefsController.h; path = source/PrefsController.h; sourceTree = SOURCE_ROOT; };
-		F4F7A4FF2215F0F0004421AA /* PrefsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PrefsController.m; path = source/PrefsController.m; sourceTree = SOURCE_ROOT; };
 		F4F7A5032215F11E004421AA /* Prefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Prefs.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,7 +144,7 @@
 				F4F1D8A01C7623AF00945D3E /* README.md */,
 				F47B453F1EF82AC200D79DFF /* TODO.txt */,
 				F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */,
-				F438710613402C8200B51A5E /* Source */,
+				F435320D2558EFC800AF00BD /* Source */,
 				F438712713402CDD00B51A5E /* Resources */,
 				F4F1D9101C7CB95700945D3E /* Sparkle */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -166,52 +166,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F40B7D2E1C75FA94000A4616 /* Util */ = {
+		F435320D2558EFC800AF00BD /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				F4584495216BA23400428797 /* STPrivilegedTask.h */,
-				F4584496216BA23400428797 /* STPrivilegedTask.m */,
-				F42940C7221987240031E564 /* IconUtils.h */,
-				F42940C8221987240031E564 /* IconUtils.m */,
-				F4081F9E2088E0C9009BB15A /* ProcessUtils.h */,
-				F4081F9F2088E0C9009BB15A /* ProcessUtils.m */,
-				F4AC98342060583E0000871B /* IPUtils.h */,
-				F4AC98352060583E0000871B /* IPUtils.m */,
-				F4070BDE221ED056006E7700 /* FSUtils.h */,
-				F4070BDF221ED056006E7700 /* FSUtils.m */,
-				F4F1D89B1C76186200945D3E /* NSString+RegexConvenience.h */,
-				F4F1D89C1C76186200945D3E /* NSString+RegexConvenience.m */,
-				F4A7BA8020EBAD3200083B48 /* VolumesPopUpButton.h */,
-				F4A7BA8120EBAD3200083B48 /* VolumesPopUpButton.m */,
-				F40B7D2F1C75FAC6000A4616 /* Alerts.h */,
-				F40B7D301C75FAC6000A4616 /* Alerts.m */,
-				F471DF6320F586510057E667 /* NSWorkspace+Additions.h */,
-				F471DF6220F586510057E667 /* NSWorkspace+Additions.m */,
-				F4E90ACC24098B3F004EE9A6 /* MutableDictProxy.h */,
-				F4E90ACD24098B3F004EE9A6 /* MutableDictProxy.m */,
+				F435321F2558EFC800AF00BD /* main.m */,
+				F435321E2558EFC800AF00BD /* Common.h */,
+				F435321B2558EFC800AF00BD /* SlothController.h */,
+				F435322B2558EFC800AF00BD /* SlothController.m */,
+				F43532222558EFC800AF00BD /* LsofTask.h */,
+				F43532142558EFC800AF00BD /* LsofTask.m */,
+				F43532172558EFC800AF00BD /* Item.h */,
+				F43532272558EFC800AF00BD /* Item.m */,
+				F435320E2558EFC800AF00BD /* InfoPanelController.h */,
+				F43532202558EFC800AF00BD /* InfoPanelController.m */,
+				F43532292558EFC800AF00BD /* VolumesPopUpButton.h */,
+				F43532152558EFC800AF00BD /* VolumesPopUpButton.m */,
+				F43532282558EFC800AF00BD /* PrefsController.h */,
+				F43532162558EFC800AF00BD /* PrefsController.m */,
+				F4851D27256DA0BF0056CE9C /* Util */,
 			);
-			name = Util;
-			sourceTree = "<group>";
-		};
-		F438710613402C8200B51A5E /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				F438710913402C8200B51A5E /* main.m */,
-				F4F1D89A1C75FBF800945D3E /* Common.h */,
-				F438710D13402C8200B51A5E /* SlothController.h */,
-				F438710E13402C8200B51A5E /* SlothController.m */,
-				F4D529311C90BAE10046FAE9 /* InfoPanelController.h */,
-				F4D529321C90BAE10046FAE9 /* InfoPanelController.m */,
-				F4F7A4FE2215F0F0004421AA /* PrefsController.h */,
-				F4F7A4FF2215F0F0004421AA /* PrefsController.m */,
-				F4E90AC624098AF1004EE9A6 /* LsofTask.h */,
-				F4E90AC724098AF1004EE9A6 /* LsofTask.m */,
-				F4E90ACA24098B28004EE9A6 /* Item.h */,
-				F4E90AC924098B28004EE9A6 /* Item.m */,
-				F40B7D2E1C75FA94000A4616 /* Util */,
-			);
-			name = Source;
-			path = source;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		F438712713402CDD00B51A5E /* Resources */ = {
@@ -233,13 +207,38 @@
 		F442E0741EA7DB2200BAD80C /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				F438712D13402CDD00B51A5E /* AppIcon.icns */,
+				F438712D13402CDD00B51A5E /* sloth.icns */,
 				F40B7D2B1C75F161000A4616 /* sloth_icon.png */,
 				F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */,
 				F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */,
 				F48BB5B924732C2C00B569F6 /* sloth_screenshot3.jpg */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		F4851D27256DA0BF0056CE9C /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				F43532242558EFC800AF00BD /* Alerts.h */,
+				F43532122558EFC800AF00BD /* Alerts.m */,
+				F43532212558EFC800AF00BD /* MutableDictProxy.h */,
+				F435320F2558EFC800AF00BD /* MutableDictProxy.m */,
+				F435322D2558EFC800AF00BD /* IPUtils.h */,
+				F43532192558EFC800AF00BD /* IPUtils.m */,
+				F435321A2558EFC800AF00BD /* ProcessUtils.h */,
+				F435322C2558EFC800AF00BD /* ProcessUtils.m */,
+				F435322A2558EFC800AF00BD /* FSUtils.h */,
+				F435321C2558EFC800AF00BD /* FSUtils.m */,
+				F43532132558EFC800AF00BD /* IconUtils.h */,
+				F43532232558EFC800AF00BD /* IconUtils.m */,
+				F43532112558EFC800AF00BD /* NSString+RegexConvenience.h */,
+				F43532252558EFC800AF00BD /* NSString+RegexConvenience.m */,
+				F43532262558EFC800AF00BD /* NSWorkspace+Additions.h */,
+				F43532182558EFC800AF00BD /* NSWorkspace+Additions.m */,
+				F43532102558EFC800AF00BD /* STPrivilegedTask.h */,
+				F435321D2558EFC800AF00BD /* STPrivilegedTask.m */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		F4F1D9101C7CB95700945D3E /* Sparkle */ = {
@@ -284,7 +283,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -318,7 +317,7 @@
 				F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */,
 				F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */,
 				F4F7A5042215F11E004421AA /* Prefs.xib in Resources */,
-				F43440C620822A7F00AF60AA /* AppIcon.icns in Resources */,
+				F43440C620822A7F00AF60AA /* sloth.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
 				F442E0731EA7DB1000BAD80C /* InfoPanel.xib in Resources */,
@@ -350,22 +349,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F42940C9221987240031E564 /* IconUtils.m in Sources */,
-				F4AC98362060583E0000871B /* IPUtils.m in Sources */,
-				F4081FA02088E0C9009BB15A /* ProcessUtils.m in Sources */,
-				F4E90ACB24098B29004EE9A6 /* Item.m in Sources */,
-				F4070BE0221ED056006E7700 /* FSUtils.m in Sources */,
-				F4A7BA8220EBAD3200083B48 /* VolumesPopUpButton.m in Sources */,
-				F4F1D89D1C76186200945D3E /* NSString+RegexConvenience.m in Sources */,
-				F471DF6420F586510057E667 /* NSWorkspace+Additions.m in Sources */,
-				F4D529341C90BAE10046FAE9 /* InfoPanelController.m in Sources */,
-				F4584497216BA23400428797 /* STPrivilegedTask.m in Sources */,
-				F438711813402C8200B51A5E /* main.m in Sources */,
-				F438711A13402C8200B51A5E /* SlothController.m in Sources */,
-				F4F7A5012215F0F0004421AA /* PrefsController.m in Sources */,
-				F4E90ACE24098B3F004EE9A6 /* MutableDictProxy.m in Sources */,
-				F4E90AC824098AF1004EE9A6 /* LsofTask.m in Sources */,
-				F40B7D311C75FAC7000A4616 /* Alerts.m in Sources */,
+				F43532392558EFC800AF00BD /* IconUtils.m in Sources */,
+				F43532382558EFC800AF00BD /* InfoPanelController.m in Sources */,
+				F435323A2558EFC800AF00BD /* NSString+RegexConvenience.m in Sources */,
+				F43532372558EFC800AF00BD /* main.m in Sources */,
+				F435322F2558EFC800AF00BD /* Alerts.m in Sources */,
+				F435322E2558EFC800AF00BD /* MutableDictProxy.m in Sources */,
+				F43532342558EFC800AF00BD /* IPUtils.m in Sources */,
+				F435323C2558EFC800AF00BD /* SlothController.m in Sources */,
+				F43532322558EFC800AF00BD /* PrefsController.m in Sources */,
+				F435323D2558EFC800AF00BD /* ProcessUtils.m in Sources */,
+				F43532312558EFC800AF00BD /* VolumesPopUpButton.m in Sources */,
+				F43532332558EFC800AF00BD /* NSWorkspace+Additions.m in Sources */,
+				F43532352558EFC800AF00BD /* FSUtils.m in Sources */,
+				F43532302558EFC800AF00BD /* LsofTask.m in Sources */,
+				F435323B2558EFC800AF00BD /* Item.m in Sources */,
+				F43532362558EFC800AF00BD /* STPrivilegedTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +394,7 @@
 				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sveinbjorn.Sloth;
 				PRODUCT_NAME = Sloth;
@@ -403,7 +402,6 @@
 				SDKROOT = macosx;
 				STRIPFLAGS = "-x";
 				STRIP_INSTALLED_PRODUCT = NO;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -430,7 +428,7 @@
 				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sveinbjorn.Sloth;
 				PRODUCT_NAME = Sloth;
@@ -438,7 +436,6 @@
 				SDKROOT = macosx;
 				STRIPFLAGS = "-x";
 				STRIP_INSTALLED_PRODUCT = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -483,10 +480,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wpartial-availability";
 				"WARNING_CFLAGS[arch=*]" = "-Wpartial-availability";
 			};
@@ -532,10 +528,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Release;
