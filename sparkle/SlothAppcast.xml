@@ -5,20 +5,22 @@
         <link>https://sveinbjorn.org/files/appcasts/SlothAppcast.xml</link>
         <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
-        
         <item>
-            <title>Version 2.9</title>
-            <pubDate>Thursday, 27 Feb 2020 15:23:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-2.9.zip" sparkle:version="225" sparkle:shortVersionString="2.9" length="674530" type="application/octet-stream" sparkle:dsaSignature="MEQCICULH8U1Yd9qmmmgwzUHX8gI111BdQnuU6izWPKmlC/1AiA0CMQIVu0xFDgPFfHOKTXfqe1RjhnNzTSsGBIqlbyqbg=="/>
-            <sparkle:minimumSystemVersion>10.8.0</sparkle:minimumSystemVersion>
+            <title>Version 3.0</title>
+            <pubDate>Tuesday, 24 Nov 2020 22:03:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.0.zip" sparkle:version="252" sparkle:shortVersionString="3.0" length="1118901" type="application/octet-stream" sparkle:dsaSignature="MEQCIHcoH/6RBHU9sC+s3WAh4wiDrAqvDdzuPJWiS8LwLTMwAiAEkOghk1UULNs4LU4by449IugLNSfAsqUel4PDVBzgpg=="/>
+            <sparkle:minimumSystemVersion>10.9.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
-                <h2>New in Sloth 2.9</h2>
+                <h2>New in Sloth 3.0</h2>
                 <ul>
-                    <li>Sort by process type, bundle identifier or Carbon Process Serial Number</li>
-                    <li>Better handling of errors in lsof output</li>
+                    <li>Universal binary supporting Apple's new arm64 architecture</li>
+                    <li>New square icon for Big Sur</li>
+                    <li>Info Panel now shows volume name and mount point for file system items</li>
+                    <li>New "Show Package Contents" contextual menu item for bundles</li>
+                    <li>Various minor fixes and performance improvements</li>
+                    <li>Now requires macOS 10.9 or later</li>
                 </ul>
             ]]></description>
         </item>
-        
     </channel>
 </rss>

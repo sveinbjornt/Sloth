@@ -27,7 +27,7 @@ Sloth is essentially a friendly, exploratory graphical user interface built on t
 Sloth is free, efficient, open source software and has been continuously developed and maintained for a very long time (since 2004).
 **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
-*  **[⇩ Download Sloth 2.9](https://sveinbjorn.org/files/software/sloth.zip)** (~0.7 MB, Intel 64-bit, macOS 10.8 or later)
+*  **[⇩ Download Sloth 3.0](https://sveinbjorn.org/files/software/sloth.zip)** (~1.1 MB, Universal ARM/Intel 64-bit, macOS 10.9 or later)
 
 Sloth can also be installed via [Homebrew](https://brew.sh) (may not be latest version):
 
@@ -66,6 +66,15 @@ make
 Built products are created in `products/`.
 
 ## Version history
+
+### 24/11/2020 - Version 3.0
+
+* Universal binary supporting Apple's new arm64 architecture
+* New square icon for Big Sur
+* Info Panel now shows volume name and mount point for file system items
+* New "Show Package Contents" contextual menu item for bundles
+* Various minor fixes and performance improvements
+* Now requires macOS 10.9 or later
 
 ### 27/02/2020 - Version 2.9
 
