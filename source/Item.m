@@ -44,7 +44,7 @@
     if (self) {
         // Getting som item properties is expensive and therefore lazy-loaded
         lazyAttrs = @{
-            @"identifier": [NSValue valueWithPointer:@selector(bundleIdentifier)]
+            //@"identifier": [NSValue valueWithPointer:@selector(bundleIdentifier)]
         };
     }
     return self;

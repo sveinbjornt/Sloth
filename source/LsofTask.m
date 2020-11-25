@@ -100,7 +100,7 @@
     // Get info about mounted filesystems
     NSDictionary *fileSystems = [FSUtils mountedFileSystems];
     
-    // Maps device character codes to items. Used to find sockets/pipe endpoints.
+    // Maps device character codes to items. Used to find socket/pipe endpoints.
     NSMutableDictionary *devCharCodeMap = [NSMutableDictionary dictionary];
     
     Item *currentProcess;
@@ -139,7 +139,7 @@
             // Process name
             case 'c':
                 currentProcess[@"name"] = value;
-                currentProcess[@"displayname"] = currentProcess[@"name"];
+                currentProcess[@"displayname"] = value;
                 break;
                 
             // Process UID
@@ -362,6 +362,7 @@
             }
             p[@"image"] = [WORKSPACE iconForFile:p[@"path"]];
             p[@"app"] = @([ProcessUtils isAppProcess:p[@"path"]]);
+            p[@"identifier"] = [ProcessUtils identifierForBundleAtPath:p[@"path"]];
         } else {
             p[@"image"] = [IconUtils imageNamed:@"GenericExecutable"];
             p[@"bundle"] = @NO;
@@ -399,7 +400,6 @@
     // Update display name to show number of open files for process
     p[@"displayname"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
 }
-
 
 - (NSMutableArray *)args {
     NSMutableArray *arguments = [LSOF_ARGS mutableCopy];

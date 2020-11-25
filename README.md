@@ -24,7 +24,7 @@ Sloth is essentially a friendly, exploratory graphical user interface built on t
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BDT58J7HYKAEE"><img align="right" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" ></a>
 
-Sloth is free, efficient, open source software and has been continuously developed and maintained for a very long time (since 2004).
+Sloth is free, open source software and has been continuously developed and maintained for a very long time (since 2004).
 **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
 *  **[⇩ Download Sloth 3.0](https://sveinbjorn.org/files/software/sloth.zip)** (~1.1 MB, Universal ARM/Intel 64-bit, macOS 10.9 or later)
