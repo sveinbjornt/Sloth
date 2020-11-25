@@ -216,7 +216,7 @@
 #pragma mark - Finder
 
 - (BOOL)showFinderGetInfoForFile:(NSString *)path {
-    if ([self canRevealFileAtPath:path] == NO) {
+    if (!path || [self canRevealFileAtPath:path] == NO) {
         return NO;
     }
     BOOL isDir;
@@ -247,7 +247,7 @@ end tell", path];
 }
 
 - (BOOL)showPackageContents:(NSString *)path {
-    if (![self isFilePackageAtPath:path]) {
+    if (!path || ![self isFilePackageAtPath:path]) {
         return NO;
     }
     NSString *contentsPath = [path stringByAppendingString:@"/Contents"];

@@ -974,7 +974,7 @@
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-    
+
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
     SEL action = [menuItem action];
     
@@ -1017,7 +1017,7 @@
         return NO;
     }
     
-    BOOL isPackage = [WORKSPACE isFilePackageAtPath:path];
+    BOOL isPackage = (path && [WORKSPACE isFilePackageAtPath:path]);
     if (!isPackage && action == @selector(showPackageContents:)) {
         return NO;
     }
