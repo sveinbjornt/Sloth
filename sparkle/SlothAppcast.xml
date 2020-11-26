@@ -6,17 +6,12 @@
         <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3.0</title>
-            <pubDate>Tuesday, 24 Nov 2020 22:03:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.0.zip" sparkle:version="253" sparkle:shortVersionString="3.0" type="application/octet-stream" sparkle:dsaSignature="MEQCIGMolV+TdkTuUdkO/NgliEQSlvMTeNk1tQ+hl259G5dNAiB0Dib/Vz/LOrU8l1pxpvEKlnwBjbZ0scmvIXDZRCNmgw==" sparkle:edSignature="AP6Fd2MwpbEbgsF1E5OiyUVVSzYjHkB71o3t9LpLuDjF5CdHR3E6cxeeu+fDif69FrmkfZws4ceihzA89I8ECg==" length="1126186"/>
+            <title>Version 3.0.1</title>
+            <pubDate>Tuesday, 26 Nov 2020 15:03:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.0.1.zip" sparkle:version="256" sparkle:shortVersionString="3.0.1" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCE+0aGkpoWwtY31rtVlLklumbdH5MHCYrvtq4OtJnCCQIgI6a1/CAT1byry2/ui9Ln/3Y5PmNFwqlFhiLTr2ufigI=" sparkle:edSignature="He+BaaSEgtLBGZdYl22SoJj8oOH+flh71DJvwzjKyk/b233uMSt9bAHixVv3CgPWTPyTR+NtvHJ9ez+3+2PNDg==" length="1126287"/>
             <sparkle:minimumSystemVersion>10.9.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[
-                <p><strong>Sorry guys, due to signing issues you'll have to fetch the latest version manually instead of using the auto-update mechanism.</strong>
-                <br>
-                    <a href="https://sveinbjorn.org/files/software/sloth/sloth-3.0.zip">Download Sloth 3.0</a>
-                </p>
-                
-                <h2>New in Sloth 3.0</h2>
+            <description><![CDATA[                
+                <h2>New in Sloth 3.0.1</h2>
                 <ul>
                     <li>Universal binary supporting Apple's new arm64 architecture</li>
                     <li>New square icon for Big Sur</li>

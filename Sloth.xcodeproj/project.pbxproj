@@ -100,7 +100,6 @@
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
 		F4A8B5CD222DB5280049FA51 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		F4ACA4662497C3620013B2E5 /* Sloth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sloth.entitlements; sourceTree = "<group>"; };
 		F4B4F70B2230479F00F3C073 /* srcloc.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = srcloc.sh; sourceTree = "<group>"; };
 		F4B977AF1F8EBBEB0099971E /* sloth_screenshot1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot1.jpg; sourceTree = "<group>"; };
 		F4ED53C21C789A0A0024540F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -137,7 +136,6 @@
 		29B97314FDCFA39411CA2CEA /* Sloth */ = {
 			isa = PBXGroup;
 			children = (
-				F4ACA4662497C3620013B2E5 /* Sloth.entitlements */,
 				F4A8B5CD222DB5280049FA51 /* Makefile */,
 				F4B4F70B2230479F00F3C073 /* srcloc.sh */,
 				F4F1D8A01C7623AF00945D3E /* README.md */,
@@ -389,7 +387,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
 				GENERATE_PKGINFO_FILE = NO;
-				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -423,7 +421,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_VERSION = "";
 				GENERATE_PKGINFO_FILE = NO;
-				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -477,7 +475,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INFOPLIST_OUTPUT_FORMAT = binary;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -525,7 +524,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INFOPLIST_OUTPUT_FORMAT = binary;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;

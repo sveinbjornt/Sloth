@@ -44,7 +44,7 @@ archives:
 	@cd $(BUILD_DIR); zip -q --symlinks -r "${APP_SRC_ZIP_NAME}" ".." -x \*.git\* -x \*.zip\* -x \*.DS_Store\* -x \*dsa_priv.pem\* -x \*Sparkle/dsa_priv.pem\* -x \*products/\* -x \*build/\* -x \*xcuserdata\*
 
 	@echo "Generating Sparkle DSA signature"
-	@ruby "sparkle/sign_update.rb" $(APP_PATH) "sparkle/dsa_priv.pem" 2> /dev/null
+	@cd $(BUILD_DIR); ruby ../sparkle/sign_update.rb $(APP_ZIP_NAME) "../sparkle/dsa_priv.pem"
 
 	@echo "Generating Sparkle EdDSA signature for archive"
 	@cd $(BUILD_DIR); ../sparkle/sign_update $(APP_ZIP_NAME)
