@@ -6,7 +6,7 @@
 
 <img src="resources/sloth_icon.png" width="192" height="192" align="right" style="float: right; margin-left: 30px;">
 
-**Sloth** is a Mac application that shows all open files, directories, sockets, pipes and devices in use by all running processes on your system. This makes it easy to inspect which apps are using which files etc.
+**Sloth** is a native Mac app that shows all open files, directories, sockets, pipes and devices in use by all running processes on your system. This makes it easy to inspect which apps are using which files, etc.
 
 * View all open files, directories, IP sockets, devices, Unix domain sockets and pipes
 * Filter by name, access mode, volume, type, location, or using regular expressions
@@ -18,7 +18,7 @@
 * In-app authentication to run with root privileges
 * Very fast, responsive native app written in Objective-C/Cocoa
 
-Sloth is essentially a friendly, exploratory graphical user interface built on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of really convenient additional functionality. Check out the screenshots below.
+Sloth is essentially a friendly, exploratory graphical user interface built on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of convenient additional functionality. Check out the screenshots below.
 
 ## Download
 
@@ -67,7 +67,7 @@ Built products are created in `products/`.
 
 ## Version history
 
-## 26/11/2020 - Version 3.0.1
+### 26/11/2020 - Version 3.0.1
 
 * Fixed crash bug on macOS Big Sur
 
