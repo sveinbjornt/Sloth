@@ -261,6 +261,7 @@
 				F4F1D89E1C761F8F00945D3E /* Set CFBundleVersion */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				F413E66C1C76631F00385DB3 /* Copy Frameworks */,
+				F49DB76F2572583F009B6257 /* Sign Autoupdate.app */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
 			buildRules = (
@@ -324,6 +325,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F49DB76F2572583F009B6257 /* Sign Autoupdate.app */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Sign Autoupdate.app";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# We need to sign Autoupdate.app within Sparkle framework for update installation to work\nLOCATION=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Autoupdate.app\"\nIDENTITY=${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\ncodesign --verbose --force --deep --sign \"$IDENTITY\" \"$LOCATION\"\n";
+		};
 		F4F1D89E1C761F8F00945D3E /* Set CFBundleVersion */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -476,9 +495,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INFOPLIST_FILE = resources/Info.plist;
 				INFOPLIST_OUTPUT_FORMAT = binary;
+				INFOPLIST_PREPROCESS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wpartial-availability";
 				"WARNING_CFLAGS[arch=*]" = "-Wpartial-availability";
@@ -525,9 +547,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INFOPLIST_FILE = resources/Info.plist;
 				INFOPLIST_OUTPUT_FORMAT = binary;
+				INFOPLIST_PREPROCESS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wpartial-availability";
 			};
