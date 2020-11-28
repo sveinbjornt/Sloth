@@ -936,8 +936,8 @@
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
         NSMenuItem *openItem = [itemContextualMenu itemAtIndex:0];
-        NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:9];
-        NSMenuItem *killItem = [itemContextualMenu itemAtIndex:11];
+        NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:10];
+        NSMenuItem *killItem = [itemContextualMenu itemAtIndex:12];
         
         NSString *killTitle = @"Kill Process";
         if (item) {

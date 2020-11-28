@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -616,7 +616,7 @@ CA
         <window identifier="SlothWindow" title="Sloth" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" frameAutosaveName="SlothWindow" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="21" userLabel="SlothWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="125" y="249" width="892" height="611"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1536" height="937"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1536" height="935"/>
             <value key="minSize" type="size" width="853" height="350"/>
             <view key="contentView" wantsLayer="YES" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="892" height="611"/>
@@ -716,7 +716,7 @@ DQ
                         </connections>
                     </searchField>
                     <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tqa-Nm-sTb">
-                        <rect key="frame" x="744" y="21" width="20" height="20"/>
+                        <rect key="frame" x="744" y="21.5" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -833,17 +833,17 @@ DQ
                         <rect key="frame" x="22" y="81" width="850" height="469"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" wantsLayer="YES" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
-                            <rect key="frame" x="1" y="0.0" width="848" height="468"/>
+                            <rect key="frame" x="1" y="1" width="848" height="467"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <outlineView wantsLayer="YES" verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
-                                    <rect key="frame" x="0.0" y="0.0" width="848" height="445"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="848" height="444"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="children" editable="NO" width="845" minWidth="40" maxWidth="10000" id="qs5-X3-KJv">
+                                        <tableColumn identifier="children" editable="NO" width="836" minWidth="40" maxWidth="10000" id="qs5-X3-KJv">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" enabled="NO" borderStyle="border" title="Processes">
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -907,7 +907,7 @@ DQ
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <tableHeaderView key="headerView" identifier="processes" id="Hfh-Ob-0SO">
+                        <tableHeaderView key="headerView" identifier="processes" wantsLayer="YES" id="Hfh-Ob-0SO">
                             <rect key="frame" x="0.0" y="0.0" width="848" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <connections>
@@ -1015,8 +1015,8 @@ DQ
     <resources>
         <image name="Info" width="25" height="25"/>
         <image name="Kill" width="29" height="29"/>
-        <image name="NSLockLockedTemplate" width="10" height="14"/>
-        <image name="NSRefreshTemplate" width="11" height="15"/>
-        <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
+        <image name="NSLockLockedTemplate" width="14" height="15"/>
+        <image name="NSRefreshTemplate" width="14" height="16"/>
+        <image name="NSRevealFreestandingTemplate" width="15" height="15"/>
     </resources>
 </document>
