@@ -341,7 +341,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# We need to sign Autoupdate.app within Sparkle framework for update installation to work\nLOCATION=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Autoupdate.app\"\nIDENTITY=${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\ncodesign --verbose --force --deep --sign \"$IDENTITY\" \"$LOCATION\"\n";
+			shellScript = "# We need to sign Autoupdate.app within Sparkle framework for update installation to work\n# Only do this for release builds so CI testing works\nif [ \"${CONFIGURATION}\" != \"Release\" ]; then\n  exit 0\nfi\n\nLOCATION=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Autoupdate.app\"\nIDENTITY=${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\ncodesign --verbose --force --deep --sign \"$IDENTITY\" \"$LOCATION\"\n";
 		};
 		F4F1D89E1C761F8F00945D3E /* Set CFBundleVersion */ = {
 			isa = PBXShellScriptBuildPhase;

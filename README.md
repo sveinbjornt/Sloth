@@ -6,9 +6,9 @@
 
 <img src="resources/sloth_icon.png" width="192" height="192" align="right" style="float: right; margin-left: 30px;">
 
-**Sloth** is a native Mac app that shows all open files, directories, sockets, pipes and devices in use by all running processes on your system. This makes it easy to inspect which apps are using which files, etc.
+**Sloth** is a native Mac app that shows all open files, directories, sockets, pipes, and devices in use by all running processes on your system. This makes it easy to inspect which apps are using which files, etc.
 
-* View all open files, directories, IP sockets, devices, Unix domain sockets and pipes
+* View all open files, directories, IP sockets, devices, Unix domain sockets, and pipes
 * Filter by name, access mode, volume, type, location, or using regular expressions
 * Sort by process name, file count, type, process ID, user ID, Carbon PSN, bundle UTI, etc.
 * View IP socket status, protocol, port and version
@@ -34,6 +34,9 @@ Sloth can also be installed via [Homebrew](https://brew.sh) (may not be latest v
 ```shell
 $ brew cask install sloth
 ```
+
+Old versions supporting macOS 10.8 and earlier can be downloaded [here](https://sveinbjorn.org/files/software/sloth/).
+
 
 ## Screenshots
 
