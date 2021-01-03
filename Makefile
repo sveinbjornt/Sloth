@@ -1,4 +1,4 @@
-# Makefile for Sloth
+# Makefile for Sloth app
 
 XCODE_PROJ := "Sloth.xcodeproj"
 BUILD_DIR := "products"
