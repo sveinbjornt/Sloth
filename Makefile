@@ -21,7 +21,7 @@ build_unsigned:
 	xcodebuild  -parallelizeTargets \
 	            -project "$(XCODE_PROJ)" \
 	            -target "$(APP_NAME)" \
-	            -configuration "Release" \
+	            -configuration "Debug" \
 	            CONFIGURATION_BUILD_DIR="$(BUILD_DIR)" \
 	            CODE_SIGN_IDENTITY="" \
 	            CODE_SIGNING_REQUIRED=NO \

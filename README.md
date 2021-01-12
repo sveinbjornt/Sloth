@@ -1,6 +1,5 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Language](https://img.shields.io/badge/language-objective--c-lightgrey)]()
-[![Build Status](https://travis-ci.com/sveinbjornt/Sloth.svg?branch=master)](https://travis-ci.com/sveinbjornt/Sloth) 
 
 # Sloth
 
