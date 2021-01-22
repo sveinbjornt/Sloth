@@ -32,6 +32,16 @@
 #import "PrefsController.h"
 #import "IconUtils.h"
 
+@interface PrefsController ()
+{
+    NSMutableArray *filters;
+}
+@property (weak) IBOutlet NSTableView *filtersTableView;
+@property (weak) IBOutlet NSButton *removeFilterButton;
+@property (weak) IBOutlet NSButton *addFilterButton;
+
+@end
+
 @implementation PrefsController
 
 - (void)windowDidLoad {
@@ -41,6 +51,11 @@
         [self.window setRepresentedURL:[NSURL URLWithString:@""]]; // Not representing a URL
         [[self.window standardWindowButton:NSWindowDocumentIconButton] setImage:img];
     }
+    filters = [NSMutableArray new];
+    for (NSArray *a in [DEFAULTS objectForKey:@"filters"]) {
+        [filters addObject:[a mutableCopy]];
+    }
+    [self updateButtonStatus];
 }
 
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
@@ -59,7 +74,79 @@
     [DEFAULTS setBool:NO forKey:@"showCurrentWorkingDirectories"];
     [DEFAULTS setBool:YES forKey:@"friendlyProcessNames"];
     [DEFAULTS setBool:NO forKey:@"authenticateOnLaunch"];
+    [DEFAULTS setObject:@[@[@NO, @"*\\.metallib"]] forKey:@"filters"];
     [DEFAULTS synchronize];
+    filters = [[DEFAULTS objectForKey:@"filters"] mutableCopy];
+    [self.filtersTableView reloadData];
+}
+
+- (IBAction)addFilter:(id)sender {
+    [filters addObject:[@[@YES, @"Regex"] mutableCopy]];
+    [self saveFilters];
+    [self.filtersTableView reloadData];
+    [self.filtersTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[filters count] -1] byExtendingSelection:NO];
+}
+
+- (IBAction)removeFilter:(id)sender {
+    NSInteger selected =  [self.filtersTableView selectedRow];
+    if (selected != -1 && selected < [filters count]) {
+        [filters removeObjectAtIndex:selected];
+    }
+    [self saveFilters];
+    [self.filtersTableView reloadData];
+    [self updateButtonStatus];
+}
+
+- (void)saveFilters {
+    [DEFAULTS setObject:filters forKey:@"filters"];
+    [DEFAULTS synchronize];
+}
+
+- (void)updateButtonStatus {
+    BOOL hasSelection = ([[self.filtersTableView selectedRowIndexes] count] > 0);
+    [self.removeFilterButton setEnabled:hasSelection];
+}
+
+#pragma mark - NSTableViewDataSource
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
+    return [filters count];
+}
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(NSInteger)row {
+    if ([[column identifier] isEqualToString:@"1"]) {
+        [filters objectAtIndex:row][0] = @(![[filters objectAtIndex:row][0] boolValue]);
+    } else {
+        [filters objectAtIndex:row][1] = value;
+    }
+    [self saveFilters];
+    [self.filtersTableView reloadData];
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)column row:(NSInteger)rowIndex {
+    if ([[column identifier] isEqualToString:@"1"]) {
+        return [[filters objectAtIndex:rowIndex] objectAtIndex:0];
+    } else {
+        NSString *filterStr = [[filters objectAtIndex:rowIndex] objectAtIndex:1];
+        // Make sure the string successfully compiles as a regex
+        NSError *error = nil;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:filterStr options:0 error:&error];
+        regex = nil; // Silence warning about unused variable
+        // If regex compilation fails, show it colored red
+        if (error != nil) {
+            DLog(@"Regex compilation failed: %@", [error localizedDescription]);
+            NSDictionary *textAttributes = @{ NSForegroundColorAttributeName: [NSColor redColor] };
+            return [[NSAttributedString alloc] initWithString:filterStr attributes:textAttributes];
+        }
+        
+        return [[filters objectAtIndex:rowIndex] objectAtIndex:1];
+    }
+    
+    return nil;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+    [self updateButtonStatus];
 }
 
 @end

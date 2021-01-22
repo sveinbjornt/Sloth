@@ -354,7 +354,7 @@
     NSMutableArray *searchFilters = [NSMutableArray array];
     NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
-    // Trim and create regex objects from filter strings
+    // Trim and create regex objects from search filter strings
     for (NSString *fs in filterStrings) {
         NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([s length] == 0) {
