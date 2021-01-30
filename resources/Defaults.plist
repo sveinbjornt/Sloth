@@ -40,6 +40,8 @@
 	<true/>
 	<key>authenticateOnLaunch</key>
 	<false/>
+	<key>updateInterval</key>
+	<integer>0</integer>
 	<key>accessMode</key>
 	<string>Any</string>
 </dict>

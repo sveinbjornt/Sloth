@@ -171,7 +171,9 @@
                             @"accessMode",
                             @"interfaceSize",
                             @"searchFilterCaseSensitive",
-                            @"searchFilterRegex"]) {
+                            @"searchFilterRegex",
+                            @"updateInterval"
+                          ]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
                                                                      options:NSKeyValueObservingOptionNew
@@ -212,7 +214,7 @@
 
 - (IBAction)refresh:(id)sender {
     isRefreshing = YES;
-    [numItemsTextField setStringValue:@""];
+    [numItemsTextField setStringValue:@"Refreshing..."];
     [outlineView deselectAll:self];
     
     // Disable controls
@@ -257,7 +259,11 @@
 #pragma mark - Filtering
 
 - (void)updateProcessCountHeader {
-    NSString *headerTitle = [NSString stringWithFormat:@"%d processes - sorted by %@", (int)[self.content count], [DEFAULTS stringForKey:@"sortBy"]];
+    NSString *sortedBy = [DEFAULTS stringForKey:@"sortBy"];
+    if ([sortedBy hasSuffix:@" id"]) {
+        sortedBy = [NSString stringWithFormat:@"%@ID", [sortedBy substringToIndex:[sortedBy length]-2]];
+    }
+    NSString *headerTitle = [NSString stringWithFormat:@"%d processes - sorted by %@", (int)[self.content count], sortedBy];
     [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
 }
 
@@ -306,6 +312,10 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
+        return;
+    }
+    if ([VALUES_KEYPATH(@"updateInterval") isEqualToString:keyPath]) {
+        // TODO: Implement this
         return;
     }
     // The default that changed was one of the filters
