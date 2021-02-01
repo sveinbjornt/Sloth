@@ -52,6 +52,7 @@
     IBOutlet NSMenu *accessModeSubmenu;
     IBOutlet NSMenu *filterMenu;
     IBOutlet NSMenu *openWithMenu;
+    IBOutlet NSMenu *refreshIntervalMenu;
     
     IBOutlet NSPopUpButton *volumesPopupButton;
     IBOutlet NSMenuItem *volumesMenuItem;
@@ -69,6 +70,7 @@
     IBOutlet NSMenuItem *authenticateMenuItem;
     
     IBOutlet NSButton *refreshButton;
+    IBOutlet NSMenuItem *refreshIntervalMenuItem;
     IBOutlet NSButton *disclosureButton;
     IBOutlet NSTextField *disclosureTextField;
     
@@ -129,16 +131,18 @@
         [authenticateMenuItem setAction:nil];
     }
     
-    // Volumes filter menu is available in both menu bar and popup button
+    // These menus are available in both menu bar and popup button.
+    // Why create two identical menus when the same one can be used?
     [volumesMenuItem setSubmenu:[volumesPopupButton menu]];
+    [refreshIntervalMenuItem setSubmenu:refreshIntervalMenu];
     
     // Set reveal button icon
     NSImage *revealImg = [NSImage imageNamed:@"NSRevealFreestandingTemplate"];
     [revealImg setSize:NSMakeSize(12,12)];
     [revealButton setImage:revealImg];
     
-    // For some reason, Interface Builder isn't respecting
-    // template settings so we have to do this manually...
+    // For some reason, Interface Builder isn't respecting image
+    // template settings so we have to do this manually... (sigh)
     [[NSImage imageNamed:@"Kill"] setTemplate:YES];
     [[NSImage imageNamed:@"Kill"] setSize:NSMakeSize(20, 20)];
     [[NSImage imageNamed:@"Info"] setTemplate:YES];

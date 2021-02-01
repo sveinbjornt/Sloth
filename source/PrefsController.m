@@ -139,7 +139,7 @@
             return [[NSAttributedString alloc] initWithString:filterStr attributes:textAttributes];
         }
         
-        return [[filters objectAtIndex:rowIndex] objectAtIndex:1];
+        return filterStr;
     }
     
     return nil;

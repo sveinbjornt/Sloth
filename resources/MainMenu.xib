@@ -368,6 +368,19 @@
                                     <action selector="refresh:" target="212" id="laV-tL-jZL"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Refresh Interval" id="3xL-oA-BAB">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Refresh Interval" id="0At-IW-vgW">
+                                    <items>
+                                        <menuItem title="None" id="Gyz-2L-ViY">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                    </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="212" id="E42-vm-TQR"/>
+                                    </connections>
+                                </menu>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="fXZ-dR-UuF">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -519,6 +532,8 @@ CA
                 <outlet property="outlineView" destination="OT1-kV-cHW" id="yMm-po-MiO"/>
                 <outlet property="progressIndicator" destination="335" id="bNF-Cs-ZU3"/>
                 <outlet property="refreshButton" destination="208" id="483"/>
+                <outlet property="refreshIntervalMenu" destination="H2g-v4-v5e" id="omr-m9-g1l"/>
+                <outlet property="refreshIntervalMenuItem" destination="3xL-oA-BAB" id="zsC-KV-eyD"/>
                 <outlet property="revealButton" destination="211" id="622"/>
                 <outlet property="sortMenu" destination="z5a-Mg-tDe" id="Erx-7M-an9"/>
                 <outlet property="volumesMenuItem" destination="EkI-Yj-uM6" id="c7q-dj-Uyt"/>
@@ -715,7 +730,7 @@ DQ
                             <outlet property="searchMenuTemplate" destination="6L5-jB-614" id="7x1-pU-Ybs"/>
                         </connections>
                     </searchField>
-                    <button toolTip="Authenticate to view all system processes" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tqa-Nm-sTb">
+                    <button toolTip="Authenticate to run with root privileges and view all system processes" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tqa-Nm-sTb">
                         <rect key="frame" x="744" y="20.5" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
@@ -973,7 +988,7 @@ DQ
                         <rect key="frame" x="410" y="14" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </progressIndicator>
-                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efN-mZ-QiR">
+                    <popUpButton toolTip="Set automatic refresh interval" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efN-mZ-QiR">
                         <rect key="frame" x="617" y="16" width="119" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Manually" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ME3-aB-chF" id="zhk-b3-qdz">
@@ -995,7 +1010,7 @@ DQ
                             <binding destination="560" name="selectedTag" keyPath="values.updateInterval" id="ZP7-kj-cyE"/>
                         </connections>
                     </popUpButton>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZk-Hj-Yv1">
+                    <textField toolTip="Set automatic refresh interval" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZk-Hj-Yv1">
                         <rect key="frame" x="564" y="23" width="49" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Update" id="YM2-He-gOK">
