@@ -195,6 +195,14 @@
     }
 }
 
+- (nullable NSMenu *)applicationDockMenu:(NSApplication *)sender {
+    NSMenu *menu = [NSMenu new];
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Refresh" action:@selector(refresh:) keyEquivalent:@""];
+    [item setTarget:self];
+    [menu addItem:item];
+    return menu;
+}
+
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
     // Prevent popup menu when window icon/title is cmd-clicked
     return NO;
