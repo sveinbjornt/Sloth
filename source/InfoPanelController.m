@@ -63,6 +63,7 @@
 @property (weak) IBOutlet NSButton *killButton;
 @property (weak) IBOutlet NSButton *showInFinderButton;
 @property (weak) IBOutlet NSButton *getFinderInfoButton;
+@property (weak) IBOutlet NSButton *showPackageContentsButton;
 
 @property (assign, nonatomic) NSString *path;
 @property (assign, nonatomic) NSDictionary *fileInfoDict;
@@ -238,7 +239,8 @@
     // Buttons
     BOOL workablePath = [FILEMGR fileExistsAtPath:path] && (isFileOrFolder || isProcess);
     [self.showInFinderButton setEnabled:workablePath];
-    [self.getFinderInfoButton setEnabled:workablePath];    
+    [self.getFinderInfoButton setEnabled:workablePath];
+    [self.showPackageContentsButton setHidden:![item[@"bundle"] boolValue]];
 }
 
 #pragma mark - Get file info
@@ -508,6 +510,11 @@
 
 - (IBAction)showInFinder:(id)sender {
     [[NSApp delegate] performSelector:@selector(revealItemInFinder:) withObject:self.fileInfoDict];
+}
+
+- (IBAction)showPackageContents:(id)sender {
+    NSString *path = self.fileInfoDict[@"path"] ? self.fileInfoDict[@"path"] : self.fileInfoDict[@"name"];
+    [WORKSPACE showPackageContents:path];
 }
 
 - (IBAction)killProcess:(id)sender {
