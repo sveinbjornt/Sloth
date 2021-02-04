@@ -65,6 +65,10 @@ static NSMutableDictionary *iconStore;
             @{ @"path": FOLDER_ICON_PATH, @"template": @YES },
             @{ @"name": NSImageNameFolder, @"template": @NO }
         ],
+        @"SmallDirectory": @[
+            @{ @"path": FOLDER_ICON_PATH, @"template": @YES },
+            @{ @"name": NSImageNameFolder, @"template": @NO }
+        ],
         @"Character Device": @[
             @{ @"name": NSImageNameActionTemplate, @"template": @YES },
             @{ @"name": NSImageNameSmartBadgeTemplate, @"template": @YES }

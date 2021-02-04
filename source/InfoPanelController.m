@@ -32,6 +32,7 @@
 #import "InfoPanelController.h"
 #import "Common.h"
 #import "IPUtils.h"
+#import "IconUtils.h"
 #import "ProcessUtils.h"
 #import "NSWorkspace+Additions.h"
 #import "Item.h"
@@ -241,6 +242,11 @@
     [self.showInFinderButton setEnabled:workablePath];
     [self.getFinderInfoButton setEnabled:workablePath];
     [self.showPackageContentsButton setHidden:![item[@"bundle"] boolValue]];
+    if ([self.showPackageContentsButton image] == nil) {
+        NSImage *img = [IconUtils imageNamed:@"SmallDirectory"];
+        [img setSize:NSMakeSize(10.f,10.f)];
+        [self.showPackageContentsButton setImage:img];
+    }
 }
 
 #pragma mark - Get file info
