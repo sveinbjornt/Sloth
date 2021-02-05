@@ -32,6 +32,8 @@
 #import "PrefsController.h"
 #import "IconUtils.h"
 
+#define DEFAULT_FILTER  @".*\\.metallib$"
+
 @interface PrefsController ()
 {
     NSMutableArray *filters;
@@ -74,14 +76,14 @@
     [DEFAULTS setBool:NO forKey:@"showCurrentWorkingDirectories"];
     [DEFAULTS setBool:YES forKey:@"friendlyProcessNames"];
     [DEFAULTS setBool:NO forKey:@"authenticateOnLaunch"];
-    [DEFAULTS setObject:@[@[@NO, @"*\\.metallib"]] forKey:@"filters"];
+    [DEFAULTS setObject:@[@[@NO, DEFAULT_FILTER]] forKey:@"filters"];
     [DEFAULTS synchronize];
     filters = [[DEFAULTS objectForKey:@"filters"] mutableCopy];
     [self.filtersTableView reloadData];
 }
 
 - (IBAction)addFilter:(id)sender {
-    [filters addObject:[@[@YES, @"Regex"] mutableCopy]];
+    [filters addObject:[@[@YES, DEFAULT_FILTER] mutableCopy]];
     [self saveFilters];
     [self.filtersTableView reloadData];
     [self.filtersTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[filters count] -1] byExtendingSelection:NO];
@@ -130,18 +132,15 @@
         NSString *filterStr = [[filters objectAtIndex:rowIndex] objectAtIndex:1];
         // Make sure the string successfully compiles as a regex
         NSError *error = nil;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:filterStr options:0 error:&error];
-        regex = nil; // Silence warning about unused variable
+        [NSRegularExpression regularExpressionWithPattern:filterStr options:0 error:&error];
         // If regex compilation fails, show it colored red
         if (error != nil) {
             DLog(@"Regex compilation failed: %@", [error localizedDescription]);
             NSDictionary *textAttributes = @{ NSForegroundColorAttributeName: [NSColor redColor] };
             return [[NSAttributedString alloc] initWithString:filterStr attributes:textAttributes];
         }
-        
         return filterStr;
     }
-    
     return nil;
 }
 
