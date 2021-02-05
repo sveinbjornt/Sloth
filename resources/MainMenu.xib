@@ -268,6 +268,13 @@
                 <menuItem title="Filter" id="Kw1-pJ-pE2" userLabel="Filter">
                     <menu key="submenu" title="Filter" id="FX1-mz-NGH">
                         <items>
+                            <menuItem title="Show All" toolTip="Show All Items (Remove All Filters)" id="e8n-yP-p6E">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showAll:" target="212" id="bue-Rx-7B1"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Fjj-8z-1XM"/>
                             <menuItem title="Show Regular Files" keyEquivalent="1" toolTip="File" id="4fa-zA-DKj">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showRegularFiles" id="c0e-67-gDZ"/>

@@ -86,7 +86,10 @@
     [filters addObject:[@[@YES, DEFAULT_FILTER] mutableCopy]];
     [self saveFilters];
     [self.filtersTableView reloadData];
-    [self.filtersTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[filters count] -1] byExtendingSelection:NO];
+    [self.filtersTableView editColumn:1
+                                  row:[filters count]-1
+                            withEvent:[[NSApplication sharedApplication] currentEvent]
+                               select:YES];
 }
 
 - (IBAction)removeFilter:(id)sender {

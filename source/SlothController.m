@@ -522,6 +522,25 @@
     return filteredContent;
 }
 
+- (IBAction)showAll:(id)sender {
+    [DEFAULTS setObject:@YES forKey:@"showRegularFiles"];
+    [DEFAULTS setObject:@YES forKey:@"showDirectories"];
+    [DEFAULTS setObject:@YES forKey:@"showCharacterDevices"];
+    [DEFAULTS setObject:@YES forKey:@"showIPSockets"];
+    [DEFAULTS setObject:@YES forKey:@"showPipes"];
+    [DEFAULTS setObject:@YES forKey:@"showUnixSockets"];
+    
+    [DEFAULTS setObject:@NO forKey:@"showApplicationsOnly"];
+    [DEFAULTS setObject:@NO forKey:@"showHomeFolderOnly"];
+    
+    [DEFAULTS setObject:@"Any" forKey:@"accessMode"];
+    [filterTextField setStringValue:@""];
+    [volumesPopupButton selectItemAtIndex:0];
+    
+    [DEFAULTS synchronize];
+    [self updateFiltering];
+}
+
 #pragma mark - Interface actions
 
 - (IBAction)open:(id)sender {
