@@ -852,6 +852,7 @@
                 NSBeep();
                 DLog(@"Authentication failed: %d", err);
             }
+            [self deauthenticate];
             return;
         }
     } else {
