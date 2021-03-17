@@ -393,8 +393,8 @@
     // User home dir path prefix
     NSString *homeDirPath = NSHomeDirectory();
     
-    // Search field filter
-    NSMutableArray *searchFilters = [NSMutableArray array];
+    // Search field filter, precompile regexes
+    NSMutableArray *searchFilters = [NSMutableArray new];
     NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
     // Trim and create regex objects from search filter strings
@@ -411,7 +411,7 @@
                                                                                    options:options
                                                                                      error:&err];
             if (!regex) {
-                DLog(@"Error creating regex: %@", [err localizedDescription]);
+                DLog(@"Error creating search filter regex: %@", [err localizedDescription]);
                 continue;
             }
             [searchFilters addObject:regex];
@@ -420,7 +420,30 @@
         }
     }
     
+    // Filters set in Prefs, precompile regexes
+    NSMutableArray *prefsFilters = [NSMutableArray new];
+    NSArray *pfStrings = [DEFAULTS objectForKey:@"filters"];
+    for (NSArray *ps in pfStrings) {
+//        if ([ps[0] boolValue] == NO) {
+//            continue;
+//        }
+        NSString *s = [ps[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if ([s length] == 0) {
+            continue;
+        }
+        NSError *err;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s options:0 error:&err];
+        if (!regex) {
+            DLog(@"Error creating prefs filter regex: %@", [err localizedDescription]);
+            continue;
+        }
+        [prefsFilters addObject:regex];
+        DLog(@"Adding regex: %@", ps[1]);
+    }
+    
+    
     BOOL hasSearchFilter = ([searchFilters count] > 0);
+    BOOL hasPrefsFilter = ([prefsFilters count] > 0);
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllItemTypes = (showRegularFiles &&
                              showDirectories &&
@@ -433,7 +456,7 @@
     
     // Minor optimization: If there is no filtering, just return
     // unfiltered content instead of iterating over all items
-    if (showAllItemTypes && showAllProcessTypes && !hasSearchFilter && !hasAccessModeFilter) {
+    if (showAllItemTypes && showAllProcessTypes && !hasSearchFilter && !hasPrefsFilter && !hasAccessModeFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
@@ -522,6 +545,20 @@
                 
                 // Skip if it doesn't match all filter strings
                 if (matchCount != [searchFilters count]) {
+                    continue;
+                }
+            }
+            
+            // Prefs filters only filter by name
+            if (hasPrefsFilter) {
+                // Skip any file w. name matching
+                BOOL skip = NO;
+                for (NSRegularExpression *regex in prefsFilters) {
+                    if ([file[@"name"] isMatchedByRegex:regex]) {
+                        skip = YES;
+                    }
+                }
+                if (skip) {
                     continue;
                 }
             }

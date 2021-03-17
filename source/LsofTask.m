@@ -94,6 +94,7 @@
     *numFiles = 0;
     
     if (![outputString length]) {
+        DLog(@"Empty lsof output!");
         return processList;
     }
     
@@ -219,7 +220,7 @@
                     currentFile[@"type"] = @"Pipe";
                 }
                 else {
-                    DLog(@"Unrecognized file type: %@ : %@", ftype, [currentFile description]);
+                    //DLog(@"Unrecognized file type: %@ : %@", ftype, [currentFile description]);
                     skip = TRUE;
                 }
                 
@@ -326,7 +327,7 @@
             
             // If we know which process owns the other end of the pipe/socket
             // Needs to run with root privileges for succesful lookup of the
-            // endpoints of system process pipes/sockets such as syslogd
+            // endpoints of system process pipes/sockets such as syslogd.
             if (devCharCodeMap[name]) {
                 NSArray *endPoints = devCharCodeMap[name];
                 NSMutableArray *epItems = [NSMutableArray new];
