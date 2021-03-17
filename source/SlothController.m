@@ -81,6 +81,7 @@
     BOOL isRefreshing;
     
     NSTimer *filterTimer;
+    NSTimer *updateTimer;
     
     InfoPanelController *infoPanelController;
     PrefsController *prefsController;
@@ -197,6 +198,7 @@
         // Refresh immediately when app is launched
         [self refresh:self];
     }
+    [self setUpdateTimerFromDefaults];
 }
 
 - (nullable NSMenu *)applicationDockMenu:(NSApplication *)sender {
@@ -225,6 +227,9 @@
 #pragma mark - Run lsof task
 
 - (IBAction)refresh:(id)sender {
+    if (isRefreshing) {
+        return;
+    }
     isRefreshing = YES;
     [numItemsTextField setStringValue:@"Refreshing..."];
     [outlineView deselectAll:self];
@@ -266,6 +271,22 @@
             });
         }
     });
+}
+
+- (void)setUpdateTimerFromDefaults {
+    if (updateTimer) {
+        [updateTimer invalidate];
+        updateTimer = nil;
+    }
+    NSInteger secInterval = [DEFAULTS integerForKey:@"updateInterval"];
+    if (secInterval == 0) { // Manual updates only
+        return;
+    }
+    updateTimer = [NSTimer scheduledTimerWithTimeInterval:secInterval
+                                                   target:self
+                                                 selector:@selector(refresh:)
+                                                 userInfo:nil
+                                                  repeats:YES];
 }
 
 #pragma mark - Filtering
@@ -327,7 +348,7 @@
         return;
     }
     if ([VALUES_KEYPATH(@"updateInterval") isEqualToString:keyPath]) {
-        // TODO: Implement this
+        [self setUpdateTimerFromDefaults];
         return;
     }
     // The default that changed was one of the filters
