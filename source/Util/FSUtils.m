@@ -64,7 +64,7 @@
         };
     }
     
-    DLog(@"File system info: %@", fsdict);
+    //DLog(@"File system info: %@", fsdict);
     
     return [fsdict copy]; // Return immutable copy
 }

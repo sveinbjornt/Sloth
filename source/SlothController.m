@@ -156,7 +156,12 @@
     
     // Set icons for items in Filter menu
     NSArray<NSMenuItem *> *items = [filterMenu itemArray];
+    int idx = 0;
     for (NSMenuItem *i in items) {
+        idx += 1;
+        if (idx < 2) { // Skip first menu item (Show All)
+            continue;
+        }
         NSString *type = [i toolTip];
         if (type) {
             NSImage *img = [IconUtils imageNamed:type];
@@ -338,6 +343,16 @@
 
 // VolumesPopUpDelegate
 - (void)volumeSelectionChanged:(NSString *)volumePath {
+    // If can't do volume filtering on 10.15+
+//    if (@available(macOS 10.15, *)) {
+//        if ([[volumesPopupButton titleOfSelectedItem] isEqualToString:@"All"]) {
+//            return;
+//        }
+//        [volumesPopupButton selectItemAtIndex:0];
+//        [Alerts alert:@"Unable to filter by volume"
+//        subTextFormat:@"Volume filtering is not available on this version of macOS."];
+//        return;
+//    }
     [self performSelector:@selector(updateFiltering) withObject:nil afterDelay:0.05];
 }
 
@@ -478,6 +493,7 @@
                 }
                 
                 if (volumesFilter) {
+//                    DLog(@"%@ cmp %@", file[@"device"][@"devid"], volumesFilter);
                     if ([file[@"device"][@"devid"] isEqualToNumber:volumesFilter] == NO) {
                         continue;
                     }

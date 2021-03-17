@@ -106,38 +106,63 @@
     [volumesMenu addItem:item];
     [volumesMenu addItem:[NSMenuItem separatorItem]];
     
-    NSArray *props = @[NSURLVolumeNameKey];
-    NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props
-                                                                                            options:NSVolumeEnumerationSkipHiddenVolumes];
-    // Add all volumes as items
-    for (NSURL *url in urls) {
+    // NEW METHOD: Add all filesystems
+    for (NSNumber *fsid in [filesystems allKeys]) {
+        NSDictionary *fs = filesystems[fsid];
+        NSString *menuItemName = fs[@"mountpoint"];
         
+        // Get volume name, if possible
+        NSURL *url = [NSURL fileURLWithPath:fs[@"mountpoint"]];
         NSString *volumeName;
         NSError *err;
         [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
-        if (volumeName == nil) {
-            NSLog(@"%@", [err localizedDescription]);
-            continue;
+        if (volumeName != nil) {
+            menuItemName = [NSString stringWithFormat:@"%@ (%@)", fs[@"mountpoint"], volumeName];
         }
         
         SEL action = @selector(notifyDelegateSelectionHasChanged:);
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:volumeName
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:menuItemName
                                                       action:action
                                                keyEquivalent:@""];
         [item setTarget:self];
-        [item setToolTip:[url path]];
-
-        // Set filesystem info dict as represented object
-        for (NSNumber *fsid in filesystems) {
-            NSDictionary *fs = filesystems[fsid];
-            if ([fs[@"mountpoint"] isEqualToString:[url path]]) {
-                [item setRepresentedObject:fs];
-                break;
-            }
-        }
-        
+        [item setToolTip:fs[@"mountpoint"]];
+        [item setRepresentedObject:fs];
         [volumesMenu addItem:item];
+        
     }
+    
+    // OLD METHOD: Add all volumes as items
+//    NSArray *props = @[NSURLVolumeNameKey];
+//    NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props
+//
+//    for (NSURL *url in urls) {
+//
+//        NSString *volumeName;
+//        NSError *err;
+//        [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
+//        if (volumeName == nil) {
+//            NSLog(@"%@", [err localizedDescription]);
+//            continue;
+//        }
+//
+//        SEL action = @selector(notifyDelegateSelectionHasChanged:);
+//        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:volumeName
+//                                                      action:action
+//                                               keyEquivalent:@""];
+//        [item setTarget:self];
+//        [item setToolTip:[url path]];
+//
+//        // Set filesystem info dict as represented object
+//        for (NSNumber *fsid in filesystems) {
+//            NSDictionary *fs = filesystems[fsid];
+//            if ([fs[@"mountpoint"] isEqualToString:[url path]]) {
+//                [item setRepresentedObject:fs];
+//                break;
+//            }
+//        }
+//
+//        [volumesMenu addItem:item];
+//    }
     
     // Restore selection, if possible
     NSMenuItem *itemToSelect = [volumesMenu itemArray][0];
