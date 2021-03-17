@@ -57,7 +57,7 @@
     for (NSArray *a in [DEFAULTS objectForKey:@"filters"]) {
         [filters addObject:[a mutableCopy]];
     }
-    [self updateButtonStatus];
+    [self updateRemoveFilterButtonStatus];
 }
 
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
@@ -70,6 +70,8 @@
     return NO;
 }
 
+#pragma mark -
+
 - (IBAction)restoreDefaults:(id)sender {
     [DEFAULTS setBool:NO forKey:@"dnsLookup"];
     [DEFAULTS setBool:NO forKey:@"showProcessBinaries"];
@@ -81,6 +83,8 @@
     filters = [[DEFAULTS objectForKey:@"filters"] mutableCopy];
     [self.filtersTableView reloadData];
 }
+
+#pragma mark - Filters UI
 
 - (IBAction)addFilter:(id)sender {
     [filters addObject:[@[@YES, DEFAULT_FILTER] mutableCopy]];
@@ -99,7 +103,7 @@
     }
     [self saveFilters];
     [self.filtersTableView reloadData];
-    [self updateButtonStatus];
+    [self updateRemoveFilterButtonStatus];
 }
 
 - (void)saveFilters {
@@ -107,7 +111,7 @@
     [DEFAULTS synchronize];
 }
 
-- (void)updateButtonStatus {
+- (void)updateRemoveFilterButtonStatus {
     BOOL hasSelection = ([[self.filtersTableView selectedRowIndexes] count] > 0);
     [self.removeFilterButton setEnabled:hasSelection];
 }
@@ -148,7 +152,7 @@
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-    [self updateButtonStatus];
+    [self updateRemoveFilterButtonStatus];
 }
 
 @end

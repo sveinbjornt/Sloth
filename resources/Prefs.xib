@@ -47,10 +47,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sDi-2n-kah">
-                                            <rect key="frame" x="15" y="146" width="320" height="20"/>
+                                            <rect key="frame" x="22" y="143" width="320" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <string key="toolTip">Perform DNS lookup for all IP addresses and port lookup for port numbers. This is slow. Don't use it. The Info Panel does DNS lookup when you double-click an IP socket item.</string>
-                                            <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Kkb-zj-8Vf">
+                                            <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow!)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Kkb-zj-8Vf">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -59,7 +59,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Show current working directories for all processes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QfZ-5B-OQO">
-                                            <rect key="frame" x="15" y="88" width="320" height="25"/>
+                                            <rect key="frame" x="22" y="82" width="320" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vvB-Ny-MRM">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -70,7 +70,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Show process binary and open files in shared libaries." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0lg-UF-HXc">
-                                            <rect key="frame" x="15" y="116" width="320" height="24"/>
+                                            <rect key="frame" x="22" y="112" width="320" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8Xc-bW-SGR">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -81,7 +81,7 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4zm-NG-tlO">
-                                            <rect key="frame" x="15" y="54" width="320" height="35"/>
+                                            <rect key="frame" x="22" y="47" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <string key="toolTip">Show "Mac-friendly" process names from the Carbon Process Manager (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent")</string>
                                             <buttonCell key="cell" type="check" title="Display Mac-friendly process names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jz8-VI-cXW">
@@ -93,7 +93,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Prompt for authentication to run as root before launching lsof on launch." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duf-F0-KT3">
-                                            <rect key="frame" x="15" y="24" width="320" height="35"/>
+                                            <rect key="frame" x="22" y="16" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Authenticate immediately when launched" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PBX-8y-ZLU">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
