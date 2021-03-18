@@ -26,7 +26,7 @@ Sloth is essentially a friendly, exploratory graphical user interface built on t
 Sloth is free, open source software and has been continuously developed and maintained for a very long time (since 2004).
 **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
-*  **[⇩ Download Sloth 3.0.1](https://sveinbjorn.org/files/software/sloth.zip)** (~1.1 MB, Universal ARM/Intel 64-bit, macOS 10.9 or later)
+*  **[⇩ Download Sloth 3.0.1](https://sveinbjorn.org/files/software/sloth.zip)** (~1.2 MB, Universal ARM/Intel 64-bit, macOS 10.9 or later)
 
 Sloth can also be installed via [Homebrew](https://brew.sh) (may not be latest version):
 
@@ -68,6 +68,13 @@ make
 Built products are created in `products/`.
 
 ## Version history
+
+### 18/03/2021 - Version 3.1
+
+* Configurable refresh interval
+* Default (regex) filters can be set in Preferences
+* Fixed filtering by volume on Catalina and Big Sur
+* Various minor bug fixes and interface improvements
 
 ### 26/11/2020 - Version 3.0.1
 

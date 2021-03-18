@@ -6,19 +6,19 @@
         <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3.0.1</title>
-            <pubDate>Tuesday, 26 Nov 2020 15:03:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.0.1.zip" sparkle:version="256" sparkle:shortVersionString="3.0.1" type="application/octet-stream" sparkle:dsaSignature="MEUCIQCE+0aGkpoWwtY31rtVlLklumbdH5MHCYrvtq4OtJnCCQIgI6a1/CAT1byry2/ui9Ln/3Y5PmNFwqlFhiLTr2ufigI=" sparkle:edSignature="He+BaaSEgtLBGZdYl22SoJj8oOH+flh71DJvwzjKyk/b233uMSt9bAHixVv3CgPWTPyTR+NtvHJ9ez+3+2PNDg==" length="1126287"/>
+            <title>Version 3.1</title>
+            <pubDate>Thursday, 18 Mar 2021 22:38:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.1.zip" sparkle:version="281" sparkle:shortVersionString="3.1" type="application/octet-stream" sparkle:edSignature="SG8xhx4irydcnzhp8p7vZZBQ+dyXr8wfAD3hrmSeAExDA0ncnxySNF/BjvQvXL7753MaIf7neKbxiNtPmt7cDg==" length="1226884"/>
             <sparkle:minimumSystemVersion>10.9.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[                
-                <h2>New in Sloth 3.0.1</h2>
+            <description><![CDATA[
+                <i>Due to code-signing and security restrictions on macOS Big Sur, you may have to fetch this update <a href="https://sveinbjorn.org/sloth">manually</a>.</i>
+                <br>
+                <h2>New in Sloth 3.1</h2>
                 <ul>
-                    <li>Universal binary supporting Apple's new arm64 architecture</li>
-                    <li>New square icon for Big Sur</li>
-                    <li>Info Panel now shows volume name and mount point for file system items</li>
-                    <li>New "Show Package Contents" contextual menu item for bundles</li>
-                    <li>Various minor fixes and performance improvements</li>
-                    <li>Now requires macOS 10.9 or later</li>
+                    <li>Configurable refresh interval
+                    <li>Default (regex) filters can be set in Preferences
+                    <li>Fixed filtering by volume on Catalina and Big Sur
+                    <li>Various minor bug fixes and interface improvements
                 </ul>
             ]]></description>
         </item>

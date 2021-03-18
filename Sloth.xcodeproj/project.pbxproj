@@ -33,7 +33,6 @@
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
-		F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F4F1D9121C7CB95700945D3E /* dsa_pub.pem */; };
 		F4F7A5042215F11E004421AA /* Prefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4F7A5032215F11E004421AA /* Prefs.xib */; };
 /* End PBXBuildFile section */
 
@@ -312,7 +311,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */,
-				F4F1D9171C7CB9C500945D3E /* dsa_pub.pem in Resources */,
 				F4F7A5042215F11E004421AA /* Prefs.xib in Resources */,
 				F43440C620822A7F00AF60AA /* sloth.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
