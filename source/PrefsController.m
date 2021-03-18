@@ -80,7 +80,12 @@
     [DEFAULTS setBool:NO forKey:@"authenticateOnLaunch"];
     [DEFAULTS setObject:@[@[@NO, DEFAULT_FILTER]] forKey:@"filters"];
     [DEFAULTS synchronize];
-    filters = [[DEFAULTS objectForKey:@"filters"] mutableCopy];
+    
+    filters = [NSMutableArray new];
+    for (NSArray *a in [DEFAULTS objectForKey:@"filters"]) {
+        [filters addObject:[a mutableCopy]];
+    }
+    
     [self.filtersTableView reloadData];
 }
 

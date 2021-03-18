@@ -106,9 +106,12 @@
     [volumesMenu addItem:item];
     [volumesMenu addItem:[NSMenuItem separatorItem]];
     
-    // NEW METHOD: Add all filesystems
+    // NEW METHOD: Add all filesystems (except /dev)
     for (NSNumber *fsid in [filesystems allKeys]) {
         NSDictionary *fs = filesystems[fsid];
+        if ([fs[@"mountpoint"] isEqualToString:@"/dev"]) {
+            continue;
+        }
         NSString *menuItemName = fs[@"mountpoint"];
         
         // Get volume name, if possible
@@ -117,7 +120,7 @@
         NSError *err;
         [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
         if (volumeName != nil) {
-            menuItemName = [NSString stringWithFormat:@"%@ (%@)", fs[@"mountpoint"], volumeName];
+            menuItemName = [NSString stringWithFormat:@"%@ - %@", volumeName, fs[@"mountpoint"]];
         }
         
         SEL action = @selector(notifyDelegateSelectionHasChanged:);

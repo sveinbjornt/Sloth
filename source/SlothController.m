@@ -439,9 +439,9 @@
     NSMutableArray *prefsFilters = [NSMutableArray new];
     NSArray *pfStrings = [DEFAULTS objectForKey:@"filters"];
     for (NSArray *ps in pfStrings) {
-//        if ([ps[0] boolValue] == NO) {
-//            continue;
-//        }
+        if ([ps[0] boolValue] == NO) {
+            continue;
+        }
         NSString *s = [ps[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([s length] == 0) {
             continue;
