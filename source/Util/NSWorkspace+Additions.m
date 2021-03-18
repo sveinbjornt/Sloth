@@ -247,7 +247,12 @@ end tell", path];
 }
 
 - (BOOL)showPackageContents:(NSString *)path {
-    if (!path || ![self isFilePackageAtPath:path]) {
+    if (!path) {
+        return NO;
+    }
+    BOOL isDir;
+    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+    if (!exists || !isDir || ![self isFilePackageAtPath:path]) {
         return NO;
     }
     NSString *contentsPath = [path stringByAppendingString:@"/Contents"];
