@@ -1,5 +1,6 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Language](https://img.shields.io/badge/language-objective--c-lightgrey)]()
+[![Build](https://github.com/sveinbjornt/sloth/actions/workflows/macos.yml/badge.svg)]()
 
 # Sloth
 

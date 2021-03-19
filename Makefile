@@ -34,6 +34,8 @@ build_signed:
 	            -target "$(APP_NAME)" \
 	            -configuration "Release" \
 	            CONFIGURATION_BUILD_DIR="$(BUILD_DIR)" \
+	            CODE_SIGN_IDENTITY="" \
+	            CODE_SIGNING_REQUIRED=NO \
 	            clean build
 
 archives:
