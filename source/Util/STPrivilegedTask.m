@@ -160,10 +160,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     AuthorizationRights myRights = { 1, &myItems };
     AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
-    // Use Apple's Authentication Manager APIs to get an Authorization Reference
-    // These Apple APIs are quite possibly the most horrible of the Mac OS X APIs
-    
-    // Create authorization reference
+    // Use Apple's Authentication Manager API to create an Authorization Reference
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
     if (err != errAuthorizationSuccess) {
         return err;
@@ -175,8 +172,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
         return err;
     }
     
-    // OK, at this point we have received authorization for
-    // the task so we launch it.
+    // OK, at this point we have received authorization for the task so we launch it.
     err = [self launchWithAuthorization:authorizationRef];
     
     // Free the auth ref
@@ -206,7 +202,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     const char *toolPath = [self.launchPath fileSystemRepresentation];
     
     // First, construct an array of C strings w. all the arguments from NSArray
-    // This is the format required by AuthorizationExecuteWithPrivileges fn
+    // This is the format required by AuthorizationExecuteWithPrivileges function
     for (int i = 0; i < numArgs; i++) {
         NSString *argString = arguments[i];
         const char *fsrep = [argString fileSystemRepresentation];
@@ -216,7 +212,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     }
     args[numArgs] = NULL;
     
-    // Change to the current dir specified
+    // Change to the specified current working directory
+    // NB: This is process-wide and could interfere with the behaviour of concurrent tasks
     char *prevCwd = (char *)getcwd(nil, 0);
     chdir([self.currentDirectoryPath fileSystemRepresentation]);
     
@@ -272,8 +269,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     while ((pid = waitpid(_processIdentifier, &status, WNOHANG)) == 0) {
         // Do nothing
     }
-    _terminationStatus = WEXITSTATUS(status);
     _isRunning = NO;
+    _terminationStatus = WEXITSTATUS(status);
 }
 
 // Check if task has terminated
@@ -295,7 +292,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 
 + (BOOL)authorizationFunctionAvailable {
     if (!_AuthExecuteWithPrivsFn) {
-        // This version of OS X has finally removed this function.
+        // This version of macOS has finally removed this function.
         return NO;
     }
     return YES;
