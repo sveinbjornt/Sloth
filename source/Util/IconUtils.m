@@ -41,6 +41,7 @@
 #define APPL_ICON_PATH      CORE_TYPES_RESOURCE(@"SidebarApplicationsFolder.icns")
 #define HOME_ICON_PATH      CORE_TYPES_RESOURCE(@"SidebarHomeFolder.icns")
 #define ERR_ICON_PATH       CORE_TYPES_RESOURCE(@"AlertStopIcon.icns")
+#define QUESTION_ICON_PATH  CORE_TYPES_RESOURCE(@"GenericQuestionMarkIcon.icns")
 
 static NSMutableDictionary *iconStore;
 
@@ -109,6 +110,11 @@ static NSMutableDictionary *iconStore;
         ],
         @"Unlocked": @[
             @{ @"type": NSFileTypeForHFSTypeCode(kUnlockedIcon), @"template": @NO }
+        ],
+        // TODO:: Add fallback local icon
+        @"QustionMark": @[
+            @{ @"path": QUESTION_ICON_PATH
+            }
         ]
     };
     

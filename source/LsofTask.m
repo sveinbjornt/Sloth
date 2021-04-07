@@ -249,6 +249,10 @@
                     currentFile[@"type"] = @"Error";
                     currentFile[@"image"] = [IconUtils imageNamed:@"Error"];
                 }
+                
+                if ([currentFile[@"name"] hasPrefix:@"unknown file type:"]) {
+                    currentFile[@"image"] = [IconUtils imageNamed:@"Error"];
+                }
             }
                 break;
             
