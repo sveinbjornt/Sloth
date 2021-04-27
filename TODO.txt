@@ -8,6 +8,7 @@ TODO for Sloth 3.2
     * Add tests for lsof output parsing
     * Column width for single column should always follow window width
     * Question mark icon for "unknown file type: \d+"
+    * Fix resizing so that main colum always fills available space
 
 TODO for Sloth 3.1
     DONE * Added default regex filters option to Prefs
