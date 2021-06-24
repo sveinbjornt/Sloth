@@ -1,4 +1,4 @@
-name: macOS workflow
+name: build
 
 on:
   push:
