@@ -52,9 +52,15 @@
 - (void)setup {
     [[self menu] setDelegate:self];
     
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector: @selector(volumesChanged:) name:NSWorkspaceDidMountNotification object: nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector: @selector(volumesChanged:) name:NSWorkspaceDidUnmountNotification object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector: @selector(volumesChanged:) name:NSWorkspaceDidRenameVolumeNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+                                                           selector: @selector(volumesChanged:)
+                                                               name:NSWorkspaceDidMountNotification object: nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+                                                           selector: @selector(volumesChanged:)
+                                                               name:NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+                                                           selector: @selector(volumesChanged:)
+                                                               name:NSWorkspaceDidRenameVolumeNotification object:nil];
     
     [self populateMenu];
 }
@@ -133,39 +139,6 @@
         [volumesMenu addItem:item];
         
     }
-    
-    // OLD METHOD: Add all volumes as items
-//    NSArray *props = @[NSURLVolumeNameKey];
-//    NSArray *urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:props
-//
-//    for (NSURL *url in urls) {
-//
-//        NSString *volumeName;
-//        NSError *err;
-//        [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
-//        if (volumeName == nil) {
-//            NSLog(@"%@", [err localizedDescription]);
-//            continue;
-//        }
-//
-//        SEL action = @selector(notifyDelegateSelectionHasChanged:);
-//        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:volumeName
-//                                                      action:action
-//                                               keyEquivalent:@""];
-//        [item setTarget:self];
-//        [item setToolTip:[url path]];
-//
-//        // Set filesystem info dict as represented object
-//        for (NSNumber *fsid in filesystems) {
-//            NSDictionary *fs = filesystems[fsid];
-//            if ([fs[@"mountpoint"] isEqualToString:[url path]]) {
-//                [item setRepresentedObject:fs];
-//                break;
-//            }
-//        }
-//
-//        [volumesMenu addItem:item];
-//    }
     
     // Restore selection, if possible
     NSMenuItem *itemToSelect = [volumesMenu itemArray][0];

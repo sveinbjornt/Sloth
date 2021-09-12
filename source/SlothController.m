@@ -76,7 +76,7 @@
     
     IBOutlet NSOutlineView *outlineView;
     
-    AuthorizationRef authorizationRef;
+    AuthorizationRef authRef;
     BOOL authenticated;
     BOOL isRefreshing;
     
@@ -257,7 +257,7 @@
         @autoreleasepool {
             int fileCount;
             LsofTask *task = [LsofTask new];
-            NSMutableArray *items = [task launch:authorizationRef numFiles:&fileCount];
+            NSMutableArray *items = [task launch:authRef numFiles:&fileCount];
             self.unfilteredContent = items;
             self.totalFileCount = fileCount;
             
@@ -346,16 +346,6 @@
 
 // VolumesPopUpDelegate
 - (void)volumeSelectionChanged:(NSString *)volumePath {
-    // If can't do volume filtering on 10.15+
-//    if (@available(macOS 10.15, *)) {
-//        if ([[volumesPopupButton titleOfSelectedItem] isEqualToString:@"All"]) {
-//            return;
-//        }
-//        [volumesPopupButton selectItemAtIndex:0];
-//        [Alerts alert:@"Unable to filter by volume"
-//        subTextFormat:@"Volume filtering is not available on this version of macOS."];
-//        return;
-//    }
     [self performSelector:@selector(updateFiltering) withObject:nil afterDelay:0.05];
 }
 
@@ -454,7 +444,9 @@
             continue;
         }
         NSError *err;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s options:0 error:&err];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:s
+                                                                               options:0
+                                                                                 error:&err];
         if (!regex) {
             DLog(@"Error creating prefs filter regex: %@", [err localizedDescription]);
             continue;
@@ -960,16 +952,18 @@
     
     AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
     AuthorizationRights myRights = { 1, &myItems };
-    AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
+    AuthorizationFlags flags = \
+    kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed \
+    | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
     // Create authorization reference
-    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
+    OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authRef);
     if (err != errAuthorizationSuccess) {
         return err;
     }
     
     // Pre-authorize the privileged operation
-    err = AuthorizationCopyRights(authorizationRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
+    err = AuthorizationCopyRights(authRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
     if (err != errAuthorizationSuccess) {
         return err;
     }
@@ -979,9 +973,9 @@
 
 - (void)deauthenticate {
     DLog(@"Deathenticating");
-    if (authorizationRef) {
-        AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
-        authorizationRef = NULL;
+    if (authRef) {
+        AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
+        authRef = NULL;
     }
     authenticated = NO;
 }

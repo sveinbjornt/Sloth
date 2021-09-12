@@ -112,7 +112,9 @@
         || [path isEqualToString:EMPTY_PLACEHOLDER]) {
         [self.pathTextField setStringValue:path];
     } else {
-        NSAttributedString *redPath = [[NSAttributedString alloc] initWithString:path attributes:@{ NSForegroundColorAttributeName : [NSColor redColor] }];
+        NSDictionary *attrs = @{ NSForegroundColorAttributeName : [NSColor redColor] };
+        NSAttributedString *redPath = [[NSAttributedString alloc] initWithString:path
+                                                                      attributes:attrs];
         [self.pathTextField setAttributedStringValue:redPath];
     }
     
