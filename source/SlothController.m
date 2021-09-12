@@ -113,7 +113,6 @@
     // Make sure lsof exists on the system
     if ([FILEMGR fileExistsAtPath:LSOF_PATH] == NO) {
         [Alerts fatalAlert:@"System corrupt" subTextFormat:@"No binary at path %@", LSOF_PATH];
-        [[NSApplication sharedApplication] terminate:self];
     }
     
     // Put application icon in window title bar
@@ -143,14 +142,14 @@
     [revealButton setImage:revealImg];
     
     // For some reason, Interface Builder isn't respecting image
-    // template settings so we have to do this manually... (sigh)
+    // template settings so we have to do this manually
     [[NSImage imageNamed:@"Kill"] setTemplate:YES];
     [[NSImage imageNamed:@"Kill"] setSize:NSMakeSize(20, 20)];
     [[NSImage imageNamed:@"Info"] setTemplate:YES];
     [[NSImage imageNamed:@"Info"] setSize:NSMakeSize(20, 20)];
     
     // Manually check the appropriate menu items for these submenus
-    // on launch since we (annoyingly) can't use bindings for it
+    // on launch since we (infuriatingly) can't use bindings for it!
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"interfaceSize"] inMenu:interfaceSizeSubmenu];
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"accessMode"] inMenu:accessModeSubmenu];
     
@@ -203,7 +202,7 @@
         // Refresh immediately when app is launched
         [self refresh:self];
     }
-    [self setUpdateTimerFromDefaults];
+    [self setUpdateTimerFromDefaults]; // If period update has been set in defaults
 }
 
 - (nullable NSMenu *)applicationDockMenu:(NSApplication *)sender {
@@ -338,7 +337,11 @@
     if (filterTimer) {
         [filterTimer invalidate];
     }
-    filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateFiltering) userInfo:nil repeats:NO];
+    filterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                   target:self
+                                                 selector:@selector(updateFiltering)
+                                                 userInfo:nil
+                                                  repeats:NO];
 }
 
 // VolumesPopUpDelegate
@@ -357,7 +360,10 @@
 }
 
 // Some default changed
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
     if ([VALUES_KEYPATH(@"interfaceSize") isEqualToString:keyPath]) {
         [outlineView reloadData];
         return;
@@ -371,7 +377,8 @@
 }
 
 // Filter content according to active filters
-- (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent numberOfMatchingFiles:(int *)matchingFilesCount {
+- (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent
+            numberOfMatchingFiles:(int *)matchingFilesCount {
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
@@ -1019,7 +1026,9 @@
     return [size isEqualToString:@"Compact"] ? 16.f : 20.f;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
+- (BOOL)outlineView:(NSOutlineView *)outlineView
+         writeItems:(NSArray *)items
+       toPasteboard:(NSPasteboard *)pboard {
     NSDictionary *item = [items[0] representedObject];
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     if (![FILEMGR fileExistsAtPath:path]) {

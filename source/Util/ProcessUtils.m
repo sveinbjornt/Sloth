@@ -50,7 +50,7 @@
         return NO;
     }
     NSString *fileType = [[NSWorkspace sharedWorkspace] typeOfFile:bundlePath error:nil];
-    return ([[NSWorkspace sharedWorkspace] type:fileType conformsToType:@"com.apple.application"]);
+    return [[NSWorkspace sharedWorkspace] type:fileType conformsToType:@"com.apple.application"];
 }
 
 + (NSString *)identifierForBundleAtPath:(NSString *)path {
