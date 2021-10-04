@@ -93,6 +93,9 @@
     return [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
 }
 
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+
 + (NSString *)macProcessNameForPID:(pid_t)pid {
     ProcessSerialNumber psn;
     if (GetProcessForPID(pid, &psn) == noErr) {
@@ -116,6 +119,9 @@
     }
     return nil;
 }
+
+#pragma clang diagnostic pop
+
 
 // This function returns process name truncated to 32 characters
 // This is a limitation with libproc on Mac OS X
