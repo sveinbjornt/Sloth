@@ -192,6 +192,7 @@
     // Configure outline view
     [outlineView setDoubleAction:@selector(rowDoubleClicked:)];
     [outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
+    [outlineView.outlineTableColumn setWidth:outlineView.bounds.size.width];
     
     [self updateDiscloseControl];
     [self updateSorting];
