@@ -71,6 +71,7 @@ static NSMutableDictionary *iconStore;
             @{ @"name": NSImageNameFolder, @"template": @NO }
         ],
         @"Character Device": @[
+            @{ @"name": @"Cog", @"template": @YES },
             @{ @"name": NSImageNameActionTemplate, @"template": @YES },
             @{ @"name": NSImageNameSmartBadgeTemplate, @"template": @YES }
         ],
