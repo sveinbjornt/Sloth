@@ -6,21 +6,14 @@
         <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3.1</title>
-            <pubDate>Thursday, 18 Mar 2021 22:38:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.1.zip" sparkle:version="282" sparkle:shortVersionString="3.1" type="application/octet-stream"
-                sparkle:dsaSignature="MEQCIAGAGAlM0DuJ/qzAe0KflXNLw/Nuu5DZBr9J44STCl7AAiAfncXKANfgw2cKJ0ElVDiKkz5igb1PntU2gQz7h3Ol9g=="
-                sparkle:edSignature="sVvCB2+Kdz9eC6YqIyTz7dXp6kYHShJ5Ul91ISRq6gQT9tF/oo2lE/smmlamDxj6GvBNmUDhPWVylHFUdXOqCQ==" length="1202807"/>
+            <title>Version 3.2</title>
+            <pubDate>Sunday, 30 Jan 2022 18:15:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.2.zip" sparkle:version="300" sparkle:shortVersionString="3.2" type="application/octet-stream" sparkle:edSignature="y0vY5a9z3OaXLHN2/UZSbiqo4r38Wdvjta8qWT4D1Jp/Vjbo57f6ClD4TQqf0LOvzJupT7pxEfUAfdOLEco6Cg==" length="1249901"/>
             <sparkle:minimumSystemVersion>10.9.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
-                <i>Due to code-signing and security restrictions on macOS Big Sur, you may have to fetch this update <a href="https://sveinbjorn.org/sloth">manually</a>.</i>
-                <br>
-                <h2>New in Sloth 3.1</h2>
+                <h2>New in Sloth 3.2</h2>
                 <ul>
-                    <li>Configurable refresh interval
-                    <li>Default (regex) filters can be set in Preferences
-                    <li>Fixed filtering by volume on Catalina and Big Sur
-                    <li>Various minor bug fixes and interface improvements
+                    <li>Various minor bug fixes and interface refinements</li>
                 </ul>
             ]]></description>
         </item>
