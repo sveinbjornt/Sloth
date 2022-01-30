@@ -1010,7 +1010,8 @@ DQ
                             <menu key="menu" id="H2g-v4-v5e">
                                 <items>
                                     <menuItem title="Manually" state="on" identifier="0" id="ME3-aB-chF"/>
-                                    <menuItem title="Every 5 sec" tag="5" identifier="5" id="mCs-ZR-eJn"/>
+                                    <menuItem title="Every 3 sec" tag="3" identifier="3" id="mCs-ZR-eJn"/>
+                                    <menuItem title="Every 5 sec" tag="5" identifier="5" id="TNK-bH-SVj"/>
                                     <menuItem title="Every 10 sec" tag="10" identifier="10" id="87h-gY-6aq"/>
                                     <menuItem title="Every 15 sec" tag="15" identifier="15" id="hf3-nE-1GS"/>
                                     <menuItem title="Every 20 sec" tag="20" identifier="20" id="vUV-kH-ehT"/>
