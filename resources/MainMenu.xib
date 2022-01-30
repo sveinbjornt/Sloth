@@ -41,13 +41,13 @@
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Visit Sloth Website…" image="NSBookmarksTemplate" id="478">
+                            <menuItem title="Visit Sloth Website" image="NSBookmarksTemplate" id="478">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="visitSlothWebsite:" target="212" id="479"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Donate to Support Sloth..." image="Dollar" id="467">
+                            <menuItem title="Donate to Support Sloth" image="Dollar" id="467">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="supportSlothDevelopment:" target="212" id="477"/>
@@ -494,13 +494,13 @@ CA
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="Dao-GJ-P0N">
                         <items>
-                            <menuItem title="Visit Sloth Website..." image="NSTouchBarBookmarksTemplate" id="vVY-IN-CcM">
+                            <menuItem title="Visit Sloth Website" image="NSTouchBarBookmarksTemplate" id="vVY-IN-CcM">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="visitSlothWebsite:" target="212" id="F44-OM-KnH"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Donate to Support Sloth..." image="Dollar" id="bBN-AQ-OQK">
+                            <menuItem title="Donate to Support Sloth" image="Dollar" id="bBN-AQ-OQK">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="supportSlothDevelopment:" target="212" id="tA0-Ew-l0N"/>
