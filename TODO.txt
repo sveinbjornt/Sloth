@@ -1,17 +1,13 @@
 
-TODO for Sloth 3.2
+TODO for Sloth 3.3
     * Show full command (w/args) for process (ala ps -ef) in Info Panel
     * Highlight matching part of string when filtering (option in filter field popup)
     * Store authentication privileges and use them to run command line tool "/usr/bin/file"
-    * Show Path Control w. selected path at bottom of table view when item selected
-    * Handle "unknown file type:", show question mark icon
-    * Add tests for lsof output parsing
-    * Column width for single column should always follow window width
-    * Question mark icon for "unknown file type: \d+"
-    * Fix resizing so that main colum always fills available space
 
-TODO for Sloth 3.1
-    DONE * Added default regex filters option to Prefs
-    DONE * Added optional update/refresh interval
-    DONE * Fixed buggy behaviour when authentication was cancelled
-    DONE * Fix split-APFS Volumes filtering
+TODO for Sloth 3.2
+    * Show Path Control w. selected path at bottom of table view when item selected
+    * Add tests for lsof output parsing
+    DONE * Column width for single column should always follow window width
+    DONE * Handle "unknown file type:", show question mark icon
+    DONE * Fix resizing so that main colum always fills available space
+

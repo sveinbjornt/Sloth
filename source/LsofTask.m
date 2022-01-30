@@ -251,7 +251,7 @@
                 }
                 
                 if ([currentFile[@"name"] hasPrefix:@"unknown file type:"]) {
-                    currentFile[@"image"] = [IconUtils imageNamed:@"Error"];
+                    currentFile[@"image"] = [IconUtils imageNamed:@"QuestionMark"];
                 }
             }
                 break;

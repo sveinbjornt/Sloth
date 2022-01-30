@@ -112,10 +112,9 @@ static NSMutableDictionary *iconStore;
         @"Unlocked": @[
             @{ @"type": NSFileTypeForHFSTypeCode(kUnlockedIcon), @"template": @NO }
         ],
-        // TODO:: Add fallback local icon
-        @"QustionMark": @[
-            @{ @"path": QUESTION_ICON_PATH
-            }
+        @"QuestionMark": @[
+            @{ @"name": @"QuestionMark", @"template": @YES },
+            @{ @"path": QUESTION_ICON_PATH }
         ]
     };
     
