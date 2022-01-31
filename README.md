@@ -18,7 +18,7 @@
 * In-app authentication to run with root privileges
 * Very fast, responsive native app written in Objective-C/Cocoa
 
-Sloth is essentially a friendly, exploratory graphical user interface built on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a searchable, filterable outline view with all sorts of convenient additional functionality. Check out the screenshots below.
+Sloth is essentially a friendly, exploratory graphical user interface built on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a sortable, searchable outline view with all sorts of convenient additional functionality. Check out the screenshots below.
 
 ## Download
 
