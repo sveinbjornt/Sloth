@@ -86,9 +86,11 @@
     //    au                                    // access mode
     //    tCHR                                  // type
     //    n/dev/null                            // name / path
-    //    ...
+    //    etc...
+    //
     // We parse this into an array of processes, each of which has children.
     // Each child is a dictionary containing file/socket info.
+    
     DLog(@"Parsing lsof output");
     NSMutableArray *processList = [NSMutableArray new];
     *numFiles = 0;
