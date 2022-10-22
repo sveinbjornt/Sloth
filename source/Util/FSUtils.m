@@ -34,7 +34,7 @@
 #import <sys/param.h>
 #import <sys/mount.h>
 
-#define MAX_FILESYSTEMS 128
+#define MAX_FILESYSTEMS 256
 
 @implementation FSUtils
 
