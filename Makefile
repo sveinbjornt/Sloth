@@ -18,6 +18,7 @@ release: clean build_signed archives size
 
 build_unsigned:
 	mkdir -p $(BUILD_DIR)
+	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild  -parallelizeTargets \
 	            -project "$(XCODE_PROJ)" \
 	            -target "$(APP_NAME)" \
@@ -29,6 +30,7 @@ build_unsigned:
 
 build_signed:
 	mkdir -p $(BUILD_DIR)
+	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild  -parallelizeTargets \
 	            -project "$(XCODE_PROJ)" \
 	            -target "$(APP_NAME)" \
@@ -59,5 +61,6 @@ size:
 	@cd $(BUILD_DIR); du -hs $(APP_SRC_ZIP_NAME)
 
 clean:
+	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild -project "$(XCODE_PROJ)" clean
-	rm -rf products/* 2> /dev/null
+	rm -rf $(BUILD_DIR)/* 2> /dev/null
