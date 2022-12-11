@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -175,9 +175,9 @@
                 <menuItem title="View" id="276">
                     <menu key="submenu" title="View" id="W0o-1t-cAR">
                         <items>
-                            <menuItem title="Interface Size" id="e3s-qQ-WDp">
+                            <menuItem title="Interface" id="e3s-qQ-WDp">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Interface Size" id="edY-kE-oJg">
+                                <menu key="submenu" title="Interface" id="edY-kE-oJg">
                                     <items>
                                         <menuItem title="Compact" id="0hj-7F-BVT">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -862,7 +862,7 @@ DQ
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" wantsLayer="YES" drawsBackground="NO" copiesOnScroll="NO" id="BIo-8i-OHA">
                             <rect key="frame" x="1" y="1" width="848" height="467"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <outlineView wantsLayer="YES" verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" autosaveColumns="NO" enabled="NO" rowSizeStyle="automatic" headerView="Hfh-Ob-0SO" viewBased="YES" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="qs5-X3-KJv" id="OT1-kV-cHW">
                                     <rect key="frame" x="0.0" y="0.0" width="848" height="444"/>
@@ -1076,10 +1076,10 @@ DQ
         <image name="GitHub" width="64" height="64"/>
         <image name="Info" width="25" height="25"/>
         <image name="Kill" width="29" height="29"/>
-        <image name="NSBookmarksTemplate" width="18" height="15"/>
+        <image name="NSBookmarksTemplate" width="18" height="14"/>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
         <image name="NSRefreshTemplate" width="14" height="16"/>
         <image name="NSRevealFreestandingTemplate" width="15" height="15"/>
-        <image name="NSTouchBarBookmarksTemplate" width="18" height="15"/>
+        <image name="NSTouchBarBookmarksTemplate" width="18" height="14"/>
     </resources>
 </document>
