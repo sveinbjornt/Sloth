@@ -95,7 +95,7 @@
 		F442E0771EA7DD0D00BAD80C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = sparkle/Sparkle.framework; sourceTree = "<group>"; };
 		F44FC67225AD5EA200BC72F5 /* macos.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = macos.yml; path = .github/workflows/macos.yml; sourceTree = "<group>"; };
 		F47B45351EE74F2C00D79DFF /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		F47B453F1EF82AC200D79DFF /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		F47B453F1EF82AC200D79DFF /* TODO.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		F48BB5B924732C2C00B569F6 /* sloth_screenshot3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot3.jpg; sourceTree = "<group>"; };
 		F49B28AC1E858FAC00FA6716 /* sloth_screenshot2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth_screenshot2.jpg; sourceTree = "<group>"; };
 		F4A8B5CD222DB5280049FA51 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 				F44FC67225AD5EA200BC72F5 /* macos.yml */,
 				F4A8B5CD222DB5280049FA51 /* Makefile */,
 				F4F1D8A01C7623AF00945D3E /* README.md */,
-				F47B453F1EF82AC200D79DFF /* TODO.txt */,
+				F47B453F1EF82AC200D79DFF /* TODO.md */,
 				F4A9D5EE206A68BC0069B2B6 /* LICENSE.txt */,
 				F435320D2558EFC800AF00BD /* Source */,
 				F438712713402CDD00B51A5E /* Resources */,

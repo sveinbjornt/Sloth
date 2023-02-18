@@ -120,7 +120,7 @@
     [[window standardWindowButton:NSWindowDocumentIconButton] setImage:[NSApp applicationIconImage]];
     
     // Hide Authenticate button & menu item if AuthorizationExecuteWithPrivileges
-    // function is not available in this version of Mac OS X
+    // function is not available in this version of macOS
     if ([STPrivilegedTask authorizationFunctionAvailable]) {
         NSImage *lockIcon = [IconUtils imageNamed:@"Locked"];
         [authenticateButton setImage:lockIcon];

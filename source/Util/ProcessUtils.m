@@ -108,7 +108,7 @@
     return nil;
 }
 
-// Some processes on Mac OS X have a Carbon Process Manager
+// Some processes on macOS have a Carbon Process Manager
 // Serial Number (PSN) in addition to a PID
 + (NSString *)carbonProcessSerialNumberForPID:(pid_t)pid {
     ProcessSerialNumber psn;
@@ -124,7 +124,7 @@
 
 
 // This function returns process name truncated to 32 characters
-// This is a limitation with libproc on Mac OS X
+// This is a limitation with libproc on macOS
 + (NSString *)procNameForPID:(pid_t)pid {
     char name[1024];
     if (proc_name(pid, name, sizeof(name)) > 0) {
@@ -134,7 +134,7 @@
     return nil;
 }
 
-// This is the method used by the Mac OS X 'ps' tool
+// This is the method used by the macOS 'ps' tool
 // Adapted from getproclline() in print.c in the 'ps'
 // codebase, which is part of Apple's adv_cmds package
 // See: https://opensource.apple.com/tarballs/adv_cmds/

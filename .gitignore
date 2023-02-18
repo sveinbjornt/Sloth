@@ -19,3 +19,4 @@ xcuserdata
 *.xcworkspace
 dsa_priv.pem
 .xcbkptlist
+sparkle/update_appcast.sh

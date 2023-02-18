@@ -382,7 +382,7 @@
 //        }
         p[@"psn"] = [ProcessUtils carbonProcessSerialNumberForPID:pid];
         
-        // On Mac OS X, lsof truncates process names that are longer than
+        // On macOS, lsof truncates process names that are longer than
         // 32 characters since it uses libproc. We can do better than that.
         if ([DEFAULTS boolForKey:@"friendlyProcessNames"]) {
             p[@"pname"] = [ProcessUtils macProcessNameForPID:pid];
