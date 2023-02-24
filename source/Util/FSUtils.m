@@ -34,7 +34,7 @@
 #import <sys/param.h>
 #import <sys/mount.h>
 
-#define MAX_FILESYSTEMS 256
+#define MAX_FILESYSTEMS 1024
 
 @implementation FSUtils
 
@@ -47,7 +47,7 @@
         return nil;
     }
 
-    getfsstat(buf, fs_count * sizeof(buf[0]), MNT_NOWAIT);
+    getfsstat(buf, fs_count * sizeof(statfs), MNT_NOWAIT);
     
     NSMutableDictionary *fsdict = [NSMutableDictionary dictionary];
     
@@ -56,15 +56,15 @@
         
         fsdict[@(fsid)] = @{
             @"devid": @(fsid),
-//            @"devid_major": @(major(fsid)),
-//            @"devid_minor": @(minor(fsid)),
+            @"devid_major": @(major(fsid)),
+            @"devid_minor": @(minor(fsid)),
             @"fstype": @(buf[i].f_fstypename),
             @"devname": @(buf[i].f_mntfromname),
             @"mountpoint": @(buf[i].f_mntonname)
         };
     }
     
-    //DLog(@"File system info: %@", fsdict);
+    DLog(@"File system info: %@", fsdict);
     
     return [fsdict copy]; // Return immutable copy
 }
