@@ -1,5 +1,6 @@
 # TODO for Sloth 3.4
 
+* Update antiquated screenshots in README
 * Show full command (w/args) for process (ala ps -ef) in Info Panel
 * Highlight matching part of string when filtering (option in filter field popup)
 * Store authentication privileges and use them to run command line tool "/usr/bin/file"
