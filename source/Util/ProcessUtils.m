@@ -134,13 +134,12 @@
     return nil;
 }
 
-// This is the method used by the macOS 'ps' tool
+// This is the method used by the macOS/BSD `ps` tool
 // Adapted from getproclline() in print.c in the 'ps'
 // codebase, which is part of Apple's adv_cmds package
 // See: https://opensource.apple.com/tarballs/adv_cmds/
 // NOTE: This doesn't work for processes not owned by
 // the current user. /bin/ps gets around this with suid.
-
 + (NSString *)fullKernelProcessNameForPID:(pid_t)pid {
     int mib[3], argmax;
     size_t syssize;

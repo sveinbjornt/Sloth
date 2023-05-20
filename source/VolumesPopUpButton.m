@@ -55,7 +55,7 @@
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
                                                            selector: @selector(volumesChanged:)
                                                                name:NSWorkspaceDidMountNotification
-                                                             object: nil];
+                                                             object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
                                                            selector: @selector(volumesChanged:)
                                                                name:NSWorkspaceDidUnmountNotification
