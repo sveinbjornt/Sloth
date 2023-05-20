@@ -53,15 +53,15 @@
     [[self menu] setDelegate:self];
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                           selector: @selector(volumesChanged:)
+                                                           selector:@selector(volumesChanged:)
                                                                name:NSWorkspaceDidMountNotification
                                                              object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                           selector: @selector(volumesChanged:)
+                                                           selector:@selector(volumesChanged:)
                                                                name:NSWorkspaceDidUnmountNotification
                                                              object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                           selector: @selector(volumesChanged:)
+                                                           selector:@selector(volumesChanged:)
                                                                name:NSWorkspaceDidRenameVolumeNotification
                                                              object:nil];
     
