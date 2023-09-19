@@ -33,7 +33,7 @@ Sloth is free, open source software and has been continuously developed and main
 Sloth can also be installed via [Homebrew](https://brew.sh) (may not be the latest version):
 
 ```shell
-$ brew install --cask sloth
+brew install --cask sloth
 ```
 
 Old versions supporting macOS 10.8 and earlier can be downloaded [here](https://sveinbjorn.org/files/software/sloth/).

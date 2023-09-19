@@ -332,7 +332,7 @@
             NSString *name = [f[@"name"] substringFromIndex:2];
             
             // If we know which process owns the other end of the pipe/socket
-            // Needs to run with root privileges for succesful lookup of the
+            // Needs to run with root privileges for successful lookup of the
             // endpoints of system process pipes/sockets such as syslogd.
             if (devCharCodeMap[name]) {
                 NSArray *endPoints = devCharCodeMap[name];
