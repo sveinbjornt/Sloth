@@ -34,20 +34,24 @@
 #import <sys/param.h>
 #import <sys/mount.h>
 
-#define MAX_FILESYSTEMS 1024
+#define MAX_FILESYSTEMS 128
 
 @implementation FSUtils
 
 + (NSDictionary *)mountedFileSystems {
-    struct statfs buf[MAX_FILESYSTEMS];
     
     int fs_count = getfsstat(NULL, 0, MNT_NOWAIT);
     if (fs_count == -1) {
         fprintf(stderr, "Error: %d\n", errno);
-        return nil;
+        return @{};
     }
-
-    getfsstat(buf, fs_count * sizeof(statfs), MNT_NOWAIT);
+    if (fs_count > MAX_FILESYSTEMS) {
+        fprintf(stderr, "Too many filesystems, bailing");
+        return @{};
+    }
+    
+    struct statfs buf[fs_count];
+    getfsstat(buf, fs_count * sizeof(buf[0]), MNT_NOWAIT);
     
     NSMutableDictionary *fsdict = [NSMutableDictionary dictionary];
     
@@ -64,9 +68,7 @@
         };
     }
     
-    DLog(@"File system info: %@", fsdict);
-    
-    return [fsdict copy]; // Return immutable copy
+    return [fsdict copy];
 }
 
 @end
