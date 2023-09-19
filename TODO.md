@@ -12,3 +12,7 @@
 * Update antiquated screenshots in README
 * Always (re)select "General" tab when Preferences are shown
 * Show Path Control w. selected path at bottom of table view when item selected
+
+# TODO for Sloth 3.1
+
+* Disable filtering by file system since it could cause a crash after kernel API changes in macOS 13
