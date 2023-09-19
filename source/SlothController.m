@@ -76,6 +76,8 @@
     
     IBOutlet NSOutlineView *outlineView;
     
+    IBOutlet NSPathControl *pathControl;
+    
     AuthorizationRef authRef;
     BOOL authenticated;
     BOOL isRefreshing;
@@ -1004,6 +1006,14 @@
             NSColor *color = canReveal ? [NSColor controlTextColor] : [NSColor redColor];
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
                                                                    attributes:@{NSForegroundColorAttributeName: color}];
+        }
+        // Update path shown in path control
+        if (canReveal || hasBundlePath) {
+            NSString *path = item[@"path"] != nil ? item[@"path"] : item[@"name"];
+            [pathControl setURL:[NSURL fileURLWithPath:path]];
+            //[pathControl setURL:nil];
+        } else {
+            [pathControl setURL:nil];
         }
     } else {
         [revealButton setEnabled:NO];

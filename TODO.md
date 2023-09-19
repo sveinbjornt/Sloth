@@ -10,6 +10,5 @@
 # TODO for Sloth 3.3
 
 * Update antiquated screenshots in README
-* Always (re)select "General" tab when Preferences are shown
 * Show Path Control w. selected path at bottom of table view when item selected
-
+DONE * Always (re)select "General" tab when Preferences are shown

@@ -38,6 +38,7 @@
 {
     NSMutableArray *filters;
 }
+@property (weak) IBOutlet NSTabView *tabView;
 @property (weak) IBOutlet NSTableView *filtersTableView;
 @property (weak) IBOutlet NSButton *removeFilterButton;
 @property (weak) IBOutlet NSButton *addFilterButton;
@@ -68,6 +69,11 @@
 - (BOOL)window:(NSWindow *)window shouldDragDocumentWithEvent:(NSEvent *)event from:(NSPoint)dragImageLocation withPasteboard:(NSPasteboard *)pasteboard {
     // Prevent dragging of title bar icon
     return NO;
+}
+
+- (void)showWindow:(id)sender {
+    [super showWindow:sender];
+    [self.tabView selectFirstTabViewItem:self];
 }
 
 #pragma mark -
