@@ -9,6 +9,8 @@
 
 # TODO for Sloth 3.3
 
+* "Copy" on app/process should copy filesystem representation if possible
+* Preserve expanded items between refreshes
 * Update antiquated screenshots in README
 * Show Path Control w. selected path at bottom of table view when item selected
 DONE * Always (re)select "General" tab when Preferences are shown

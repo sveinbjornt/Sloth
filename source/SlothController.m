@@ -1011,7 +1011,7 @@
         if (canReveal || hasBundlePath) {
             NSString *path = item[@"path"] != nil ? item[@"path"] : item[@"name"];
             [pathControl setURL:[NSURL fileURLWithPath:path]];
-            //[pathControl setURL:nil];
+            //[pathControl sxetURL:nil];
         } else {
             [pathControl setURL:nil];
         }
