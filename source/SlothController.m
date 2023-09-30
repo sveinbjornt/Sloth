@@ -458,7 +458,6 @@
         DLog(@"Adding regex: %@", ps[1]);
     }
     
-    
     BOOL hasSearchFilter = ([searchFilters count] > 0);
     BOOL hasPrefsFilter = ([prefsFilters count] > 0);
     BOOL showAllProcessTypes = !showApplicationsOnly;

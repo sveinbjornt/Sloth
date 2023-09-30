@@ -46,7 +46,6 @@
     return [ipString isMatchedByRegex:regex];
 }
 
-// Monstrous regex from https://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
 + (BOOL)isIPv6AddressString:(NSString *)ipString {
     NSRegularExpression *regex =
     [NSRegularExpression regularExpressionWithPattern:
@@ -129,7 +128,7 @@
 
 #pragma mark -
 
-// Look up port name, e.g. "http" for "80"
+// Look up port name, e.g. "http" for "80", "ssh" for "22", etc.
 + (NSString *)portNameForPortNumString:(NSString *)portNumStr {
     if ([IPUtils isPortNumberString:portNumStr] == NO) {
         return nil;
@@ -147,7 +146,7 @@
     return [NSString stringWithCString:serv->s_name encoding:NSASCIIStringEncoding];
 }
 
-// Look up port number for name, e.g. "80" for "http"
+// Look up port number for name, e.g. "80" for "http", "22" for "ssh", etc.
 + (NSString *)portNumberForPortNameString:(NSString *)portNameString {
     const char *portName = [portNameString cStringUsingEncoding:NSUTF8StringEncoding];
     struct servent *serv = getservbyname(portName, NULL);
