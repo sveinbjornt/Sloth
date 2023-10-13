@@ -46,6 +46,10 @@
         return @{};
     }
     if (fs_count > MAX_FILESYSTEMS) {
+        // We set a maximum number of filesystems to prevent
+        // a stack overflow.
+        // TODO: Manually allocate memory from heap instead of using stack
+        // to handle an arbitrary number of filesystems.
         fprintf(stderr, "Too many filesystems, bailing");
         return @{};
     }
@@ -53,7 +57,7 @@
     struct statfs buf[fs_count];
     getfsstat(buf, fs_count * sizeof(buf[0]), MNT_NOWAIT);
     
-    NSMutableDictionary *fsdict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *fsdict = [NSMutableDictionary new];
     
     for (int i = 0; i < fs_count; ++i) {
         dev_t fsid = buf[i].f_fsid.val[0];
@@ -68,7 +72,7 @@
         };
     }
     
-    return [fsdict copy];
+    return [fsdict copy]; // Return immutable copy
 }
 
 @end
