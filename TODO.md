@@ -13,4 +13,5 @@
 * Preserve expanded items between refreshes
 * Update antiquated screenshots in README
 * Show Path Control w. selected path at bottom of table view when item selected
+* Upgrade Sparkle version
 DONE * Always (re)select "General" tab when Preferences are shown

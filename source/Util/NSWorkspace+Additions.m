@@ -66,7 +66,7 @@
     }
     
     id target = t ? t : self;
-    SEL selector = s ? s : @selector(openWith:);
+    SEL selector = s ? s : @selector(_openWith:);
     
     NSMenu *submenu = menu ? menu : [[NSMenu alloc] init];
     [submenu setTitle:path]; // Used by selector
@@ -128,7 +128,7 @@
 }
 
 // Handler for when user selects item in Open With menu
-- (void)openWith:(id)sender {
+- (void)_openWith:(id)sender {
     NSString *appPath = [sender toolTip];
     NSString *filePath = [[sender menu] title];
     
@@ -145,7 +145,7 @@
             [oPanel setDirectoryURL:applicationFolderPaths[0]];
         }
         
-        // Run
+        // Enter modal mode
         if ([oPanel runModal] == NSModalResponseOK) {
             appPath = [[oPanel URLs][0] path];
         } else {
@@ -157,7 +157,7 @@
 }
 
 
-#pragma mark -
+#pragma mark - Info about file
 
 - (NSString *)kindStringForFile:(NSString *)filePath {
     NSURL *url = [NSURL fileURLWithPath:filePath];
@@ -199,8 +199,6 @@
     return ![badTypes containsObject:type];
 }
 
-#pragma mark - File/folder size
-
 - (NSString *)fileSizeAsHumanReadableString:(UInt64)size {
     if (size < 1024ULL) {
         return [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
@@ -212,7 +210,7 @@
     return [NSString stringWithFormat:@"%.1f GB", size / 1073741824.0];
 }
 
-#pragma mark - Finder
+#pragma mark - Finder actions
 
 - (BOOL)showFinderGetInfoForFile:(NSString *)path {
     if (!path || [self canRevealFileAtPath:path] == NO) {
@@ -258,7 +256,7 @@ end tell", path];
     return [self selectFile:contentsPath inFileViewerRootedAtPath:[contentsPath stringByDeletingLastPathComponent]];
 }
 
-#pragma mark -
+#pragma mark - Util
 
 - (BOOL)runAppleScript:(NSString *)scriptSource {
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];

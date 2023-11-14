@@ -53,17 +53,25 @@ extern const OSStatus errAuthorizationFnNoLongerExists;
 + (BOOL)authorizationFunctionAvailable;
     
 - (instancetype)initWithLaunchPath:(NSString *)path;
-- (instancetype)initWithLaunchPath:(NSString *)path arguments:(NSArray *)args;
-- (instancetype)initWithLaunchPath:(NSString *)path arguments:(NSArray *)args currentDirectory:(NSString *)cwd;
+- (instancetype)initWithLaunchPath:(NSString *)path
+                         arguments:(NSArray *)args;
+- (instancetype)initWithLaunchPath:(NSString *)path
+                         arguments:(NSArray *)args
+                  currentDirectory:(NSString *)cwd;
 
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path;
-+ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path arguments:(NSArray *)args;
-+ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path arguments:(NSArray *)args currentDirectory:(NSString *)cwd;
-+ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path arguments:(NSArray *)args currentDirectory:(NSString *)cwd authorization:(AuthorizationRef)authorization;
++ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
+                                                 arguments:(NSArray *)args;
++ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
+                                                 arguments:(NSArray *)args
+                                          currentDirectory:(NSString *)cwd;
++ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
+                                                 arguments:(NSArray *)args
+                                          currentDirectory:(NSString *)cwd authorization:(AuthorizationRef)authorization;
 
 - (OSStatus)launch;
 - (OSStatus)launchWithAuthorization:(AuthorizationRef)authorization;
-- (void)terminate; // doesn't work
+// - (void)terminate; // doesn't work
 - (void)waitUntilExit;
 
 @end
