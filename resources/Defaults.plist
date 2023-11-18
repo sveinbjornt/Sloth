@@ -44,5 +44,7 @@
 	<integer>0</integer>
 	<key>accessMode</key>
 	<string>Any</string>
+	<key>showPathBar</key>
+	<true/>
 </dict>
 </plist>

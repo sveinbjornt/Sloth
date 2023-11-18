@@ -183,7 +183,8 @@
                             @"interfaceSize",
                             @"searchFilterCaseSensitive",
                             @"searchFilterRegex",
-                            @"updateInterval"
+                            @"updateInterval",
+                            @"showPathBar"
                           ]) {
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
                                                                   forKeyPath:VALUES_KEYPATH(key)
@@ -198,6 +199,10 @@
     
     [self updateDiscloseControl];
     [self updateSorting];
+//    if ([DEFAULTS boolForKey:@"showPathBar"] == NO) {
+//        [pathControl setHidden:YES];
+//    }
+    [self updatePathControl];
     
     if ([DEFAULTS boolForKey:@"authenticateOnLaunch"]) {
         [self toggleAuthentication:self]; // Triggers refresh
@@ -363,6 +368,10 @@
     }
     if ([VALUES_KEYPATH(@"updateInterval") isEqualToString:keyPath]) {
         [self setUpdateTimerFromDefaults];
+        return;
+    }
+    if ([VALUES_KEYPATH(@"showPathBar") isEqualToString:keyPath]) {
+        [self updatePathControl];
         return;
     }
     // The default that changed was one of the filters
@@ -1006,14 +1015,6 @@
             item[@"displayname"] = [[NSAttributedString alloc] initWithString:item[@"name"]
                                                                    attributes:@{NSForegroundColorAttributeName: color}];
         }
-        // Update path shown in path control
-        if (canReveal || hasBundlePath) {
-            NSString *path = item[@"path"] != nil ? item[@"path"] : item[@"name"];
-            [pathControl setURL:[NSURL fileURLWithPath:path]];
-            //[pathControl sxetURL:nil];
-        } else {
-            [pathControl setURL:nil];
-        }
     } else {
         [revealButton setEnabled:NO];
         [killButton setEnabled:NO];
@@ -1022,6 +1023,7 @@
             [[infoPanelController window] orderOut:self];
         }
     }
+    [self updatePathControl];
 }
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
@@ -1043,6 +1045,61 @@
     [pboard setString:item[@"name"] forType:NSStringPboardType];
     
     return YES;
+}
+
+#pragma mark - Path Control
+
+- (void)updatePathControl {
+    NSDictionary *item = nil;
+    NSInteger selectedRow = [outlineView selectedRow];
+    if (selectedRow >= 0) {
+        item = [[outlineView itemAtRow:selectedRow] representedObject];
+    }
+    
+    if (item == nil) {
+        [pathControl setURL:nil];
+        return;
+    }
+    BOOL canReveal = [WORKSPACE canRevealFileAtPath:item[@"name"]];
+    BOOL hasBundlePath = [WORKSPACE canRevealFileAtPath:item[@"path"]];
+    
+    if (canReveal || hasBundlePath) {
+        NSString *path = item[@"path"] != nil ? item[@"path"] : item[@"name"];
+        [pathControl setURL:[NSURL fileURLWithPath:path]];
+    } else {
+        [pathControl setURL:nil];
+    }
+    
+    BOOL showBar = [DEFAULTS boolForKey:@"showPathBar"] && [pathControl URL] != nil;
+    if (showBar == NO) {
+        [self hidePathControl];
+    } else {
+        [self showPathControl];
+    }
+}
+
+- (void)hidePathControl {
+    if ([pathControl isHidden] == YES) {
+        return;
+    }
+    [pathControl setHidden:YES];
+    NSView *v = [[outlineView superview] superview];
+    NSRect r = [v frame];
+    r.size.height += 36;
+    r.origin.y -= 36;
+    [v setFrame:r];
+}
+
+- (void)showPathControl {
+    if ([pathControl isHidden] == NO) {
+        return;
+    }
+    [pathControl setHidden:NO];
+    NSView *v = [[outlineView superview] superview];
+    NSRect r = [v frame];
+    r.size.height -= 36;
+    r.origin.y += 36;
+    [v setFrame:r];
 }
 
 #pragma mark - Menus
