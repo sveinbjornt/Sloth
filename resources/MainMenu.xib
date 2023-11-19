@@ -1049,6 +1049,9 @@ DQ
                             <font key="font" metaFont="smallSystem"/>
                             <url key="url" string="file://localhost/Applications/"/>
                         </pathCell>
+                        <connections>
+                            <outlet property="menu" destination="3w8-wK-AmU" id="3bg-rX-0me"/>
+                        </connections>
                     </pathControl>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="OFP-8q-4oL">
                         <rect key="frame" x="22" y="77" width="849" height="5"/>

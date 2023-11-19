@@ -46,5 +46,7 @@
 	<string>Any</string>
 	<key>showPathBar</key>
 	<true/>
+	<key>alwaysUseSigkill</key>
+	<false/>
 </dict>
 </plist>

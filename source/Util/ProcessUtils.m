@@ -208,9 +208,10 @@
     return path;
 }
 
-+ (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot {
++ (BOOL)killProcess:(int)pid asRoot:(BOOL)asRoot usingSIGKILL:(BOOL)useSigkill {
+    int signal = useSigkill ? SIGKILL : SIGTERM;
     if (!asRoot) {
-        return (kill(pid, SIGKILL) == 0);
+        return (kill(pid, signal) == 0);
     }
     
     // Kill process as root

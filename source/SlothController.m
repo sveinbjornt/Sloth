@@ -647,17 +647,23 @@
     
     // Confirm
     BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
+    BOOL ctrlKeyDown = (([[NSApp currentEvent] modifierFlags] & NSControlKeyMask) == NSControlKeyMask);
+    BOOL useSigKill = (ctrlKeyDown || [DEFAULTS boolForKey:@"alwaysUseSigkill"]);
     if (optionKeyDown == NO) {
-        if ([Alerts proceedAlert:[NSString stringWithFormat:@"Are you sure you want to kill “%@” (%d)?", item[@"pname"], pid]
-                         subText:@"This will send the process a SIGKILL signal. Hold the option key (⌥) to avoid this prompt."
-                 withActionNamed:@"Kill"] == NO) {
+        NSString *p = [NSString stringWithFormat:@"Are you sure you want to kill “%@” (%d)?", item[@"pname"], pid];
+        NSString *s = @"This will send the process a SIGTERM signal. Hold the down option key (⌥) to avoid this prompt. Hold down the Control key if you want to send a SIGKILL signal.";
+        if (useSigKill) {
+            s = @"This will send the process a SIGKILL signal. Hold the down option key (⌥) to avoid this prompt.";
+        }
+        if ([Alerts proceedAlert:p subText:s withActionNamed:@"Kill"] == NO) {
             return;
         }
     }
 
     // Kill it
     BOOL ownsProcess = [ProcessUtils isProcessOwnedByCurrentUser:pid];
-    if ([ProcessUtils killProcess:pid asRoot:!ownsProcess] == NO) {
+    BOOL killSuccess = [ProcessUtils killProcess:pid asRoot:!ownsProcess usingSIGKILL:useSigKill];
+    if (killSuccess == NO) {
         [Alerts alert:@"Failed to kill process"
         subTextFormat:@"Could not kill process %@ (PID: %d)", item[@"pname"], pid];
         return;
@@ -1099,6 +1105,22 @@
     r.origin.y += 36;
     [v setFrame:r];
 }
+
+- (BOOL)pathControl:(NSPathControl *)pathControl shouldDragItem:(NSPathControlItem *)pathItem withPasteboard:(NSPasteboard *)pboard {
+    NSString *draggedFile = [[pathItem URL] path];
+    [self copyFiles:@[draggedFile] toPasteboard:pboard];
+    return YES;
+}
+
+- (void)copyFiles:(NSArray *)files toPasteboard:(NSPasteboard *)pboard {
+    [pboard clearContents];
+    [pboard declareTypes:@[NSFilenamesPboardType] owner:nil];
+    [pboard setPropertyList:files forType:NSFilenamesPboardType];
+    
+    NSString *strRep = [files componentsJoinedByString:@"\n"];
+    [pboard setString:strRep forType:NSStringPboardType];
+}
+
 
 #pragma mark - Menus
 

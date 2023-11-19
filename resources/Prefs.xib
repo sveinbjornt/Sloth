@@ -20,35 +20,24 @@
         <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="HPx-7j-YOW">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
-            <rect key="contentRect" x="131" y="159" width="398" height="289"/>
+            <rect key="contentRect" x="131" y="159" width="398" height="316"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1536" height="935"/>
             <view key="contentView" id="637-Nx-CnL">
-                <rect key="frame" x="0.0" y="0.0" width="398" height="289"/>
+                <rect key="frame" x="0.0" y="0.0" width="398" height="316"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <button toolTip="Restore default preferences" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3fT-Oj-lxR">
-                        <rect key="frame" x="13" y="13" width="141" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VbG-cb-dRB">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="restoreDefaults:" target="-2" id="6Sf-Ia-Uex"/>
-                        </connections>
-                    </button>
                     <tabView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XmJ-qI-dIi">
-                        <rect key="frame" x="13" y="50" width="372" height="225"/>
+                        <rect key="frame" x="13" y="50" width="372" height="252"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="General" identifier="" id="SR9-mp-GET">
                                 <view key="view" id="386-Tt-Q3Z">
-                                    <rect key="frame" x="10" y="33" width="352" height="179"/>
+                                    <rect key="frame" x="10" y="33" width="352" height="206"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sDi-2n-kah">
-                                            <rect key="frame" x="22" y="143" width="320" height="20"/>
+                                            <rect key="frame" x="22" y="170" width="320" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <string key="toolTip">Perform DNS lookup for all IP addresses and port lookup for port numbers. This is slow. Don't use it. The Info Panel does DNS lookup when you double-click an IP socket item.</string>
                                             <buttonCell key="cell" type="check" title="DNS and port lookup for IP sockets (slow!)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Kkb-zj-8Vf">
@@ -60,7 +49,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Show current working directories for all processes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QfZ-5B-OQO">
-                                            <rect key="frame" x="22" y="82" width="320" height="25"/>
+                                            <rect key="frame" x="22" y="109" width="320" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Show current working directories (CWD)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vvB-Ny-MRM">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -71,7 +60,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Show process binary and open files in shared libaries." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0lg-UF-HXc">
-                                            <rect key="frame" x="22" y="112" width="320" height="24"/>
+                                            <rect key="frame" x="22" y="139" width="320" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Show process binaries &amp; shared libraries (TXT)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8Xc-bW-SGR">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -82,7 +71,7 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4zm-NG-tlO">
-                                            <rect key="frame" x="22" y="47" width="320" height="35"/>
+                                            <rect key="frame" x="22" y="74" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <string key="toolTip">Show "Mac-friendly" process names from the Carbon Process Manager (e.g. "Safari Web Content" instead of "com.apple.WebKit.WebContent")</string>
                                             <buttonCell key="cell" type="check" title="Display Mac-friendly process names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jz8-VI-cXW">
@@ -94,7 +83,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Prompt for authentication to run as root before launching lsof on launch." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duf-F0-KT3">
-                                            <rect key="frame" x="22" y="16" width="320" height="35"/>
+                                            <rect key="frame" x="22" y="43" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Authenticate immediately when launched" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PBX-8y-ZLU">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -104,16 +93,27 @@
                                                 <binding destination="Fml-Xt-HVp" name="value" keyPath="values.authenticateOnLaunch" id="Inw-Hr-O2O"/>
                                             </connections>
                                         </button>
+                                        <button toolTip="When killing a process, always send the SIGKILL signal rather than SIGTERM" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G7B-Y9-PMg">
+                                            <rect key="frame" x="22" y="12" width="320" height="35"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Always send SIGKILL instead of SIGTERM" bezelStyle="regularSquare" imagePosition="left" inset="2" id="YS2-CO-i7k">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="Fml-Xt-HVp" name="value" keyPath="values.alwaysUseSigkill" id="6IX-JW-6eq"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Filters" identifier="" id="1Qo-Dh-B48">
                                 <view key="view" id="icB-zg-Rgl">
-                                    <rect key="frame" x="10" y="33" width="352" height="179"/>
+                                    <rect key="frame" x="10" y="33" width="352" height="206"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNp-SY-fXz">
-                                            <rect key="frame" x="17" y="39" width="318" height="137"/>
+                                            <rect key="frame" x="17" y="66" width="318" height="137"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" id="f5c-N0-0X2">
                                                 <rect key="frame" x="1" y="1" width="316" height="135"/>
@@ -168,7 +168,7 @@
                                             </scroller>
                                         </scrollView>
                                         <button toolTip="Add Filter" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ET3-sC-3hU">
-                                            <rect key="frame" x="312" y="13" width="22" height="24"/>
+                                            <rect key="frame" x="312" y="40" width="22" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fZb-mD-JAt">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -180,7 +180,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Delete Selected Filter" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RK3-7C-553">
-                                            <rect key="frame" x="290" y="13" width="22" height="24"/>
+                                            <rect key="frame" x="290" y="40" width="22" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qjy-uK-oYA">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -194,7 +194,7 @@ CA
                                             </connections>
                                         </button>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d1O-Cm-meW">
-                                            <rect key="frame" x="17" y="17" width="182" height="14"/>
+                                            <rect key="frame" x="17" y="44" width="182" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Supports regular expressions" id="s3j-6l-ysb">
                                                 <font key="font" metaFont="smallSystem"/>
@@ -207,6 +207,17 @@ CA
                             </tabViewItem>
                         </tabViewItems>
                     </tabView>
+                    <button toolTip="Restore default preferences" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3fT-Oj-lxR">
+                        <rect key="frame" x="13" y="13" width="141" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VbG-cb-dRB">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="restoreDefaults:" target="-2" id="6Sf-Ia-Uex"/>
+                        </connections>
+                    </button>
                     <button toolTip="Save and apply preferences" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85E-cu-yPP">
                         <rect key="frame" x="292" y="13" width="93" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -226,7 +237,7 @@ DQ
             <connections>
                 <outlet property="delegate" destination="-2" id="c9m-jL-0FT"/>
             </connections>
-            <point key="canvasLocation" x="-292" y="-730.5"/>
+            <point key="canvasLocation" x="-292" y="-717"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="Fml-Xt-HVp"/>
     </objects>

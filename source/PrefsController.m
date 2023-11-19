@@ -84,6 +84,8 @@
     [DEFAULTS setBool:NO forKey:@"showCurrentWorkingDirectories"];
     [DEFAULTS setBool:YES forKey:@"friendlyProcessNames"];
     [DEFAULTS setBool:NO forKey:@"authenticateOnLaunch"];
+    [DEFAULTS setBool:NO forKey:@"alwaysUseSigkill"];
+    
     [DEFAULTS setObject:@[@[@NO, DEFAULT_FILTER]] forKey:@"filters"];
     [DEFAULTS synchronize];
     
