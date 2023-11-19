@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## XX/11/2023 - Version 3.3
+
+* Added path bar control which is shown when item is selected. Can be disabled.
+* Now defaults to killing w. SIGTERM. The old behaviour of sending SIGKILL can be set in Prefs.
+
 ### 30/01/2022 - Version 3.2
 
 * Various minor bug fixes and interface refinements
