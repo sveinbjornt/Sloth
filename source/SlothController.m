@@ -646,8 +646,8 @@
     int pid = [item[@"pid"] intValue];
     
     // Confirm
-    BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
-    BOOL ctrlKeyDown = (([[NSApp currentEvent] modifierFlags] & NSControlKeyMask) == NSControlKeyMask);
+    BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption) == NSEventModifierFlagOption);
+    BOOL ctrlKeyDown = (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagControl) == NSEventModifierFlagControl);
     BOOL useSigKill = (ctrlKeyDown || [DEFAULTS boolForKey:@"alwaysUseSigkill"]);
     if (optionKeyDown == NO) {
         NSString *p = [NSString stringWithFormat:@"Are you sure you want to kill “%@” (%d)?", item[@"pname"], pid];
@@ -699,7 +699,7 @@
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     
-    BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
+    BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption) == NSEventModifierFlagOption);
     if (!optionKeyDown) {
         // Ask user to confirm
         NSString *prompt = @"This will tell the Finder to move the specified file into your Trash folder. \
@@ -776,7 +776,7 @@
     NSInteger rowNumber = [outlineView clickedRow];
     Item *item = [[outlineView itemAtRow:rowNumber] representedObject];
     
-    BOOL cmdKeyDown = (([[NSApp currentEvent] modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask);
+    BOOL cmdKeyDown = (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagCommand) == NSEventModifierFlagCommand);
     if (cmdKeyDown) {
         [self revealItemInFinder:item];
     } else {

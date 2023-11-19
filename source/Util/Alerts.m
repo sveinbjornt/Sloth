@@ -51,11 +51,11 @@
 }
 
 + (void)alert:(NSString *)message subText:(NSString *)subtext {
-    [self alert:message subText:subtext style:NSWarningAlertStyle];
+    [self alert:message subText:subtext style:NSAlertStyleWarning];
 }
 
 + (void)fatalAlert:(NSString *)message subText:(NSString *)subtext {
-    [self alert:message subText:subtext style:NSCriticalAlertStyle];
+    [self alert:message subText:subtext style:NSAlertStyleCritical];
     [[NSApplication sharedApplication] terminate:self];
 }
 
@@ -75,7 +75,7 @@
     [alert addButtonWithTitle:@"Cancel"];
     [alert setMessageText:message];
     [alert setInformativeText:subtext];
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
     return ([alert runModal] == NSAlertFirstButtonReturn);
 }
 

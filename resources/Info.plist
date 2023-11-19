@@ -27,7 +27,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.11</string>
+	<string>10.13</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2004-2023 Sveinbjorn Thordarson.</string>
 	<key>NSMainNibFile</key>
