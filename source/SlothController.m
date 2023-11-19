@@ -199,9 +199,6 @@
     
     [self updateDiscloseControl];
     [self updateSorting];
-//    if ([DEFAULTS boolForKey:@"showPathBar"] == NO) {
-//        [pathControl setHidden:YES];
-//    }
     [self updatePathControl];
     
     if ([DEFAULTS boolForKey:@"authenticateOnLaunch"]) {
@@ -1058,16 +1055,17 @@
     
     if (item == nil) {
         [pathControl setURL:nil];
-        return;
     }
-    BOOL canReveal = [WORKSPACE canRevealFileAtPath:item[@"name"]];
-    BOOL hasBundlePath = [WORKSPACE canRevealFileAtPath:item[@"path"]];
-    
-    if (canReveal || hasBundlePath) {
-        NSString *path = item[@"path"] != nil ? item[@"path"] : item[@"name"];
-        [pathControl setURL:[NSURL fileURLWithPath:path]];
-    } else {
-        [pathControl setURL:nil];
+    else {
+        BOOL canReveal = [WORKSPACE canRevealFileAtPath:item[@"name"]];
+        BOOL hasBundlePath = [WORKSPACE canRevealFileAtPath:item[@"path"]];
+        
+        if (canReveal || hasBundlePath) {
+            NSString *path = item[@"path"] != nil ? item[@"path"] : item[@"name"];
+            [pathControl setURL:[NSURL fileURLWithPath:path]];
+        } else {
+            [pathControl setURL:nil];
+        }
     }
     
     BOOL showBar = [DEFAULTS boolForKey:@"showPathBar"] && [pathControl URL] != nil;
