@@ -117,7 +117,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" id="f5c-N0-0X2">
                                                 <rect key="frame" x="1" y="1" width="316" height="135"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" id="hIM-Sy-Pvd">
                                                         <rect key="frame" x="0.0" y="0.0" width="316" height="135"/>
@@ -193,7 +193,7 @@ CA
                                                 <action selector="removeFilter:" target="-2" id="bUG-sK-2Fe"/>
                                             </connections>
                                         </button>
-                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d1O-Cm-meW">
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d1O-Cm-meW">
                                             <rect key="frame" x="17" y="44" width="182" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Supports regular expressions" id="s3j-6l-ysb">

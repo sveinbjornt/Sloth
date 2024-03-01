@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -179,14 +179,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Interface" id="edY-kE-oJg">
                                     <items>
-                                        <menuItem title="Compact" id="0hj-7F-BVT">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menuItem title="Compact" keyEquivalent="-" id="0hj-7F-BVT">
                                             <connections>
                                                 <action selector="interfaceSizeMenuItemSelected:" target="212" id="Vqs-HL-3KM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Normal" state="on" id="Y83-ds-XDg">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menuItem title="Normal" state="on" keyEquivalent="+" id="Y83-ds-XDg">
                                             <connections>
                                                 <action selector="interfaceSizeMenuItemSelected:" target="212" id="5vw-H4-LEq"/>
                                             </connections>
@@ -740,7 +738,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="kNZ-Wh-Rrx"/>
                         </connections>
                     </button>
-                    <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="252">
+                    <searchField toolTip="Search Filter (Supports Regular Expressions)" wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="252">
                         <rect key="frame" x="721" y="563" width="151" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search Filter" usesSingleLineMode="YES" bezelStyle="round" id="735">
@@ -783,7 +781,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showPipes" id="Pke-9y-1TB"/>
                         </connections>
                     </button>
-                    <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="659">
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="659">
                         <rect key="frame" x="424" y="57" width="447" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" id="738">
@@ -796,7 +794,7 @@ DQ
                         <rect key="frame" x="665" y="560" width="5" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
-                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beK-br-huc">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beK-br-huc">
                         <rect key="frame" x="564" y="586" width="49" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Volumes" id="ais-Zo-YIR">
@@ -828,7 +826,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="lQn-WG-DTM"/>
                         </connections>
                     </button>
-                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TjP-ET-kct">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TjP-ET-kct">
                         <rect key="frame" x="301" y="586" width="75" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Access Mode" id="tA4-3L-YZn">
@@ -906,7 +904,7 @@ DQ
                                                                 <binding destination="Qd7-oA-yOC" name="value" keyPath="objectValue.image" id="d1o-Eh-Ltr"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e1S-AA-cw7">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e1S-AA-cw7">
                                                             <rect key="frame" x="25" y="0.0" width="791" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" id="2JS-SB-0or">
@@ -976,7 +974,7 @@ DQ
                             <binding destination="560" name="value" keyPath="values.disclosure" id="15D-E7-K9L"/>
                         </connections>
                     </button>
-                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cw1-nC-kNe">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cw1-nC-kNe">
                         <rect key="frame" x="38" y="57" width="119" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Expand all" id="7A9-Ir-ydg">
@@ -1033,7 +1031,7 @@ DQ
                             <binding destination="560" name="selectedTag" keyPath="values.updateInterval" id="ZP7-kj-cyE"/>
                         </connections>
                     </popUpButton>
-                    <textField toolTip="Set automatic refresh interval" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZk-Hj-Yv1">
+                    <textField toolTip="Set automatic refresh interval" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZk-Hj-Yv1">
                         <rect key="frame" x="564" y="23" width="49" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Update" id="YM2-He-gOK">
