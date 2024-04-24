@@ -2,8 +2,9 @@
 
 ## XX/11/2024 - Version 3.3
 
-* Added path bar which is shown when item is selected. Can be disabled.
+* Added path bar which is shown when a file system item is selected. Can be disabled.
 * Now defaults to killing w. SIGTERM. The old behaviour of sending SIGKILL can be set in Prefs.
+* Minor bug fixes and improvements.
 
 ### 30/01/2022 - Version 3.2
 
