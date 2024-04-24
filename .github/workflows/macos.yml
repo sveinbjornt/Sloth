@@ -14,4 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - run: make build_unsigned
+      - run: gem install xcpretty
+      - name: Build app
+        run: make build_unsigned | xcpretty -c && exit ${PIPESTATUS[0]}
