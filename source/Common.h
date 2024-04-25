@@ -29,10 +29,10 @@
 */
 
 #define PROGRAM_NAME                @"Sloth"
-#define PROGRAM_VERSION             @"3.2"
+#define PROGRAM_VERSION             @"3.3"
 #define PROGRAM_WEBSITE             @"https://sveinbjorn.org/sloth"
-#define PROGRAM_GITHUB_WEBSITE      @"https://github.com/sveinbjornt/Sloth"
 #define PROGRAM_DONATIONS           @"https://sveinbjorn.org/donations"
+#define PROGRAM_GITHUB_WEBSITE      @"https://github.com/sveinbjornt/Sloth"
 
 #define LSOF_PATH                   @"/usr/sbin/lsof"
 #define LSOF_ARGS                   @[@"-F", @"fpPcntuaTdDiR", @"+c0"]
