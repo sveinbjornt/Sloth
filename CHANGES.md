@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 25/04/2024 - Version 3.3
+## Sloth version history
+
+### 25/04/2024 - Version 3.3
 
 * Added optional path bar which is shown when a file system item is selected
 * Now defaults to killing w. SIGTERM. The old behaviour of sending SIGKILL can be set in Prefs

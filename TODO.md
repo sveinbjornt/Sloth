@@ -11,9 +11,3 @@
 * "Copy" on app/process should copy filesystem representation if possible
 * Update antiquated screenshots in README
 * Get contextual menu working properly in path bar (like in KatSearch)
-
-# TODO for Sloth 3.3
-
-DONE * Always (re)select "General" tab when Preferences are shown
-DONE Show Path Control w. selected path at bottom of table view when item selected
-DONE * SIGTERM vs. SIGKILL
