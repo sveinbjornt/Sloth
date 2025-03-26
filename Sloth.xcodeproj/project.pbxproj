@@ -179,8 +179,6 @@
 				F43532272558EFC800AF00BD /* Item.m */,
 				F435320E2558EFC800AF00BD /* InfoPanelController.h */,
 				F43532202558EFC800AF00BD /* InfoPanelController.m */,
-				F43532292558EFC800AF00BD /* VolumesPopUpButton.h */,
-				F43532152558EFC800AF00BD /* VolumesPopUpButton.m */,
 				F43532282558EFC800AF00BD /* PrefsController.h */,
 				F43532162558EFC800AF00BD /* PrefsController.m */,
 				F4851D27256DA0BF0056CE9C /* Util */,
@@ -237,6 +235,8 @@
 				F435322C2558EFC800AF00BD /* ProcessUtils.m */,
 				F43532102558EFC800AF00BD /* STPrivilegedTask.h */,
 				F435321D2558EFC800AF00BD /* STPrivilegedTask.m */,
+				F43532292558EFC800AF00BD /* VolumesPopUpButton.h */,
+				F43532152558EFC800AF00BD /* VolumesPopUpButton.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";

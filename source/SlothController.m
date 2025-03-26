@@ -767,9 +767,12 @@
         [pasteBoard clearContents];
         [pasteBoard declareTypes:@[NSFilenamesPboardType] owner:nil];
         [pasteBoard setPropertyList:filePaths forType:NSFilenamesPboardType];
+    } else {
+        [pasteBoard clearContents];
+        [pasteBoard declareTypes:@[NSStringPboardType] owner:nil];
+        NSString *copyStr = [names componentsJoinedByString:@"\n"];
+        [pasteBoard setString:copyStr forType:NSStringPboardType];
     }
-    NSString *copyStr = [names componentsJoinedByString:@"\n"];
-    [pasteBoard setString:copyStr forType:NSStringPboardType];
 }
 
 - (void)rowDoubleClicked:(id)object {
