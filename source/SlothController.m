@@ -750,7 +750,8 @@
     
     NSMutableArray *names = [NSMutableArray new];
     NSMutableArray *filePaths = [NSMutableArray new];
-
+    
+    // Find which items are filenames
     [[outlineView selectedRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSDictionary *item = [[outlineView itemAtRow:idx] representedObject];
         if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
@@ -759,18 +760,24 @@
         if ([item[@"type"] isEqualToString:@"Process"]) {
             [names addObject:[NSString stringWithFormat:@"%@ (%@)", item[@"name"], item[@"pid"]]];
         } else {
-            [names addObject:[NSString stringWithFormat:@"\t%@", item[@"name"]]];
+            [names addObject:[NSString stringWithFormat:@"%@", item[@"name"]]];
         }
     }];
     
+    if ([names count] == 0) {
+        return;
+    }
+    
+    // Generate string to copy to clipboard
+    NSString *copyStr = [names componentsJoinedByString:@"\n"];
+    [pasteBoard clearContents];
+    
     if ([filePaths count]) {
-        [pasteBoard clearContents];
-        [pasteBoard declareTypes:@[NSFilenamesPboardType] owner:nil];
+        [pasteBoard declareTypes:@[NSFilenamesPboardType, NSStringPboardType] owner:nil];
         [pasteBoard setPropertyList:filePaths forType:NSFilenamesPboardType];
+        [pasteBoard setString:copyStr forType:NSStringPboardType];
     } else {
-        [pasteBoard clearContents];
         [pasteBoard declareTypes:@[NSStringPboardType] owner:nil];
-        NSString *copyStr = [names componentsJoinedByString:@"\n"];
         [pasteBoard setString:copyStr forType:NSStringPboardType];
     }
 }

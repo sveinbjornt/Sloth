@@ -1,5 +1,6 @@
 # TODO for Sloth 3.4
 
+* Fix checking Regex and Case Insensitive in filter field options
 * Preserve selection between refreshes (preserve expanded items between refreshes?)
 * Fix path bar folders contextual click
 * Show full command (w/args) for process (ala ps -ef) in Info Panel
@@ -9,5 +10,5 @@
 * Click on connected process f. pipes to select and show info of that process
 * Create visualization of pipes between processes in special view
 * Upgrade Sparkle version (latest supports 10.13+)
-* "Copy" on app/process should copy filesystem representation if possible
 * Update antiquated screenshots in README
+* Fix exception raised when "unknown file type" is selected

@@ -2,6 +2,11 @@
 
 ## Sloth version history
 
+### ??? - Version 3.4 (in development)
+
+* "Copy" on app/process should copy both filesystem representation and string
+* Faster asynchronous file info processing for Info Panel
+
 ### 25/04/2024 - Version 3.3
 
 * Added optional path bar which is shown when a file system item is selected

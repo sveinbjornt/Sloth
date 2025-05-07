@@ -133,10 +133,10 @@
     self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";
     if (isIPSocket) {
         [self.pathTextField setStringValue:item[@"name"]];
+//        NSString *ipSockName = [self.path copy];
         // Resolve DNS asynchronously since it is slow
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @autoreleasepool {
-//                NSString *ipSockName = [self.path copy];
                 NSString *descStr = [self IPSocketDescriptionForItem:item];
                 // Then update UI on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -219,9 +219,25 @@
         [self.filetypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.finderTypeTextField setStringValue:EMPTY_PLACEHOLDER];
         [self.permissionsTextField setStringValue:EMPTY_PLACEHOLDER];
+    } else if ([FILEMGR isReadableFileAtPath:[self.pathTextField stringValue]] == NO) {
+        [self.filetypeTextField setStringValue:EMPTY_PLACEHOLDER];
     } else {
-        NSString *fileInfoString = [self fileUtilityInfoForPath:path];
-        [self.filetypeTextField setStringValue:fileInfoString];
+        // Run file utility asynchronously in the background, so
+        // interface doesn't lock up during execution.
+        NSString *currPath = [self.pathTextField stringValue];
+        [self.filetypeTextField setStringValue:@"-"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            @autoreleasepool {
+                NSString *fileInfoString = [self fileUtilityInfoForPath:currPath];
+                // Update UI on main thread once task is done
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Make sure it's the same path to avoid race condition
+                    if ([[self.pathTextField stringValue] isEqualToString:path]) {
+                        [self.filetypeTextField setStringValue:fileInfoString];
+                    }
+                });
+            }
+        });
         
         NSString *finderTypeString = [WORKSPACE kindStringForFile:path];
         NSString *uti = [WORKSPACE UTIForFile:path];
@@ -263,7 +279,6 @@
 }
 
 - (NSString *)permissionsStringForPath:(NSString *)filePath {
-    
     // The indices of the items in the permsArray correspond to the POSIX
     // permissions. Essentially each bit of the POSIX permissions represents
     // a read, write, or execute bit.
@@ -325,7 +340,6 @@
     NSString *outString = [[NSString alloc] initWithData:[readHandle readDataToEndOfFile]
                                                 encoding:NSUTF8StringEncoding];
     outString = outString ? outString : @"";
-    
     // Capitalise first letter of output
     if ([outString length]) {
         NSString *firstLetter = [[outString substringToIndex:1] uppercaseString];
