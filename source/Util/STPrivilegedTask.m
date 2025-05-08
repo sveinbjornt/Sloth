@@ -217,17 +217,28 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     }
     args[numArgs] = NULL;
     
+    // Save current working directory
+    char *prevCwdBuf = calloc(MAXPATHLEN, sizeof(char));
+    getcwd(prevCwdBuf, MAXPATHLEN);
+    
     // Change to the specified current working directory
     // NB: This is process-wide and could interfere with the behaviour of concurrent tasks
-    char *prevCwd = (char *)getcwd(nil, 0);
-    chdir([self.currentDirectoryPath fileSystemRepresentation]);
+    const char *fsrep = [self.currentDirectoryPath fileSystemRepresentation];
+    int res = chdir(fsrep);
+    if (res != 0) {
+        fprintf(stderr, "Warning: Unable to change CWD to %s", fsrep);
+    }
     
     // Use Authorization Reference to execute script with privileges.
     // This is where the magic happens.
     OSStatus err = _AuthExecuteWithPrivsFn(authorization, toolPath, kAuthorizationFlagDefaults, args, &outputFile);
     
-    // OK, now we're done executing, let's change back to old dir
-    chdir(prevCwd);
+    // OK, now we're done executing, restore previous current working directory
+    res = chdir(prevCwdBuf);
+    if (res != 0) {
+        fprintf(stderr, "Warning: Unable to restore CWD to %s", prevCwdBuf);
+    }
+    free(prevCwdBuf);
     
     // Free the alloc'd argument strings
     for (int i = 0; i < numArgs; i++) {
@@ -253,8 +264,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 
 //- (void)terminate {
     // This doesn't work without a PID, and we can't get one. Stupid Security API.
-//    int ret = kill(pid, SIGKILL);
-//     
+//    int ret = kill(pid, SIGTERM);
+//
 //    if (ret != 0) {
 //        NSLog(@"Error %d", errno);
 //    }
@@ -270,8 +281,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     [_checkStatusTimer invalidate];
     
     int status;
-    pid_t pid = 0;
-    while ((pid = waitpid(_processIdentifier, &status, WNOHANG)) == 0) {
+    //pid_t pid = 0;
+    while (waitpid(_processIdentifier, &status, WNOHANG) == 0) {
         // Do nothing
     }
     _isRunning = NO;
