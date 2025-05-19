@@ -6,16 +6,16 @@
         <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3.3</title>
-            <pubDate>Thursday, 25 Apr 2024 15:15:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.3.zip" sparkle:version="320" sparkle:shortVersionString="3.3" type="application/octet-stream" sparkle:edSignature="3j94xFzRz3h9FPGwb+lSfKMHExi0CdJWteisnS00z11O9Zr6e5rCBdADl7YCxsW609J+DbxQNkxsREEnBUytAg==" length="1173424"/>
+            <title>Version 3.4</title>
+            <pubDate>Monday, 19 May 2025 22:24:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.4.zip" sparkle:version="342" sparkle:shortVersionString="3.4" type="application/octet-stream" sparkle:edSignature="ZEGRxLVPAzweN2HxLp5cFnvF9IhLEk7rg0g9f9PxcPIKIARhHIJ/c92zjD7IJ2G/XGHWDFTiMkd494TO0srOBQ==" length="1383106"/>
             <sparkle:minimumSystemVersion>10.13.0</sparkle:minimumSystemVersion>
             <description><![CDATA[
-                <h2>New in Sloth 3.3</h2>
+                <h2>New in Sloth 3.4</h2>
                 <ul>
-                    <li>Added optional path bar which is shown when a file system item is selected</li>
-                    <li>Now defaults to killing w. SIGTERM. The old behaviour of sending SIGKILL can be set in Settings/Preferences</li>
-                    <li>Minor bug fixes and improvements</li>
+                    <li>"Copy" on app/process or file now copies both filesystem representation and string</li>
+                    <li>Faster asynchronous file info processing in Info Panel</li>
+                    <li>Various minor improvements</li>
                 </ul>
             ]]></description>
         </item>

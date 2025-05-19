@@ -20,3 +20,5 @@ xcuserdata
 dsa_priv.pem
 .xcbkptlist
 sparkle/update_appcast.sh
+keys/*
+notarize.sh
