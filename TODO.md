@@ -9,6 +9,5 @@
 * Add tests for lsof output parsing
 * Click on connected process f. pipes to select and show info of that process
 * Create visualization of pipes between processes in special view
-* Upgrade Sparkle version (latest supports 10.13+)
 * Update antiquated screenshots in README
 * Fix exception raised when "unknown file type" is selected

@@ -2,7 +2,7 @@
 
 ## Sloth version history
 
-### 08/05/2025 - Version 3.4
+### 19/05/2025 - Version 3.4
 
 * "Copy" on app/process or file now copies both filesystem representation and string
 * Faster asynchronous file info processing in Info Panel
