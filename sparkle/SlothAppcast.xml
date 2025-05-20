@@ -13,9 +13,10 @@
             <description><![CDATA[
                 <h2>New in Sloth 3.4</h2>
                 <ul>
-                    <li>"Copy" on app/process or file now copies both filesystem representation and string</li>
+                    <li>Copying (Cmd-C) an app/process or file now copies both filesystem representation and string to the clipboard</li>
                     <li>Faster asynchronous file info processing in Info Panel</li>
                     <li>Various minor improvements</li>
+                    <li>App is now notarized by Apple in addition to being Developer ID signed</li>
                 </ul>
             ]]></description>
         </item>
