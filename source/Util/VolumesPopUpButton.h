@@ -28,12 +28,16 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol VolumesPopUpButtonDelegate
 - (void)volumeSelectionChanged:(NSString *)volumePath;
 @end
 
 @interface VolumesPopUpButton : NSPopUpButton <NSMenuDelegate>
-@property (nonatomic, weak) IBOutlet id<VolumesPopUpButtonDelegate> delegate;
+@property (weak) IBOutlet id<VolumesPopUpButtonDelegate> delegate;
 @end
+
+NS_ASSUME_NONNULL_END

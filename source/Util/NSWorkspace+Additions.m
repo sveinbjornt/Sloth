@@ -34,18 +34,18 @@
 
 #pragma mark - Handler apps
 
-- (NSArray *)handlerApplicationsForFile:(NSString *)filePath {
+- (NSArray<NSString*> *)handlerApplicationsForFile:(NSString *)filePath {
     NSURL *url = [NSURL fileURLWithPath:filePath];
-    NSArray *applications = (NSArray *)CFBridgingRelease(LSCopyApplicationURLsForURL((__bridge CFURLRef)url, kLSRolesAll));
+    NSArray<NSURL*> *applications = (NSArray<NSURL*> *)CFBridgingRelease(LSCopyApplicationURLsForURL((__bridge CFURLRef)url, kLSRolesAll));
     if (applications == nil) {
         return @[];
     }
     
-    NSMutableArray *appPaths = [NSMutableArray array];
+    NSMutableArray<NSString*> *appPaths = [NSMutableArray new];
     for (NSURL *appURL in applications) {
         [appPaths addObject:[appURL path]];
     }
-    return [appPaths copy];
+    return [appPaths copy]; // Return immutable copy
 }
 
 - (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath {
@@ -56,7 +56,7 @@
 
 // Generate Open With menu for a given file. If no target and action are provided, we use our own.
 // If no menu is supplied as parameter, a new menu is created and returned.
-- (NSMenu *)openWithMenuForFile:(NSString *)path target:(id)t action:(SEL)s menu:(NSMenu *)menu {
+- (NSMenu *)openWithMenuForFile:(NSString *)path target:(id __nullable)t action:(SEL __nullable)s menu:(NSMenu * __nullable)menu {
     [menu removeAllItems];
 
     NSMenuItem *noneMenuItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
@@ -88,7 +88,7 @@
         [submenu addItem:[NSMenuItem separatorItem]];
         
         // Add items for all other apps that can open this file
-        NSArray *apps = [self handlerApplicationsForFile:path];
+        NSArray<NSString*> *apps = [self handlerApplicationsForFile:path];
         if ([apps count]) {
         
             apps = [apps sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
@@ -101,7 +101,9 @@
                 numOtherApps++;
                 NSString *title = [[NSFileManager defaultManager] displayNameAtPath:appPath];
                 
-                NSMenuItem *item = [submenu addItemWithTitle:title action:selector keyEquivalent:@""];
+                NSMenuItem *item = [submenu addItemWithTitle:title
+                                                      action:selector
+                                               keyEquivalent:@""];
                 [item setTarget:target];
                 [item setToolTip:appPath];
                 
@@ -121,7 +123,9 @@
         [submenu addItem:[NSMenuItem separatorItem]];
     }
     
-    NSMenuItem *selectItem = [submenu addItemWithTitle:@"Select..." action:selector keyEquivalent:@""];
+    NSMenuItem *selectItem = [submenu addItemWithTitle:@"Select..."
+                                                action:selector
+                                         keyEquivalent:@""];
     [selectItem setTarget:target];
     
     return submenu;
@@ -140,9 +144,9 @@
         [oPanel setAllowedFileTypes:@[(NSString *)kUTTypeApplicationBundle]];
         
         // Set Applications folder as default directory
-        NSArray *applicationFolderPaths = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationDirectory inDomains:NSLocalDomainMask];
-        if ([applicationFolderPaths count]) {
-            [oPanel setDirectoryURL:applicationFolderPaths[0]];
+        NSArray<NSURL*> *applicationFolderURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationDirectory inDomains:NSLocalDomainMask];
+        if ([applicationFolderURLs count]) {
+            [oPanel setDirectoryURL:applicationFolderURLs[0]];
         }
         
         // Enter modal mode
@@ -172,12 +176,12 @@
 }
 
 - (NSString *)UTIForFile:(NSString *)filePath {
-    
-    MDItemRef item = MDItemCreateWithURL(NULL, (__bridge CFURLRef)[NSURL fileURLWithPath:filePath]);
+    NSURL *url = [NSURL fileURLWithPath:filePath];
+    MDItemRef item = MDItemCreateWithURL(NULL, (__bridge CFURLRef)url);
     if (!item) {
         return nil;
     }
-    NSArray *names = @[(__bridge NSString*)kMDItemContentType];
+    NSArray<NSString *> *names = @[(__bridge NSString *)kMDItemContentType];
     NSDictionary *dictionary = CFBridgingRelease(MDItemCopyAttributes(item, (__bridge CFArrayRef)names));
     CFRelease(item);
     
@@ -189,11 +193,11 @@
         return NO;
     }
     NSError *err;
-    NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&err];
+    NSDictionary<NSFileAttributeKey, id> *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&err];
     if (!attrs || err) {
         return NO;
     }
-    NSArray *badTypes = @[NSFileTypeSocket, NSFileTypeCharacterSpecial,
+    NSArray<NSFileAttributeType> *badTypes = @[NSFileTypeSocket, NSFileTypeCharacterSpecial,
                           NSFileTypeBlockSpecial, NSFileTypeUnknown];
     NSFileAttributeType type = [attrs objectForKey:NSFileType];
     return ![badTypes containsObject:type];
@@ -248,12 +252,14 @@ end tell", path];
         return NO;
     }
     BOOL isDir;
-    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:path
+                                                       isDirectory:&isDir];
     if (!exists || !isDir || ![self isFilePackageAtPath:path]) {
         return NO;
     }
     NSString *contentsPath = [path stringByAppendingString:@"/Contents"];
-    return [self selectFile:contentsPath inFileViewerRootedAtPath:[contentsPath stringByDeletingLastPathComponent]];
+    return [self selectFile:contentsPath
+   inFileViewerRootedAtPath:[contentsPath stringByDeletingLastPathComponent]];
 }
 
 #pragma mark - Util

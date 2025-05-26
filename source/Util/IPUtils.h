@@ -28,7 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface IPUtils : NSObject
 
@@ -48,3 +50,5 @@
 + (NSString *)portNumberForPortNameString:(NSString *)portNameString;
 
 @end
+
+NS_ASSUME_NONNULL_END

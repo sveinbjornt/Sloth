@@ -28,13 +28,18 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NSWorkspace (Additions)
 
-- (NSArray *)handlerApplicationsForFile:(NSString *)filePath;
+- (NSArray<NSString*> *)handlerApplicationsForFile:(NSString *)filePath;
 - (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath;
-- (NSMenu *)openWithMenuForFile:(NSString *)path target:(id)target action:(SEL)selector menu:(NSMenu *)menu;
+- (NSMenu *)openWithMenuForFile:(NSString *)path
+                         target:(id __nullable)target
+                         action:(SEL __nullable)selector
+                           menu:(NSMenu * __nullable)menu;
 
 - (NSString *)kindStringForFile:(NSString *)path;
 - (NSString *)UTIForFile:(NSString *)filePath;
@@ -49,3 +54,5 @@
 - (BOOL)runAppleScript:(NSString *)scriptSource;
 
 @end
+
+NS_ASSUME_NONNULL_END

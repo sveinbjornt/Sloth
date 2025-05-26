@@ -28,7 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class Item;
 
@@ -37,3 +39,5 @@
 - (void)loadItem:(Item *)item;
 
 @end
+
+NS_ASSUME_NONNULL_END

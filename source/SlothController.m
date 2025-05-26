@@ -89,9 +89,9 @@
     PrefsController *prefsController;
 }
 @property int totalFileCount;
-@property (strong) IBOutlet NSMutableArray *content;
-@property (strong) NSMutableArray *unfilteredContent;
-@property (retain, nonatomic) NSArray *sortDescriptors;
+@property (nonatomic, strong) IBOutlet NSMutableArray<NSDictionary*> *content;
+@property (nonatomic, strong) NSMutableArray<NSDictionary*> *unfilteredContent;
+@property (nonatomic, retain) NSArray<NSSortDescriptor*> *sortDescriptors;
 
 @end
 
@@ -262,19 +262,19 @@
         @autoreleasepool {
             int fileCount;
             LsofTask *task = [LsofTask new];
-            NSMutableArray *items = [task launch:authRef numFiles:&fileCount];
+            NSMutableArray *items = [task launch:self->authRef numFiles:&fileCount];
             self.unfilteredContent = items;
             self.totalFileCount = fileCount;
             
             // Update UI on main thread once task is done
             dispatch_async(dispatch_get_main_queue(), ^{
-                isRefreshing = NO;
+                self->isRefreshing = NO;
                 // Re-enable controls
-                [progressIndicator stopAnimation:self];
-                [outlineView setEnabled:YES];
-                [outlineView setAlphaValue:1.0];
-                [refreshButton setEnabled:YES];
-                [authenticateButton setEnabled:YES];
+                [self->progressIndicator stopAnimation:self];
+                [self->outlineView setEnabled:YES];
+                [self->outlineView setAlphaValue:1.0];
+                [self->refreshButton setEnabled:YES];
+                [self->authenticateButton setEnabled:YES];
                 // Filter results
                 [self updateFiltering];
             });
@@ -417,7 +417,7 @@
     // Search field filter, precompile regexes
     NSMutableArray *searchFilters = [NSMutableArray new];
     NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
+    NSArray<NSString*> *filterStrings = [fieldString componentsSeparatedByString:@" "];
     // Trim and create regex objects from search filter strings
     for (NSString *fs in filterStrings) {
         NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -845,7 +845,7 @@
 #pragma mark - Sort
 
 - (IBAction)sortChanged:(id)sender {
-    NSArray *comp = [[sender title] componentsSeparatedByString:@" by "];
+    NSArray<NSString*> *comp = [[sender title] componentsSeparatedByString:@" by "];
     NSString *sortBy = [[comp lastObject] lowercaseString];
     [DEFAULTS setObject:sortBy forKey:@"sortBy"];
     [self updateProcessCountHeader];
@@ -905,7 +905,7 @@
     }
     else if ([sortBy isEqualToString:@"process type"]) {
         // Process type sorting uses the "bundle" and "app" boolean properties
-        NSMutableArray *sdesc = [NSMutableArray new];
+        NSMutableArray<NSSortDescriptor *> *sdesc = [NSMutableArray new];
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"bundle"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
@@ -914,7 +914,7 @@
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
         [sdesc addObject:sortDesc];
-        self.sortDescriptors = [sdesc copy];
+        self.sortDescriptors = [sdesc copy]; // immutable copy
         return;
     }
     else if ([sortBy isEqualToString:@"carbon psn"]) {
@@ -1138,7 +1138,7 @@
     
     if (menu == sortMenu) {
         // Bindings should really be able to do this for us! Grr...
-        NSArray *items = [menu itemArray];
+        NSArray<NSMenuItem*> *items = [menu itemArray];
         for (NSMenuItem *i in items) {
             NSControlStateValue on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
             [i setState:on];

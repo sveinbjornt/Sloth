@@ -28,11 +28,16 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
 #import "MutableDictProxy.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 // This class behaves like a dict since it inherits from MutableDictProxy object and
 // can therefore be subscripted using modern Objective-C syntax, e.g. spec[@"key"]
 @interface Item : MutableDictProxy
 
 @end
+
+NS_ASSUME_NONNULL_END

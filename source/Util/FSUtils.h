@@ -28,10 +28,14 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface FSUtils : NSObject
 
-+ (NSDictionary *)mountedFileSystems;
++ (NSDictionary<NSNumber*, NSDictionary*> *)mountedFileSystems;
 
 @end
+
+NS_ASSUME_NONNULL_END

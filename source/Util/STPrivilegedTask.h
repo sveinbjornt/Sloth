@@ -39,35 +39,36 @@ extern const OSStatus errAuthorizationFnNoLongerExists;
 
 @interface STPrivilegedTask : NSObject
 
-@property (copy) NSArray *arguments;
-@property (copy) NSString *currentDirectoryPath;
-@property (copy) NSString *launchPath;
+@property (nonatomic, copy) NSArray<NSString*> *arguments;
+@property (nonatomic, copy) NSString *currentDirectoryPath;
+@property (nonatomic, copy) NSString *launchPath;
 
 @property (readonly) NSFileHandle *outputFileHandle;
 @property (readonly) BOOL isRunning;
 @property (readonly) pid_t processIdentifier;
 @property (readonly) int terminationStatus;
 
-@property (copy) void (^terminationHandler)(STPrivilegedTask *);
+@property (nonatomic, copy) void (^terminationHandler)(STPrivilegedTask *);
 
 + (BOOL)authorizationFunctionAvailable;
     
 - (instancetype)initWithLaunchPath:(NSString *)path;
 - (instancetype)initWithLaunchPath:(NSString *)path
-                         arguments:(NSArray *)args;
+                         arguments:(NSArray<NSString*> *)args;
 - (instancetype)initWithLaunchPath:(NSString *)path
-                         arguments:(NSArray *)args
+                         arguments:(NSArray<NSString*> *)args
                   currentDirectory:(NSString *)cwd;
 
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path;
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
-                                                 arguments:(NSArray *)args;
+                                                 arguments:(NSArray<NSString*> *)args;
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
-                                                 arguments:(NSArray *)args
+                                                 arguments:(NSArray<NSString*> *)args
                                           currentDirectory:(NSString *)cwd;
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
-                                                 arguments:(NSArray *)args
-                                          currentDirectory:(NSString *)cwd authorization:(AuthorizationRef)authorization;
+                                                 arguments:(NSArray<NSString*> *)args
+                                          currentDirectory:(NSString *)cwd
+                                             authorization:(AuthorizationRef)authorization;
 
 - (OSStatus)launch;
 - (OSStatus)launchWithAuthorization:(AuthorizationRef)authorization;

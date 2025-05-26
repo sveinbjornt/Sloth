@@ -89,7 +89,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 }
 
 - (instancetype)initWithLaunchPath:(NSString *)path
-                         arguments:(NSArray *)args {
+                         arguments:(NSArray<NSString*> *)args {
     self = [self initWithLaunchPath:path];
     if (self)  {
         self.arguments = args;
@@ -98,7 +98,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 }
 
 - (instancetype)initWithLaunchPath:(NSString *)path
-                         arguments:(NSArray *)args
+                         arguments:(NSArray<NSString*> *)args
                   currentDirectory:(NSString *)cwd {
     self = [self initWithLaunchPath:path arguments:args];
     if (self) {
@@ -116,7 +116,8 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     return task;
 }
 
-+ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path arguments:(NSArray *)args {
++ (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
+                                                 arguments:(NSArray<NSString*> *)args {
     STPrivilegedTask *task = [[STPrivilegedTask alloc] initWithLaunchPath:path arguments:args];
     [task launch];
     [task waitUntilExit];
@@ -124,7 +125,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 }
 
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
-                                                 arguments:(NSArray *)args
+                                                 arguments:(NSArray<NSString*> *)args
                                           currentDirectory:(NSString *)cwd {
     STPrivilegedTask *task = [[STPrivilegedTask alloc] initWithLaunchPath:path arguments:args currentDirectory:cwd];
     [task launch];
@@ -133,7 +134,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
 }
 
 + (STPrivilegedTask *)launchedPrivilegedTaskWithLaunchPath:(NSString *)path
-                                                 arguments:(NSArray *)args
+                                                 arguments:(NSArray<NSString*> *)args
                                           currentDirectory:(NSString *)cwd
                                              authorization:(AuthorizationRef)authorization {
     STPrivilegedTask *task = [[STPrivilegedTask alloc] initWithLaunchPath:path arguments:args currentDirectory:cwd];
@@ -198,7 +199,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     
     // Assuming the authorization is valid for the task.
     // Let's prepare to launch it.
-    NSArray *arguments = self.arguments;
+    NSArray<NSString*> *arguments = self.arguments;
     NSUInteger numArgs = [arguments count];
     char *args[numArgs + 1];
     FILE *outputFile;

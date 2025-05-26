@@ -28,8 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
+@import AppKit;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ProcessUtils : NSObject
 
@@ -49,3 +50,5 @@
        usingSIGKILL:(BOOL)useSigkill;
 
 @end
+
+NS_ASSUME_NONNULL_END

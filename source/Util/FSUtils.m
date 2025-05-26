@@ -38,7 +38,7 @@
 
 @implementation FSUtils
 
-+ (NSDictionary *)mountedFileSystems {
++ (NSDictionary<NSNumber*, NSDictionary*> *)mountedFileSystems {
     
     int fs_count = getfsstat(NULL, 0, MNT_NOWAIT);
     if (fs_count == -1) {
@@ -57,7 +57,7 @@
     struct statfs buf[fs_count];
     getfsstat(buf, fs_count * sizeof(buf[0]), MNT_NOWAIT);
     
-    NSMutableDictionary *fsdict = [NSMutableDictionary new];
+    NSMutableDictionary<NSString *, id> *fsdict = [NSMutableDictionary new];
     
     for (int i = 0; i < fs_count; ++i) {
         dev_t fsid = buf[i].f_fsid.val[0];

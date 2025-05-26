@@ -282,9 +282,9 @@
     // The indices of the items in the permsArray correspond to the POSIX
     // permissions. Essentially each bit of the POSIX permissions represents
     // a read, write, or execute bit.
-    NSArray *permsArray = @[@"---", @"--x", @"-w-", @"-wx", @"r--", @"r-x", @"rw-", @"rwx"];
-    NSMutableString *result = [NSMutableString string];
-    NSDictionary *attrs = [FILEMGR attributesOfItemAtPath:filePath error:nil];
+    NSArray<NSString*> *permsArray = @[@"---", @"--x", @"-w-", @"-wx", @"r--", @"r-x", @"rw-", @"rwx"];
+    NSMutableString *result = [NSMutableString new];
+    NSDictionary<NSFileAttributeKey, id> *attrs = [FILEMGR attributesOfItemAtPath:filePath error:nil];
     if (!attrs) {
         return @"";
     }
@@ -386,7 +386,7 @@
     // See if it's one of the three standard io streams
     NSString *ioDesc = @"";
     if (accessModeName != nil && hasFD && fd < 3) {
-        NSArray *standardIOs = @[@" - STDIN?", @" - STDOUT?", @" - STDERR?"];
+        NSArray<NSString*> *standardIOs = @[@" - STDIN?", @" - STDOUT?", @" - STDERR?"];
         ioDesc = standardIOs[fd];
     }
     
@@ -424,7 +424,7 @@
     
     // Typical lsof name for IP socket has the format: 10.95.10.6:53989->31.13.90.2:443, or, if using IPv6,
     // like this: [2a00:23c1:4a82:8700:8877:843b:bcf4:c98b]:50865->[2a00:1450:4009:80a::200e]:80
-    NSArray *components = [name componentsSeparatedByString:@"->"];
+    NSArray<NSString*> *components = [name componentsSeparatedByString:@"->"];
     
     for (NSString *c in components) {
         NSMutableArray *addressAndPort = [[c componentsSeparatedByString:@":"] mutableCopy];
