@@ -582,7 +582,7 @@
 				SDKROOT = macosx;
 				STRIPFLAGS = "-x";
 				WARNING_CFLAGS = "";
-				ttttGCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 			};
 			name = Release;
 		};

@@ -44,39 +44,39 @@
 
 @interface SlothController ()
 {
-    IBOutlet NSWindow *window;
+    __weak IBOutlet NSWindow *window;
     
-    IBOutlet NSMenu *itemContextualMenu;
-    IBOutlet NSMenu *sortMenu;
-    IBOutlet NSMenu *interfaceSizeSubmenu;
-    IBOutlet NSMenu *accessModeSubmenu;
-    IBOutlet NSMenu *filterMenu;
-    IBOutlet NSMenu *openWithMenu;
-    IBOutlet NSMenu *refreshIntervalMenu;
+    __weak IBOutlet NSMenu *itemContextualMenu;
+    __weak IBOutlet NSMenu *sortMenu;
+    __weak IBOutlet NSMenu *interfaceSizeSubmenu;
+    __weak IBOutlet NSMenu *accessModeSubmenu;
+    __weak IBOutlet NSMenu *filterMenu;
+    __weak IBOutlet NSMenu *openWithMenu;
+    __weak IBOutlet NSMenu *refreshIntervalMenu;
     
-    IBOutlet NSPopUpButton *volumesPopupButton;
-    IBOutlet NSMenuItem *volumesMenuItem;
+    __weak IBOutlet NSPopUpButton *volumesPopupButton;
+    __weak IBOutlet NSMenuItem *volumesMenuItem;
     
-    IBOutlet NSProgressIndicator *progressIndicator;
+    __weak IBOutlet NSProgressIndicator *progressIndicator;
     
-    IBOutlet NSTextField *filterTextField;
-    IBOutlet NSTextField *numItemsTextField;
+    __weak IBOutlet NSTextField *filterTextField;
+    __weak IBOutlet NSTextField *numItemsTextField;
     
-    IBOutlet NSButton *revealButton;
-    IBOutlet NSButton *killButton;
-    IBOutlet NSButton *getInfoButton;
+    __weak IBOutlet NSButton *revealButton;
+    __weak IBOutlet NSButton *killButton;
+    __weak IBOutlet NSButton *getInfoButton;
     
-    IBOutlet NSButton *authenticateButton;
-    IBOutlet NSMenuItem *authenticateMenuItem;
+    __weak IBOutlet NSButton *authenticateButton;
+    __weak IBOutlet NSMenuItem *authenticateMenuItem;
     
-    IBOutlet NSButton *refreshButton;
-    IBOutlet NSMenuItem *refreshIntervalMenuItem;
-    IBOutlet NSButton *disclosureButton;
-    IBOutlet NSTextField *disclosureTextField;
+    __weak IBOutlet NSButton *refreshButton;
+    __weak IBOutlet NSMenuItem *refreshIntervalMenuItem;
+    __weak IBOutlet NSButton *disclosureButton;
+    __weak IBOutlet NSTextField *disclosureTextField;
     
-    IBOutlet NSOutlineView *outlineView;
+    __weak IBOutlet NSOutlineView *outlineView;
     
-    IBOutlet NSPathControl *pathControl;
+    __weak IBOutlet NSPathControl *pathControl;
     
     AuthorizationRef authRef;
     BOOL authenticated;
@@ -91,7 +91,7 @@
 @property int totalFileCount;
 @property (nonatomic, strong) IBOutlet NSMutableArray<NSDictionary*> *content;
 @property (nonatomic, strong) NSMutableArray<NSDictionary*> *unfilteredContent;
-@property (nonatomic, retain) NSArray<NSSortDescriptor*> *sortDescriptors;
+@property (nonatomic, strong) NSArray<NSSortDescriptor*> *sortDescriptors;
 
 @end
 
@@ -405,10 +405,10 @@
     // Path filters such as by volume or home folder should
     // exclude everything that isn't a file or directory
     if (hasVolumesFilter || showHomeFolderOnly) {
-        showIPSockets = FALSE;
-        showUnixSockets = FALSE;
-        showCharDevices = FALSE;
-        showPipes = FALSE;
+        showIPSockets = NO;
+        showUnixSockets = NO;
+        showCharDevices = NO;
+        showPipes = NO;
     }
     
     // User home dir path prefix
