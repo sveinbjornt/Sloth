@@ -41,7 +41,7 @@
 
 @implementation ProcessUtils
 
-+ (NSRunningApplication *)appForPID:(pid_t)pid {
++ (NSRunningApplication * __nullable)appForPID:(pid_t)pid {
     return [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
 }
 
@@ -49,11 +49,16 @@
     if (!bundlePath) {
         return NO;
     }
-    NSString *fileType = [[NSWorkspace sharedWorkspace] typeOfFile:bundlePath error:nil];
+    NSError *error = nil;
+    NSString *fileType = [[NSWorkspace sharedWorkspace] typeOfFile:bundlePath
+                                                             error:&error];
+    if (fileType == nil || error != nil) {
+        return NO;
+    }
     return [[NSWorkspace sharedWorkspace] type:fileType conformsToType:@"com.apple.application"];
 }
 
-+ (NSString *)identifierForBundleAtPath:(NSString *)path {
++ (NSString * __nullable)identifierForBundleAtPath:(NSString *)path {
     return [[NSBundle bundleWithPath:path] bundleIdentifier];
 }
 
@@ -90,7 +95,9 @@
     if (pw == NULL) {
         return nil;
     }
-    return [NSString stringWithCString:pw->pw_name encoding:NSUTF8StringEncoding];
+    NSString *s = [NSString stringWithCString:pw->pw_name
+                                     encoding:NSUTF8StringEncoding];
+    return s;
 }
 
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

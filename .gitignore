@@ -22,3 +22,5 @@ dsa_priv.pem
 sparkle/update_appcast.sh
 keys/*
 notarize.sh
+.claude
+

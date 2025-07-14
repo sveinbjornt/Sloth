@@ -391,7 +391,7 @@
             p[@"pname"] = [ProcessUtils fullKernelProcessNameForPID:pid];
         }
         if (!p[@"pname"]) {
-            p[@"pname"] = [ProcessUtils procNameForPID:pid];
+            p[@"pname"] = [ProcessUtils procNameForPID:pid]; // libproc
         }
         if (!p[@"pname"]) {
             p[@"pname"] = p[@"name"];

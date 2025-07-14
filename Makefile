@@ -20,24 +20,24 @@ build_unsigned:
 	mkdir -p $(BUILD_DIR)
 	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild  -parallelizeTargets \
-	            -project "$(XCODE_PROJ)" \
-	            -target "$(APP_NAME)" \
-	            -configuration "Release" \
-	            CONFIGURATION_BUILD_DIR="$(BUILD_DIR)" \
-	            CODE_SIGN_IDENTITY="" \
-	            CODE_SIGNING_REQUIRED=NO \
-	            CODE_SIGNING_ALLOWED=NO \
-	            clean build
+				-project "$(XCODE_PROJ)" \
+				-target "$(APP_NAME)" \
+				-configuration "Release" \
+				CONFIGURATION_BUILD_DIR="$(BUILD_DIR)" \
+				CODE_SIGN_IDENTITY="" \
+				CODE_SIGNING_REQUIRED=NO \
+				CODE_SIGNING_ALLOWED=NO \
+				clean build
 
 build_signed:
 	mkdir -p $(BUILD_DIR)
 	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild  -parallelizeTargets \
-	            -project "$(XCODE_PROJ)" \
-	            -target "$(APP_NAME)" \
-	            -configuration "Release" \
-	            CONFIGURATION_BUILD_DIR="$(BUILD_DIR)" \
-	            clean build
+				-project "$(XCODE_PROJ)" \
+				-target "$(APP_NAME)" \
+				-configuration "Release" \
+				CONFIGURATION_BUILD_DIR="$(BUILD_DIR)" \
+				clean build
 
 archives:
 	@echo "Creating application archive ${APP_ZIP_NAME}..."

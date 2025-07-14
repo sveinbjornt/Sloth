@@ -78,15 +78,15 @@
     
     __weak IBOutlet NSPathControl *pathControl;
     
-    AuthorizationRef authRef;
+    AuthorizationRef _Nullable authRef;
     BOOL authenticated;
     BOOL isRefreshing;
     
-    NSTimer *filterTimer;
-    NSTimer *updateTimer;
+    NSTimer * _Nullable filterTimer;
+    NSTimer * _Nullable updateTimer;
     
-    InfoPanelController *infoPanelController;
-    PrefsController *prefsController;
+    InfoPanelController * _Nullable infoPanelController;
+    PrefsController * _Nullable prefsController;
 }
 @property int totalFileCount;
 @property (nonatomic, strong) IBOutlet NSMutableArray<NSDictionary*> *content;
@@ -106,7 +106,8 @@
 
 + (void)initialize {
     NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-    [DEFAULTS registerDefaults:[NSDictionary dictionaryWithContentsOfFile:defaultsPath]];
+    NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    [DEFAULTS registerDefaults:d];
 }
 
 #pragma mark - NSApplicationDelegate

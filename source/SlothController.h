@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
                                        NSMenuDelegate,
                                        NSMenuItemValidation,
                                        VolumesPopUpButtonDelegate>
-- (IBAction)kill:(id)sender;
+- (IBAction)kill:(id _Nullable)sender;
 - (void)revealItemInFinder:(NSDictionary *)item;
 @end
 
