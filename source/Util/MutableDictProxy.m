@@ -30,10 +30,6 @@
 
 #import "MutableDictProxy.h"
 
-@interface MutableDictProxy()
-
-@end
-
 @implementation MutableDictProxy
 
 #pragma mark - NSMutableDictionary proxy

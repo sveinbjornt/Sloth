@@ -28,14 +28,15 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
+@import AppKit;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ProcessUtils : NSObject
 
-+ (NSRunningApplication *)appForPID:(pid_t)pid;
++ (NSRunningApplication * __nullable)appForPID:(pid_t)pid;
 + (BOOL)isAppProcess:(NSString *)bundlePath;
-+ (NSString *)identifierForBundleAtPath:(NSString *)path;
++ (NSString * __nullable)identifierForBundleAtPath:(NSString *)path;
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid;
 + (uid_t)UIDForPID:(pid_t)pid;
 + (NSString *)ownerUserNameForPID:(pid_t)pid;
@@ -49,3 +50,5 @@
        usingSIGKILL:(BOOL)useSigkill;
 
 @end
+
+NS_ASSUME_NONNULL_END

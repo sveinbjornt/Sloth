@@ -28,8 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
+@import AppKit;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface Alerts : NSObject
 
@@ -43,3 +44,5 @@
 + (BOOL)proceedAlert:(NSString *)message subText:(NSString *)subtext withActionNamed:(NSString *)action;
 
 @end
+
+NS_ASSUME_NONNULL_END

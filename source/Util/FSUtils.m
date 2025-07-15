@@ -34,30 +34,26 @@
 #import <sys/param.h>
 #import <sys/mount.h>
 
-#define MAX_FILESYSTEMS 128
-
 @implementation FSUtils
 
-+ (NSDictionary *)mountedFileSystems {
++ (NSDictionary<NSNumber*, NSDictionary*> *)mountedFileSystems {
     
     int fs_count = getfsstat(NULL, 0, MNT_NOWAIT);
     if (fs_count == -1) {
         fprintf(stderr, "Error: %d\n", errno);
         return @{};
     }
-    if (fs_count > MAX_FILESYSTEMS) {
-        // We set a maximum number of filesystems to prevent
-        // a stack overflow.
-        // TODO: Manually allocate memory from heap instead of using stack
-        // to handle an arbitrary number of filesystems.
-        fprintf(stderr, "Too many filesystems, bailing");
+    
+    // Allocate buffer from heap to handle an arbitrary number of filesystems
+    struct statfs *buf = malloc(fs_count * sizeof(struct statfs));
+    if (buf == NULL) {
+        fprintf(stderr, "Failed to allocate memory for file system stats.\n");
         return @{};
     }
     
-    struct statfs buf[fs_count];
-    getfsstat(buf, fs_count * sizeof(buf[0]), MNT_NOWAIT);
+    getfsstat(buf, fs_count * sizeof(struct statfs), MNT_NOWAIT);
     
-    NSMutableDictionary *fsdict = [NSMutableDictionary new];
+    NSMutableDictionary<NSString *, id> *fsdict = [NSMutableDictionary new];
     
     for (int i = 0; i < fs_count; ++i) {
         dev_t fsid = buf[i].f_fsid.val[0];
@@ -71,6 +67,8 @@
             @"mountpoint": @(buf[i].f_mntonname)
         };
     }
+    
+    free(buf);
     
     return [fsdict copy]; // Return immutable copy
 }

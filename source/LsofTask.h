@@ -28,8 +28,11 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
 #import "Item.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class Item;
 
@@ -39,3 +42,5 @@
 + (void)updateProcessInfo:(NSMutableDictionary *)p;
 
 @end
+
+NS_ASSUME_NONNULL_END

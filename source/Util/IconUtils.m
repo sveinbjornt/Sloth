@@ -43,11 +43,11 @@
 #define ERR_ICON_PATH           CORE_TYPES_RESOURCE(@"AlertStopIcon.icns")
 #define QUESTIONMARK_ICON_PATH  CORE_TYPES_RESOURCE(@"GenericQuestionMarkIcon.icns")
 
-static NSMutableDictionary *iconStore;
+static NSMutableDictionary<NSString*, NSImage*> *iconStore;
 
 @implementation IconUtils
 
-+ (NSMutableDictionary *)_loadIcons {
++ (NSMutableDictionary<NSString*, NSImage*> *)_loadIcons {
     // We want to use the cool invertible Mojave template icons to represent
     // files, directories, IP sockets, etc. but they might not available. We
     // therefore define primary icon assets and fallbacks in case they're
@@ -55,9 +55,9 @@ static NSMutableDictionary *iconStore;
     // get the best of both worlds: The old icons when running on an older
     // version of macOS, the new ones on Mojave onwards. Saves us from having
     // to bloat the application bundle with custom icon assets.
-    NSMutableDictionary *icons = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString*, NSImage*> *icons = [NSMutableDictionary new];
 
-    NSDictionary *iconSettings = @{
+    NSDictionary<NSString*, NSArray<NSDictionary *>*> *iconSettings = @{
         @"File": @[
             @{ @"path": FILE_ICON_PATH, @"template": @YES },
             @{ @"name": @"NSGenericDocument", @"template": @NO }
@@ -125,7 +125,7 @@ static NSMutableDictionary *iconStore;
     };
     
     for (NSString *name in iconSettings) {
-        NSArray *opts = iconSettings[name];
+        NSArray<NSDictionary*> *opts = iconSettings[name];
         NSImage *img;
         
         for (NSDictionary *o in opts) {
@@ -153,6 +153,7 @@ static NSMutableDictionary *iconStore;
         }
     }
     
+    NSLog(@"%@", icons);
     return icons;
 }
 

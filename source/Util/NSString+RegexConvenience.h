@@ -28,10 +28,14 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (RegexConvenience)
 
 - (BOOL)isMatchedByRegex:(NSRegularExpression *)regex;
 
 @end
+
+NS_ASSUME_NONNULL_END

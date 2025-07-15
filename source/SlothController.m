@@ -44,54 +44,54 @@
 
 @interface SlothController ()
 {
-    IBOutlet NSWindow *window;
+    __weak IBOutlet NSWindow *window;
     
-    IBOutlet NSMenu *itemContextualMenu;
-    IBOutlet NSMenu *sortMenu;
-    IBOutlet NSMenu *interfaceSizeSubmenu;
-    IBOutlet NSMenu *accessModeSubmenu;
-    IBOutlet NSMenu *filterMenu;
-    IBOutlet NSMenu *openWithMenu;
-    IBOutlet NSMenu *refreshIntervalMenu;
+    __weak IBOutlet NSMenu *itemContextualMenu;
+    __weak IBOutlet NSMenu *sortMenu;
+    __weak IBOutlet NSMenu *interfaceSizeSubmenu;
+    __weak IBOutlet NSMenu *accessModeSubmenu;
+    __weak IBOutlet NSMenu *filterMenu;
+    __weak IBOutlet NSMenu *openWithMenu;
+    __weak IBOutlet NSMenu *refreshIntervalMenu;
     
-    IBOutlet NSPopUpButton *volumesPopupButton;
-    IBOutlet NSMenuItem *volumesMenuItem;
+    __weak IBOutlet NSPopUpButton *volumesPopupButton;
+    __weak IBOutlet NSMenuItem *volumesMenuItem;
     
-    IBOutlet NSProgressIndicator *progressIndicator;
+    __weak IBOutlet NSProgressIndicator *progressIndicator;
     
-    IBOutlet NSTextField *filterTextField;
-    IBOutlet NSTextField *numItemsTextField;
+    __weak IBOutlet NSTextField *filterTextField;
+    __weak IBOutlet NSTextField *numItemsTextField;
     
-    IBOutlet NSButton *revealButton;
-    IBOutlet NSButton *killButton;
-    IBOutlet NSButton *getInfoButton;
+    __weak IBOutlet NSButton *revealButton;
+    __weak IBOutlet NSButton *killButton;
+    __weak IBOutlet NSButton *getInfoButton;
     
-    IBOutlet NSButton *authenticateButton;
-    IBOutlet NSMenuItem *authenticateMenuItem;
+    __weak IBOutlet NSButton *authenticateButton;
+    __weak IBOutlet NSMenuItem *authenticateMenuItem;
     
-    IBOutlet NSButton *refreshButton;
-    IBOutlet NSMenuItem *refreshIntervalMenuItem;
-    IBOutlet NSButton *disclosureButton;
-    IBOutlet NSTextField *disclosureTextField;
+    __weak IBOutlet NSButton *refreshButton;
+    __weak IBOutlet NSMenuItem *refreshIntervalMenuItem;
+    __weak IBOutlet NSButton *disclosureButton;
+    __weak IBOutlet NSTextField *disclosureTextField;
     
-    IBOutlet NSOutlineView *outlineView;
+    __weak IBOutlet NSOutlineView *outlineView;
     
-    IBOutlet NSPathControl *pathControl;
+    __weak IBOutlet NSPathControl *pathControl;
     
-    AuthorizationRef authRef;
+    AuthorizationRef _Nullable authRef;
     BOOL authenticated;
     BOOL isRefreshing;
     
-    NSTimer *filterTimer;
-    NSTimer *updateTimer;
+    NSTimer * _Nullable filterTimer;
+    NSTimer * _Nullable updateTimer;
     
-    InfoPanelController *infoPanelController;
-    PrefsController *prefsController;
+    InfoPanelController * _Nullable infoPanelController;
+    PrefsController * _Nullable prefsController;
 }
 @property int totalFileCount;
-@property (strong) IBOutlet NSMutableArray *content;
-@property (strong) NSMutableArray *unfilteredContent;
-@property (retain, nonatomic) NSArray *sortDescriptors;
+@property (nonatomic, strong) IBOutlet NSMutableArray<NSDictionary*> *content;
+@property (nonatomic, strong) NSMutableArray<NSDictionary*> *unfilteredContent;
+@property (nonatomic, strong) NSArray<NSSortDescriptor*> *sortDescriptors;
 
 @end
 
@@ -106,7 +106,8 @@
 
 + (void)initialize {
     NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-    [DEFAULTS registerDefaults:[NSDictionary dictionaryWithContentsOfFile:defaultsPath]];
+    NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    [DEFAULTS registerDefaults:d];
 }
 
 #pragma mark - NSApplicationDelegate
@@ -262,19 +263,19 @@
         @autoreleasepool {
             int fileCount;
             LsofTask *task = [LsofTask new];
-            NSMutableArray *items = [task launch:authRef numFiles:&fileCount];
+            NSMutableArray *items = [task launch:self->authRef numFiles:&fileCount];
             self.unfilteredContent = items;
             self.totalFileCount = fileCount;
             
             // Update UI on main thread once task is done
             dispatch_async(dispatch_get_main_queue(), ^{
-                isRefreshing = NO;
+                self->isRefreshing = NO;
                 // Re-enable controls
-                [progressIndicator stopAnimation:self];
-                [outlineView setEnabled:YES];
-                [outlineView setAlphaValue:1.0];
-                [refreshButton setEnabled:YES];
-                [authenticateButton setEnabled:YES];
+                [self->progressIndicator stopAnimation:self];
+                [self->outlineView setEnabled:YES];
+                [self->outlineView setAlphaValue:1.0];
+                [self->refreshButton setEnabled:YES];
+                [self->authenticateButton setEnabled:YES];
                 // Filter results
                 [self updateFiltering];
             });
@@ -405,10 +406,10 @@
     // Path filters such as by volume or home folder should
     // exclude everything that isn't a file or directory
     if (hasVolumesFilter || showHomeFolderOnly) {
-        showIPSockets = FALSE;
-        showUnixSockets = FALSE;
-        showCharDevices = FALSE;
-        showPipes = FALSE;
+        showIPSockets = NO;
+        showUnixSockets = NO;
+        showCharDevices = NO;
+        showPipes = NO;
     }
     
     // User home dir path prefix
@@ -417,7 +418,7 @@
     // Search field filter, precompile regexes
     NSMutableArray *searchFilters = [NSMutableArray new];
     NSString *fieldString = [[filterTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSArray *filterStrings = [fieldString componentsSeparatedByString:@" "];
+    NSArray<NSString*> *filterStrings = [fieldString componentsSeparatedByString:@" "];
     // Trim and create regex objects from search filter strings
     for (NSString *fs in filterStrings) {
         NSString *s = [fs stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -845,7 +846,7 @@
 #pragma mark - Sort
 
 - (IBAction)sortChanged:(id)sender {
-    NSArray *comp = [[sender title] componentsSeparatedByString:@" by "];
+    NSArray<NSString*> *comp = [[sender title] componentsSeparatedByString:@" by "];
     NSString *sortBy = [[comp lastObject] lowercaseString];
     [DEFAULTS setObject:sortBy forKey:@"sortBy"];
     [self updateProcessCountHeader];
@@ -905,7 +906,7 @@
     }
     else if ([sortBy isEqualToString:@"process type"]) {
         // Process type sorting uses the "bundle" and "app" boolean properties
-        NSMutableArray *sdesc = [NSMutableArray new];
+        NSMutableArray<NSSortDescriptor *> *sdesc = [NSMutableArray new];
         sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"bundle"
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
@@ -914,7 +915,7 @@
                                                  ascending:[DEFAULTS boolForKey:@"ascending"]
                                                 comparator:integerComparisonBlock];
         [sdesc addObject:sortDesc];
-        self.sortDescriptors = [sdesc copy];
+        self.sortDescriptors = [sdesc copy]; // immutable copy
         return;
     }
     else if ([sortBy isEqualToString:@"carbon psn"]) {
@@ -1138,7 +1139,7 @@
     
     if (menu == sortMenu) {
         // Bindings should really be able to do this for us! Grr...
-        NSArray *items = [menu itemArray];
+        NSArray<NSMenuItem*> *items = [menu itemArray];
         for (NSMenuItem *i in items) {
             NSControlStateValue on = [[[i title] lowercaseString] hasSuffix:[DEFAULTS objectForKey:@"sortBy"]];
             [i setState:on];

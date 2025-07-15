@@ -28,8 +28,11 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
 #import "VolumesPopUpButton.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SlothController : NSObject <NSApplicationDelegate,
                                        NSWindowDelegate,
@@ -38,6 +41,8 @@
                                        NSMenuDelegate,
                                        NSMenuItemValidation,
                                        VolumesPopUpButtonDelegate>
-- (IBAction)kill:(id)sender;
+- (IBAction)kill:(id _Nullable)sender;
 - (void)revealItemInFinder:(NSDictionary *)item;
 @end
+
+NS_ASSUME_NONNULL_END

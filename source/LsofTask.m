@@ -108,7 +108,7 @@
     
     Item *currentProcess;
     Item *currentFile;
-    BOOL skip = FALSE;
+    BOOL skip = NO;
     
     // Parse each line
     for (NSString *line in [outputString componentsSeparatedByString:@"\n"]) {
@@ -180,14 +180,14 @@
                 
                 // txt files are program code, such as the application binary itself or a shared library
                 if ([fd isEqualToString:@"txt"] && ![DEFAULTS boolForKey:@"showProcessBinaries"]) {
-                    skip = TRUE;
+                    skip = YES;
                 }
                 // cwd and twd are current working directory and thread working directory, respectively
                 else if (([fd isEqualToString:@"cwd"] || [fd isEqualToString:@"twd"]) && ![DEFAULTS boolForKey:@"showCurrentWorkingDirectories"]) {
-                    skip = TRUE;
+                    skip = YES;
                 }
                 else {
-                    skip = FALSE;
+                    skip = NO;
                 }
             }
                 break;
@@ -223,7 +223,7 @@
                 }
                 else {
                     //DLog(@"Unrecognized file type: %@ : %@", ftype, [currentFile description]);
-                    skip = TRUE;
+                    skip = YES;
                 }
                 
                 if (currentFile[@"type"]) {
@@ -244,7 +244,7 @@
                 // Some files when running in root mode have no type listed
                 // and are only reported with the name "(revoked)". Skip those.
                 if (!currentFile[@"type"] && [currentFile[@"name"] isEqualToString:@"(revoked)"]) {
-                    skip = TRUE;
+                    skip = YES;
                 }
                 
                 if ([value hasSuffix:@"Operation not permitted"]) {
@@ -391,7 +391,7 @@
             p[@"pname"] = [ProcessUtils fullKernelProcessNameForPID:pid];
         }
         if (!p[@"pname"]) {
-            p[@"pname"] = [ProcessUtils procNameForPID:pid];
+            p[@"pname"] = [ProcessUtils procNameForPID:pid]; // libproc
         }
         if (!p[@"pname"]) {
             p[@"pname"] = p[@"name"];

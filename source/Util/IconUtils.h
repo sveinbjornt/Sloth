@@ -28,10 +28,14 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface IconUtils : NSObject
 
 + (NSImage *)imageNamed:(NSString *)name;
 
 @end
+
+NS_ASSUME_NONNULL_END

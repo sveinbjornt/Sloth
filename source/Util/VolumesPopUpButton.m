@@ -73,8 +73,10 @@
         NSString *volPath = [item toolTip];
         if (volPath && ![volPath isEqualToString:@""]) {
             NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[item toolTip]];
-            [icon setSize:NSMakeSize(16, 16)];
-            [item setImage:icon];
+            if (icon) {
+                [icon setSize:NSMakeSize(16, 16)];
+                [item setImage:icon];
+            }
         }
     }
 }

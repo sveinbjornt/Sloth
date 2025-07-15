@@ -28,8 +28,12 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface PrefsController : NSWindowController <NSWindowDelegate>
 
 @end
+
+NS_ASSUME_NONNULL_END
