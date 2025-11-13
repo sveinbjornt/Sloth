@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSWorkspace (Additions)
 
 - (NSArray<NSString*> *)handlerApplicationsForFile:(NSString *)filePath;
-- (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath;
+- (NSString * _Nullable)defaultHandlerApplicationForFile:(NSString *)filePath;
 - (NSMenu * _Nullable)openWithMenuForFile:(NSString *)path
                          target:(id __nullable)target
                          action:(SEL __nullable)selector
