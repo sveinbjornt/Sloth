@@ -40,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
                                        NSOutlineViewDelegate,
                                        NSMenuDelegate,
                                        NSMenuItemValidation,
-                                       VolumesPopUpButtonDelegate>
+                                       VolumesPopUpButtonDelegate,
+                                       NSPathControlDelegate>
 - (IBAction)kill:(id _Nullable)sender;
 - (void)revealItemInFinder:(NSDictionary *)item;
 @end

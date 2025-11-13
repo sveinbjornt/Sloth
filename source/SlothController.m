@@ -219,6 +219,10 @@
     return menu;
 }
 
+- (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
+    return YES;
+}
+
 - (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu {
     // Prevent popup menu when window icon/title is cmd-clicked
     return NO;

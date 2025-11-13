@@ -1048,6 +1048,7 @@ DQ
                             <url key="url" string="file://localhost/Applications/"/>
                         </pathCell>
                         <connections>
+                            <outlet property="delegate" destination="212" id="9BZ-xh-tPd"/>
                             <outlet property="menu" destination="3w8-wK-AmU" id="3bg-rX-0me"/>
                         </connections>
                     </pathControl>

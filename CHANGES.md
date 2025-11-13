@@ -2,6 +2,12 @@
 
 ## Sloth version history
 
+### 13/11/2025 - Version 3.4.1
+
+* New application icon
+* Minor UI and bug fixes
+* Some code modernization
+
 ### 19/05/2025 - Version 3.4
 
 * "Copy" on app/process or file now copies both filesystem representation and string
