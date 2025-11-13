@@ -2,7 +2,6 @@
 
 * Fix checking Regex and Case Insensitive in filter field options
 * Preserve selection between refreshes (preserve expanded items between refreshes?)
-* Fix path bar folders contextual click
 * Show full command (w/args) for process (ala ps -ef) in Info Panel
 * Highlight matching part of string when filtering (option in filter field popup)
 * Store authentication privileges and use them to run command line tool "/usr/bin/file" for Info Dialog
