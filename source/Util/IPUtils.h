@@ -38,15 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isIPv6AddressString:(NSString *)ipString;
 + (BOOL)isPortNumberString:(NSString *)portNumStr;
 
-+ (NSString *)dnsNameForIPv4AddressString:(NSString *)ipAddrStr;
-+ (NSString *)dnsNameForIPv6AddressString:(NSString *)ipAddStr;
-+ (NSString *)dnsNameForIPAddressString:(NSString *)ipAddStr;
++ (NSString * _Nullable)dnsNameForIPv4AddressString:(NSString *)ipAddrStr;
++ (NSString * _Nullable)dnsNameForIPv6AddressString:(NSString *)ipAddStr;
++ (NSString * _Nullable)dnsNameForIPAddressString:(NSString *)ipAddStr;
 
 + (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString;
 + (NSString *)IPv4AddressStringForDNSName:(NSString *)dnsNameString;
 + (NSString *)IPv6AddressStringForDNSName:(NSString *)dnsNameString;
 
-+ (NSString *)portNameForPortNumString:(NSString *)portNumStr;
++ (NSString * _Nullable)portNameForPortNumString:(NSString *)portNumStr;
 + (NSString *)portNumberForPortNameString:(NSString *)portNameString;
 
 @end

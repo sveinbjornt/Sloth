@@ -284,7 +284,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2610;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -344,7 +344,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#exit 0\n# We need to sign all binaries within Sparkle framework for update installation to work\n# Only do this for release builds so CI testing works\nif [ \"${CODE_SIGNING_REQUIRED}\" != \"YES\" ]; then\n  exit 0\nfi\n\n\nLOCATION1=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater\"\nLOCATION2=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate\"\nLOCATION3=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader\"\nLOCATION4=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework\"\nLOCATION5=\"${BUILT_PRODUCTS_DIR}/Sloth.app\"\n\nIDENTITY=\"16A0188A9D74911B21953A33684437F70902BC30\"\n#${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\necho $IDENTITY\n\n\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION1\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION2\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION3\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION4\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION5\"\n";
+			shellScript = "#exit 0\n# We need to sign all the binaries for update installation to work\n# Only do this for release builds so CI testing works\nif [ \"${CODE_SIGNING_REQUIRED}\" != \"YES\" ]; then\n  exit 0\nfi\n\n\nLOCATION1=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater\"\nLOCATION2=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate\"\nLOCATION3=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader\"\nLOCATION4=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework\"\nLOCATION5=\"${BUILT_PRODUCTS_DIR}/Sloth.app\"\n\nIDENTITY=\"16A0188A9D74911B21953A33684437F70902BC30\"\n#${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\necho $IDENTITY\n\n\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION1\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION2\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION3\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION4\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION5\"\n";
 		};
 		F4F1D89E1C761F8F00945D3E /* Set CFBundleVersion */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -400,6 +400,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5WX26Y89JP;
@@ -441,6 +442,7 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5WX26Y89JP;
@@ -502,12 +504,12 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 5WX26Y89JP;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = NO;
+				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_NO_COMMON_BLOCKS = YES;

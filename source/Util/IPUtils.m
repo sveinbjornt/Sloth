@@ -68,7 +68,7 @@
 
 #pragma mark -
 
-+ (NSString *)dnsNameForIPv4AddressString:(NSString *)ipAddrStr {
++ (NSString * _Nullable)dnsNameForIPv4AddressString:(NSString *)ipAddrStr {
     if ([IPUtils isIPv4AddressString:ipAddrStr] == NO) {
         return nil;
     }
@@ -76,7 +76,7 @@
     return [[NSHost hostWithAddress:ipAddrStr] name];
 }
 
-+ (NSString *)dnsNameForIPv6AddressString:(NSString *)ipAddrStr {
++ (NSString * _Nullable)dnsNameForIPv6AddressString:(NSString *)ipAddrStr {
     if ([IPUtils isIPv6AddressString:ipAddrStr] == NO) {
         return nil;
     }
@@ -84,7 +84,7 @@
     return [[NSHost hostWithAddress:ipAddrStr] name];
 }
 
-+ (NSString *)dnsNameForIPAddressString:(NSString *)ipAddStr; {
++ (NSString * _Nullable)dnsNameForIPAddressString:(NSString *)ipAddStr; {
     NSString *dns = [IPUtils dnsNameForIPv4AddressString:ipAddStr];
     if (dns) {
         return dns;
@@ -129,7 +129,7 @@
 #pragma mark -
 
 // Look up port name, e.g. "http" for "80", "ssh" for "22", etc.
-+ (NSString *)portNameForPortNumString:(NSString *)portNumStr {
++ (NSString * _Nullable)portNameForPortNumString:(NSString *)portNumStr {
     if ([IPUtils isPortNumberString:portNumStr] == NO) {
         return nil;
     }

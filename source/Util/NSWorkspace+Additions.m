@@ -56,7 +56,7 @@
 
 // Generate Open With menu for a given file. If no target and action are provided, we use our own.
 // If no menu is supplied as parameter, a new menu is created and returned.
-- (NSMenu *)openWithMenuForFile:(NSString *)path target:(id __nullable)t action:(SEL __nullable)s menu:(NSMenu * __nullable)menu {
+- (NSMenu * _Nullable)openWithMenuForFile:(NSString *)path target:(id __nullable)t action:(SEL __nullable)s menu:(NSMenu * __nullable)menu {
     [menu removeAllItems];
 
     NSMenuItem *noneMenuItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
@@ -175,7 +175,7 @@
     return @"Unknown";
 }
 
-- (NSString *)UTIForFile:(NSString *)filePath {
+- (NSString * _Nullable)UTIForFile:(NSString *)filePath {
     NSURL *url = [NSURL fileURLWithPath:filePath];
     MDItemRef item = MDItemCreateWithURL(NULL, (__bridge CFURLRef)url);
     if (!item) {

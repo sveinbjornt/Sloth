@@ -71,8 +71,11 @@
     return obj;
 }
 
-- (NSString *)bundleIdentifier {
-    return [ProcessUtils identifierForBundleAtPath:self[@"path"]];
+- (NSString * __nullable)bundleIdentifier {
+    if (self[@"path"]) {
+        return [ProcessUtils identifierForBundleAtPath:self[@"path"]];
+    }
+    return nil;
 }
 
 @end

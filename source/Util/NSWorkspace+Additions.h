@@ -36,13 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<NSString*> *)handlerApplicationsForFile:(NSString *)filePath;
 - (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath;
-- (NSMenu *)openWithMenuForFile:(NSString *)path
+- (NSMenu * _Nullable)openWithMenuForFile:(NSString *)path
                          target:(id __nullable)target
                          action:(SEL __nullable)selector
                            menu:(NSMenu * __nullable)menu;
 
 - (NSString *)kindStringForFile:(NSString *)path;
-- (NSString *)UTIForFile:(NSString *)filePath;
+- (NSString * _Nullable)UTIForFile:(NSString *)filePath;
 - (BOOL)canRevealFileAtPath:(NSString *)path;
 
 - (NSString *)fileSizeAsHumanReadableString:(UInt64)size;

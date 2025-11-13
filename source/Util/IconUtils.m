@@ -153,7 +153,6 @@ static NSMutableDictionary<NSString*, NSImage*> *iconStore;
         }
     }
     
-    NSLog(@"%@", icons);
     return icons;
 }
 
