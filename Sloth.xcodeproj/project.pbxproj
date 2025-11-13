@@ -10,6 +10,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40B7D2C1C75FA05000A4616 /* Images.xcassets */; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
+		F43056D42EC64BBC00360103 /* NSPathControl+ContextMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F43056D32EC64BBC00360103 /* NSPathControl+ContextMenu.m */; };
 		F43440C620822A7F00AF60AA /* sloth.icns in Resources */ = {isa = PBXBuildFile; fileRef = F438712D13402CDD00B51A5E /* sloth.icns */; };
 		F435322E2558EFC800AF00BD /* MutableDictProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F435320F2558EFC800AF00BD /* MutableDictProxy.m */; };
 		F435322F2558EFC800AF00BD /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532122558EFC800AF00BD /* Alerts.m */; };
@@ -56,6 +57,8 @@
 		F40B7D2B1C75F161000A4616 /* sloth_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloth_icon.png; sourceTree = "<group>"; };
 		F40B7D2C1C75FA05000A4616 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F413E66E1C76842A00385DB3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		F43056D22EC64BBC00360103 /* NSPathControl+ContextMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSPathControl+ContextMenu.h"; sourceTree = "<group>"; };
+		F43056D32EC64BBC00360103 /* NSPathControl+ContextMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSPathControl+ContextMenu.m"; sourceTree = "<group>"; };
 		F435320E2558EFC800AF00BD /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPanelController.h; sourceTree = "<group>"; };
 		F435320F2558EFC800AF00BD /* MutableDictProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableDictProxy.m; sourceTree = "<group>"; };
 		F43532102558EFC800AF00BD /* STPrivilegedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPrivilegedTask.h; sourceTree = "<group>"; };
@@ -237,6 +240,8 @@
 				F435321D2558EFC800AF00BD /* STPrivilegedTask.m */,
 				F43532292558EFC800AF00BD /* VolumesPopUpButton.h */,
 				F43532152558EFC800AF00BD /* VolumesPopUpButton.m */,
+				F43056D22EC64BBC00360103 /* NSPathControl+ContextMenu.h */,
+				F43056D32EC64BBC00360103 /* NSPathControl+ContextMenu.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -378,6 +383,7 @@
 				F435323C2558EFC800AF00BD /* SlothController.m in Sources */,
 				F43532322558EFC800AF00BD /* PrefsController.m in Sources */,
 				F435323D2558EFC800AF00BD /* ProcessUtils.m in Sources */,
+				F43056D42EC64BBC00360103 /* NSPathControl+ContextMenu.m in Sources */,
 				F43532312558EFC800AF00BD /* VolumesPopUpButton.m in Sources */,
 				F43532332558EFC800AF00BD /* NSWorkspace+Additions.m in Sources */,
 				F43532352558EFC800AF00BD /* FSUtils.m in Sources */,
