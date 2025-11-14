@@ -2,7 +2,7 @@
 
 ## Sloth version history
 
-### 13/11/2025 - Version 3.4.1
+### 13/11/2025 - Version 3.5
 
 * New application icon
 * Improved path bar contextual menu handling
