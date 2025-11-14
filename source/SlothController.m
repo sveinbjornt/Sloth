@@ -1156,6 +1156,7 @@
         NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
         
         NSMenuItem *openItem = [itemContextualMenu itemAtIndex:0];
+        [openItem setImage:nil];
         NSMenuItem *copyItem = [itemContextualMenu itemAtIndex:10];
         NSMenuItem *killItem = [itemContextualMenu itemAtIndex:12];
         
@@ -1168,6 +1169,7 @@
         if (item && [WORKSPACE canRevealFileAtPath:item[@"name"]]) {
             NSString *openTitle = @"Open";
             NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
+        
             if (defaultApp) {
                 openTitle = [NSString stringWithFormat:@"Open with %@", [[defaultApp lastPathComponent] stringByDeletingPathExtension]];
                 NSImage *img = [[NSWorkspace sharedWorkspace] iconForFile:defaultApp];

@@ -8,6 +8,7 @@
 * Improved path bar contextual menu handling
 * Minor interface tweaks and bug fixes
 * Code modernization
+* Now requires macOS 11 "Big Sur" or later
 
 ### 19/05/2025 - Version 3.4
 
