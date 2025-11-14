@@ -41,7 +41,6 @@
 #import "STPrivilegedTask.h"
 #import "LsofTask.h"
 #import "Item.h"
-//#import "NSPathControl+ContextMenu.h"
 
 @interface SlothController ()
 {

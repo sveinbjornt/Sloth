@@ -130,13 +130,13 @@ static NSMutableDictionary<NSString*, NSImage*> *iconStore;
         
         for (NSDictionary *o in opts) {
             if (o[@"path"] && [FILEMGR fileExistsAtPath:o[@"path"]]) {
-                img = [[NSImage alloc] initWithContentsOfFile:o[@"path"]];
+                img = [[NSImage alloc] initWithContentsOfFile:(NSString * _Nonnull)o[@"path"]];
             }
-            else if (o[@"name"] && [NSImage imageNamed:o[@"name"]]) {
-                img = [NSImage imageNamed:o[@"name"]];
+            else if (o[@"name"] && [NSImage imageNamed:(NSString * _Nonnull)o[@"name"]]) {
+                img = [NSImage imageNamed:(NSString * _Nonnull)o[@"name"]];
             }
             else if (o[@"type"]) {
-                img = [WORKSPACE iconForFileType:o[@"type"]];
+                img = [WORKSPACE iconForFileType:(NSString * _Nonnull)o[@"type"]];
             }
             
             if (img) {
