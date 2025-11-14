@@ -269,7 +269,7 @@
 				F4F1D89E1C761F8F00945D3E /* Set CFBundleVersion */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				F413E66C1C76631F00385DB3 /* Copy Frameworks */,
-				F49DB76F2572583F009B6257 /* Sign All Binaries */,
+				F49DB76F2572583F009B6257 /* Strip and Sign All Binaries */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
 			buildRules = (
@@ -332,7 +332,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F49DB76F2572583F009B6257 /* Sign All Binaries */ = {
+		F49DB76F2572583F009B6257 /* Strip and Sign All Binaries */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -342,7 +342,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Sign All Binaries";
+			name = "Strip and Sign All Binaries";
 			outputFileListPaths = (
 			);
 			outputPaths = (
