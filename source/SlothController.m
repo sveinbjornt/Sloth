@@ -41,7 +41,7 @@
 #import "STPrivilegedTask.h"
 #import "LsofTask.h"
 #import "Item.h"
-#import "NSPathControl+ContextMenu.h"
+//#import "NSPathControl+ContextMenu.h"
 
 @interface SlothController ()
 {
@@ -1171,6 +1171,11 @@
             NSString *defaultApp = [WORKSPACE defaultHandlerApplicationForFile:item[@"name"]];
             if (defaultApp) {
                 openTitle = [NSString stringWithFormat:@"Open with %@", [[defaultApp lastPathComponent] stringByDeletingPathExtension]];
+                NSImage *img = [[NSWorkspace sharedWorkspace] iconForFile:defaultApp];
+                if (img) {
+                    [img setSize:NSMakeSize(16, 16)];
+                    [openItem setImage:img];
+                }
             }
             
             [openItem setTitle:openTitle];
