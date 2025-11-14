@@ -5,9 +5,10 @@
 ### 13/11/2025 - Version 3.4.1
 
 * New application icon
-* Fix path bar contextual menu handling
-* Minor UI and bug fixes
-* Some code modernization
+* Improved path bar contextual menu handling
+* Minor interface tweaks and bug fixes
+* Code modernization
+TODO: * Update antiquated screenshots in README
 
 ### 19/05/2025 - Version 3.4
 

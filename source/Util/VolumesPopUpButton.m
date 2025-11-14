@@ -117,7 +117,7 @@
     [volumesMenu addItem:item];
     [volumesMenu addItem:[NSMenuItem separatorItem]];
     
-    // NEW METHOD: Add all filesystems (except /dev)
+    // Add all filesystems (except /dev)
     for (NSNumber *fsid in [filesystems allKeys]) {
         NSDictionary *fs = filesystems[fsid];
         if ([fs[@"mountpoint"] isEqualToString:@"/dev"]) {
@@ -142,7 +142,6 @@
         [item setToolTip:fs[@"mountpoint"]];
         [item setRepresentedObject:fs];
         [volumesMenu addItem:item];
-        
     }
     
     // Restore selection, if possible

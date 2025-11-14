@@ -1,4 +1,4 @@
-# TODO for Sloth 3.5
+# TODO for Sloth
 
 * Fix checking Regex and Case Insensitive in filter field options
 * Preserve selection between refreshes (preserve expanded items between refreshes?)
@@ -8,9 +8,4 @@
 * Add tests for lsof output parsing
 * Click on connected process f. pipes to select and show info of that process
 * Create visualization of pipes between processes in special view
-
-## For Sloth 3.4.1
-
-* Update antiquated screenshots in README
 * Fix exception raised when "unknown file type" is selected
-
