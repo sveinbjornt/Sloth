@@ -6,9 +6,12 @@
 
 # Sloth
 
-<img src="resources/sloth_icon.png" width="192" height="192" align="right" style="float: right; margin-left: 30px;">
+<img src="resources/sloth_icon.png" width="192" height="192" 
+align="right" style="float: right; margin-left: 30px;">
 
-**Sloth** is a native Mac app that shows all open files, directories, sockets, pipes, and devices in use by all running processes on your system. This makes it easy to inspect which apps are using which files, etc.
+**Sloth** is a native Mac app that shows all open files, directories,
+sockets, pipes, and devices in use by all running processes on your 
+system. This makes it easy to inspect which apps are using which files, etc.
 
 * View all open files, directories, IP sockets, devices, Unix domain sockets, and pipes
 * Filter by name, access mode, volume, type, location, or using regular expressions
@@ -20,16 +23,24 @@
 * In-app authentication to scan with root privileges
 * Very fast, responsive native app written in Objective-C/Cocoa
 
-Sloth is essentially a friendly, exploratory graphical user interface built on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. The output of `lsof` is parsed and shown in a sortable, searchable outline view with all sorts of convenient additional functionality. Check out the screenshots below.
+Sloth is essentially a friendly, exploratory graphical user interface built 
+on top of the  [`lsof`](https://en.wikipedia.org/wiki/Lsof) command line tool. 
+The output of `lsof` is parsed and shown in a sortable, searchable outline 
+view with all sorts of convenient additional functionality. 
+Check out the screenshots below.
 
 ## Download
 
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BDT58J7HYKAEE"><img align="right" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" ></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BDT58J7HYKAEE">
+<img align="right" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_donate_LG.gif" >
+</a>
 
-Sloth is free, open source software and has been continuously developed and maintained for a very long time (since 2004).
+Sloth is free, open source software and has been continuously developed 
+and maintained for a very long time (since 2004).
 **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
-*  **[⬇ Download Sloth 3.5](https://sveinbjorn.org/files/software/sloth.zip)** (~1.3 MB, Universal ARM/Intel 64-bit, macOS 11 or later, Developer ID signed and notarized)
+*  **[⬇ Download Sloth 3.5](https://sveinbjorn.org/files/software/sloth.zip)** 
+(~1.3 MB, Universal ARM/Intel 64-bit, macOS 11 or later, Developer ID signed and notarized)
 
 Sloth can also be installed via [Homebrew](https://brew.sh) (may not be the latest version):
 
@@ -37,7 +48,9 @@ Sloth can also be installed via [Homebrew](https://brew.sh) (may not be the late
 brew install --cask sloth
 ```
 
-If you need to run it on macOS 10.13-10.15, version 3.4 works just fine. For 10.9-10.12, version 3.2 does the trick. All older versions can be downloaded [here](https://sveinbjorn.org/files/software/sloth/).
+If you need to run it on macOS 10.13-10.15, version 3.4 works just fine. 
+For 10.9-10.12, version 3.2 does the trick. 
+All older versions can be downloaded [here](https://sveinbjorn.org/files/software/sloth/).
 
 
 ## Screenshots
@@ -45,25 +58,25 @@ If you need to run it on macOS 10.13-10.15, version 3.4 works just fine. For 10.
 #### View open files
 
 <a href="resources/sloth_screenshot1.jpg">
-<img src="resources/sloth_screenshot1.jpg" align="center" alt="Sloth Screenshot 1 - Files">
+<img src="resources/sloth_screenshot1.jpg" align="center" alt="Sloth Screenshot - Files">
 </a>
 
 #### View IP sockets
 
 <a href="resources/sloth_screenshot2.jpg">
-<img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot 2 - IP Sockets">
+<img src="resources/sloth_screenshot2.jpg" align="center" alt="Sloth Screenshot - IP Sockets">
 </a>
 
 #### View sockets and pipes between processes
 
 <a href="resources/sloth_screenshot3.jpg">
-<img src="resources/sloth_screenshot3.jpg" align="center" alt="Sloth Screenshot 3 - Pipes and Unix Sockets">
+<img src="resources/sloth_screenshot3.jpg" align="center" alt="Sloth Screenshot - Pipes and Unix Sockets">
 </a>
 
 ## Build
 
-Sloth can be built using a reasonably modern version of Xcode via the `xcodeproj`
-or by running the following command in the repository root (requires Xcode build tools):
+Sloth can be built by running the following command in the 
+repository root (requires Xcode build tools):
 
 ```bash
 make build_unsigned
