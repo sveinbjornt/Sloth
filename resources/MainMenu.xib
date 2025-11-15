@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24412" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
+        <deployment version="110000" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24412"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -41,16 +41,16 @@
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Visit Sloth Website" image="NSBookmarksTemplate" id="478">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="visitSlothWebsite:" target="212" id="479"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Donate to Support Sloth" image="Dollar" id="467">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="supportSlothDevelopment:" target="212" id="477"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Visit Sloth Website" image="NSBookmarksTemplate" id="478">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="visitSlothWebsite:" target="212" id="479"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Sloth on GitHub" image="GitHub" id="H71-7F-acI">
@@ -501,16 +501,16 @@ CA
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="Dao-GJ-P0N">
                         <items>
-                            <menuItem title="Visit Sloth Website" image="NSTouchBarBookmarksTemplate" id="vVY-IN-CcM">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="visitSlothWebsite:" target="212" id="F44-OM-KnH"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Donate to Support Sloth" image="Dollar" id="bBN-AQ-OQK">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="supportSlothDevelopment:" target="212" id="tA0-Ew-l0N"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Visit Sloth Website" image="NSTouchBarBookmarksTemplate" id="vVY-IN-CcM">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="visitSlothWebsite:" target="212" id="F44-OM-KnH"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Sloth on GitHub" image="GitHub" id="Yx3-zx-jJ6">
@@ -1048,6 +1048,7 @@ DQ
                             <url key="url" string="file://localhost/Applications/"/>
                         </pathCell>
                         <connections>
+                            <outlet property="delegate" destination="212" id="9BZ-xh-tPd"/>
                             <outlet property="menu" destination="3w8-wK-AmU" id="3bg-rX-0me"/>
                         </connections>
                     </pathControl>

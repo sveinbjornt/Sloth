@@ -48,7 +48,7 @@
     return [appPaths copy]; // Return immutable copy
 }
 
-- (NSString *)defaultHandlerApplicationForFile:(NSString *)filePath {
+- (NSString * _Nullable)defaultHandlerApplicationForFile:(NSString *)filePath {
     NSURL *fileURL = [NSURL fileURLWithPath:filePath];
     NSURL *appURL = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:fileURL];
     return [appURL path];

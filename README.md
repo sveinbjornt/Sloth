@@ -1,8 +1,8 @@
-[![macOS](https://img.shields.io/badge/macOS-000000?style=flat&logo=apple&logoColor=white)]()
+[![macOS](https://img.shields.io/badge/macOS-000000?style=flat&logo=apple&logoColor=white)](https://en.wikipedia.org/wiki/MacOS)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Language](https://img.shields.io/badge/language-objective--c-lightgrey)]()
-[![Release](https://shields.io/github/v/release/sveinbjornt/sloth?display_name=tag)]()
-[![Build](https://github.com/sveinbjornt/sloth/actions/workflows/macos.yml/badge.svg)]()
+[![Language](https://img.shields.io/badge/language-objective--c-lightgrey)](https://en.wikipedia.org/wiki/Objective-C)
+[![Release](https://shields.io/github/v/release/sveinbjornt/sloth?display_name=tag)](https://github.com/sveinbjornt/Sloth/releases)
+[![Build](https://github.com/sveinbjornt/sloth/actions/workflows/macos.yml/badge.svg)](https://github.com/sveinbjornt/Sloth/actions)
 
 # Sloth
 
@@ -29,15 +29,15 @@ Sloth is essentially a friendly, exploratory graphical user interface built on t
 Sloth is free, open source software and has been continuously developed and maintained for a very long time (since 2004).
 **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
-*  **[⬇ Download Sloth 3.4](https://sveinbjorn.org/files/software/sloth.zip)** (~1.3 MB, Universal ARM/Intel 64-bit, macOS 10.13 or later, Developer ID signed and notarized)
+*  **[⬇ Download Sloth 3.5](https://sveinbjorn.org/files/software/sloth.zip)** (~1.3 MB, Universal ARM/Intel 64-bit, macOS 11 or later, Developer ID signed and notarized)
 
 Sloth can also be installed via [Homebrew](https://brew.sh) (may not be the latest version):
 
-```shell
+```bash
 brew install --cask sloth
 ```
 
-If you need to run it on 10.9-10.12, version 3.2 works just fine. Older versions supporting macOS 10.8 and earlier can be downloaded [here](https://sveinbjorn.org/files/software/sloth/).
+If you need to run it on macOS 10.13-10.15, version 3.4 works just fine. For 10.9-10.12, version 3.2 does the trick. All older versions can be downloaded [here](https://sveinbjorn.org/files/software/sloth/).
 
 
 ## Screenshots
@@ -62,9 +62,10 @@ If you need to run it on 10.9-10.12, version 3.2 works just fine. Older versions
 
 ## Build
 
-Sloth can be built using a reasonably modern version of Xcode via the `xcodeproj` or by running the following command in the repository root (requires Xcode build tools):
+Sloth can be built using a reasonably modern version of Xcode via the `xcodeproj`
+or by running the following command in the repository root (requires Xcode build tools):
 
-```
+```bash
 make build_unsigned
 ```
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2004-2025, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
+    Copyright (c) 2018-2025, Sveinbjorn Thordarson <sveinbjorn@sveinbjorn.org>
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without modification,
@@ -28,22 +28,13 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-@import Cocoa;
 
-#import "VolumesPopUpButton.h"
+#import <Cocoa/Cocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SlothController : NSObject <NSApplicationDelegate,
-                                       NSWindowDelegate,
-                                       NSOutlineViewDataSource,
-                                       NSOutlineViewDelegate,
-                                       NSMenuDelegate,
-                                       NSMenuItemValidation,
-                                       VolumesPopUpButtonDelegate,
-                                       NSPathControlDelegate>
-- (IBAction)kill:(id _Nullable)sender;
-- (void)revealItemInFinder:(NSDictionary *)item;
+@interface NSPathControl (ContextMenu)
+
 @end
 
 NS_ASSUME_NONNULL_END

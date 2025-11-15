@@ -10,6 +10,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40B7D2C1C75FA05000A4616 /* Images.xcassets */; };
 		F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F413E66E1C76842A00385DB3 /* MainMenu.xib */; };
+		F43056D42EC64BBC00360103 /* NSPathControl+ContextMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F43056D32EC64BBC00360103 /* NSPathControl+ContextMenu.m */; };
 		F43440C620822A7F00AF60AA /* sloth.icns in Resources */ = {isa = PBXBuildFile; fileRef = F438712D13402CDD00B51A5E /* sloth.icns */; };
 		F435322E2558EFC800AF00BD /* MutableDictProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F435320F2558EFC800AF00BD /* MutableDictProxy.m */; };
 		F435322F2558EFC800AF00BD /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532122558EFC800AF00BD /* Alerts.m */; };
@@ -56,6 +57,8 @@
 		F40B7D2B1C75F161000A4616 /* sloth_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloth_icon.png; sourceTree = "<group>"; };
 		F40B7D2C1C75FA05000A4616 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F413E66E1C76842A00385DB3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		F43056D22EC64BBC00360103 /* NSPathControl+ContextMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSPathControl+ContextMenu.h"; sourceTree = "<group>"; };
+		F43056D32EC64BBC00360103 /* NSPathControl+ContextMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSPathControl+ContextMenu.m"; sourceTree = "<group>"; };
 		F435320E2558EFC800AF00BD /* InfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPanelController.h; sourceTree = "<group>"; };
 		F435320F2558EFC800AF00BD /* MutableDictProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableDictProxy.m; sourceTree = "<group>"; };
 		F43532102558EFC800AF00BD /* STPrivilegedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPrivilegedTask.h; sourceTree = "<group>"; };
@@ -237,6 +240,8 @@
 				F435321D2558EFC800AF00BD /* STPrivilegedTask.m */,
 				F43532292558EFC800AF00BD /* VolumesPopUpButton.h */,
 				F43532152558EFC800AF00BD /* VolumesPopUpButton.m */,
+				F43056D22EC64BBC00360103 /* NSPathControl+ContextMenu.h */,
+				F43056D32EC64BBC00360103 /* NSPathControl+ContextMenu.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -264,7 +269,7 @@
 				F4F1D89E1C761F8F00945D3E /* Set CFBundleVersion */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				F413E66C1C76631F00385DB3 /* Copy Frameworks */,
-				F49DB76F2572583F009B6257 /* Sign All Binaries */,
+				F49DB76F2572583F009B6257 /* Strip and Sign All Binaries */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
 			buildRules = (
@@ -327,7 +332,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F49DB76F2572583F009B6257 /* Sign All Binaries */ = {
+		F49DB76F2572583F009B6257 /* Strip and Sign All Binaries */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -337,14 +342,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Sign All Binaries";
+			name = "Strip and Sign All Binaries";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#exit 0\n# We need to sign all the binaries for update installation to work\n# Only do this for release builds so CI testing works\nif [ \"${CODE_SIGNING_REQUIRED}\" != \"YES\" ]; then\n  exit 0\nfi\n\n\nLOCATION1=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater\"\nLOCATION2=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate\"\nLOCATION3=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader\"\nLOCATION4=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework\"\nLOCATION5=\"${BUILT_PRODUCTS_DIR}/Sloth.app\"\n\nIDENTITY=\"16A0188A9D74911B21953A33684437F70902BC30\"\n#${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\necho $IDENTITY\n\n\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION1\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION2\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION3\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION4\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION5\"\n";
+			shellScript = "#exit 0\n# Ruthlessly strip all included binaries and sign them\n# Only do this for release builds so CI testing works\nif [ \"${CODE_SIGNING_REQUIRED}\" != \"YES\" ]; then\n  exit 0\nfi\n\n\nLOCATION1=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater\"\nLOCATION2=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate\"\nLOCATION3=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader\"\nLOCATION4=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework\"\nLOCATION5=\"${BUILT_PRODUCTS_DIR}/Sloth.app\"\nLOCATION6=\"${BUILT_PRODUCTS_DIR}/Sloth.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer\"\n\n\nIDENTITY=\"16A0188A9D74911B21953A33684437F70902BC30\"\n#${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\n#echo $IDENTITY\n\n# Sparkle Updater binary\nstrip -x -S \"$LOCATION1\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION1\"\n# Sparkle Autoupdate binary\nstrip -x -S \"$LOCATION2\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION2\"\n# Sparkle Downloader binary\nstrip -x -S \"$LOCATION3\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION3\"\n# Sparkle framework binary\nstrip -x -S $LOCATION4/Versions/Current/Sparkle\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION4\"\n# Sloth app binary\nstrip -x $LOCATION5/Contents/MacOS/Sloth\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION5\"\n# Sparkle Installer binary\nstrip -x -S \"$LOCATION6\"\ncodesign --verbose --force -o runtime --deep --sign \"$IDENTITY\" \"$LOCATION6\"\n";
 		};
 		F4F1D89E1C761F8F00945D3E /* Set CFBundleVersion */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -378,6 +383,7 @@
 				F435323C2558EFC800AF00BD /* SlothController.m in Sources */,
 				F43532322558EFC800AF00BD /* PrefsController.m in Sources */,
 				F435323D2558EFC800AF00BD /* ProcessUtils.m in Sources */,
+				F43056D42EC64BBC00360103 /* NSPathControl+ContextMenu.m in Sources */,
 				F43532312558EFC800AF00BD /* VolumesPopUpButton.m in Sources */,
 				F43532332558EFC800AF00BD /* NSWorkspace+Additions.m in Sources */,
 				F43532352558EFC800AF00BD /* FSUtils.m in Sources */,
@@ -418,7 +424,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 3.4;
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sveinbjorn.Sloth;
@@ -460,7 +466,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 3.4;
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sveinbjorn.Sloth;
@@ -526,7 +532,7 @@
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = resources/Info.plist;
 				INFOPLIST_KEY_NSMainNibFile = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wpartial-availability";
 				OTHER_CODE_SIGN_FLAGS = "--options=runtime";
@@ -588,7 +594,7 @@
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = resources/Info.plist;
 				INFOPLIST_KEY_NSMainNibFile = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wpartial-availability";
 				OTHER_CODE_SIGN_FLAGS = "--options=runtime";

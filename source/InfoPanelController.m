@@ -373,7 +373,7 @@
     
     // Parse file descriptor num
     int fd = -1;
-    BOOL hasFD = (itemDict[@"fd"] != nil) && [[NSScanner scannerWithString:itemDict[@"fd"]] scanInt:&fd];
+    BOOL hasFD = (itemDict[@"fd"] != nil) && [[NSScanner scannerWithString:(NSString * _Nonnull)itemDict[@"fd"]] scanInt:&fd];
     
     // Map access mode abbreviation to description string
     NSString *access = EMPTY_PLACEHOLDER;

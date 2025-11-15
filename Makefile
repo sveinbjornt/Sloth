@@ -1,4 +1,4 @@
-# Makefile for Sloth app
+# Makefile for Sloth macOS app
 
 XCODE_PROJ := "Sloth.xcodeproj"
 BUILD_DIR := "products"
@@ -17,8 +17,8 @@ all: clean build_unsigned
 release: clean build_signed archives size
 
 build_unsigned:
-	mkdir -p $(BUILD_DIR)
-	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)
+	@xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild  -parallelizeTargets \
 				-project "$(XCODE_PROJ)" \
 				-target "$(APP_NAME)" \
@@ -30,8 +30,8 @@ build_unsigned:
 				clean build
 
 build_signed:
-	mkdir -p $(BUILD_DIR)
-	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)
+	@xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild  -parallelizeTargets \
 				-project "$(XCODE_PROJ)" \
 				-target "$(APP_NAME)" \
@@ -59,6 +59,6 @@ size:
 	@cd $(BUILD_DIR); du -hs $(APP_SRC_ZIP_NAME)
 
 clean:
-	xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
+	@xattr -w com.apple.xcode.CreatedByBuildSystem true $(BUILD_DIR)
 	xcodebuild -project "$(XCODE_PROJ)" clean
 	rm -rf $(BUILD_DIR)/* 2> /dev/null

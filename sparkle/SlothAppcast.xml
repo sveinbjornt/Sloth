@@ -6,17 +6,18 @@
         <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3.4</title>
-            <pubDate>Monday, 19 May 2025 22:24:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.4.zip" sparkle:version="342" sparkle:shortVersionString="3.4" type="application/octet-stream" sparkle:edSignature="ZEGRxLVPAzweN2HxLp5cFnvF9IhLEk7rg0g9f9PxcPIKIARhHIJ/c92zjD7IJ2G/XGHWDFTiMkd494TO0srOBQ==" length="1383106"/>
-            <sparkle:minimumSystemVersion>10.13.0</sparkle:minimumSystemVersion>
+            <title>Version 3.5</title>
+            <pubDate>Saturday, 15 Nov 2025 07:33:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.5.zip" sparkle:version="368" sparkle:shortVersionString="3.5" type="application/octet-stream" sparkle:edSignature="t9945QOAhntZPtDsj9EXbPRoCWh85eVebxkQhe8kEg9CFkvunqWUeZaHrEWDb7bAgA7CVpRmSLB2YRBCoQ8CDA==" length="1348310"/>
+            <sparkle:minimumSystemVersion>11.5</sparkle:minimumSystemVersion>
             <description><![CDATA[
-                <h2>New in Sloth 3.4</h2>
+                <h2>New in Sloth 3.5</h2>
                 <ul>
-                    <li>Copying (Cmd-C) an app/process or file now copies both filesystem representation and string to the clipboard</li>
-                    <li>Faster asynchronous file info processing in Info Panel</li>
-                    <li>Various minor improvements</li>
-                    <li>App is now notarized by Apple in addition to being Developer ID signed</li>
+                    <li>New application icon</li>
+                    <li>Improved path bar contextual menu handling</li>
+                    <li>Minor interface tweaks and bug fixes</li>
+                    <li>Code modernization</li>
+                    <li>Now requires macOS 11 "Big Sur" or later</li>
                 </ul>
             ]]></description>
         </item>
