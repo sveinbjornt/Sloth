@@ -778,12 +778,12 @@
     [pasteBoard clearContents];
     
     if ([filePaths count]) {
-        [pasteBoard declareTypes:@[NSFilenamesPboardType, NSStringPboardType] owner:nil];
+        [pasteBoard declareTypes:@[NSFilenamesPboardType, NSPasteboardTypeString] owner:nil];
         [pasteBoard setPropertyList:filePaths forType:NSFilenamesPboardType];
-        [pasteBoard setString:copyStr forType:NSStringPboardType];
+        [pasteBoard setString:copyStr forType:NSPasteboardTypeString];
     } else {
-        [pasteBoard declareTypes:@[NSStringPboardType] owner:nil];
-        [pasteBoard setString:copyStr forType:NSStringPboardType];
+        [pasteBoard declareTypes:@[NSPasteboardTypeString] owner:nil];
+        [pasteBoard setString:copyStr forType:NSPasteboardTypeString];
     }
 }
 
@@ -1060,7 +1060,7 @@
     
     [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
     [pboard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
-    [pboard setString:item[@"name"] forType:NSStringPboardType];
+    [pboard setString:item[@"name"] forType:NSPasteboardTypeString];
     
     return YES;
 }
@@ -1133,7 +1133,7 @@
     [pboard setPropertyList:files forType:NSFilenamesPboardType];
     
     NSString *strRep = [files componentsJoinedByString:@"\n"];
-    [pboard setString:strRep forType:NSStringPboardType];
+    [pboard setString:strRep forType:NSPasteboardTypeString];
 }
 
 
