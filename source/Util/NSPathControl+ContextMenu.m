@@ -29,7 +29,9 @@
 */
 
 #import "NSPathControl+ContextMenu.h"
+
 #import "NSWorkspace+Additions.h"
+
 #import <objc/runtime.h>
 
 static const char * kFilePathAssociatedObjectKey = "filePath";

@@ -28,8 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "Common.h"
 #import "SlothController.h"
+
+#import "Common.h"
 #import "Alerts.h"
 #import "NSString+RegexConvenience.h"
 #import "InfoPanelController.h"

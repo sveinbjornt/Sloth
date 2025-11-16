@@ -28,8 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "Common.h"
 #import "IconUtils.h"
+
+#import "Common.h"
 
 #define CORE_TYPES_RESOURCE(X) \
 [NSString stringWithFormat:@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/%@",(X)]

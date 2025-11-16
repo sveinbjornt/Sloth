@@ -33,8 +33,6 @@
 
 #import "STPrivilegedTask.h"
 
-#import <Security/Authorization.h>
-#import <Security/AuthorizationTags.h>
 #import <stdio.h>
 #import <unistd.h>
 #import <dlfcn.h>

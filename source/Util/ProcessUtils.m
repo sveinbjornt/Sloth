@@ -29,9 +29,9 @@
 */
 
 #import "ProcessUtils.h"
+
 #import "STPrivilegedTask.h"
 
-#import <AppKit/AppKit.h>
 #import <libproc.h>
 #import <sys/sysctl.h>
 #import <unistd.h>

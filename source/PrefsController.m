@@ -28,8 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "Common.h"
 #import "PrefsController.h"
+
+#import "Common.h"
 #import "IconUtils.h"
 
 #define DEFAULT_FILTER  @".*\\.metallib$"

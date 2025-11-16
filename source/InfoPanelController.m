@@ -28,8 +28,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "SlothController.h"
 #import "InfoPanelController.h"
+
+#import "SlothController.h"
 #import "Common.h"
 #import "IPUtils.h"
 #import "IconUtils.h"
