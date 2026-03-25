@@ -158,10 +158,10 @@ static NSMutableDictionary<NSString*, NSImage*> *iconStore;
 }
 
 + (NSImage *)imageNamed:(NSString *)name {
-    // Lazy-load
-    if (iconStore == nil) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         iconStore = [self _loadIcons];
-    }
+    });
     NSImage *img = [iconStore objectForKey:name];
     if (img == nil) {
         DLog(@"Icon '%@' not found", name);

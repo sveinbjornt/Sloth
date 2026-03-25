@@ -67,8 +67,8 @@
 @property (weak) IBOutlet NSButton *getFinderInfoButton;
 @property (weak) IBOutlet NSButton *showPackageContentsButton;
 
-@property (assign, nonatomic) NSString *path;
-@property (assign, nonatomic) NSDictionary *fileInfoDict;
+@property (copy, nonatomic) NSString *path;
+@property (strong, nonatomic) NSDictionary *fileInfoDict;
 
 @end
 
