@@ -312,14 +312,16 @@
 
 - (NSString *)userAndGroupForPath:(NSString *)filePath {
     struct stat statInfo;
-    stat([filePath fileSystemRepresentation], &statInfo);
+    if (stat([filePath fileSystemRepresentation], &statInfo) != 0) {
+        return @"?:?";
+    }
     
     const char *u = user_from_uid(statInfo.st_uid, 0);
     const char *g = group_from_gid(statInfo.st_gid, 0);
     NSString *user = [NSString stringWithCString:u encoding:NSUTF8StringEncoding];
     NSString *group = [NSString stringWithCString:g encoding:NSUTF8StringEncoding];
     
-    return [NSString stringWithFormat:@"%@:%@", user, group, nil];
+    return [NSString stringWithFormat:@"%@:%@", user, group];
 }
 
 // Run /usr/bin/file program on path, return output
@@ -438,10 +440,10 @@
         NSString *address = [addressAndPort componentsJoinedByString:@":"];
         
         // Chop the surrounding square brackets that lsof adds to IPv6 addresses
-        if ([address characterAtIndex:[address length]-1] == ']') {
+        if ([address length] && [address characterAtIndex:[address length]-1] == ']') {
             address = [address substringToIndex:[address length]-1];
         }
-        if ([address characterAtIndex:0] == '[') {
+        if ([address length] && [address characterAtIndex:0] == '[') {
             address = [address substringFromIndex:1];
         }
         

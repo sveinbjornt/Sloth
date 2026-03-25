@@ -270,9 +270,9 @@
                 NSString *socketInfo = value;
                 if ([socketInfo hasPrefix:@"ST="]) {
                     currentFile[@"socketstate"] = [socketInfo substringFromIndex:3];
+                    currentFile[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)",
+                                                   currentFile[@"name"], currentFile[@"socketstate"]];
                 }
-                currentFile[@"displayname"] = [NSString stringWithFormat:@"%@ (%@)",
-                                               currentFile[@"name"], currentFile[@"socketstate"]];
             }
                 break;
                 

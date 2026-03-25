@@ -223,13 +223,16 @@
     BOOL isDir;
     [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
     NSString *type = isDir && ![self isFilePackageAtPath:path] ? @"folder" : @"file";
-    
+
+    NSString *escapedPath = [path stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    escapedPath = [escapedPath stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+
     NSString *source = [NSString stringWithFormat:
 @"set aFile to (POSIX file \"%@\") as text\n\
 tell application \"Finder\"\n\
 \tactivate\n\
 \topen information window of %@ aFile\n\
-end tell", path, type];
+end tell", escapedPath, type];
     
     return [self runAppleScript:source];
 }
@@ -238,13 +241,13 @@ end tell", path, type];
     if ([self canRevealFileAtPath:path] == NO) {
         return NO;
     }
-    
-    NSString *source = [NSString stringWithFormat:
-@"tell application \"Finder\"\n\
-\tmove POSIX file \"%@\" to trash\n\
-end tell", path];
-    
-    return [self runAppleScript:source];    
+    NSURL *url = [NSURL fileURLWithPath:path];
+    NSError *error;
+    BOOL success = [[NSFileManager defaultManager] trashItemAtURL:url resultingItemURL:nil error:&error];
+    if (!success) {
+        NSLog(@"Failed to trash %@: %@", path, [error localizedDescription]);
+    }
+    return success;
 }
 
 - (BOOL)showPackageContents:(NSString *)path {
@@ -269,7 +272,7 @@ end tell", path];
     if (appleScript) {
         NSDictionary *error;
         if ([appleScript executeAndReturnError:&error] == nil) {
-            NSLog(@"%@", [error description]);
+            NSLog(@"AppleScript error: %@ (error %@)", error[NSAppleScriptErrorMessage], error[NSAppleScriptErrorNumber]);
             return NO;
         }
         return YES;

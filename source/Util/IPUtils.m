@@ -39,31 +39,41 @@
 @implementation IPUtils
 
 + (BOOL)isIPv4AddressString:(NSString *)ipString {
-    NSRegularExpression *regex =
-    [NSRegularExpression regularExpressionWithPattern:
-     @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-                                              options:NSRegularExpressionCaseInsensitive
-                                                error:nil];
+    static NSRegularExpression *regex;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        regex = [NSRegularExpression regularExpressionWithPattern:
+         @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:nil];
+    });
     return [ipString isMatchedByRegex:regex];
 }
 
 + (BOOL)isIPv6AddressString:(NSString *)ipString {
-    NSRegularExpression *regex =
-    [NSRegularExpression regularExpressionWithPattern:
+    static NSRegularExpression *regex;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        regex = [NSRegularExpression regularExpressionWithPattern:
 @"(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))"
-                                              options:NSRegularExpressionCaseInsensitive
-                                                error:nil];
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:nil];
+    });
     return [ipString isMatchedByRegex:regex];
 }
 
 + (BOOL)isPortNumberString:(NSString *)portNumString {
     // Starts with, contains only, and ends with numbers
-    NSRegularExpression *rx = [NSRegularExpression regularExpressionWithPattern:@"^\\d+$"
-                                                                        options:0
-                                                                          error:nil];
+    static NSRegularExpression *rx;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        rx = [NSRegularExpression regularExpressionWithPattern:@"^\\d+$"
+                                                       options:0
+                                                         error:nil];
+    });
     BOOL match = [portNumString isMatchedByRegex:rx];
     int portNum = [portNumString intValue];
-    BOOL validRange = (portNum >= 0 && portNum < 65535);
+    BOOL validRange = (portNum >= 0 && portNum <= 65535);
     return match && validRange;
 }
 

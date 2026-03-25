@@ -6,6 +6,7 @@
 * Highlight matching part of string when filtering (option in filter field popup - might be slow)
 * Store authentication privileges and use them to run command line tool "/usr/bin/file" for Info Dialog when already authenticated
 * Add tests for lsof output parsing
+* Add Save to File menu, save as .txt file with tab indented items under each proc
 * Click on connected process f. pipes to select and show info of that process
 * Create visualization of pipes between processes in special view
 * Fix exception raised when "unknown file type" is selected with Info Panel open

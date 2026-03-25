@@ -245,7 +245,8 @@
     // Create and launch authorized task
     STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
     [task setLaunchPath:@(toolPath)];
-    [task setArguments:@[@"-9", [NSString stringWithFormat:@"%d", pid]]];
+    NSString *sigFlag = useSigkill ? @"-9" : @"-15";
+    [task setArguments:@[sigFlag, [NSString stringWithFormat:@"%d", pid]]];
     [task launchWithAuthorization:authRef];
     
     AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
