@@ -118,8 +118,10 @@ static const char * kFilePathAssociatedObjectKey = "filePath";
 
 - (void)openPathWithApplication:(id)sender {
     NSString *appPath = [sender toolTip];
-    NSString *filePath = objc_getAssociatedObject([sender menu], kFilePathAssociatedObjectKey);
-    [[NSWorkspace sharedWorkspace] openFile:filePath withApplication:appPath];
+    if ([sender menu]) {
+        NSString *filePath = objc_getAssociatedObject((id _Nonnull)[sender menu], kFilePathAssociatedObjectKey);
+        [[NSWorkspace sharedWorkspace] openFile:filePath withApplication:appPath];
+    }
 }
 
 - (void)showPathInFinder:(id)sender {

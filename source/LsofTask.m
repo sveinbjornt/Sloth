@@ -39,7 +39,7 @@
 
 @implementation LsofTask
 
-- (NSMutableArray<Item *> *)launch:(AuthorizationRef)authRef numFiles:(int *)numFiles {
+- (NSMutableArray<Item *> *)launch:(AuthorizationRef __nullable)authRef numFiles:(NSInteger *)numFiles {
     return [self parse:[self run:authRef] numFiles:numFiles];
 }
 
@@ -73,7 +73,7 @@
     return [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
 }
 
-- (NSMutableArray<Item *> *)parse:(NSString *)outputString numFiles:(int *)numFiles {
+- (NSMutableArray<Item *> *)parse:(NSString *)outputString numFiles:(NSInteger *)numFiles {
     // Parse-friendly lsof output has the following format:
     //
     //    p113                              // PROCESS INFO STARTS (pid)

@@ -59,7 +59,7 @@
 }
 
 + (NSString * __nullable)identifierForBundleAtPath:(NSString *)path {
-    return [[NSBundle bundleWithPath:path] bundleIdentifier];
+    return (NSString * __nullable)[[NSBundle bundleWithPath:path] bundleIdentifier];
 }
 
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid {

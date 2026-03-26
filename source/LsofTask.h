@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LsofTask : NSObject
 
-- (NSMutableArray<Item *> *)launch:(AuthorizationRef)authRef numFiles:(int *)numFiles;
+- (NSMutableArray<Item *> *)launch:(AuthorizationRef __nullable)authRef numFiles:(NSInteger *)numFiles;
 + (void)updateProcessInfo:(NSMutableDictionary *)p;
 
 @end

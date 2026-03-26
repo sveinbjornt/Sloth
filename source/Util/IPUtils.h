@@ -42,12 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString * _Nullable)dnsNameForIPv6AddressString:(NSString *)ipAddStr;
 + (NSString * _Nullable)dnsNameForIPAddressString:(NSString *)ipAddStr;
 
-+ (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString;
-+ (NSString *)IPv4AddressStringForDNSName:(NSString *)dnsNameString;
-+ (NSString *)IPv6AddressStringForDNSName:(NSString *)dnsNameString;
++ (NSString * _Nullable)IPAddressStringForDNSName:(NSString * _Nullable)dnsNameString;
++ (NSString * _Nullable)IPv4AddressStringForDNSName:(NSString * _Nullable)dnsNameString;
++ (NSString * _Nullable)IPv6AddressStringForDNSName:(NSString * _Nullable)dnsNameString;
 
-+ (NSString * _Nullable)portNameForPortNumString:(NSString *)portNumStr;
-+ (NSString *)portNumberForPortNameString:(NSString *)portNameString;
++ (NSString * _Nullable)portNameForPortNumString:(NSString * _Nullable)portNumStr;
++ (NSString * _Nullable)portNumberForPortNameString:(NSString * _Nullable)portNameString;
 
 @end
 

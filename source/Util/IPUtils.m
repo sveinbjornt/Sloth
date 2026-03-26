@@ -113,7 +113,7 @@
     return [IPUtils IPv6AddressStringForDNSName:dnsNameString];
 }
 
-+ (NSString *)IPv4AddressStringForDNSName:(NSString *)dnsNameString {
++ (NSString * _Nullable)IPv4AddressStringForDNSName:(NSString *)dnsNameString {
     NSHost *host = [NSHost hostWithName:dnsNameString];
     if (host) {
         for (NSString *addr in [host addresses]) {
@@ -125,7 +125,7 @@
     return nil;
 }
 
-+ (NSString *)IPv6AddressStringForDNSName:(NSString *)dnsNameString {
++ (NSString * _Nullable)IPv6AddressStringForDNSName:(NSString *)dnsNameString {
     NSHost *host = [NSHost hostWithName:dnsNameString];
     if (host) {
         for (NSString *addr in [host addresses]) {

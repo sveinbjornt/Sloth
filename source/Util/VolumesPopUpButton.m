@@ -127,8 +127,8 @@
         NSString *menuItemName = fs[@"mountpoint"];
         
         // Get volume name, if possible
-        NSURL *url = [NSURL fileURLWithPath:fs[@"mountpoint"]];
         NSString *volumeName;
+        NSURL *url = [NSURL fileURLWithPath:fs[@"mountpoint"]];
         NSError *err;
         [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
         if (volumeName != nil) {

@@ -89,9 +89,9 @@
     InfoPanelController * _Nullable infoPanelController;
     PrefsController * _Nullable prefsController;
 }
-@property int totalFileCount;
-@property (nonatomic, strong) IBOutlet NSMutableArray<NSDictionary*> *content;
-@property (nonatomic, strong) NSMutableArray<NSDictionary*> *unfilteredContent;
+@property NSInteger totalFileCount;
+@property (nonatomic, strong) IBOutlet NSMutableArray<Item*> *content;
+@property (nonatomic, strong) NSMutableArray<Item*> *unfilteredContent;
 @property (nonatomic, strong) NSArray<NSSortDescriptor*> *sortDescriptors;
 
 @end
@@ -266,9 +266,9 @@
     // Run lsof asynchronously in the background, so interface doesn't lock up
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         @autoreleasepool {
-            int fileCount;
+            NSInteger fileCount;
             LsofTask *task = [LsofTask new];
-            NSMutableArray *items = [task launch:self->authRef numFiles:&fileCount];
+            NSMutableArray<Item *> *items = [task launch:self->authRef numFiles:&fileCount];
             self.unfilteredContent = items;
             self.totalFileCount = fileCount;
             
@@ -321,16 +321,16 @@
     }
     
     // Filter content
-    int matchingFilesCount = 0;
+    NSInteger matchingFilesCount = 0;
     self.content = [self filterContent:self.unfilteredContent numberOfMatchingFiles:&matchingFilesCount];
     
     // Update outline view header
     [self updateProcessCountHeader];
     
     // Update num items label
-    NSString *str = [NSString stringWithFormat:@"Showing %d out of %d items", matchingFilesCount, self.totalFileCount];
+    NSString *str = [NSString stringWithFormat:@"Showing %ld out of %ld items", (long)matchingFilesCount, (long)self.totalFileCount];
     if (matchingFilesCount == self.totalFileCount) {
-        str = [NSString stringWithFormat:@"Showing all %d items", self.totalFileCount];
+        str = [NSString stringWithFormat:@"Showing all %ld items", (long)self.totalFileCount];
     }
     [numItemsTextField setStringValue:str];
     
@@ -383,7 +383,7 @@
 
 // Filter content according to active filters
 - (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent
-            numberOfMatchingFiles:(int *)matchingFilesCount {
+            numberOfMatchingFiles:(NSInteger *)matchingFilesCount {
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
@@ -707,7 +707,7 @@
     BOOL optionKeyDown = (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption) == NSEventModifierFlagOption);
     if (!optionKeyDown) {
         // Ask user to confirm
-        NSString *prompt = @"This will tell the Finder to move the specified file into your Trash folder. \
+        NSString *prompt = @"This will move the specified file to the Trash folder. \
  Hold the option key (⌥) to avoid this prompt.";
         if ([Alerts proceedAlert:[NSString stringWithFormat:@"Move “%@” to the Trash?", [path lastPathComponent]]
                          subText:prompt
