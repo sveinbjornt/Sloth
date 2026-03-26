@@ -73,7 +73,7 @@
     });
     BOOL match = [portNumString isMatchedByRegex:rx];
     int portNum = [portNumString intValue];
-    BOOL validRange = (portNum >= 0 && portNum <= 65535);
+    BOOL validRange = (portNum > 0 && portNum <= 65535);
     return match && validRange;
 }
 
@@ -148,10 +148,8 @@
     int port = [portNumStr intValue];
     struct servent *serv;
     serv = getservbyport(htons(port), NULL);
-    
-    // Just return original port num string if port name couldn't be resolved
     if (!serv) {
-        return portNumStr;
+        return nil;
     }
     
     return [NSString stringWithCString:serv->s_name encoding:NSASCIIStringEncoding];
@@ -161,8 +159,8 @@
 + (NSString *)portNumberForPortNameString:(NSString *)portNameString {
     const char *portName = [portNameString cStringUsingEncoding:NSUTF8StringEncoding];
     struct servent *serv = getservbyname(portName, NULL);
-    if (serv != NULL) {
-        int portNum = ntohs(serv->s_port);
+    if (serv) {
+        short portNum = ntohs(serv->s_port);
         return [NSString stringWithFormat:@"%d", portNum];
     }
     return nil;

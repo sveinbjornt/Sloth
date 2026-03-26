@@ -364,7 +364,7 @@
     NSString *sizeString = [WORKSPACE fileSizeAsHumanReadableString:size];
 
     if ([sizeString hasSuffix:@"bytes"] == NO) {
-        NSString *byteSizeStr = [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
+        NSString *byteSizeStr = [NSString stringWithFormat:@"%llu bytes", (unsigned long long)size];
         sizeString = [NSString stringWithFormat:@"%@ (%@)", sizeString, byteSizeStr];
     }
     
@@ -501,7 +501,7 @@
 }
 
 - (NSString *)filesystemDescriptionForItem:(Item *)item {
-    if (![item objectForKey:@"device"]) {
+    if ([item objectForKey:@"device"] == nil) {
         return EMPTY_PLACEHOLDER;
     }
     

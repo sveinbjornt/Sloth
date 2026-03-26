@@ -269,11 +269,11 @@
             NSInteger fileCount;
             LsofTask *task = [LsofTask new];
             NSMutableArray<Item *> *items = [task launch:self->authRef numFiles:&fileCount];
-            self.unfilteredContent = items;
-            self.totalFileCount = fileCount;
-            
+
             // Update UI on main thread once task is done
             dispatch_async(dispatch_get_main_queue(), ^{
+                self.unfilteredContent = items;
+                self.totalFileCount = fileCount;
                 self->isRefreshing = NO;
                 // Re-enable controls
                 [self->progressIndicator stopAnimation:self];
