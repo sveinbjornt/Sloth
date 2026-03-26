@@ -88,7 +88,6 @@
     [DEFAULTS setBool:NO forKey:@"alwaysUseSigkill"];
     
     [DEFAULTS setObject:@[@[@NO, DEFAULT_FILTER]] forKey:@"filters"];
-    [DEFAULTS synchronize];
     
     filters = [NSMutableArray new];
     for (NSArray *a in [DEFAULTS objectForKey:@"filters"]) {
@@ -122,7 +121,6 @@
 
 - (void)saveFilters {
     [DEFAULTS setObject:filters forKey:@"filters"];
-    [DEFAULTS synchronize];
 }
 
 - (void)updateRemoveFilterButtonStatus {

@@ -95,7 +95,7 @@
     return [[NSHost hostWithAddress:ipAddrStr] name];
 }
 
-+ (NSString * _Nullable)dnsNameForIPAddressString:(NSString *)ipAddStr; {
++ (NSString * _Nullable)dnsNameForIPAddressString:(NSString *)ipAddStr {
     NSString *dns = [IPUtils dnsNameForIPv4AddressString:ipAddStr];
     if (dns) {
         return dns;

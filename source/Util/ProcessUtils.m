@@ -239,6 +239,7 @@
     // Pre-authorize the privileged operation
     err = AuthorizationCopyRights(authRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
     if (err != errAuthorizationSuccess) {
+        AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
         return NO;
     }
     

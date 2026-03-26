@@ -624,7 +624,6 @@
     [filterTextField setStringValue:@""];
     [volumesPopupButton selectItemAtIndex:0];
     
-    [DEFAULTS synchronize];
     [self updateFiltering];
 }
 
@@ -717,10 +716,9 @@
         }
     }
     
-    // Move to trash, refresh in a bit to give Finder time to complete command. Tends to be slow :/
     if ([WORKSPACE moveFileToTrash:path]) {
-        [self performSelector:@selector(outlineViewSelectionDidChange:) withObject:nil afterDelay:0.4];
-        [outlineView performSelector:@selector(reloadData) withObject:nil afterDelay:0.6];
+        [self outlineViewSelectionDidChange:nil];
+        [outlineView reloadData];
     }
 }
 
