@@ -105,7 +105,7 @@
 
 #pragma mark -
 
-+ (NSString *)IPAddressStringForDNSName:(NSString *)dnsNameString {
++ (NSString * _Nullable)IPAddressStringForDNSName:(NSString *)dnsNameString {
     NSString *ipAddr = [IPUtils IPv4AddressStringForDNSName:dnsNameString];
     if (ipAddr) {
         return ipAddr;

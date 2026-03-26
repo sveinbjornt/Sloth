@@ -406,7 +406,7 @@
     }
     
     // Update display name to show number of open files for process
-    p[@"displayname"] = [NSString stringWithFormat:@"%@ (%d)", p[@"pname"], (int)[p[@"children"] count]];
+    p[@"displayname"] = [NSString stringWithFormat:@"%@ (%lu)", p[@"pname"], [p[@"children"] count]];
 }
 
 - (NSMutableArray *)args {

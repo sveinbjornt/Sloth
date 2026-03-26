@@ -71,7 +71,7 @@
     NSMenu *submenu = menu ? menu : [[NSMenu alloc] init];
     [submenu setTitle:path]; // Used by selector
     
-    int numOtherApps = 0;
+    NSInteger numOtherApps = 0;
     NSString *defaultApp = [self defaultHandlerApplicationForFile:path];
     if (defaultApp) {
         
@@ -205,7 +205,7 @@
 
 - (NSString *)fileSizeAsHumanReadableString:(UInt64)size {
     if (size < 1024ULL) {
-        return [NSString stringWithFormat:@"%u bytes", (unsigned int)size];
+        return [NSString stringWithFormat:@"%llu bytes", (UInt64)size];
     } else if (size < 1048576ULL) {
         return [NSString stringWithFormat:@"%llu KB", (UInt64)size / 1024];
     } else if (size < 1073741824ULL) {

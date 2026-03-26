@@ -311,7 +311,7 @@
     if ([sortedBy hasSuffix:@" id"]) {
         sortedBy = [NSString stringWithFormat:@"%@ID", [sortedBy substringToIndex:[sortedBy length]-2]];
     }
-    NSString *headerTitle = [NSString stringWithFormat:@"%d processes - sorted by %@", (int)[self.content count], sortedBy];
+    NSString *headerTitle = [NSString stringWithFormat:@"%lu processes - sorted by %@", [self.content count], sortedBy];
     [[[outlineView tableColumnWithIdentifier:@"children"] headerCell] setStringValue:headerTitle];
 }
 
@@ -540,7 +540,7 @@
             // See if it matches regexes in search field filter
             if (hasSearchFilter) {
                 
-                int matchCount = 0;
+                NSInteger matchCount = 0;
                 
                 if (searchUsesRegex) {
                     

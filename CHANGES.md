@@ -2,6 +2,12 @@
 
 ## Sloth version history
 
+### 26/03/2026 - Version 3.6
+
+* Minor performance improvements
+* Minor bug fixes and edge case optimizations
+* More code modernization
+
 ### 14/11/2025 - Version 3.5
 
 * New application icon
