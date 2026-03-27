@@ -37,13 +37,16 @@
 - (NSArray<NSString*> *)handlerApplicationsForFile:(NSString *)filePath {
     NSURL *url = [NSURL fileURLWithPath:filePath];
     NSArray<NSURL*> *applications = (NSArray<NSURL*> *)CFBridgingRelease(LSCopyApplicationURLsForURL((__bridge CFURLRef)url, kLSRolesAll));
-    if (applications == nil) {
+    if (applications == nil || [applications count] == 0) {
         return @[];
     }
     
     NSMutableArray<NSString*> *appPaths = [NSMutableArray new];
     for (NSURL *appURL in applications) {
-        [appPaths addObject:[appURL path]];
+        NSString *appPath = [appURL path];
+        if (appPath) {
+            [appPaths addObject:appPath];
+        }
     }
     return [appPaths copy]; // Return immutable copy
 }
@@ -56,7 +59,7 @@
 
 // Generate Open With menu for a given file. If no target and action are provided, we use our own.
 // If no menu is supplied as parameter, a new menu is created and returned.
-- (NSMenu * _Nullable)openWithMenuForFile:(NSString *)path target:(id __nullable)t action:(SEL __nullable)s menu:(NSMenu * __nullable)menu {
+- (NSMenu * _Nullable)openWithMenuForFile:(NSString *)path target:(id __nullable)targetParam action:(SEL __nullable)selParam menu:(NSMenu * __nullable)menu {
     [menu removeAllItems];
 
     NSMenuItem *noneMenuItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
@@ -65,24 +68,26 @@
         return menu;
     }
     
-    id target = t ? t : self;
-    SEL selector = s ? s : @selector(_openWith:);
+    id targ = targetParam != nil ? targetParam : self;
+    SEL sel = selParam != nil ? selParam : @selector(_openWith:);
     
-    NSMenu *submenu = menu ? menu : [[NSMenu alloc] init];
+    NSMenu *submenu = menu ? menu : [NSMenu new];
     [submenu setTitle:path]; // Used by selector
     
     NSInteger numOtherApps = 0;
     NSString *defaultApp = [self defaultHandlerApplicationForFile:path];
     if (defaultApp) {
-        
         // Add menu item for default app
-        NSString *defaultAppName = [NSString stringWithFormat:@"%@ (default)", [[NSFileManager defaultManager] displayNameAtPath:defaultApp]];
+        NSString *defaultAppName = [NSString stringWithFormat:@"%@ (default)", [[NSFileManager defaultManager]
+                                                                                displayNameAtPath:defaultApp]];
         NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:defaultApp];
         [icon setSize:NSMakeSize(16,16)];
         
-        NSMenuItem *defaultAppItem = [submenu addItemWithTitle:defaultAppName action:selector keyEquivalent:@""];
+        NSMenuItem *defaultAppItem = [submenu addItemWithTitle:defaultAppName
+                                                        action:sel
+                                                 keyEquivalent:@""];
         [defaultAppItem setImage:icon];
-        [defaultAppItem setTarget:target];
+        [defaultAppItem setTarget:targ];
         [defaultAppItem setToolTip:defaultApp];
         
         [submenu addItem:[NSMenuItem separatorItem]];
@@ -102,9 +107,9 @@
                 NSString *title = [[NSFileManager defaultManager] displayNameAtPath:appPath];
                 
                 NSMenuItem *item = [submenu addItemWithTitle:title
-                                                      action:selector
+                                                      action:sel
                                                keyEquivalent:@""];
-                [item setTarget:target];
+                [item setTarget:targ];
                 [item setToolTip:appPath];
                 
                 NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
@@ -124,9 +129,9 @@
     }
     
     NSMenuItem *selectItem = [submenu addItemWithTitle:@"Select..."
-                                                action:selector
+                                                action:sel
                                          keyEquivalent:@""];
-    [selectItem setTarget:target];
+    [selectItem setTarget:targ];
     
     return submenu;
 }

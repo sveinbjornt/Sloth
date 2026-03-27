@@ -232,7 +232,7 @@
     
     // Create authorization reference
     OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authRef);
-    if (err != errAuthorizationSuccess) {
+    if (err != errAuthorizationSuccess || authRef == NULL) {
         return NO;
     }
     
@@ -243,11 +243,12 @@
         return NO;
     }
     
-    // Create and launch authorized task
+    // Create and launch authorized kill task
     STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
     [task setLaunchPath:@(toolPath)];
     NSString *sigFlag = useSigkill ? @"-9" : @"-15";
-    [task setArguments:@[sigFlag, [NSString stringWithFormat:@"%d", pid]]];
+    NSString *pidString = [NSString stringWithFormat:@"%d", pid];
+    [task setArguments:@[sigFlag, pidString]];
     [task launchWithAuthorization:authRef];
     
     AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);

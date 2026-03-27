@@ -73,7 +73,11 @@
     for (NSMenuItem *item in [menu itemArray]) {
         NSString *volPath = [item toolTip];
         if (volPath && ![volPath isEqualToString:@""]) {
-            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[item toolTip]];
+            NSString *tt = [item toolTip];
+            if (!tt) {
+                return;
+            }
+            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:tt];
             if (icon) {
                 [icon setSize:NSMakeSize(16, 16)];
                 [item setImage:icon];
@@ -93,7 +97,10 @@
 }
 
 - (void)notifyDelegateSelectionHasChanged:(id)sender {
-    [[self delegate] volumeSelectionChanged:[[self selectedItem] toolTip]];
+    NSString *volName = [[self selectedItem] toolTip];
+    if (volName) {
+        [[self delegate] volumeSelectionChanged:volName];
+    }
 }
 
 - (void)populateMenu {

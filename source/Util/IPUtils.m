@@ -160,7 +160,7 @@
     const char *portName = [portNameString cStringUsingEncoding:NSUTF8StringEncoding];
     struct servent *serv = getservbyname(portName, NULL);
     if (serv) {
-        short portNum = ntohs(serv->s_port);
+        uint16_t portNum = ntohs(serv->s_port);
         return [NSString stringWithFormat:@"%d", portNum];
     }
     return nil;
