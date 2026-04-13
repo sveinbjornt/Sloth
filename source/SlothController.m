@@ -153,7 +153,7 @@
     [[NSImage imageNamed:@"Info"] setSize:NSMakeSize(20, 20)];
     
     // Manually check the appropriate menu items for these submenus
-    // on launch since we (infuriatingly) can't use bindings for it!
+    // on launch since we (infuriatingly) can't use bindings for it
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"interfaceSize"] inMenu:interfaceSizeSubmenu];
     [self checkItemWithTitle:[DEFAULTS stringForKey:@"accessMode"] inMenu:accessModeSubmenu];
     
@@ -212,7 +212,7 @@
     [self setUpdateTimerFromDefaults]; // If period update has been set in defaults
 }
 
-- (nullable NSMenu *)applicationDockMenu:(NSApplication *)sender {
+- (NSMenu *)applicationDockMenu:(NSApplication *)sender {
     NSMenu *menu = [NSMenu new];
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Refresh" action:@selector(refresh:) keyEquivalent:@""];
     [item setTarget:self];

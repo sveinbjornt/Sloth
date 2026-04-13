@@ -389,7 +389,7 @@
     // See if it's one of the three standard io streams
     NSString *ioDesc = @"";
     if (accessModeName != nil && hasFD && fd < 3) {
-        NSArray<NSString*> *standardIOs = @[@" - STDIN?", @" - STDOUT?", @" - STDERR?"];
+        NSArray<NSString*> *standardIOs = @[@" - STDIN", @" - STDOUT", @" - STDERR"];
         ioDesc = standardIOs[fd];
     }
     
