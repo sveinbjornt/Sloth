@@ -398,21 +398,20 @@
     }
     
     // OK, we don't have any access mode
-    if (access == nil) {
+    if (accessModeName == nil) {
         if (itemDict[@"fd"] == nil) {
             return EMPTY_PLACEHOLDER;
+        }
+        if (hasFD) {
+            access = EMPTY_PLACEHOLDER;
+        } else if ([itemDict[@"fd"] isEqualToString:@"txt"]) {
+            access = @"N/A: Program binary, asset or shared lib";
+        } else if ([itemDict[@"fd"] isEqualToString:@"cwd"]) {
+            access = @"N/A: Current working directory";
+        } else if ([itemDict[@"fd"] isEqualToString:@"twd"]) {
+            access = @"N/A: Per-thread working directory";
         } else {
-            if (hasFD) {
-                access = EMPTY_PLACEHOLDER;
-            } else if ([itemDict[@"fd"] isEqualToString:@"txt"]) {
-                access = @"N/A: Program binary, asset or shared lib";
-            } else if ([itemDict[@"fd"] isEqualToString:@"cwd"]) {
-                access = @"N/A: Current working directory";
-            } else if ([itemDict[@"fd"] isEqualToString:@"twd"]) {
-                access = @"N/A: Per-thread working directory";
-            } else {
-                access = [NSString stringWithFormat:@"No file descriptor. Type: %@", itemDict[@"fd"]];
-            }
+            access = [NSString stringWithFormat:@"No file descriptor. Type: %@", itemDict[@"fd"]];
         }
     }
     

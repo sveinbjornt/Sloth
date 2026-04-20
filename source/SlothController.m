@@ -492,11 +492,11 @@
     NSMutableArray *filteredContent = [NSMutableArray array];
     
     // Iterate over each process, filter the children
-    for (NSMutableDictionary *process in self.unfilteredContent) {
+    for (Item *process in self.unfilteredContent) {
         
-        NSMutableArray *matchingFiles = [NSMutableArray array];
+        NSMutableArray<Item*> *matchingFiles = [NSMutableArray array];
         
-        for (NSDictionary *file in process[@"children"]) {
+        for (Item *file in process[@"children"]) {
             
             // Let's see if child gets filtered by type or path
             if (showAllItemTypes == NO) {
@@ -999,7 +999,7 @@
 }
 
 - (void)deauthenticate {
-    DLog(@"Deathenticating");
+    DLog(@"Deauthenticating");
     if (authRef) {
         AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
         authRef = NULL;

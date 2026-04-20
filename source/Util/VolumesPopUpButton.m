@@ -128,14 +128,14 @@
     // Add all filesystems (except /dev)
     for (NSNumber *fsid in [filesystems allKeys]) {
         NSDictionary *fs = filesystems[fsid];
-        if ([fs[@"mountpoint"] isEqualToString:@"/dev"]) {
+        if (fs[@"mountpoint"] == nil || [fs[@"mountpoint"] isEqualToString:@"/dev"]) {
             continue;
         }
         NSString *menuItemName = fs[@"mountpoint"];
         
         // Get volume name, if possible
         NSString *volumeName;
-        NSURL *url = [NSURL fileURLWithPath:fs[@"mountpoint"]];
+        NSURL *url = [NSURL fileURLWithPath:(NSString *)fs[@"mountpoint"]];
         NSError *err;
         [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
         if (volumeName != nil) {

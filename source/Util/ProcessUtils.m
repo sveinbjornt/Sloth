@@ -87,12 +87,12 @@
     return uid;
 }
 
-+ (NSString *)ownerUserNameForPID:(pid_t)pid {
++ (NSString * __nullable)ownerUserNameForPID:(pid_t)pid {
     uid_t uid = [ProcessUtils UIDForPID:pid];
     if (uid == -1) {
         return nil;
     }
-    register struct passwd *pw = getpwuid(uid);
+    struct passwd *pw = getpwuid(uid);
     if (pw == NULL) {
         return nil;
     }
@@ -104,7 +104,7 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic push
 
-+ (NSString *)macProcessNameForPID:(pid_t)pid {
++ (NSString * __nullable)macProcessNameForPID:(pid_t)pid {
     ProcessSerialNumber psn;
     if (GetProcessForPID(pid, &psn) == noErr) {
         CFStringRef procName = NULL;
@@ -118,7 +118,7 @@
 
 // Some processes on macOS have a Carbon Process Manager
 // Serial Number (PSN) in addition to a PID
-+ (NSString *)carbonProcessSerialNumberForPID:(pid_t)pid {
++ (NSString * __nullable)carbonProcessSerialNumberForPID:(pid_t)pid {
     ProcessSerialNumber psn;
     if (GetProcessForPID(pid, &psn) == noErr) {
         return [NSString stringWithFormat:@"%d",
@@ -133,7 +133,7 @@
 
 // This function returns process name truncated to 32 characters
 // This is a limitation with libproc on macOS
-+ (NSString *)procNameForPID:(pid_t)pid {
++ (NSString * __nullable)procNameForPID:(pid_t)pid {
     char name[1024];
     if (proc_name(pid, name, sizeof(name)) > 0) {
         NSString *nameStr = @(name);
@@ -148,7 +148,7 @@
 // See: https://opensource.apple.com/tarballs/adv_cmds/
 // NOTE: This doesn't work for processes not owned by
 // the current user. /bin/ps gets around this with suid.
-+ (NSString *)fullKernelProcessNameForPID:(pid_t)pid {
++ (NSString * __nullable)fullKernelProcessNameForPID:(pid_t)pid {
     int mib[3], argmax;
     size_t syssize;
     char *procargs, *cp;
@@ -203,7 +203,7 @@
     return ([pname length] == 0) ? nil : [pname lastPathComponent];
 }
 
-+ (NSString *)executablePathForPID:(pid_t)pid {
++ (NSString * __nullable)executablePathForPID:(pid_t)pid {
     NSString *path = nil;
     char *pathbuf = calloc(PROC_PIDPATHINFO_MAXSIZE, 1);
     

@@ -39,12 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString * __nullable)identifierForBundleAtPath:(NSString *)path;
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid;
 + (uid_t)UIDForPID:(pid_t)pid;
-+ (NSString *)ownerUserNameForPID:(pid_t)pid;
-+ (NSString *)macProcessNameForPID:(pid_t)pid;
-+ (NSString *)carbonProcessSerialNumberForPID:(pid_t)pid;
-+ (NSString *)procNameForPID:(pid_t)pid;
-+ (NSString *)fullKernelProcessNameForPID:(pid_t)pid;
-+ (NSString *)executablePathForPID:(pid_t)pid;
++ (NSString * __nullable)ownerUserNameForPID:(pid_t)pid;
++ (NSString * __nullable)macProcessNameForPID:(pid_t)pid;
++ (NSString * __nullable)carbonProcessSerialNumberForPID:(pid_t)pid;
++ (NSString * __nullable)procNameForPID:(pid_t)pid;
++ (NSString * __nullable)fullKernelProcessNameForPID:(pid_t)pid;
++ (NSString * __nullable)executablePathForPID:(pid_t)pid;
 + (BOOL)killProcess:(int)pid
              asRoot:(BOOL)asRoot
        usingSIGKILL:(BOOL)useSigkill;
