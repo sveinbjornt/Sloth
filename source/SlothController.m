@@ -382,8 +382,8 @@
 }
 
 // Filter content according to active filters
-- (NSMutableArray *)filterContent:(NSMutableArray<Item *> *)unfilteredContent
-            numberOfMatchingFiles:(NSInteger *)matchingFilesCount {
+- (NSMutableArray<Item *> *)filterContent:(NSMutableArray<Item *> *)unfilteredContent
+                    numberOfMatchingFiles:(NSInteger *)matchingFilesCount {
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
