@@ -101,8 +101,8 @@
     return s;
 }
 
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 + (NSString * __nullable)macProcessNameForPID:(pid_t)pid {
     ProcessSerialNumber psn;
@@ -244,16 +244,14 @@
     }
     
     // Create and launch authorized kill task
-    STPrivilegedTask *task = [[STPrivilegedTask alloc] init];
+    STPrivilegedTask *task = [STPrivilegedTask new];
     [task setLaunchPath:@(toolPath)];
     NSString *sigFlag = useSigkill ? @"-9" : @"-15";
     NSString *pidString = [NSString stringWithFormat:@"%d", pid];
     [task setArguments:@[sigFlag, pidString]];
-    [task launchWithAuthorization:authRef];
-    
+    err = [task launchWithAuthorization:authRef];
     AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
-    
-    return YES;
+    return (err == errAuthorizationSuccess);
 }
 
 @end

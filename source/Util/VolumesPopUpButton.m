@@ -128,26 +128,27 @@
     // Add all filesystems (except /dev)
     for (NSNumber *fsid in [filesystems allKeys]) {
         NSDictionary *fs = filesystems[fsid];
-        if (fs[@"mountpoint"] == nil || [fs[@"mountpoint"] isEqualToString:@"/dev"]) {
+        NSString *mountpoint = fs[@"mountpoint"];
+        if ([mountpoint isEqualToString:@"/dev"]) {
             continue;
         }
-        NSString *menuItemName = fs[@"mountpoint"];
-        
+        NSString *menuItemName = mountpoint;
+
         // Get volume name, if possible
         NSString *volumeName;
-        NSURL *url = [NSURL fileURLWithPath:(NSString *)fs[@"mountpoint"]];
+        NSURL *url = [NSURL fileURLWithPath:mountpoint];
         NSError *err;
         [url getResourceValue:&volumeName forKey:NSURLVolumeNameKey error:&err];
         if (volumeName != nil) {
-            menuItemName = [NSString stringWithFormat:@"%@ - %@", volumeName, fs[@"mountpoint"]];
+            menuItemName = [NSString stringWithFormat:@"%@ - %@", volumeName, mountpoint];
         }
-        
+
         SEL action = @selector(notifyDelegateSelectionHasChanged:);
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:menuItemName
                                                       action:action
                                                keyEquivalent:@""];
         [item setTarget:self];
-        [item setToolTip:fs[@"mountpoint"]];
+        [item setToolTip:mountpoint];
         [item setRepresentedObject:fs];
         [volumesMenu addItem:item];
     }

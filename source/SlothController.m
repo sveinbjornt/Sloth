@@ -382,7 +382,7 @@
 }
 
 // Filter content according to active filters
-- (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent
+- (NSMutableArray *)filterContent:(NSMutableArray<Item *> *)unfilteredContent
             numberOfMatchingFiles:(NSInteger *)matchingFilesCount {
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
@@ -489,10 +489,10 @@
         return unfilteredContent;
     }
     
-    NSMutableArray *filteredContent = [NSMutableArray array];
+    NSMutableArray<Item *> *filteredContent = [NSMutableArray array];
     
     // Iterate over each process, filter the children
-    for (Item *process in self.unfilteredContent) {
+    for (Item *process in unfilteredContent) {
         
         NSMutableArray<Item*> *matchingFiles = [NSMutableArray array];
         
@@ -597,7 +597,7 @@
         
         // If we have matching files for the process, and it's not being excluded as a non-app
         if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
-            NSMutableDictionary *p = [process mutableCopy];
+            Item *p = [process mutableCopy];
             p[@"children"] = matchingFiles;
             // Num files shown in brackets after name needs to be updated
             [LsofTask updateProcessInfo:p];
