@@ -597,7 +597,8 @@
         
         // If we have matching files for the process, and it's not being excluded as a non-app
         if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
-            Item *p = [process mutableCopy];
+            Item *p = [[Item alloc] init];
+            [p addEntriesFromDictionary:process];
             p[@"children"] = matchingFiles;
             // Num files shown in brackets after name needs to be updated
             [LsofTask updateProcessInfo:p];

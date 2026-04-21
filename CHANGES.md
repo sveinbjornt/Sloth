@@ -4,7 +4,7 @@
 
 ### 21/04/2026 - Version 3.6
 
-* Fixed missing issue with missing generic executable icons on macOS 26 Tahoe
+* Fixed issue with missing generic executable icons on macOS 26 Tahoe
 * Minor performance improvements
 * Minor bug fixes and improved edge case handling
 * Minor interface refinements
