@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSRunningApplication * __nullable)appForPID:(pid_t)pid;
 + (BOOL)isAppProcess:(NSString *)bundlePath;
-+ (NSString * __nullable)identifierForBundleAtPath:(NSString *)path;
++ (NSString * __nullable)identifierForBundleAtPath:(NSString * __nullable)path;
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid;
 + (uid_t)UIDForPID:(pid_t)pid;
 + (NSString * __nullable)ownerUserNameForPID:(pid_t)pid;

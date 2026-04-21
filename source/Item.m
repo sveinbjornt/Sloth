@@ -73,10 +73,7 @@
 }
 
 - (NSString * __nullable)bundleIdentifier {
-    if (self[@"path"]) {
-        return [ProcessUtils identifierForBundleAtPath:(NSString *)self[@"path"]];
-    }
-    return nil;
+    return [ProcessUtils identifierForBundleAtPath:self[@"path"]];
 }
 
 @end

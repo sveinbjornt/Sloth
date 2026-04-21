@@ -58,8 +58,11 @@
     return [[NSWorkspace sharedWorkspace] type:fileType conformsToType:@"com.apple.application"];
 }
 
-+ (NSString * __nullable)identifierForBundleAtPath:(NSString *)path {
-    return (NSString * __nullable)[[NSBundle bundleWithPath:path] bundleIdentifier];
++ (NSString * __nullable)identifierForBundleAtPath:(NSString * __nullable)path {
+    if (path == nil) {
+        return nil;
+    }
+    return [[NSBundle bundleWithPath:path] bundleIdentifier];
 }
 
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid {
