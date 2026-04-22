@@ -185,7 +185,7 @@
 				F43532162558EFC800AF00BD /* SettingsController.m */,
 				F4851D27256DA0BF0056CE9C /* Util */,
 			);
-			path = Source;
+			path = source;
 			sourceTree = "<group>";
 		};
 		F438712713402CDD00B51A5E /* Resources */ = {
