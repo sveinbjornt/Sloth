@@ -2,7 +2,7 @@
 
 ## Sloth version history
 
-### 21/04/2026 - Version 3.6
+### 22/04/2026 - Version 3.6
 
 * Fixed issue with missing generic executable icons on macOS 26 Tahoe
 * Minor performance improvements
