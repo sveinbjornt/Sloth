@@ -6,18 +6,18 @@
         <description>Most recent Sloth releases, with links to signed updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3.5</title>
-            <pubDate>Saturday, 15 Nov 2025 07:33:00 +0000</pubDate>
-            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.5.zip" sparkle:version="368" sparkle:shortVersionString="3.5" type="application/octet-stream" sparkle:edSignature="t9945QOAhntZPtDsj9EXbPRoCWh85eVebxkQhe8kEg9CFkvunqWUeZaHrEWDb7bAgA7CVpRmSLB2YRBCoQ8CDA==" length="1348310"/>
+            <title>Version 3.6</title>
+            <pubDate>Wednesday, 22 Apr 2026 15:33:00 +0000</pubDate>
+            <enclosure url="https://sveinbjorn.org/files/software/sloth/sloth-3.6.zip" sparkle:version="392" sparkle:shortVersionString="3.6" type="application/octet-stream" sparkle:edSignature="7yVfKS30+fvH8sqTm49T3zXKYJNgVqddy5Wrx0o2jmYnTxutc3wLjI3Bnu4CRwLwEpSlBWWCcpe4TFOURWmAAA==" length="1343658"/>
             <sparkle:minimumSystemVersion>11.5</sparkle:minimumSystemVersion>
             <description><![CDATA[
-                <h2>New in Sloth 3.5</h2>
+                <h2>New in Sloth 3.6</h2>
                 <ul>
-                    <li>New application icon</li>
-                    <li>Improved path bar contextual menu handling</li>
-                    <li>Minor interface tweaks and bug fixes</li>
-                    <li>Code modernization</li>
-                    <li>Now requires macOS 11 "Big Sur" or later</li>
+                    <li>Fixed issue with missing generic executable icons on macOS 26 Tahoe</li>
+                    <li>Minor performance improvements</li>
+                    <li>Minor bug fixes and improved edge case handling</li>
+                    <li>Minor interface refinements</li>
+                    <li>More code modernization</li>
                 </ul>
             ]]></description>
         </item>
