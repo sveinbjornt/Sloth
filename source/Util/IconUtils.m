@@ -44,11 +44,11 @@
 #define ERR_ICON_PATH           CORE_TYPES_RESOURCE(@"AlertStopIcon.icns")
 #define QUESTIONMARK_ICON_PATH  CORE_TYPES_RESOURCE(@"GenericQuestionMarkIcon.icns")
 
-static NSMutableDictionary<NSString*, NSImage*> *iconStore;
+static NSDictionary<NSString*, NSImage*> *iconStore;
 
 @implementation IconUtils
 
-+ (NSMutableDictionary<NSString*, NSImage*> *)_loadIcons {
++ (NSDictionary<NSString*, NSImage*> *)_loadIcons {
     // We want to use the cool invertible Mojave template icons to represent
     // files, directories, IP sockets, etc. but they might not available. We
     // therefore define primary icon assets and fallbacks in case they're
@@ -57,7 +57,7 @@ static NSMutableDictionary<NSString*, NSImage*> *iconStore;
     // version of macOS, the new ones on Mojave onwards. Saves us from having
     // to bloat the application bundle with custom icon assets.
     NSMutableDictionary<NSString*, NSImage*> *icons = [NSMutableDictionary new];
-
+    
     NSDictionary<NSString*, NSArray<NSDictionary *>*> *iconSettings = @{
         @"File": @[
             @{ @"path": FILE_ICON_PATH, @"template": @YES },
@@ -101,11 +101,12 @@ static NSMutableDictionary<NSString*, NSImage*> *iconStore;
             @{ @"path": HOME_ICON_PATH, @"template": @YES },
             @{ @"type": NSFileTypeForHFSTypeCode(kToolbarHomeIcon), @"template": @NO }
         ],
-//        @"GenericApplication": @[
-//            @{ @"name": @"NSDefaultApplicationIcon", @"template": @NO }
-//        ],
+        //        @"GenericApplication": @[
+        //            @{ @"name": @"NSDefaultApplicationIcon", @"template": @NO }
+        //        ],
         @"GenericExecutable": @[
             @{ @"path": EXEC_ICON_PATH, @"template": @NO },
+            @{ @"type": @"public.unix-executable", @"template": @NO}
         ],
         @"Locked": @[
             @{ @"type": NSFileTypeForHFSTypeCode(kLockedIcon), @"template": @NO }
@@ -155,7 +156,7 @@ static NSMutableDictionary<NSString*, NSImage*> *iconStore;
         }
     }
     
-    return icons;
+    return [icons copy];
 }
 
 + (NSImage *)imageNamed:(NSString *)name {

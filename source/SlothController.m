@@ -382,8 +382,8 @@
 }
 
 // Filter content according to active filters
-- (NSMutableArray *)filterContent:(NSMutableArray *)unfilteredContent
-            numberOfMatchingFiles:(NSInteger *)matchingFilesCount {
+- (NSMutableArray<Item *> *)filterContent:(NSMutableArray<Item *> *)unfilteredContent
+                    numberOfMatchingFiles:(NSInteger *)matchingFilesCount {
     BOOL showRegularFiles = [DEFAULTS boolForKey:@"showRegularFiles"];
     BOOL showDirectories = [DEFAULTS boolForKey:@"showDirectories"];
     BOOL showIPSockets = [DEFAULTS boolForKey:@"showIPSockets"];
@@ -489,14 +489,14 @@
         return unfilteredContent;
     }
     
-    NSMutableArray *filteredContent = [NSMutableArray array];
+    NSMutableArray<Item *> *filteredContent = [NSMutableArray array];
     
     // Iterate over each process, filter the children
-    for (NSMutableDictionary *process in self.unfilteredContent) {
+    for (Item *process in unfilteredContent) {
         
-        NSMutableArray *matchingFiles = [NSMutableArray array];
+        NSMutableArray<Item*> *matchingFiles = [NSMutableArray array];
         
-        for (NSDictionary *file in process[@"children"]) {
+        for (Item *file in process[@"children"]) {
             
             // Let's see if child gets filtered by type or path
             if (showAllItemTypes == NO) {
@@ -597,7 +597,8 @@
         
         // If we have matching files for the process, and it's not being excluded as a non-app
         if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
-            NSMutableDictionary *p = [process mutableCopy];
+            Item *p = [[Item alloc] init];
+            [p addEntriesFromDictionary:process];
             p[@"children"] = matchingFiles;
             // Num files shown in brackets after name needs to be updated
             [LsofTask updateProcessInfo:p];
@@ -999,7 +1000,7 @@
 }
 
 - (void)deauthenticate {
-    DLog(@"Deathenticating");
+    DLog(@"Deauthenticating");
     if (authRef) {
         AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
         authRef = NULL;

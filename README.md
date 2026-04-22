@@ -39,7 +39,7 @@ Sloth is free, open source software and has been continuously developed
 and maintained for a very long time (since 2004).
 **If you find this program useful, please [make a donation](https://sveinbjorn.org/donations).**
 
-*  **[⬇ Download Sloth 3.5](https://sveinbjorn.org/files/software/sloth.zip)** 
+*  **[⬇ Download Sloth 3.6](https://sveinbjorn.org/files/software/sloth.zip)** 
 (~1.3 MB, Universal ARM/Intel 64-bit, macOS 11 or later, Developer ID signed and notarized)
 
 Sloth can also be installed via [Homebrew](https://brew.sh) (may not be the latest version):
@@ -51,7 +51,6 @@ brew install --cask sloth
 If you need to run it on macOS 10.13-10.15, version 3.4 works just fine. 
 For 10.9-10.12, version 3.2 does the trick. 
 All older versions can be downloaded [here](https://sveinbjorn.org/files/software/sloth/).
-
 
 ## Screenshots
 
@@ -86,8 +85,7 @@ Built products are created in `products/`.
 
 ## BSD License 
 
-Copyright (c) 2004-2025 Sveinbjorn Thordarson
-&lt;<a href="mailto:sveinbjorn@sveinbjorn.org">sveinbjorn@sveinbjorn.org</a>&gt;
+Copyright (c) 2004-2026 [Sveinbjorn Thordarson](mailto:sveinbjorn@sveinbjorn.org)
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
