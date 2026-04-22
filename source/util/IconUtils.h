@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IconUtils : NSObject
 
-+ (NSImage *)imageNamed:(NSString *)name;
++ (NSImage * __nullable)imageNamed:(NSString * __nullable)name;
 
 @end
 

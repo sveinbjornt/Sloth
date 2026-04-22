@@ -1288,15 +1288,15 @@
 #pragma mark - Open websites
 
 - (IBAction)visitSlothWebsite:(id)sender {
-    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_WEBSITE]];
+    [WORKSPACE openURL:(NSURL *)[NSURL URLWithString:PROGRAM_WEBSITE]];
 }
 
 - (IBAction)visitSlothOnGitHubWebsite:(id)sender {
-    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_GITHUB_WEBSITE]];
+    [WORKSPACE openURL:(NSURL *)[NSURL URLWithString:PROGRAM_GITHUB_WEBSITE]];
 }
 
 - (IBAction)supportSlothDevelopment:(id)sender {
-    [WORKSPACE openURL:[NSURL URLWithString:PROGRAM_DONATIONS]];
+    [WORKSPACE openURL:(NSURL *)[NSURL URLWithString:PROGRAM_DONATIONS]];
 }
 
 @end

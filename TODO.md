@@ -14,3 +14,4 @@
 * Update old screenshots in README
 * Make port and DNS lookup in Info Panel configurable in Settings
 * Make all file info async in Info Panel
+* Fix issue with 16x16 icons on non-retina displays

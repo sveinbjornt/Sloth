@@ -159,7 +159,7 @@ static NSDictionary<NSString*, NSImage*> *iconStore;
     return [icons copy];
 }
 
-+ (NSImage *)imageNamed:(NSString *)name {
++ (NSImage * __nullable)imageNamed:(NSString * __nullable)name {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         iconStore = [self _loadIcons];
