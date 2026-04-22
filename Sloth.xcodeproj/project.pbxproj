@@ -16,7 +16,7 @@
 		F435322F2558EFC800AF00BD /* Alerts.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532122558EFC800AF00BD /* Alerts.m */; };
 		F43532302558EFC800AF00BD /* LsofTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532142558EFC800AF00BD /* LsofTask.m */; };
 		F43532312558EFC800AF00BD /* VolumesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532152558EFC800AF00BD /* VolumesPopUpButton.m */; };
-		F43532322558EFC800AF00BD /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532162558EFC800AF00BD /* PrefsController.m */; };
+		F43532322558EFC800AF00BD /* SettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532162558EFC800AF00BD /* SettingsController.m */; };
 		F43532332558EFC800AF00BD /* NSWorkspace+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532182558EFC800AF00BD /* NSWorkspace+Additions.m */; };
 		F43532342558EFC800AF00BD /* IPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F43532192558EFC800AF00BD /* IPUtils.m */; };
 		F43532352558EFC800AF00BD /* FSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F435321C2558EFC800AF00BD /* FSUtils.m */; };
@@ -34,7 +34,7 @@
 		F442E0791EA7DD2500BAD80C /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = F442E0771EA7DD0D00BAD80C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F47B45351EE74F2C00D79DFF /* Credits.rtf */; };
 		F4ED53C31C789A0A0024540F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED53C21C789A0A0024540F /* Security.framework */; };
-		F4F7A5042215F11E004421AA /* Prefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4F7A5032215F11E004421AA /* Prefs.xib */; };
+		F4F7A5042215F11E004421AA /* Settings.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4F7A5032215F11E004421AA /* Settings.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,7 +67,7 @@
 		F43532132558EFC800AF00BD /* IconUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconUtils.h; sourceTree = "<group>"; };
 		F43532142558EFC800AF00BD /* LsofTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LsofTask.m; sourceTree = "<group>"; };
 		F43532152558EFC800AF00BD /* VolumesPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumesPopUpButton.m; sourceTree = "<group>"; };
-		F43532162558EFC800AF00BD /* PrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsController.m; sourceTree = "<group>"; };
+		F43532162558EFC800AF00BD /* SettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsController.m; sourceTree = "<group>"; };
 		F43532172558EFC800AF00BD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		F43532182558EFC800AF00BD /* NSWorkspace+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Additions.m"; sourceTree = "<group>"; };
 		F43532192558EFC800AF00BD /* IPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPUtils.m; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		F43532252558EFC800AF00BD /* NSString+RegexConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexConvenience.m"; sourceTree = "<group>"; };
 		F43532262558EFC800AF00BD /* NSWorkspace+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Additions.h"; sourceTree = "<group>"; };
 		F43532272558EFC800AF00BD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
-		F43532282558EFC800AF00BD /* PrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsController.h; sourceTree = "<group>"; };
+		F43532282558EFC800AF00BD /* SettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsController.h; sourceTree = "<group>"; };
 		F43532292558EFC800AF00BD /* VolumesPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumesPopUpButton.h; sourceTree = "<group>"; };
 		F435322A2558EFC800AF00BD /* FSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSUtils.h; sourceTree = "<group>"; };
 		F435322B2558EFC800AF00BD /* SlothController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlothController.m; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 		F4F1D9121C7CB95700945D3E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		F4F1D9151C7CB95700945D3E /* SlothAppcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SlothAppcast.xml; sourceTree = "<group>"; };
 		F4F1D9161C7CB95700945D3E /* update_appcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_appcast.sh; sourceTree = "<group>"; };
-		F4F7A5032215F11E004421AA /* Prefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Prefs.xib; sourceTree = "<group>"; };
+		F4F7A5032215F11E004421AA /* Settings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Settings.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,8 +181,8 @@
 				F43532272558EFC800AF00BD /* Item.m */,
 				F435320E2558EFC800AF00BD /* InfoPanelController.h */,
 				F43532202558EFC800AF00BD /* InfoPanelController.m */,
-				F43532282558EFC800AF00BD /* PrefsController.h */,
-				F43532162558EFC800AF00BD /* PrefsController.m */,
+				F43532282558EFC800AF00BD /* SettingsController.h */,
+				F43532162558EFC800AF00BD /* SettingsController.m */,
 				F4851D27256DA0BF0056CE9C /* Util */,
 			);
 			path = Source;
@@ -195,7 +195,7 @@
 				F40B7D2C1C75FA05000A4616 /* Images.xcassets */,
 				F413E66E1C76842A00385DB3 /* MainMenu.xib */,
 				F442E0721EA7DB1000BAD80C /* InfoPanel.xib */,
-				F4F7A5032215F11E004421AA /* Prefs.xib */,
+				F4F7A5032215F11E004421AA /* Settings.xib */,
 				F47B45351EE74F2C00D79DFF /* Credits.rtf */,
 				F438712913402CDD00B51A5E /* Info.plist */,
 				F438712C13402CDD00B51A5E /* Defaults.plist */,
@@ -289,7 +289,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2610;
+				LastUpgradeCheck = 2640;
 				ORGANIZATIONNAME = "Sveinbjorn Thordarson";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -320,7 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F47B45361EE74F2C00D79DFF /* Credits.rtf in Resources */,
-				F4F7A5042215F11E004421AA /* Prefs.xib in Resources */,
+				F4F7A5042215F11E004421AA /* Settings.xib in Resources */,
 				F43440C620822A7F00AF60AA /* sloth.icns in Resources */,
 				F413E66F1C76842A00385DB3 /* MainMenu.xib in Resources */,
 				F40B7D2D1C75FA05000A4616 /* Images.xcassets in Resources */,
@@ -381,7 +381,7 @@
 				F435322E2558EFC800AF00BD /* MutableDictProxy.m in Sources */,
 				F43532342558EFC800AF00BD /* IPUtils.m in Sources */,
 				F435323C2558EFC800AF00BD /* SlothController.m in Sources */,
-				F43532322558EFC800AF00BD /* PrefsController.m in Sources */,
+				F43532322558EFC800AF00BD /* SettingsController.m in Sources */,
 				F435323D2558EFC800AF00BD /* ProcessUtils.m in Sources */,
 				F43056D42EC64BBC00360103 /* NSPathControl+ContextMenu.m in Sources */,
 				F43532312558EFC800AF00BD /* VolumesPopUpButton.m in Sources */,

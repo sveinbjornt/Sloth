@@ -34,7 +34,7 @@
 #import "Alerts.h"
 #import "NSString+RegexConvenience.h"
 #import "InfoPanelController.h"
-#import "PrefsController.h"
+#import "SettingsController.h"
 #import "ProcessUtils.h"
 #import "IconUtils.h"
 #import "FSUtils.h"
@@ -87,7 +87,7 @@
     NSTimer * _Nullable updateTimer;
     
     InfoPanelController * _Nullable infoPanelController;
-    PrefsController * _Nullable prefsController;
+    SettingsController * _Nullable settingsController;
 }
 @property NSInteger totalFileCount;
 @property (nonatomic, strong) IBOutlet NSMutableArray<Item*> *content;
@@ -447,8 +447,8 @@
         }
     }
     
-    // Filters set in Prefs, precompile regexes
-    NSMutableArray *prefsFilters = [NSMutableArray new];
+    // Filters set in Settings, precompile regexes
+    NSMutableArray *settingsFilters = [NSMutableArray new];
     NSArray *pfStrings = [DEFAULTS objectForKey:@"filters"];
     for (NSArray *ps in pfStrings) {
         if ([ps[0] boolValue] == NO) {
@@ -463,15 +463,15 @@
                                                                                options:0
                                                                                  error:&err];
         if (!regex) {
-            DLog(@"Error creating prefs filter regex: %@", [err localizedDescription]);
+            DLog(@"Error creating settings filter regex: %@", [err localizedDescription]);
             continue;
         }
-        [prefsFilters addObject:regex];
+        [settingsFilters addObject:regex];
         DLog(@"Adding regex: %@", ps[1]);
     }
     
     BOOL hasSearchFilter = ([searchFilters count] > 0);
-    BOOL hasPrefsFilter = ([prefsFilters count] > 0);
+    BOOL hasSettingsFilter = ([settingsFilters count] > 0);
     BOOL showAllProcessTypes = !showApplicationsOnly;
     BOOL showAllItemTypes = (showRegularFiles &&
                              showDirectories &&
@@ -484,7 +484,7 @@
     
     // Minor optimization: If there is no filtering, just return
     // unfiltered content instead of iterating over all items
-    if (showAllItemTypes && showAllProcessTypes && !hasSearchFilter && !hasPrefsFilter && !hasAccessModeFilter) {
+    if (showAllItemTypes && showAllProcessTypes && !hasSearchFilter && !hasSettingsFilter && !hasAccessModeFilter) {
         *matchingFilesCount = self.totalFileCount;
         return unfilteredContent;
     }
@@ -578,11 +578,11 @@
                 }
             }
             
-            // Prefs filters only filter by name
-            if (hasPrefsFilter) {
+            // Settings filters only filter by name
+            if (hasSettingsFilter) {
                 // Skip any file w. name matching
                 BOOL skip = NO;
-                for (NSRegularExpression *regex in prefsFilters) {
+                for (NSRegularExpression *regex in settingsFilters) {
                     if ([file[@"name"] isMatchedByRegex:regex]) {
                         skip = YES;
                     }
@@ -809,12 +809,12 @@
     NSBeep();
 }
 
-- (IBAction)showPrefs:(id)sender {
-    // Create info panel lazily
-    if (prefsController == nil) {
-        prefsController = [[PrefsController alloc] initWithWindowNibName:@"Prefs"];
+- (IBAction)showSettings:(id)sender {
+    // Create settings window lazily
+    if (settingsController == nil) {
+        settingsController = [[SettingsController alloc] initWithWindowNibName:@"Settings"];
     }
-    [prefsController showWindow:self];
+    [settingsController showWindow:self];
 }
 
 - (IBAction)showSelectedItem:(id)sender {

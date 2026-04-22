@@ -62,7 +62,7 @@
     if (path == nil) {
         return nil;
     }
-    return [[NSBundle bundleWithPath:path] bundleIdentifier];
+    return [[NSBundle bundleWithPath:(NSString *)path] bundleIdentifier];
 }
 
 + (BOOL)isProcessOwnedByCurrentUser:(pid_t)pid {

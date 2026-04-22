@@ -33,9 +33,9 @@
                                     <action selector="checkForUpdates:" target="Nds-SX-rlr" id="VgP-xJ-t4s"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Preferences…" keyEquivalent="," id="129">
+                            <menuItem title="Settings…" keyEquivalent="," id="129">
                                 <connections>
-                                    <action selector="showPrefs:" target="212" id="TYR-GM-13N"/>
+                                    <action selector="showSettings:" target="212" id="TYR-GM-13N"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="143">

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24412" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24765" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="110000" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24412"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24765"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PrefsController">
+        <customObject id="-2" userLabel="File's Owner" customClass="SettingsController">
             <connections>
                 <outlet property="addFilterButton" destination="ET3-sC-3hU" id="ceQ-vB-DNe"/>
                 <outlet property="filtersTableView" destination="hIM-Sy-Pvd" id="i4D-Ue-QtR"/>
@@ -17,11 +17,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="Sloth Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothPrefs" animationBehavior="default" tabbingMode="disallowed" id="HPx-7j-YOW">
+        <window title="Sloth Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SlothSettings" animationBehavior="default" tabbingMode="disallowed" id="HPx-7j-YOW" userLabel="Sloth Settings">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
             <rect key="contentRect" x="131" y="159" width="398" height="316"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1536" height="935"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="937"/>
             <view key="contentView" id="637-Nx-CnL">
                 <rect key="frame" x="0.0" y="0.0" width="398" height="316"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -159,7 +159,7 @@
                                                 </subviews>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="ERd-vj-s7D">
-                                                <rect key="frame" x="1" y="121" width="316" height="15"/>
+                                                <rect key="frame" x="1" y="119" width="316" height="17"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="WOB-8z-PJk">

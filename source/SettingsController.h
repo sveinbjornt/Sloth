@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PrefsController : NSWindowController <NSWindowDelegate>
+@interface SettingsController : NSWindowController <NSWindowDelegate>
 
 @end
 

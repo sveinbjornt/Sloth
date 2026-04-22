@@ -90,7 +90,7 @@ static NSDictionary<NSString*, NSImage*> *iconStore;
             @{ @"path": ERR_ICON_PATH, @"template": @NO },
             @{ @"name": NSImageNameCaution, @"template": @NO }
         ],
-        @"Prefs": @[
+        @"Settings": @[
             @{ @"name": NSImageNamePreferencesGeneral, @"template": @NO }
         ],
         @"Applications": @[

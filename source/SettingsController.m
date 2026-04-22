@@ -28,14 +28,14 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "PrefsController.h"
+#import "SettingsController.h"
 
 #import "Common.h"
 #import "IconUtils.h"
 
 #define DEFAULT_FILTER  @".*\\.metallib$"
 
-@interface PrefsController ()
+@interface SettingsController ()
 {
     NSMutableArray *filters;
 }
@@ -46,11 +46,11 @@
 
 @end
 
-@implementation PrefsController
+@implementation SettingsController
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    NSImage *img = [IconUtils imageNamed:@"Prefs"];
+    NSImage *img = [IconUtils imageNamed:@"Settings"];
     if (img) {
         [self.window setRepresentedURL:[NSURL URLWithString:@""]]; // Not representing a URL
         [[self.window standardWindowButton:NSWindowDocumentIconButton] setImage:img];
