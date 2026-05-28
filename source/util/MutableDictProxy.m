@@ -63,6 +63,16 @@
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    id c = [[self class] new];
+    [c addEntriesFromDictionary:properties];
+    return c;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return [self copyWithZone:zone];
+}
+
 - (void)removeObjectForKey:(id)aKey {
     [properties removeObjectForKey:aKey];
 }

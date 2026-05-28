@@ -291,7 +291,7 @@
             // File's major/minor device number (0x<hexadecimal>)
             case 'D':
             {
-                unsigned int deviceID;
+                unsigned int deviceID = 0;
                 NSString *deviceIDStr = value;
                 NSScanner *scanner = [NSScanner scannerWithString:deviceIDStr];
                 [scanner scanHexInt:&deviceID];

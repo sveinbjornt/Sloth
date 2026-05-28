@@ -597,8 +597,7 @@
         
         // If we have matching files for the process, and it's not being excluded as a non-app
         if ([matchingFiles count] && !(showApplicationsOnly && ![process[@"app"] boolValue])) {
-            Item *p = [[Item alloc] init];
-            [p addEntriesFromDictionary:process];
+            Item *p = [process mutableCopy];
             p[@"children"] = matchingFiles;
             // Num files shown in brackets after name needs to be updated
             [LsofTask updateProcessInfo:p];
@@ -1059,7 +1058,7 @@
     }
     
     [pboard declareTypes:@[NSFilenamesPboardType] owner:self];
-    [pboard setPropertyList:@[item[@"name"]] forType:NSFilenamesPboardType];
+    [pboard setPropertyList:@[path] forType:NSFilenamesPboardType];
     [pboard setString:item[@"name"] forType:NSPasteboardTypeString];
     
     return YES;

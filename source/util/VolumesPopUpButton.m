@@ -50,6 +50,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+}
+
 - (void)setup {
     [[self menu] setDelegate:self];
     
@@ -72,12 +76,8 @@
 - (void)menuWillOpen:(NSMenu *)menu {
     for (NSMenuItem *item in [menu itemArray]) {
         NSString *volPath = [item toolTip];
-        if (volPath && ![volPath isEqualToString:@""]) {
-            NSString *tt = [item toolTip];
-            if (!tt) {
-                return;
-            }
-            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:tt];
+        if (volPath != nil && [volPath isEqualToString:@""] == NO) {
+            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:volPath];
             if (icon) {
                 [icon setSize:NSMakeSize(16, 16)];
                 [item setImage:icon];

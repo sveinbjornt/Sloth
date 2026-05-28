@@ -61,7 +61,7 @@
 // If no menu is supplied as parameter, a new menu is created and returned.
 - (NSMenu * _Nullable)openWithMenuForFile:(NSString *)path target:(id __nullable)targetParam action:(SEL __nullable)selParam menu:(NSMenu * __nullable)menu {
     [menu removeAllItems];
-
+    
     NSMenuItem *noneMenuItem = [[NSMenuItem alloc] initWithTitle:@"<None>" action:nil keyEquivalent:@""];
     if (!path || [self canRevealFileAtPath:path] == NO) {
         [menu addItem:noneMenuItem];
@@ -228,10 +228,10 @@
     BOOL isDir;
     [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
     NSString *type = isDir && ![self isFilePackageAtPath:path] ? @"folder" : @"file";
-
+    
     NSString *escapedPath = [path stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
     escapedPath = [escapedPath stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-
+    
     NSString *source = [NSString stringWithFormat:
 @"set aFile to (POSIX file \"%@\") as text\n\
 tell application \"Finder\"\n\

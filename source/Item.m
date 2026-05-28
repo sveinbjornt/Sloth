@@ -34,7 +34,7 @@
 
 @interface Item ()
 {
-    NSDictionary *lazyAttrs;
+//    NSDictionary *lazyAttrs;
 }
 @end
 
@@ -44,33 +44,33 @@
     self = [super init];
     if (self) {
         // Getting som item properties is expensive and therefore lazy-loaded
-        lazyAttrs = @{
-            //@"identifier": [NSValue valueWithPointer:@selector(bundleIdentifier)]
-        };
+//        lazyAttrs = @{
+//            @"identifier": [NSValue valueWithPointer:@selector(bundleIdentifier)]
+//        };
     }
     return self;
 }
 
-- (id)objectForKey:(id)aKey {
-    // See if dict has an entry for this key
-    id obj = [properties objectForKey:aKey];
-    if (!obj) {
-        // If not, check if it's a lazy-load property
-        id val = [lazyAttrs objectForKey:aKey];
-        // If it is, generate the value using the appropriate selector
-        if (val) {
-            SEL sel = [val pointerValue];
-            if (sel && [self respondsToSelector:sel]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                properties[aKey] = [self performSelector:sel];
-#pragma clang diagnostic pop
-                return properties[aKey];
-            }
-        }
-    }
-    return obj;
-}
+//- (id)objectForKey:(id)aKey {
+//    // See if dict has an entry for this key
+//    id obj = [properties objectForKey:aKey];
+//    if (!obj) {
+//        // If not, check if it's a lazy-load property
+//        id val = [lazyAttrs objectForKey:aKey];
+//        // If it is, generate the value using the appropriate selector
+//        if (val) {
+//            SEL sel = [val pointerValue];
+//            if (sel && [self respondsToSelector:sel]) {
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+//                properties[aKey] = [self performSelector:sel];
+//#pragma clang diagnostic pop
+//                return properties[aKey];
+//            }
+//        }
+//    }
+//    return obj;
+//}
 
 - (NSString * __nullable)bundleIdentifier {
     return [ProcessUtils identifierForBundleAtPath:self[@"path"]];
