@@ -43,6 +43,9 @@
 #import "LsofTask.h"
 #import "Item.h"
 
+static const NSInteger    kTrackDefaultRefreshInterval  = 3;
+static const NSTimeInterval kTrackRemovedLingerDuration = 8.0;
+
 @interface SlothController ()
 {
     __weak IBOutlet NSWindow *window;
@@ -88,6 +91,19 @@
     
     InfoPanelController * _Nullable infoPanelController;
     SettingsController * _Nullable settingsController;
+
+    // Process tracking (Live Diff Mode)
+    BOOL isTracking;
+    NSString *_Nullable trackedPID;
+    NSString *_Nullable trackedProcessName;
+    NSArray<Item*> *_Nullable previousChildren;
+    NSMutableArray<Item*> *trackedRemovedItems;
+    NSInteger savedUpdateInterval;
+    NSMenuItem *_Nullable trackMenuItem;
+    NSMenuItem *_Nullable stopTrackMenuItem;
+    NSButton *_Nullable stopTrackingButton;
+    NSMutableArray<NSDictionary*> *trackingHistory;
+    NSWindow *_Nullable trackingHistoryWindow;
 }
 @property NSInteger totalFileCount;
 @property (nonatomic, strong) IBOutlet NSMutableArray<Item*> *content;
@@ -210,6 +226,35 @@
         [self refresh:self];
     }
     [self setUpdateTimerFromDefaults]; // If period update has been set in defaults
+
+    // Add tracking items to contextual menu
+    [itemContextualMenu addItem:[NSMenuItem separatorItem]];
+    trackMenuItem = [[NSMenuItem alloc] initWithTitle:@"Track This Process"
+                                               action:@selector(startTracking:)
+                                        keyEquivalent:@""];
+    [trackMenuItem setTarget:self];
+    [itemContextualMenu addItem:trackMenuItem];
+    stopTrackMenuItem = [[NSMenuItem alloc] initWithTitle:@"Stop Tracking"
+                                                   action:@selector(stopTracking:)
+                                            keyEquivalent:@""];
+    [stopTrackMenuItem setTarget:self];
+    [itemContextualMenu addItem:stopTrackMenuItem];
+
+    // Add a visible "Stop Tracking" button near the status label (hidden until tracking starts)
+    stopTrackingButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+    [stopTrackingButton setTitle:@"Stop Tracking"];
+    [stopTrackingButton setBezelStyle:NSBezelStyleRounded];
+    [stopTrackingButton setControlSize:NSControlSizeSmall];
+    [stopTrackingButton setTarget:self];
+    [stopTrackingButton setAction:@selector(stopTracking:)];
+    [stopTrackingButton setHidden:YES];
+    [stopTrackingButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    NSView *contentView = [window contentView];
+    [contentView addSubview:stopTrackingButton];
+    [NSLayoutConstraint activateConstraints:@[
+        [stopTrackingButton.centerYAnchor constraintEqualToAnchor:numItemsTextField.centerYAnchor],
+        [stopTrackingButton.trailingAnchor constraintEqualToAnchor:contentView.trailingAnchor constant:-8.0],
+    ]];
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
@@ -326,17 +371,37 @@
     
     // Update outline view header
     [self updateProcessCountHeader];
-    
-    // Update num items label
-    NSString *str = [NSString stringWithFormat:@"Showing %ld out of %ld items", (long)matchingFilesCount, (long)self.totalFileCount];
-    if (matchingFilesCount == self.totalFileCount) {
-        str = [NSString stringWithFormat:@"Showing all %ld items", (long)self.totalFileCount];
+
+    if (isTracking) {
+        // Find tracked process in filtered results
+        Item *trackedProc = nil;
+        for (Item *p in self.content) {
+            if ([p[@"pid"] isEqualToString:trackedPID]) { trackedProc = p; break; }
+        }
+        if (!trackedProc) {
+            [self stopTracking:nil]; // calls updateFiltering again without isTracking set
+            return;
+        }
+        // Reassign via property setter so NSTreeController sees exactly 1 process
+        self.content = [NSMutableArray arrayWithObject:trackedProc];
+        NSInteger openCount = [self applyTrackingDiffToProcess:trackedProc];
+        [numItemsTextField setStringValue:
+            [NSString stringWithFormat:@"Tracking \"%@\" — %ld open, %ld recently closed",
+             trackedProcessName, openCount, (long)[trackedRemovedItems count]]];
+    } else {
+        // Update num items label
+        NSString *str = [NSString stringWithFormat:@"Showing %ld out of %ld items", (long)matchingFilesCount, (long)self.totalFileCount];
+        if (matchingFilesCount == self.totalFileCount) {
+            str = [NSString stringWithFormat:@"Showing all %ld items", (long)self.totalFileCount];
+        }
+        [numItemsTextField setStringValue:str];
     }
-    [numItemsTextField setStringValue:str];
-    
+
     [outlineView reloadData];
-    
-    if ([DEFAULTS boolForKey:@"disclosure"]) {
+
+    if (isTracking) {
+        [outlineView expandItem:nil expandChildren:YES];
+    } else if ([DEFAULTS boolForKey:@"disclosure"]) {
         [outlineView expandItem:nil expandChildren:YES];
     } else {
         [outlineView collapseItem:nil collapseChildren:YES];
@@ -1184,7 +1249,16 @@
             [openItem setTitle:@"Open"];
             [copyItem setTitle:@"Copy"];
         }
-        
+
+        // Show/hide tracking items based on current state
+        BOOL hasProcess = (item[@"pid"] != nil);
+        [trackMenuItem setHidden:isTracking || !hasProcess];
+        [stopTrackMenuItem setHidden:!isTracking];
+        if (!isTracking && hasProcess) {
+            NSString *pname = item[@"pname"] ?: item[@"name"] ?: @"Process";
+            [trackMenuItem setTitle:[NSString stringWithFormat:@"Track \"%@\"", pname]];
+        }
+
         return;
     }
     
@@ -1251,7 +1325,14 @@
     if ((action == @selector(refresh:) || action == @selector(toggleAuthentication:)) && isRefreshing) {
         return NO;
     }
-    
+
+    if (action == @selector(startTracking:)) {
+        return !isTracking && selectedRow >= 0 && item[@"pid"] != nil;
+    }
+    if (action == @selector(stopTracking:)) {
+        return isTracking;
+    }
+
     return YES;
 }
 
@@ -1296,6 +1377,258 @@
 
 - (IBAction)supportSlothDevelopment:(id)sender {
     [WORKSPACE openURL:(NSURL *)[NSURL URLWithString:PROGRAM_DONATIONS]];
+}
+
+#pragma mark - Process Tracking
+
+- (IBAction)startTracking:(id)sender {
+    NSInteger row = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    Item *item = [[outlineView itemAtRow:row] representedObject];
+    if (!item[@"pid"]) { NSBeep(); return; }
+
+    isTracking = YES;
+    trackedPID = [item[@"pid"] copy];
+    trackedProcessName = [(item[@"pname"] ?: item[@"name"]) copy];
+    previousChildren = nil; // first cycle establishes baseline
+    trackedRemovedItems = [NSMutableArray new];
+    trackingHistory = [NSMutableArray new];
+    [trackingHistory addObject:@{@"timestamp": [NSDate date], @"event": @"start"}];
+
+    savedUpdateInterval = [DEFAULTS integerForKey:@"updateInterval"];
+    if (savedUpdateInterval == 0) {
+        [DEFAULTS setInteger:kTrackDefaultRefreshInterval forKey:@"updateInterval"];
+        [self setUpdateTimerFromDefaults];
+    }
+    [stopTrackingButton setHidden:NO];
+    [self updateFiltering];
+}
+
+- (IBAction)stopTracking:(id)sender {
+    // Capture state before clearing so we can display the history afterward
+    NSMutableArray *history = trackingHistory;
+    NSString *pname = [trackedProcessName copy];
+    if (history) {
+        [history addObject:@{@"timestamp": [NSDate date], @"event": @"stop"}];
+    }
+
+    isTracking = NO;
+    trackedPID = nil;
+    trackedProcessName = nil;
+    previousChildren = nil;
+    trackedRemovedItems = nil;
+    trackingHistory = nil;
+
+    [stopTrackingButton setHidden:YES];
+    [DEFAULTS setInteger:savedUpdateInterval forKey:@"updateInterval"];
+    [self setUpdateTimerFromDefaults];
+    [self updateFiltering];
+
+    if ([history count] > 0) {
+        [self showTrackingHistory:history forProcess:pname];
+    }
+}
+
+- (NSInteger)applyTrackingDiffToProcess:(Item *)proc {
+    // Ensure children is mutable so we can inject removed items later
+    NSMutableArray<Item*> *current = [proc[@"children"] mutableCopy];
+    proc[@"children"] = current;
+    NSInteger openCount = (NSInteger)[current count];
+
+    NSSet<NSString*> *currentNames = [NSSet setWithArray:[current valueForKey:@"name"]];
+
+    // First cycle — establish baseline and log the initial snapshot
+    if (!previousChildren) {
+        NSDate *snapshotTime = [NSDate date];
+        for (Item *f in current) {
+            [trackingHistory addObject:@{
+                @"timestamp": snapshotTime,
+                @"event":     @"initial",
+                @"name":      f[@"name"] ?: @"",
+                @"type":      f[@"type"] ?: @""
+            }];
+        }
+        previousChildren = [current copy];
+        return openCount;
+    }
+
+    NSSet<NSString*> *prevNames = [NSSet setWithArray:[previousChildren valueForKey:@"name"]];
+
+    // Added: in current but not in previous
+    NSMutableSet<NSString*> *addedNames = [currentNames mutableCopy];
+    [addedNames minusSet:prevNames];
+
+    // Newly removed: in previous but not in current, excluding items already in linger list
+    NSMutableSet<NSString*> *newlyRemovedNames = [prevNames mutableCopy];
+    [newlyRemovedNames minusSet:currentNames];
+    for (Item *f in trackedRemovedItems) {
+        [newlyRemovedNames removeObject:f[@"name"]];
+    }
+
+    // Move newly-removed items to linger list
+    NSDate *now = [NSDate date];
+    for (Item *f in previousChildren) {
+        if ([newlyRemovedNames containsObject:f[@"name"]]) {
+            f[@"trackingRemovedAt"] = now;
+            [trackedRemovedItems addObject:f];
+            [trackingHistory addObject:@{
+                @"timestamp": now,
+                @"event":     @"closed",
+                @"name":      f[@"name"] ?: @"",
+                @"type":      f[@"type"] ?: @""
+            }];
+        }
+    }
+
+    // Expire items that have lingered long enough
+    [trackedRemovedItems filterUsingPredicate:
+        [NSPredicate predicateWithBlock:^BOOL(Item *f, NSDictionary *b) {
+            return (-[f[@"trackingRemovedAt"] timeIntervalSinceNow] < kTrackRemovedLingerDuration);
+        }]];
+
+    // Color added items green
+    for (Item *f in current) {
+        if ([addedNames containsObject:f[@"name"]]) {
+            f[@"displayname"] = [[NSAttributedString alloc]
+                initWithString:[self trackingPlainString:f]
+                    attributes:@{NSForegroundColorAttributeName: [NSColor systemGreenColor]}];
+            [trackingHistory addObject:@{
+                @"timestamp": now,
+                @"event":     @"opened",
+                @"name":      f[@"name"] ?: @"",
+                @"type":      f[@"type"] ?: @""
+            }];
+        }
+    }
+
+    // Render linger items red+strikethrough, injected at the bottom of the children list
+    for (Item *f in trackedRemovedItems) {
+        f[@"displayname"] = [[NSAttributedString alloc]
+            initWithString:[self trackingPlainString:f]
+                attributes:@{
+                    NSForegroundColorAttributeName:    [NSColor systemRedColor],
+                    NSStrikethroughStyleAttributeName: @(NSUnderlineStyleSingle)
+                }];
+        [current addObject:f];
+    }
+
+    // Save open-only children (before removed items were injected) for next cycle
+    previousChildren = [[current subarrayWithRange:NSMakeRange(0, (NSUInteger)openCount)] copy];
+    return openCount;
+}
+
+- (NSString *)trackingPlainString:(Item *)item {
+    id dn = item[@"displayname"];
+    if ([dn isKindOfClass:[NSAttributedString class]]) {
+        return [(NSAttributedString *)dn string];
+    }
+    return dn ?: item[@"name"] ?: @"";
+}
+
+- (void)showTrackingHistory:(NSArray<NSDictionary*>*)history forProcess:(NSString*)processName {
+    NSDateFormatter *fmt = [NSDateFormatter new];
+    [fmt setDateFormat:@"HH:mm:ss.SSS"];
+
+    NSMutableString *log = [NSMutableString new];
+    NSInteger initialCount = 0, openedCount = 0, closedCount = 0;
+
+    for (NSDictionary *entry in history) {
+        NSDate *ts      = entry[@"timestamp"];
+        NSString *event = entry[@"event"];
+        NSString *name  = entry[@"name"];
+        NSString *type  = entry[@"type"];
+
+        NSString *label, *detail;
+        if ([event isEqualToString:@"start"]) {
+            label  = @"  ---  ";
+            detail = [NSString stringWithFormat:@"Tracking started: %@", processName];
+        } else if ([event isEqualToString:@"stop"]) {
+            label  = @"  ---  ";
+            detail = [NSString stringWithFormat:@"Tracking stopped: %@", processName];
+        } else if ([event isEqualToString:@"initial"]) {
+            label  = @"  OPEN ";
+            detail = ([type length] > 0)
+                ? [NSString stringWithFormat:@"%-20@  %@", type, name ?: @""]
+                : (name ?: @"");
+            initialCount++;
+        } else if ([event isEqualToString:@"opened"]) {
+            label  = @" OPENED";
+            detail = ([type length] > 0)
+                ? [NSString stringWithFormat:@"%-20@  %@", type, name ?: @""]
+                : (name ?: @"");
+            openedCount++;
+        } else { // closed
+            label  = @" CLOSED";
+            detail = ([type length] > 0)
+                ? [NSString stringWithFormat:@"%-20@  %@", type, name ?: @""]
+                : (name ?: @"");
+            closedCount++;
+        }
+        [log appendFormat:@"[%@]  %@  %@\n", [fmt stringFromDate:ts], label, detail];
+    }
+
+    // Create window
+    NSRect contentRect = NSMakeRect(0, 0, 800, 500);
+    NSWindowStyleMask style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
+                              NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable;
+    trackingHistoryWindow = [[NSWindow alloc] initWithContentRect:contentRect
+                                                        styleMask:style
+                                                          backing:NSBackingStoreBuffered
+                                                            defer:NO];
+    [trackingHistoryWindow setTitle:[NSString stringWithFormat:@"Tracking History — %@", processName]];
+    [trackingHistoryWindow setSubtitle:[NSString stringWithFormat:@"%ld at start · %ld opened · %ld closed",
+                                        (long)initialCount, (long)openedCount, (long)closedCount]];
+    [trackingHistoryWindow center];
+
+    NSView *contentView = [trackingHistoryWindow contentView];
+
+    // Text view inside scroll view
+    NSScrollView *scrollView = [[NSScrollView alloc] init];
+    [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [scrollView setHasVerticalScroller:YES];
+    [scrollView setHasHorizontalScroller:NO];
+
+    NSTextView *textView = [[NSTextView alloc] initWithFrame:NSZeroRect];
+    [textView setEditable:NO];
+    [textView setSelectable:YES];
+    [textView setFont:[NSFont monospacedSystemFontOfSize:11.5 weight:NSFontWeightRegular]];
+    [textView setHorizontallyResizable:NO];
+    [textView setVerticallyResizable:YES];
+    [textView setAutoresizingMask:NSViewWidthSizable];
+    [[textView textContainer] setWidthTracksTextView:YES];
+    [textView setString:log];
+    [scrollView setDocumentView:textView];
+    [contentView addSubview:scrollView];
+
+    // "Copy Log" button pinned to bottom-left
+    NSButton *copyBtn = [NSButton buttonWithTitle:@"Copy Log"
+                                           target:self
+                                           action:@selector(copyTrackingLog:)];
+    [copyBtn setBezelStyle:NSBezelStyleRounded];
+    [copyBtn setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [contentView addSubview:copyBtn];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [scrollView.topAnchor      constraintEqualToAnchor:contentView.topAnchor],
+        [scrollView.leadingAnchor  constraintEqualToAnchor:contentView.leadingAnchor],
+        [scrollView.trailingAnchor constraintEqualToAnchor:contentView.trailingAnchor],
+        [scrollView.bottomAnchor   constraintEqualToAnchor:copyBtn.topAnchor constant:-8],
+        [copyBtn.leadingAnchor     constraintEqualToAnchor:contentView.leadingAnchor constant:12],
+        [copyBtn.bottomAnchor      constraintEqualToAnchor:contentView.bottomAnchor  constant:-10],
+    ]];
+
+    [trackingHistoryWindow makeKeyAndOrderFront:self];
+}
+
+- (IBAction)copyTrackingLog:(id)sender {
+    for (NSView *view in [[trackingHistoryWindow contentView] subviews]) {
+        if ([view isKindOfClass:[NSScrollView class]]) {
+            NSTextView *tv = (NSTextView *)[(NSScrollView *)view documentView];
+            NSPasteboard *pb = [NSPasteboard generalPasteboard];
+            [pb clearContents];
+            [pb setString:[tv string] forType:NSPasteboardTypeString];
+            break;
+        }
+    }
 }
 
 @end
