@@ -89,10 +89,8 @@
     
     self.fileInfoDict = item;
     
-    // Some items, e.g. "unknown file type" ones listed when running as root,
-    // have no type. Passing nil to -setStringValue: raises an exception.
     NSString *type = item[@"type"] ? item[@"type"] : @"Unknown";
-
+    
     BOOL isProcess = [type isEqualToString:@"Process"];
     BOOL isFileOrFolder = [type isEqualToString:@"File"] || [type isEqualToString:@"Directory"];
     BOOL isIPSocket = [type isEqualToString:@"IP Socket"];

@@ -659,7 +659,7 @@ CA
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button toolTip="Refresh listing" imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="208">
-                        <rect key="frame" x="768" y="13" width="110" height="32"/>
+                        <rect key="frame" x="761" y="13" width="110" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="725">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -752,7 +752,7 @@ DQ
                         </connections>
                     </searchField>
                     <button toolTip="Authenticate to run with root privileges and view all system processes" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tqa-Nm-sTb">
-                        <rect key="frame" x="740" y="19.5" width="20" height="20"/>
+                        <rect key="frame" x="733" y="19.5" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="utO-gH-V6s">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -952,7 +952,7 @@ DQ
                         </tableHeaderView>
                     </scrollView>
                     <button toolTip="Show file in Finder" imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="211">
-                        <rect key="frame" x="135" y="13" width="150" height="32"/>
+                        <rect key="frame" x="139" y="13" width="150" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="727">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -984,7 +984,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <button toolTip="Show info window for item" imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y0R-qW-wSJ">
-                        <rect key="frame" x="16" y="13" width="112" height="32"/>
+                        <rect key="frame" x="20" y="13" width="112" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Get Info" bezelStyle="rounded" image="Info" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sMQ-TE-wi6">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -995,7 +995,7 @@ DQ
                         </connections>
                     </button>
                     <button toolTip="Kill selected process" imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="210">
-                        <rect key="frame" x="292" y="13" width="125" height="32"/>
+                        <rect key="frame" x="296" y="13" width="125" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Kill Process" bezelStyle="rounded" image="Kill" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="726">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1006,11 +1006,11 @@ DQ
                         </connections>
                     </button>
                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="335">
-                        <rect key="frame" x="426" y="14" width="32" height="32"/>
+                        <rect key="frame" x="430" y="14" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </progressIndicator>
                     <popUpButton toolTip="Set automatic refresh interval" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efN-mZ-QiR">
-                        <rect key="frame" x="613" y="16" width="119" height="25"/>
+                        <rect key="frame" x="606" y="16" width="119" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Manually" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ME3-aB-chF" id="zhk-b3-qdz">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1034,7 +1034,7 @@ DQ
                         </connections>
                     </popUpButton>
                     <textField toolTip="Set automatic refresh interval" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZk-Hj-Yv1">
-                        <rect key="frame" x="559" y="21" width="49" height="16"/>
+                        <rect key="frame" x="552" y="21" width="49" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Update" id="YM2-He-gOK">
                             <font key="font" usesAppearanceFont="YES"/>

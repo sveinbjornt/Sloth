@@ -81,9 +81,11 @@
             if (icon) {
                 [icon setSize:NSMakeSize(16, 16)];
                 [item setImage:icon];
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 270000 // Only in macOS 27 SDK and later
                 if (@available(macOS 27.0, *)) {
                     [item setPreferredImageVisibility:NSMenuItemImageVisibilityVisible];
                 }
+#endif
             }
         }
     }

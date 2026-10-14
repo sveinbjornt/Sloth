@@ -2,9 +2,19 @@
 
 ## Sloth version history
 
-### XX/XX/2026 - Version 3.7
+### ??/??/2026 - Version 3.7
 
-* TBD
+* Fixed issue when handling file and process names containing non-ASCII characters
+* Fixed broken Regex and Case Sensitive options in search filter menu
+* Filtering now properly matches socket state, protocol and IP version
+* Filtering now matches the processes at the other end of pipes and sockets
+* Improved contextual menu handling
+* Better handling of "unknown file type" items
+* Fixed Info Panel crash if a volume is unmounted during refresh
+* Fixed issue where stale DNS info could appear in Info Panel
+* Minor UI tweaks to adapt to macOS 26+
+* Various minor optimizations and bug fixes
+* Now requires macOS 13 "Ventura" or later
 
 ### 22/04/2026 - Version 3.6
 
