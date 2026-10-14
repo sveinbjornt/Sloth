@@ -141,16 +141,17 @@
     self.pathLabelTextField.stringValue = isIPSocket ? @"IP Socket Info" : @"Path";
     if (isIPSocket) {
         [self.pathTextField setStringValue:item[@"name"]];
-//        NSString *ipSockName = [self.path copy];
         // Resolve DNS asynchronously since it is slow
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @autoreleasepool {
                 NSString *descStr = [self IPSocketDescriptionForItem:item];
                 // Then update UI on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    if ([self.pathTextField.stringValue isEqualToString:ipSockName]) {
+                    // Make sure panel is still showing the same item, since
+                    // another may have been loaded while lookup was running
+                    if (self.fileInfoDict == item) {
                         [self.pathTextField setStringValue:descStr];
-//                    }
+                    }
                 });
             }
         });
