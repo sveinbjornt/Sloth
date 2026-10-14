@@ -89,6 +89,9 @@
         [defaultAppItem setImage:icon];
         [defaultAppItem setTarget:targ];
         [defaultAppItem setToolTip:defaultApp];
+        if (@available(macOS 27.0, *)) {
+            [defaultAppItem setPreferredImageVisibility:NSMenuItemImageVisibilityVisible];
+        }
         
         [submenu addItem:[NSMenuItem separatorItem]];
         
@@ -116,6 +119,9 @@
                 if (icon) {
                     [icon setSize:NSMakeSize(16,16)];
                     [item setImage:icon];
+                    if (@available(macOS 27.0, *)) {
+                        [item setPreferredImageVisibility:NSMenuItemImageVisibilityVisible];
+                    }
                 }
             }
             

@@ -288,32 +288,32 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="Fjj-8z-1XM"/>
-                            <menuItem title="Show Regular Files" keyEquivalent="1" toolTip="File" id="4fa-zA-DKj">
+                            <menuItem title="Show Regular Files" preferredImageVisibility="visible" keyEquivalent="1" toolTip="File" id="4fa-zA-DKj">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showRegularFiles" id="c0e-67-gDZ"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Directories" keyEquivalent="2" toolTip="Directory" id="WRk-2h-A5r">
+                            <menuItem title="Show Directories" preferredImageVisibility="visible" keyEquivalent="2" toolTip="Directory" id="WRk-2h-A5r">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showDirectories" id="VGg-Hs-43a"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Character Devices" keyEquivalent="3" toolTip="Character Device" id="R3O-vO-Xfh">
+                            <menuItem title="Show Character Devices" preferredImageVisibility="visible" keyEquivalent="3" toolTip="Character Device" id="R3O-vO-Xfh">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showCharacterDevices" id="0zD-aI-jX1"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show IP Sockets" keyEquivalent="4" toolTip="IP Socket" id="MtU-jZ-LfI">
+                            <menuItem title="Show IP Sockets" preferredImageVisibility="visible" keyEquivalent="4" toolTip="IP Socket" id="MtU-jZ-LfI">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showIPSockets" id="7Fy-7t-9cC"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Unix Sockets" keyEquivalent="5" toolTip="Unix Domain Socket" id="QRq-1p-OVp">
+                            <menuItem title="Show Unix Sockets" preferredImageVisibility="visible" keyEquivalent="5" toolTip="Unix Domain Socket" id="QRq-1p-OVp">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showUnixSockets" id="LDo-O4-6qU"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Show Pipes" keyEquivalent="6" toolTip="Pipe" id="RVO-Se-n5K">
+                            <menuItem title="Show Pipes" preferredImageVisibility="visible" keyEquivalent="6" toolTip="Pipe" id="RVO-Se-n5K">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showPipes" id="0sd-zW-SbB"/>
                                 </connections>
@@ -352,12 +352,12 @@
                                 </menu>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="Nts-dj-jeo"/>
-                            <menuItem title="Applications Only" keyEquivalent="7" toolTip="Applications" id="w6d-0m-Pod">
+                            <menuItem title="Applications Only" preferredImageVisibility="visible" keyEquivalent="7" toolTip="Applications" id="w6d-0m-Pod">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showApplicationsOnly" id="bnv-PY-4EN"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Home Folder Only" keyEquivalent="8" toolTip="Home" id="B0s-VR-sFZ">
+                            <menuItem title="Home Folder Only" preferredImageVisibility="visible" keyEquivalent="8" toolTip="Home" id="B0s-VR-sFZ">
                                 <connections>
                                     <binding destination="560" name="value" keyPath="values.showHomeFolderOnly" id="cN8-AZ-dNv"/>
                                 </connections>
@@ -460,7 +460,7 @@ CA
                             <menuItem isSeparatorItem="YES" id="n1t-rs-ZZb">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Authenticate" toolTip="Authenticate to view all system processes" id="Vdh-H2-HF0" userLabel="Copy">
+                            <menuItem title="Authenticate" preferredImageVisibility="visible" toolTip="Authenticate to view all system processes" id="Vdh-H2-HF0" userLabel="Copy">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="toggleAuthentication:" target="212" id="IYt-ya-9J7"/>
@@ -578,7 +578,7 @@ CA
         <customObject id="Nds-SX-rlr" customClass="SUUpdater"/>
         <menu id="3w8-wK-AmU" userLabel="Item Contextual Menu">
             <items>
-                <menuItem title="Open" id="2K8-b0-Ucw">
+                <menuItem title="Open" preferredImageVisibility="visible" id="2K8-b0-Ucw">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="open:" target="212" id="b0p-Q1-bFc"/>
@@ -637,7 +637,7 @@ CA
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="aG7-Yh-hvA"/>
-                <menuItem title="Kill Process" image="Kill" id="pk8-fZ-ruU">
+                <menuItem title="Kill Process" image="Kill" preferredImageVisibility="visible" id="pk8-fZ-ruU">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="kill:" target="212" id="mQA-04-MNu"/>
