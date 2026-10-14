@@ -541,41 +541,31 @@
             
             // See if it matches regexes in search field filter
             if (hasSearchFilter) {
-                
-                NSInteger matchCount = 0;
-                
-                if (searchUsesRegex) {
-                    
-                    // Regex search
-                    for (NSRegularExpression *regex in searchFilters) {
-                        if (!([file[@"name"] isMatchedByRegex:regex] ||
-                              [file[@"pname"] isMatchedByRegex:regex] ||
-                              [file[@"pid"] isMatchedByRegex:regex] ||
-                              [file[@"protocol"] isMatchedByRegex:regex] ||
-                              [file[@"ipversion"] isMatchedByRegex:regex] ||
-                              [file[@"socketstate"] isMatchedByRegex:regex])) {
+
+                NSArray<NSString *> *fields = [self searchableStringsForItem:file];
+                NSStringCompareOptions options = searchCaseSensitive ? 0 : NSCaseInsensitiveSearch;
+
+                // Each filter string must match at least one field
+                BOOL matchesAll = YES;
+                for (id filter in searchFilters) {
+                    BOOL matches = NO;
+                    for (NSString *field in fields) {
+                        if (searchUsesRegex) {
+                            matches = [field isMatchedByRegex:filter];
+                        } else {
+                            matches = [field rangeOfString:filter options:options].location != NSNotFound;
+                        }
+                        if (matches) {
                             break;
                         }
-                        matchCount += 1;
                     }
-                    
-                } else {
-                    
-                    // Non-regex search
-                    NSStringCompareOptions options = searchCaseSensitive ? 0 : NSCaseInsensitiveSearch;
-                    
-                    for (NSString *searchStr in searchFilters) {
-                        if ([file[@"name"] rangeOfString:searchStr options:options].location == NSNotFound &&
-                            [file[@"pname"] rangeOfString:searchStr options:options].location == NSNotFound &&
-                            [file[@"pid"] rangeOfString:searchStr options:options].location == NSNotFound) {
-                            break;
-                        }
-                        matchCount += 1;
+                    if (!matches) {
+                        matchesAll = NO;
+                        break;
                     }
                 }
-                
-                // Skip if it doesn't match all filter strings
-                if (matchCount != [searchFilters count]) {
+
+                if (!matchesAll) {
                     continue;
                 }
             }
@@ -609,6 +599,24 @@
     }
     
     return filteredContent;
+}
+
+// Strings matched against search field filter. Includes item properties
+// shown in the outline view, e.g. socket state and pipe/socket endpoints.
+- (NSArray<NSString *> *)searchableStringsForItem:(Item *)item {
+    NSMutableArray<NSString *> *strings = [NSMutableArray array];
+    for (NSString *key in @[@"name", @"pname", @"pid", @"protocol", @"ipversion", @"socketstate"]) {
+        NSString *value = item[key];
+        if (value) {
+            [strings addObject:value];
+        }
+    }
+    // Endpoints of pipes and unix domain sockets, in the format "pname (pid)"
+    NSArray<NSString *> *endpoints = item[@"endpoints"];
+    if (endpoints) {
+        [strings addObjectsFromArray:endpoints];
+    }
+    return strings;
 }
 
 - (IBAction)showAll:(id)sender {
