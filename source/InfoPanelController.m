@@ -131,9 +131,16 @@
     [self.fileSystemExtraTextField setStringValue:@""];
     if (isFileOrFolder) {
         [self.fileSystemTextField setStringValue:[self filesystemDescriptionForItem:item]];
-        NSString *addInfo = [NSString stringWithFormat:@"%@ (inode %@)",
-                  item[@"device"][@"devname"],
-                  item[@"inode"]];
+        // Device may not match a mounted filesystem, e.g. if the volume
+        // was unmounted during refresh. Then we only have the device ID.
+        NSDictionary *device = item[@"device"];
+        NSString *devName = device[@"devname"];
+        if (devName == nil && device[@"devid"]) {
+            devName = [NSString stringWithFormat:@"0x%x", [device[@"devid"] unsignedIntValue]];
+        }
+        NSString *addInfo = devName ?
+            [NSString stringWithFormat:@"%@ (inode %@)", devName, item[@"inode"]] :
+            [NSString stringWithFormat:@"inode %@", item[@"inode"]];
         [self.fileSystemExtraTextField setStringValue:addInfo];
     }
     
@@ -512,15 +519,12 @@
         return EMPTY_PLACEHOLDER;
     }
     
+    // Device has no mount point if it didn't match a mounted filesystem
     NSString *mountPoint = item[@"device"][@"mountpoint"];
-    NSString *desc;
-    NSString *type;
-    [WORKSPACE getFileSystemInfoForPath:mountPoint
-                            isRemovable:NULL
-                             isWritable:NULL
-                          isUnmountable:NULL
-                            description:&desc
-                                   type:&type];
+    if (mountPoint == nil) {
+        return EMPTY_PLACEHOLDER;
+    }
+    NSString *type = item[@"device"][@"fstype"];
 
     NSURL *url = [NSURL fileURLWithPath:mountPoint];
     NSError *error;
