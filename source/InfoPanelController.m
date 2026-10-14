@@ -80,6 +80,11 @@
     if (!item) {
         return;
     }
+    // Loading item info is expensive (DNS lookups, running /usr/bin/file, etc.)
+    // so skip it while the panel is hidden. Item is loaded when panel is shown.
+    if ([self.window isVisible] == NO) {
+        return;
+    }
     DLog(@"%@", [item description]);
     
     self.fileInfoDict = item;

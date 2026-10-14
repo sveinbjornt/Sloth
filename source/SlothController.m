@@ -738,8 +738,9 @@
     if (infoPanelController == nil) {
         infoPanelController = [[InfoPanelController alloc] initWithWindowNibName:@"InfoPanel"];
     }
-    [infoPanelController loadItem:item];
+    // Show before loading since panel only loads items while visible
     [infoPanelController showWindow:self];
+    [infoPanelController loadItem:item];
 }
 
 // Called when user selects Copy menu item via Edit or contextual menu
