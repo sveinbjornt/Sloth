@@ -142,6 +142,7 @@
                 
             // Process name
             case 'c':
+                value = [LsofTask unescapedString:value];
                 currentProcess[@"name"] = value;
                 currentProcess[@"displayname"] = value;
                 break;
@@ -239,6 +240,7 @@
             // File name / path
             case 'n':
             {
+                value = [LsofTask unescapedString:value];
                 currentFile[@"name"] = value;
                 currentFile[@"displayname"] = [currentFile[@"name"] length] ? currentFile[@"name"] : @"Unnamed";
                 
@@ -407,6 +409,57 @@
     
     // Update display name to show number of open files for process
     p[@"displayname"] = [NSString stringWithFormat:@"%@ (%lu)", p[@"pname"], [p[@"children"] count]];
+}
+
+// Unless running with a UTF-8 locale (GUI apps get none by default), lsof
+// escapes all non-ASCII bytes as \xNN, e.g. "café" becomes "caf\xc3\xa9".
+// It also escapes backslashes and some control characters. Undo this so
+// that names and paths are usable. Control characters shown as ^X are left
+// as-is since lsof doesn't escape literal carets, making them ambiguous.
++ (NSString *)unescapedString:(NSString *)str {
+    if ([str rangeOfString:@"\\"].location == NSNotFound) {
+        return str;
+    }
+
+    NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    const char *bytes = [data bytes];
+    NSUInteger len = [data length];
+    NSMutableData *out = [NSMutableData dataWithCapacity:len];
+
+    for (NSUInteger i = 0; i < len; i++) {
+        char c = bytes[i];
+        if (c == '\\' && i + 1 < len) {
+            char next = bytes[i+1];
+            char esc = 0;
+            switch (next) {
+                case '\\': esc = '\\'; break;
+                case 't':  esc = '\t'; break;
+                case 'n':  esc = '\n'; break;
+                case 'r':  esc = '\r'; break;
+                case 'b':  esc = '\b'; break;
+                case 'f':  esc = '\f'; break;
+                case 'x':
+                    if (i + 3 < len && isxdigit(bytes[i+2]) && isxdigit(bytes[i+3])) {
+                        char hex[3] = { bytes[i+2], bytes[i+3], 0 };
+                        unsigned char b = (unsigned char)strtoul(hex, NULL, 16);
+                        [out appendBytes:&b length:1];
+                        i += 3;
+                        continue;
+                    }
+                    break;
+            }
+            if (esc) {
+                [out appendBytes:&esc length:1];
+                i += 1;
+                continue;
+            }
+        }
+        [out appendBytes:&c length:1];
+    }
+
+    // Name may not be valid UTF-8, in which case we keep the escaped version
+    NSString *unescaped = [[NSString alloc] initWithData:out encoding:NSUTF8StringEncoding];
+    return unescaped ? unescaped : str;
 }
 
 - (NSMutableArray *)args {
