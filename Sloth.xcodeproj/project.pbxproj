@@ -530,7 +530,7 @@
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = resources/Info.plist;
 				INFOPLIST_KEY_NSMainNibFile = "";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wpartial-availability";
 				OTHER_CODE_SIGN_FLAGS = "--options=runtime";
@@ -592,7 +592,7 @@
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = resources/Info.plist;
 				INFOPLIST_KEY_NSMainNibFile = "";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wpartial-availability";
 				OTHER_CODE_SIGN_FLAGS = "--options=runtime";
