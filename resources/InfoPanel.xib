@@ -137,7 +137,7 @@
                         </textFieldCell>
                     </textField>
                     <button toolTip="Reveal this item in the Finder" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lYM-VK-XsQ">
-                        <rect key="frame" x="15" y="14" width="124" height="28"/>
+                        <rect key="frame" x="15" y="14" width="119" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BMb-zG-MYS">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -148,7 +148,7 @@
                         </connections>
                     </button>
                     <button toolTip="Open Finder Get Info Window for this Item" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MXD-uv-J2k">
-                        <rect key="frame" x="15" y="42" width="124" height="28"/>
+                        <rect key="frame" x="15" y="42" width="119" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Get Finder Info" bezelStyle="rounded" image="Info" imagePosition="left" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Ek-WN-Zgf">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
