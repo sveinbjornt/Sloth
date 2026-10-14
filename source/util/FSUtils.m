@@ -52,9 +52,15 @@
         return @{};
     }
     
-    getfsstat(buf, fs_count * sizeof(struct statfs), MNT_NOWAIT);
-    
-    NSMutableDictionary<NSString *, id> *fsdict = [NSMutableDictionary new];
+    // Number of filesystems may have changed since the first call
+    fs_count = getfsstat(buf, (int)(fs_count * sizeof(struct statfs)), MNT_NOWAIT);
+    if (fs_count == -1) {
+        fprintf(stderr, "Error: %d\n", errno);
+        free(buf);
+        return @{};
+    }
+
+    NSMutableDictionary<NSNumber *, NSDictionary *> *fsdict = [NSMutableDictionary new];
     
     for (int i = 0; i < fs_count; ++i) {
         dev_t fsid = buf[i].f_fsid.val[0];
@@ -63,15 +69,26 @@
             @"devid": @(fsid),
             @"devid_major": @(major(fsid)),
             @"devid_minor": @(minor(fsid)),
-            @"fstype": @(buf[i].f_fstypename),
-            @"devname": @(buf[i].f_mntfromname),
-            @"mountpoint": @(buf[i].f_mntonname)
+            @"fstype": [self stringFromCString:buf[i].f_fstypename],
+            @"devname": [self stringFromCString:buf[i].f_mntfromname],
+            @"mountpoint": [self stringFromCString:buf[i].f_mntonname]
         };
     }
     
     free(buf);
     
     return [fsdict copy]; // Return immutable copy
+}
+
+// Boxing a C string that isn't valid UTF-8 yields nil, which would make
+// the dictionary literal above raise an exception. Fall back to Latin-1,
+// which accepts any byte sequence.
++ (NSString *)stringFromCString:(const char *)cstr {
+    NSString *str = [NSString stringWithUTF8String:cstr];
+    if (str == nil) {
+        str = [NSString stringWithCString:cstr encoding:NSISOLatin1StringEncoding];
+    }
+    return str ? str : @"";
 }
 
 @end
