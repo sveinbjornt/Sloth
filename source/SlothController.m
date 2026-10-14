@@ -204,9 +204,11 @@
     [self updatePathControl];
     
     if ([DEFAULTS boolForKey:@"authenticateOnLaunch"]) {
-        [self toggleAuthentication:self]; // Triggers refresh
-    } else {
-        // Refresh immediately when app is launched
+        [self toggleAuthentication:self]; // Triggers refresh if successful
+    }
+    if (!authenticated) {
+        // Not authenticating on launch, or user cancelled/failed authentication.
+        // Refresh immediately when app is launched.
         [self refresh:self];
     }
     [self setUpdateTimerFromDefaults]; // If period update has been set in defaults
