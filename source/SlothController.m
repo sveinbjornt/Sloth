@@ -1203,8 +1203,16 @@
 
     NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
     SEL action = [menuItem action];
-    
-    BOOL isAction = (action == @selector(show:) ||
+
+    // NSSearchField copies its menu template, so bindings and state set on the
+    // template (or on a previous copy) don't stick. Set checkmarks on validation.
+    if (action == @selector(searchFieldOptionChanged:)) {
+        NSString *key = [self defaultsKeyForSearchFieldOption:menuItem];
+        [menuItem setState:[DEFAULTS boolForKey:key] ? NSControlStateValueOn : NSControlStateValueOff];
+        return YES;
+    }
+
+    BOOL isAction =(action == @selector(show:) ||
                      action == @selector(showInfoInFinder:) ||
                      action == @selector(showPackageContents:) ||
                      action == @selector(kill:) ||
@@ -1276,12 +1284,13 @@
     [window makeFirstResponder:filterTextField];
 }
 
+- (NSString *)defaultsKeyForSearchFieldOption:(NSMenuItem *)item {
+    return [item tag] ? @"searchFilterRegex" : @"searchFilterCaseSensitive";
+}
+
 - (IBAction)searchFieldOptionChanged:(id)sender {
-    NSMenuItem *item = sender;
-    NSString *key = [sender tag] ? @"searchFilterRegex" : @"searchFilterCaseSensitive";
+    NSString *key = [self defaultsKeyForSearchFieldOption:sender];
     [DEFAULTS setBool:![DEFAULTS boolForKey:key] forKey:key]; // toggle
-    // We shouldn't have to do this but bindings are flaky for NSSearchField menu templates
-    [item setState:[DEFAULTS boolForKey:key]];
 }
 
 #pragma mark - Open websites

@@ -1066,28 +1066,18 @@ DQ
             </connections>
             <point key="canvasLocation" x="417" y="-125.5"/>
         </window>
-        <menu title="Search Filter Contextual Menu" autoenablesItems="NO" id="6L5-jB-614" userLabel="Search Filter Menu">
+        <menu title="Search Filter Contextual Menu" id="6L5-jB-614" userLabel="Search Filter Menu">
             <items>
                 <menuItem title="Case Sensitive" id="ghU-WC-RvG">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchFieldOptionChanged:" target="212" id="oZz-yp-5XX"/>
-                        <binding destination="560" name="value" keyPath="values.searchFilterCaseSensitive" id="35l-BQ-g2d">
-                            <dictionary key="options">
-                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                            </dictionary>
-                        </binding>
                     </connections>
                 </menuItem>
                 <menuItem title="Regular Expressions" tag="1" id="bYP-KH-Im4">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchFieldOptionChanged:" target="212" id="6HU-41-l2N"/>
-                        <binding destination="560" name="value" keyPath="values.searchFilterSupportsRegex" id="qXX-FC-Qka">
-                            <dictionary key="options">
-                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                            </dictionary>
-                        </binding>
                     </connections>
                 </menuItem>
             </items>

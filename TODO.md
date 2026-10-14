@@ -1,8 +1,7 @@
 # TODO for Sloth
 
 * STPrivilegedTask relies on long-deprecated AuthorizationExecuteWithPrivileges function
-* Fix checking Regex and Case Insensitive in filter field options
-* Preserve selection between refreshes (preserve expanded items between refreshes?)
+* * Preserve selection between refreshes (preserve expanded items between refreshes?)
 * Show full command (i.e. w. args) for process (ala ps -ef) in Info Panel
 * Highlight matching part of string when filtering (option in filter field popup - might be slow)
 * Store authentication privileges and use them to run command line tool "/usr/bin/file" for Info Dialog when already authenticated
