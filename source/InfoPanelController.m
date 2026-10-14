@@ -549,7 +549,9 @@
 }
 
 - (IBAction)killProcess:(id)sender {
-    [[NSApp delegate] performSelector:@selector(kill:) withObject:self];
+    // Kill the process shown in the panel, which isn't necessarily the
+    // selected one (e.g. if panel was opened via contextual menu)
+    [[NSApp delegate] performSelector:@selector(killItem:) withObject:self.fileInfoDict];
 }
 
 @end

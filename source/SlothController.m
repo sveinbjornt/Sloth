@@ -631,8 +631,25 @@
 
 #pragma mark - Interface actions
 
+// Row targeted by an action: the right-clicked row while a contextual
+// menu is open (or during a double-click), otherwise the selected row.
+- (NSInteger)targetRow {
+    NSInteger clickedRow = [outlineView clickedRow];
+    return clickedRow != -1 ? clickedRow : [outlineView selectedRow];
+}
+
+// Multi-row version, Finder-style: right-clicking inside the selection
+// targets the whole selection, right-clicking outside it targets that row.
+- (NSIndexSet *)targetRowIndexes {
+    NSInteger clickedRow = [outlineView clickedRow];
+    if (clickedRow != -1 && ![[outlineView selectedRowIndexes] containsIndex:clickedRow]) {
+        return [NSIndexSet indexSetWithIndex:clickedRow];
+    }
+    return [outlineView selectedRowIndexes];
+}
+
 - (IBAction)open:(id)sender {
-    NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSInteger selectedRow = [self targetRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     NSString *path = item[@"name"];
     
@@ -642,9 +659,12 @@
 }
 
 - (IBAction)kill:(id)sender {
-    NSInteger selectedRow = ([outlineView clickedRow] == -1) ? [outlineView selectedRow] : [outlineView clickedRow];
-    NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
-    
+    NSInteger selectedRow = [self targetRow];
+    [self killItem:[[outlineView itemAtRow:selectedRow] representedObject]];
+}
+
+// Kill the process owning item (or the item itself, if it's a process)
+- (void)killItem:(NSDictionary * _Nullable)item {
     if (item[@"pid"] == nil) {
         NSBeep();
         return;
@@ -680,20 +700,20 @@
 }
 
 - (IBAction)show:(id)sender {
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSInteger selectedRow = [self targetRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     [self revealItemInFinder:item];
 }
 
 - (IBAction)showInfoInFinder:(id)sender {
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSInteger selectedRow = [self targetRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     [WORKSPACE showFinderGetInfoForFile:path];
 }
 
 - (IBAction)showPackageContents:(id)sender {
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSInteger selectedRow = [self targetRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     if (![WORKSPACE showPackageContents:path]) {
@@ -702,7 +722,7 @@
 }
 
 - (IBAction)moveToTrash:(id)sender {
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSInteger selectedRow = [self targetRow];
     NSDictionary *item = [[outlineView itemAtRow:selectedRow] representedObject];
     NSString *path = item[@"path"] ? item[@"path"] : item[@"name"];
     
@@ -725,7 +745,7 @@
 }
 
 - (IBAction)getInfo:(id)sender {
-    NSInteger selectedRow = [outlineView selectedRow];
+    NSInteger selectedRow = [self targetRow];
     if (selectedRow >= 0) {
         [self showInfoPanelForItem:[[outlineView itemAtRow:selectedRow] representedObject]];
     } else {
@@ -746,7 +766,7 @@
 // Called when user selects Copy menu item via Edit or contextual menu
 - (void)copy:(id)sender {
     
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSInteger selectedRow = [self targetRow];
     if (selectedRow == -1) {
         NSBeep();
         return;
@@ -759,7 +779,7 @@
     NSMutableArray *filePaths = [NSMutableArray new];
     
     // Find which items are filenames
-    [[outlineView selectedRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+    [[self targetRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSDictionary *item = [[outlineView itemAtRow:idx] representedObject];
         if ([FILEMGR fileExistsAtPath:item[@"name"]]) {
             [filePaths addObject:item[@"name"]];
@@ -1155,7 +1175,7 @@
     
     // Dynamically generate contextual menu for item
     else if (menu == itemContextualMenu) {
-        NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
+        NSDictionary *item = [[outlineView itemAtRow:[self targetRow]] representedObject];
         
         NSMenuItem *openItem = [itemContextualMenu itemAtIndex:0];
         [openItem setImage:nil];
@@ -1193,7 +1213,7 @@
     
     // Dynamically generate Open With submenu for item
     else if (menu == [[itemContextualMenu itemAtIndex:1] submenu] || menu == openWithMenu) {
-        NSDictionary *item = [[outlineView itemAtRow:[outlineView selectedRow]] representedObject];
+        NSDictionary *item = [[outlineView itemAtRow:[self targetRow]] representedObject];
         NSString *path = nil;
         if (item && [item[@"type"] isEqualToString:@"Process"] == NO) {
             path = item[@"path"] ? item[@"path"] : item[@"name"];
@@ -1204,7 +1224,7 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 
-    NSInteger selectedRow = [outlineView clickedRow] == -1 ? [outlineView selectedRow] : [outlineView clickedRow];
+    NSInteger selectedRow = [self targetRow];
     SEL action = [menuItem action];
 
     // NSSearchField copies its menu template, so bindings and state set on the

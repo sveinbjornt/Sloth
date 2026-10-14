@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
                                        VolumesPopUpButtonDelegate,
                                        NSPathControlDelegate>
 - (IBAction)kill:(id _Nullable)sender;
+- (void)killItem:(NSDictionary * _Nullable)item;
 - (void)revealItemInFinder:(NSDictionary *)item;
 @end
 
