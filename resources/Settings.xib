@@ -168,7 +168,7 @@
                                             </scroller>
                                         </scrollView>
                                         <button toolTip="Add Filter" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ET3-sC-3hU">
-                                            <rect key="frame" x="312" y="40" width="22" height="24"/>
+                                            <rect key="frame" x="313" y="37" width="22" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fZb-mD-JAt">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -180,7 +180,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Delete Selected Filter" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RK3-7C-553">
-                                            <rect key="frame" x="290" y="40" width="22" height="24"/>
+                                            <rect key="frame" x="291" y="37" width="22" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qjy-uK-oYA">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -208,7 +208,7 @@ CA
                         </tabViewItems>
                     </tabView>
                     <button toolTip="Restore default preferences" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3fT-Oj-lxR">
-                        <rect key="frame" x="13" y="13" width="141" height="32"/>
+                        <rect key="frame" x="20" y="13" width="141" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VbG-cb-dRB">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -219,7 +219,7 @@ CA
                         </connections>
                     </button>
                     <button toolTip="Save and apply preferences" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85E-cu-yPP">
-                        <rect key="frame" x="292" y="13" width="93" height="32"/>
+                        <rect key="frame" x="285" y="13" width="93" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3QF-LU-qfd">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
